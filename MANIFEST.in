@@ -1,0 +1,6 @@
+include AUTHOR LICENSE MANIFEST.in setup.py README.rst
+# documentation
+include doc/Makefile 
+recursive-include doc/source *
+recursive-exclude doc/source *.*~
+prune doc/source/*/generated
