@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PISAP &mdash; piSAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="piSAP" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+        <img alt="Logo" src="../../_static/pisap.png">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="../../generated/installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../generated/documentation.html">Documentation</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="../../generated/pisap.html">Pisap</a></li>
+<li><a href="../../generated/pisap.base.html">Pisap.base</a></li>
+<li><a href="../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
+<li><a href="../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../generated/pisap.numerics.html">Pisap.numerics</a></li>
+<li><a href="../../generated/pisap.extensions.html">Pisap.extensions</a></li>
+<li><a href="../../generated/pisap.plotting.html">Pisap.plotting</a></li>
+<li><a href="../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
+          </ul>
+        </li>
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pisap <strong>version 0.0.0</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pisap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pisap.data</h1><div class="highlight"><pre>
+<span class="c1">##########################################################################</span>
+<span class="c1"># XXX - Copyright (C) XXX, 2017</span>
+<span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
+<span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
+<span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
+<span class="c1"># for details.</span>
+<span class="c1">##########################################################################</span>
+
+<span class="c1"># System import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+
+<span class="c1"># Package import</span>
+<span class="kn">import</span> <span class="nn">pisap</span>
+<span class="kn">from</span> <span class="nn">pisap.base.exceptions</span> <span class="kn">import</span> <span class="ne">Exception</span>
+
+
+<span class="c1"># Global parameters</span>
+<span class="n">SAMPLE_DATE_FILES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;mri-nifti&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://nsap.intra.cea.fr/datasets/t1_localizer.nii.gz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+     <span class="p">},</span>
+    <span class="s2">&quot;mri-slice-nifti&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;BrainPhantom512.nii.gz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;mri-mask&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;samples_cartesian_N512_R4.nii.gz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;astro-fits&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;astro&quot;</span><span class="p">,</span> <span class="s2">&quot;M31_128.fits&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;astro-mask&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;astro&quot;</span><span class="p">,</span> <span class="s2">&quot;mask25_sig40.fits&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">DATADIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.local&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;pisap&quot;</span><span class="p">)</span>
+<span class="n">PACKAGEDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">pisap</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_sample_data"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.get_sample_data">[docs]</a><span class="k">def</span> <span class="nf">get_sample_data</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get a sample dataset.</span>
+
+<span class="sd">    This function download the requested dataset in the</span>
+<span class="sd">    &#39;$HOME/.local/share/pisap&#39; directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset_name: str</span>
+<span class="sd">        which sample data you want, must be defined in the &#39;SAMPLE_DATE_FILES&#39;</span>
+<span class="sd">        dictionary.</span>
+<span class="sd">    verbose: int (optional, default 1)</span>
+<span class="sd">        control the verbosity level.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    path: str</span>
+<span class="sd">        the path to the desired dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># First get the data url</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">SAMPLE_DATE_FILES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No &#39;{0}&#39; sample data available - allowed sample data &quot;</span>
+                        <span class="s2">&quot;are {1}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span>
+                                          <span class="n">SAMPLE_DATE_FILES</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+    <span class="c1"># Get the resource on the web or on the local machine</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;PISAP&quot;</span><span class="p">:</span> <span class="n">PACKAGEDIR</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">copy_file</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">],</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">],</span> <span class="n">data_dir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">,</span> <span class="n">resume</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                             <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="c1"># md5 check sum</span>
+    <span class="k">if</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;md5sum&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">md5_sum_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;md5sum&quot;</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File &#39;{0}&#39; checksum verification has &quot;</span>
+                            <span class="s2">&quot;failed.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="md5_sum_file"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.md5_sum_file">[docs]</a><span class="k">def</span> <span class="nf">md5_sum_file</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates the MD5 sum of a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str (mandatory)</span>
+<span class="sd">        the path to a file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    md5: int</span>
+<span class="sd">        the md5 sum of the input file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="progress_bar"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.progress_bar">[docs]</a><span class="k">def</span> <span class="nf">progress_bar</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">bar_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate a progress bar</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ratio: float (mandatory)</span>
+<span class="sd">        the progress status (0&lt;=ratio&lt;1)</span>
+<span class="sd">    fname: str (optional)</span>
+<span class="sd">        the name of the file beeing dowloaded</span>
+<span class="sd">    bar_length: int (optional)</span>
+<span class="sd">        the size of the progress bar</span>
+<span class="sd">    maxsize: int (optional)</span>
+<span class="sd">        use to justify title.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">progress</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">)</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">bar_length</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">))</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">maxsize</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">[{0}] {1}% {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="n">block</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">bar_length</span> <span class="o">-</span> <span class="n">block</span><span class="p">),</span> <span class="n">progress</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ResumeURLOpener"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.ResumeURLOpener">[docs]</a><span class="k">class</span> <span class="nc">ResumeURLOpener</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">FancyURLopener</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create sub-class in order to overide error 206. This error means a</span>
+<span class="sd">    partial file is being sent, which is fine in this case.</span>
+<span class="sd">    Do nothing with this error.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    This was adapted from:</span>
+<span class="sd">    http://code.activestate.com/recipes/83208-resuming-download-of-a-file/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="ResumeURLOpener.http_error_206"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.ResumeURLOpener.http_error_206">[docs]</a>    <span class="k">def</span> <span class="nf">http_error_206</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="download_file"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.download_file">[docs]</a><span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">resume</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Load requested file if needed or requested.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    url: str</span>
+<span class="sd">        the url of the file to be downloaded.</span>
+<span class="sd">    data_dir: str</span>
+<span class="sd">        path of the data directory.</span>
+<span class="sd">    resume: bool (optional, default True)</span>
+<span class="sd">        if True, try to resume partially downloaded files</span>
+<span class="sd">    overwrite: bool (optional, default False)</span>
+<span class="sd">        if True and file already exists, delete it.</span>
+<span class="sd">    verbose: int (optional, default 0)</span>
+<span class="sd">        control the verbosity level.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    download_fname: str</span>
+<span class="sd">        absolute path to the downloaded file.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If, for any reason, the download procedure fails, all downloaded files are</span>
+<span class="sd">    removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create the download directory if necessary</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+
+    <span class="c1"># Determine filename using URL</span>
+    <span class="n">parse</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlparse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">parse</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="c1"># Generate the download file name</span>
+    <span class="n">download_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+
+    <span class="c1"># Generate a temporary file for the download</span>
+    <span class="n">temp_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.part&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If the file is already created remove it if the overwrite option is set</span>
+    <span class="c1"># or return the file</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">download_fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">download_fname</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">download_fname</span>
+
+    <span class="c1"># If the temporary file is already created remove it if the overwrite</span>
+    <span class="c1"># option is set</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">)</span>
+
+    <span class="c1"># Start a timer to evaluate the download time</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Start downloading dataset</span>
+    <span class="n">local_file</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">bytes_so_far</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Prepare the download</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Downloading data from {0}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="c1"># Case 1: continue the downloading from an existing temporary file</span>
+        <span class="k">if</span> <span class="n">resume</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">):</span>
+            <span class="n">url_opener</span> <span class="o">=</span> <span class="n">ResumeURLOpener</span><span class="p">()</span>
+            <span class="c1"># Download has been interrupted, we try to resume it.</span>
+            <span class="n">local_file_size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">)</span>
+            <span class="c1"># If the file exists, then only download the remainder</span>
+            <span class="n">url_opener</span><span class="o">.</span><span class="n">addheader</span><span class="p">(</span><span class="s2">&quot;Range&quot;</span><span class="p">,</span> <span class="s2">&quot;bytes={0}-&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">local_file_size</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">url_opener</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                <span class="c1"># There is a problem that may be due to resuming</span>
+                <span class="c1"># Restart the downloading from scratch</span>
+                <span class="k">return</span> <span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">resume</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                     <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">local_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">,</span> <span class="s2">&quot;ab&quot;</span><span class="p">)</span>
+            <span class="n">bytes_so_far</span> <span class="o">=</span> <span class="n">local_file_size</span>
+        <span class="c1"># Case 2: just download the file</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">local_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="c1"># Get the total file size</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">total_size</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">total_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">bytes_so_far</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total size could not be determined.&quot;</span><span class="p">)</span>
+            <span class="n">total_size</span> <span class="o">=</span> <span class="s2">&quot;?&quot;</span>
+
+        <span class="c1"># Download data</span>
+        <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">8192</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="c1"># Read chunk</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">)</span>
+            <span class="c1"># Stoping criterion</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># Write to local file</span>
+            <span class="n">bytes_so_far</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="n">local_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="c1"># Write report status and print a progress bar</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">total_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">bytes_so_far</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_size</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ratio</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">()</span>
+
+        <span class="c1"># Temporary file must be closed prior to the move</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">local_file</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="n">local_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_fname</span><span class="p">,</span> <span class="n">download_fname</span><span class="p">)</span>
+
+        <span class="c1"># Get process duration and print it</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+        <span class="n">exit_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Download was done in {0} minutes, {1: .2f} &quot;</span>
+                        <span class="s2">&quot;seconds&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)),</span> <span class="n">dt</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">exit_message</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;{0}</span><span class="se">\n</span><span class="s2">Error while downloading file &#39;{1}&#39;. &quot;</span>
+                        <span class="s2">&quot;Dataset download aborted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># Temporary file must be closed</span>
+        <span class="k">if</span> <span class="n">local_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">local_file</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+                <span class="n">local_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">download_fname</span></div>
+
+
+<div class="viewcode-block" id="copy_file"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.copy_file">[docs]</a><span class="k">def</span> <span class="nf">copy_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Copy the requested file if needed or requested.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path: str</span>
+<span class="sd">        the path to the file to be downloaded.</span>
+<span class="sd">    data_dir: str</span>
+<span class="sd">        path of the data directory.</span>
+<span class="sd">    overwrite: bool (optional, default False)</span>
+<span class="sd">        if True and file already exists, delete it.</span>
+<span class="sd">    verbose: int (optional, default 0)</span>
+<span class="sd">        control the verbosity level.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    copy_file: str</span>
+<span class="sd">        absolute path to the copied file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create the download directory if necessary</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+
+    <span class="c1"># Generate the download file name</span>
+    <span class="n">copy_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+    <span class="c1"># If the file is already created remove it if the overwrite option is set</span>
+    <span class="c1"># or return the file</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">copy_fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">copy_fname</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">copy_fname</span>
+
+    <span class="c1"># Start a timer to evaluate the copy time</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Start copying dataset</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Copying data from {0}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">copy_fname</span><span class="p">)</span>
+
+    <span class="c1"># Get process duration and print it</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+    <span class="n">exit_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Copy was done in {0} minutes, {1: .2f} &quot;</span>
+                    <span class="s2">&quot;seconds&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)),</span> <span class="n">dt</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">exit_message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">copy_fname</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2017, piSAP developers &lt;XXX&gt;.
+</div>
+  </body>
+</html>

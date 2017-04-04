@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PISAP &mdash; piSAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="piSAP" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+        <img alt="Logo" src="../_static/pisap.png">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="pisap.html">Pisap</a></li>
+<li><a href="pisap.base.html">Pisap.base</a></li>
+<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
+<li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.numerics.html">Pisap.numerics</a></li>
+<li><a href="pisap.extensions.html">Pisap.extensions</a></li>
+<li><a href="pisap.plotting.html">Pisap.plotting</a></li>
+<li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
+          </ul>
+        </li>
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pisap <strong>version 0.0.0</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pisap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      <ul class="simple">
+</ul>
+
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pisap.base.wtools"></span><dl class="function">
+<dt id="pisap.base.wtools.check_coeffs">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">check_coeffs</code><span class="sig-paren">(</span><em>coeffs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#check_coeffs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.check_coeffs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the DWT coefficients are valid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coeffs: dict</strong></p>
+<blockquote>
+<div><p>dictionary as in output of dwtn.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">checked_coeffs: dict</p>
+<blockquote class="last">
+<div><p>the checkes dwt coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.downcoef">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">downcoef</code><span class="sig-paren">(</span><em>data</em>, <em>wavelet</em>, <em>mode='symmetric'</em>, <em>part='a'</em>, <em>scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#downcoef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.downcoef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial Discrete Wavelet Transform data decomposition.
+Useful when you need only approximation or only details at the given level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: array</strong></p>
+<blockquote>
+<div><p>input signal.</p>
+</div></blockquote>
+<p><strong>wavelet: Wavelet or str</strong></p>
+<blockquote>
+<div><p>wavelet to use.</p>
+</div></blockquote>
+<p><strong>mode: str (optional, default &#8220;symmetric&#8221;)</strong></p>
+<blockquote>
+<div><p>Signal extension mode, see <cite>Modes</cite>.  Default is &#8216;symmetric&#8217;.</p>
+</div></blockquote>
+<p><strong>part: str (optional, default &#8216;a&#8217;)</strong></p>
+<blockquote>
+<div><p>Coefficients type:
+* &#8216;a&#8217; - approximations reconstruction is performed
+* &#8216;d&#8217; - details reconstruction is performed</p>
+</div></blockquote>
+<p><strong>scale: int (optional, default 1)</strong></p>
+<blockquote>
+<div><p>the decomposition scale.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coeffs</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>1-D array of coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.downsampling_convolution">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">downsampling_convolution</code><span class="sig-paren">(</span><em>data</em>, <em>wavelet</em>, <em>part</em>, <em>mode='symmetric'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#downsampling_convolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.downsampling_convolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>1D convolutation and downsampling.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: array</strong></p>
+<blockquote>
+<div><p>input signal.</p>
+</div></blockquote>
+<p><strong>wavelet: Wavelet or str</strong></p>
+<blockquote>
+<div><p>wavelet to use.</p>
+</div></blockquote>
+<p><strong>part: str</strong></p>
+<blockquote>
+<div><p>Coefficients type:
+* &#8216;a&#8217; - approximations reconstruction is performed
+* &#8216;d&#8217; - details reconstruction is performed</p>
+</div></blockquote>
+<p><strong>mode: str (optional, default &#8220;symmetric&#8221;)</strong></p>
+<blockquote>
+<div><p>Signal extension mode, see <cite>Modes</cite>.  Default is &#8216;symmetric&#8217;.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coeffs: array</p>
+<blockquote class="last">
+<div><p>the downsampled convolution coefficients: cA or cD deppending on input
+requested part.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.modes_per_axis">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">modes_per_axis</code><span class="sig-paren">(</span><em>modes</em>, <em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#modes_per_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.modes_per_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize mode for each axis to be transformed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>modes: str or tuple of str</strong></p>
+<blockquote>
+<div><p>if a single mode is provided, it will used for all axes. Otherwise
+one mode per axis must be provided.</p>
+</div></blockquote>
+<p><strong>axes: tuple</strong></p>
+<blockquote>
+<div><p>the tuple of axes to be transformed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>modes</strong> : tuple of int</p>
+<blockquote class="last">
+<div><p>a tuple of modes equal in length to &#8216;axes&#8217;.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.upcoef">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">upcoef</code><span class="sig-paren">(</span><em>coeffs</em>, <em>wavelet</em>, <em>part='a'</em>, <em>scale=1</em>, <em>take=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#upcoef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.upcoef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Direct reconstruction from coefficients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coeffs: array</strong></p>
+<blockquote>
+<div><p>coefficients array to recontruct.</p>
+</div></blockquote>
+<p><strong>wavelet: Wavelet or str</strong></p>
+<blockquote>
+<div><p>wavelet to use.</p>
+</div></blockquote>
+<p><strong>part: str (optional, default &#8216;a&#8217;)</strong></p>
+<blockquote>
+<div><p>Coefficients type:
+* &#8216;a&#8217; - approximations reconstruction is performed
+* &#8216;d&#8217; - details reconstruction is performed</p>
+</div></blockquote>
+<p><strong>scale: int (optional, default 1)</strong></p>
+<blockquote>
+<div><p>the decomposition scale.</p>
+</div></blockquote>
+<p><strong>take: int (optional, default 0)</strong></p>
+<blockquote>
+<div><p>take central part of length equal to &#8216;take&#8217; from the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">rec: ndarray</p>
+<blockquote class="last">
+<div><p>1-D array with reconstructed data from coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.upsampling_convolution">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">upsampling_convolution</code><span class="sig-paren">(</span><em>coeffs</em>, <em>wavelet</em>, <em>part='a'</em>, <em>take=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#upsampling_convolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.upsampling_convolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>1D convolutation and upsampling.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coeffs: array</strong></p>
+<blockquote>
+<div><p>coefficients array to recontruct.</p>
+</div></blockquote>
+<p><strong>wavelet: Wavelet or str</strong></p>
+<blockquote>
+<div><p>wavelet to use.</p>
+</div></blockquote>
+<p><strong>part: str (optional, default &#8216;a&#8217;)</strong></p>
+<blockquote>
+<div><p>Coefficients type:
+* &#8216;a&#8217; - approximations reconstruction is performed
+* &#8216;d&#8217; - details reconstruction is performed</p>
+</div></blockquote>
+<p><strong>take: int (optional, default 0)</strong></p>
+<blockquote>
+<div><p>take central part of length equal to &#8216;take&#8217; from the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">rec: ndarray</p>
+<blockquote class="last">
+<div><p>1-D array with reconstructed data from coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.base.wtools.wavelets_per_axis">
+<code class="descclassname">pisap.base.wtools.</code><code class="descname">wavelets_per_axis</code><span class="sig-paren">(</span><em>wavelet</em>, <em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/wtools.html#wavelets_per_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.wtools.wavelets_per_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Wavelets for each axis to be transformed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>wavelet: str, Wavelet, tuple of str or tuple of Wavelet</strong></p>
+<blockquote>
+<div><p>if a single Wavelet is provided, it will used for all axes. Otherwise
+one Wavelet per axis must be provided.</p>
+</div></blockquote>
+<p><strong>axes: list</strong></p>
+<blockquote>
+<div><p>the tuple of axes to be transformed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">wavelets: list of Wavelet objects</p>
+<blockquote class="last">
+<div><p>a tuple of Wavelets equal in length to &#8216;axes&#8217;.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2017, piSAP developers &lt;XXX&gt;.
+</div>
+  </body>
+</html>

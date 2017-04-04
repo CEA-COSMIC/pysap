@@ -1,0 +1,29 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+Documentation of *pisap*
+=========================
+
+
+piSAP is a Python package related to sparsity and its application in
+astronomical data analysis. This package is based on the 'sparse2d' C++ library
+that allows sparse decomposition, denoising and deconvolution.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.data.html'><em>pisap.data</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

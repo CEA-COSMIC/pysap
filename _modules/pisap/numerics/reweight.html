@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PISAP &mdash; piSAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="piSAP" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+  
+   
+       <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../../../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+        <img alt="Logo" src="../../../_static/pisap.png">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
+<li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
+<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
+<li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
+<li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
+<li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
+<li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
+          </ul>
+        </li>
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pisap <strong>version 0.0.0</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pisap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pisap.numerics.reweight</h1><div class="highlight"><pre>
+<span class="c1">##########################################################################</span>
+<span class="c1"># XXX - Copyright (C) XXX, 2017</span>
+<span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
+<span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
+<span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
+<span class="c1"># for details.</span>
+<span class="c1">#</span>
+<span class="c1">#:Author: Samuel Farrens &lt;samuel.farrens@gmail.com&gt;</span>
+<span class="c1">#:Version: 1.1</span>
+<span class="c1">#:Date: 06/01/2017</span>
+<span class="c1">##########################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains classes for reweighting optimisation implementations</span>
+
+<span class="sd">**References**</span>
+
+<span class="sd">1) Candes, Wakin and Boyd, Enhancing Sparsity by Reweighting l1</span>
+<span class="sd">Minimization, 2007, Journal of Fourier Analysis and Applications,</span>
+<span class="sd">14(5):877-905. (CWB2007)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># System import</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="cwbReweight"><a class="viewcode-back" href="../../../generated/pisap.numerics.reweight.html#pisap.numerics.reweight.cwbReweight">[docs]</a><span class="k">class</span> <span class="nc">cwbReweight</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Candes, Wakin and Boyd reweighting class</span>
+
+<span class="sd">    This class implements the reweighting scheme described in CWB2007</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    weights: np.ndarray</span>
+<span class="sd">        Array of weights</span>
+<span class="sd">    thresh_factor: float (optional, default 1)</span>
+<span class="sd">        Threshold factor</span>
+<span class="sd">    wtype: str (optional, default &#39;image&#39;)</span>
+<span class="sd">        In which domain the weights are defined: &#39;image&#39; or &#39;sparse&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">thresh_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wtype</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wtype</span> <span class="o">=</span> <span class="n">wtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresh_factor</span> <span class="o">=</span> <span class="n">thresh_factor</span>
+
+<div class="viewcode-block" id="cwbReweight.reweight"><a class="viewcode-back" href="../../../generated/pisap.numerics.reweight.html#pisap.numerics.reweight.cwbReweight.reweight">[docs]</a>    <span class="k">def</span> <span class="nf">reweight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reweight.</span>
+
+<span class="sd">        This method implements the reweighting from section 4 in CWB2007.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Reweighting implemented as:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            w = w (1 / (1 + |x^w|/(n * sigma)))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">absolute</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thresh_factor</span> <span class="o">*</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">original_weights</span><span class="p">)))</span></div></div>
+
+
+<div class="viewcode-block" id="mReweight"><a class="viewcode-back" href="../../../generated/pisap.numerics.reweight.html#pisap.numerics.reweight.mReweight">[docs]</a><span class="k">class</span> <span class="nc">mReweight</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Ming reweighting class</span>
+
+<span class="sd">    This class implements the reweighting scheme described in Ming2017</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    weights: np.ndarray</span>
+<span class="sd">        Array of weights</span>
+<span class="sd">    thresh_factor: float (optional, default 1)</span>
+<span class="sd">        Threshold factor: sigma threshold.</span>
+<span class="sd">    wtype: str (optional, default &#39;image&#39;)</span>
+<span class="sd">        In which domain the weights are defined: &#39;image&#39; or &#39;sparse&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">thresh_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wtype</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wtype</span> <span class="o">=</span> <span class="n">wtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresh_factor</span> <span class="o">=</span> <span class="n">thresh_factor</span>
+
+<div class="viewcode-block" id="mReweight.reweight"><a class="viewcode-back" href="../../../generated/pisap.numerics.reweight.html#pisap.numerics.reweight.mReweight.reweight">[docs]</a>    <span class="k">def</span> <span class="nf">reweight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma_est</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reweight.</span>
+
+<span class="sd">        This method implements the reweighting from section 4 in CWB2007.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Reweighting implemented as:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            w = (Ksig * sigma_i) / |Wtx_i| if |Wtx_i| &gt; (Ksig * sigma_i)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ycube</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to_cube</span><span class="p">()</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ycube</span><span class="p">)</span>
+        <span class="n">nb_scales</span> <span class="o">=</span> <span class="n">ycube</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">scale_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_scales</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">thr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresh_factor</span> <span class="o">*</span> <span class="n">sigma_est</span><span class="p">[</span><span class="n">scale_index</span><span class="p">]</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">ycube</span><span class="p">[</span><span class="n">scale_index</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thr</span>
+            <span class="n">weights</span><span class="p">[</span><span class="n">scale_index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">thr</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ycube</span><span class="p">[</span><span class="n">scale_index</span><span class="p">][</span><span class="n">index</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">from_cube</span><span class="p">(</span><span class="n">weights</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span></div></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2017, piSAP developers &lt;XXX&gt;.
+</div>
+  </body>
+</html>

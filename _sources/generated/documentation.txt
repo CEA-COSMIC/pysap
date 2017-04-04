@@ -1,0 +1,85 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+Documentation of PISAP
+=======================
+
+.. raw:: html
+
+    <!-- Block section -->
+
+    <div class='container-fluid'>
+
+    <div class='float-left'>
+
+    <div class='row'>
+
+    <div class='col-md-4'>
+    <h3><a href='pisap.html'>
+    pisap
+    </a></h3>
+    <blockquote>
+        <p>piSAP is a Python package related to sparsity and its application in
+    astronomical data analysis. This package is based on the 'sparse2d' C++ library
+    that allows sparse decomposition, denoising and deconvolution.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pisap.base.html'>
+    pisap.base
+    </a></h3>
+    <blockquote>
+        <p>This module defines common structures for astronomical and neuroimaging
+    datasets.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pisap.sparsity.html'>
+    pisap.sparsity
+    </a></h3>
+    <blockquote>
+        <p>This module defines Python implementation of the ISAP C++ library.</p>    </blockquote>
+    </div>
+
+    </div>
+    <div class='row'>    <div class='col-md-4'>
+    <h3><a href='pisap.stats.html'>
+    pisap.stats
+    </a></h3>
+    <blockquote>
+        <p>This module defines common statistical functions or utility functions.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pisap.numerics.html'>
+    pisap.numerics
+    </a></h3>
+    <blockquote>
+        <p>This module defines common optimization strategies with predefined operators,
+    gradients, costs, ...</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pisap.extensions.html'>
+    pisap.extensions
+    </a></h3>
+    <blockquote>
+        <p>This module contains a wrapping of the 'sparse2d' C++ library
+    that allows fast sparse decomposition, denoising and deconvolution.</p>    </blockquote>
+    </div>
+
+    </div>
+    <div class='row'>    <div class='col-md-4'>
+    <h3><a href='pisap.plotting.html'>
+    pisap.plotting
+    </a></h3>
+    <blockquote>
+        <p>This module defines common vizualisation tools.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pisap.base.loaders.html'>
+    pisap.base.loaders
+    </a></h3>
+    <blockquote>
+        <p>This module defines common loaders to deal with astronomical and
+    neuroimaging datasets.</p>    </blockquote>
+    </div>
+
+    </div>
+    </div>
+    </div>

@@ -1,0 +1,95 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+Documentation of *pisap.numerics*
+==================================
+
+
+This module defines common optimization strategies with predefined operators,
+gradients, costs, ...
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.numerics.cost.html'><em>pisap.numerics.cost</em></a></td>
+    <td>
+        <p>This module contains classes of different cost functions for optimization.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.numerics.gradient.html'><em>pisap.numerics.gradient</em></a></td>
+    <td>
+        <p>This module contains classses for defining algorithm operators and gradients.
+    Based on work by Yinghao Ge and Fred Ngole.</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.numerics.optimization.html'><em>pisap.numerics.optimization</em></a></td>
+    <td>
+        <p>The Condat-Vu splitting method is a primal-dual proximal algorithm.</p>
+    <p><strong>References</strong></p>
+    <p>1) Condat, A Primal-Dual Splitting Method for Convex Optimization Involving
+    Lipschitzian, Proximable and Linear Composite Terms, 2013, Journal of
+    Optimization Theory and Applications, 158, 2, 460. (C2013)
+    2) Bauschke et al., Fixed-Point Algorithms for Inverse Problems in Science
+    and Engineering, 2011, Chapter 10. (B2010)
+    3) Raguet et al., Generalized Forward-Backward Splitting, 2012, , (R2012)</p>
+    <p><strong>Notes</strong></p>
+    <ul class="simple">
+    <li>x_old is used in place of x_{n}.</li>
+    <li>x_new is used in place of x_{n+1}.</li>
+    <li>x_prox is used in place of ~{x}_{n+1}.</li>
+    <li>x_temp is used for intermediate operations.</li>
+    </ul>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.numerics.algorithms.html'><em>pisap.numerics.algorithms</em></a></td>
+    <td>
+        <p>This module contains classes for defining basic algorithms.</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.numerics.noise.html'><em>pisap.numerics.noise</em></a></td>
+    <td>
+        <p>This module contains methods for adding and removing noise from data.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.numerics.reconstruct.html'><em>pisap.numerics.reconstruct</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.numerics.proximity.html'><em>pisap.numerics.proximity</em></a></td>
+    <td>
+        <p>This module contains classes of proximity operators for optimisation</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.numerics.reweight.html'><em>pisap.numerics.reweight</em></a></td>
+    <td>
+        <p>This module contains classes for reweighting optimisation implementations</p>
+    <p><strong>References</strong></p>
+    <p>1) Candes, Wakin and Boyd, Enhancing Sparsity by Reweighting l1
+    Minimization, 2007, Journal of Fourier Analysis and Applications,
+    14(5):877-905. (CWB2007)</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.numerics.linear.html'><em>pisap.numerics.linear</em></a></td>
+    <td>
+        <p>This module contains linear operator classes.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

@@ -1,0 +1,82 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+Documentation of *pisap.base*
+==============================
+
+
+This module defines common structures for astronomical and neuroimaging
+datasets.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.base.exceptions.html'><em>pisap.base.exceptions</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.base.image.html'><em>pisap.base.image</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.base.observable.html'><em>pisap.base.observable</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.base.wavelet_tree.html'><em>pisap.base.wavelet_tree</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.base.nodes.html'><em>pisap.base.nodes</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.base.io.html'><em>pisap.base.io</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.base.transform.html'><em>pisap.base.transform</em></a></td>
+    <td>
+        <p>Wavelet transform module.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.base.wavelet.html'><em>pisap.base.wavelet</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.base.wtools.html'><em>pisap.base.wtools</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.base.ndwt.html'><em>pisap.base.ndwt</em></a></td>
+    <td>
+        <p>2D and nD Discrete Wavelet Transforms and Inverse Discrete Wavelet Transforms.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>
