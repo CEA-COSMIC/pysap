@@ -35,7 +35,7 @@ SAMPLE_DATE_FILES = {
     },
     "mri-mask": {
         "url": os.path.join(
-            "{PISAP:s}", "demo", "data", "mri", "samples_cartesian_N512_R4.nii.gz"),
+            "{PISAP:s}", "demo", "data", "mri", "mask_BrainPhantom512.nii.gz"),
         "md5sum": None
     },
     "astro-fits": {
