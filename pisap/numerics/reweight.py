@@ -22,7 +22,7 @@ Minimization, 2007, Journal of Fourier Analysis and Applications,
 
 # System import
 import numpy as np
-
+from pisap.base.dictionary import DictionaryBase
 
 class cwbReweight(object):
     """ Candes, Wakin and Boyd reweighting class
@@ -94,12 +94,20 @@ class mReweight(object):
 
             w = (Ksig * sigma_i) / |Wtx_i| if |Wtx_i| > (Ksig * sigma_i)
         """
-        ycube = y.to_cube()
-        weights = np.ones_like(ycube)
-        nb_scales = ycube.shape[0]
-        for scale_index in range(nb_scales - 1):
-            thr = self.thresh_factor * sigma_est[scale_index]
-            index = ycube[scale_index] > thr
-            weights[scale_index][index] = thr / np.abs(ycube[scale_index][index])
-        self.weights.from_cube(weights[:, 0])
-
+        if not isinstance(y, DictionaryBase): # to preserve code legacy
+            ycube = y.to_cube()
+            weights = np.ones_like(ycube)
+            nb_scales = ycube.shape[0]
+            for scale_index in range(nb_scales - 1):
+                thr = self.thresh_factor * sigma_est[scale_index]
+                index = ycube[scale_index] > thr
+                weights[scale_index][index] = thr / np.abs(ycube[scale_index][index])
+            self.weights.from_cube(weights[:, 0])
+        else:
+            weights = np.ones_like(y._data)
+            for scale_index, scale_data in enumerate(y):
+                thr = self.thresh_factor * sigma_est[scale_index]
+                index = scale_data > thr
+                scale_mask = y.get_scale_mask(scale_index)
+                weights[scale_mask][index] = thr / np.abs(y.get_scale(scale_index)[index])
+            self.weights._data = weights

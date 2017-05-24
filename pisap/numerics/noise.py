@@ -21,6 +21,7 @@ import numpy as np
 # Package import
 import pisap
 from pisap.stats import sigma_mad
+from pisap.numerics.linears import Dictionary
 
 
 def add_noise(image, sigma=1.0, noise_type="gauss"):
@@ -111,8 +112,11 @@ def sigma_mad_sparse(grad_op, linear_op):
     sigma: list
         a list of str estimate for each scale.
     """
-    residuals = linear_op.op(grad_op.grad).to_cube()
-    sigma = []
-    for scale_data in residuals[:, 0]:
-        sigma.append(sigma_mad(scale_data))
-    return sigma
+    if not isinstance(linear_op, Dictionary): # to preserve code legacy
+        residuals = linear_op.op(grad_op.grad).to_cube()
+        sigma = []
+        for scale_data in residuals[:, 0]:
+            sigma.append(sigma_mad(scale_data))
+        return sigma
+    else:
+        return [sigma_mad(scale_data) for scale_data in linear_op.op(grad_op.grad)]

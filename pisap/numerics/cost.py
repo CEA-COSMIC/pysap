@@ -21,6 +21,7 @@ import numpy as np
 
 # Package import
 from pisap.plotting import plot_cost
+from pisap.base.dictionary import DictionaryBase
 
 
 class costFunction():
@@ -127,7 +128,10 @@ class costFunction():
 
         """
         y = self.weights * self.wavelet.op(x)
-        l1_norm = np.sum(y.absolute.to_cube())
+        if not isinstance(other, DictionaryBase):
+            l1_norm = np.sum(y.absolute.to_cube())
+        else:
+            np.sum(y.absolute._data)
         if self.print_cost:
             print(" - L1 NORM: ", l1_norm)
         return l1_norm
