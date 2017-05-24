@@ -427,7 +427,7 @@ class Condat():
 
         # Update old values for next iteration.
         np.copyto(self.x_old, self.x_new)
-        y_old = copy.deepcopy(self.y_new)
+        self.y_old = copy.deepcopy(self.y_new)
 
         # Test cost function for convergence.
         self.converge = self.cost_func.get_cost(self.x_new)
