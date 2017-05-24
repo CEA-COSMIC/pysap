@@ -40,7 +40,7 @@ def mr_transform(
         cmd += ["-l", type_of_lifting_transform]
     if type_of_multiresolution_transform in (14, ):
         cmd += ["-T", type_of_filters]
-        cmd += ["-L", use_l2_norm]
+        cmd += ["-L"]
     cmd += [in_image, out_mr_file]
 
     # Execute the command
