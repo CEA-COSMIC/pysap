@@ -298,7 +298,7 @@ class DictionaryBase(object):
                 axe.imshow(band, cmap='gist_stern')
                 axe.set_title("scale={0} band='{1}'".format(ks, self.bands_names[kb]))
         fig.suptitle("Decomposition '{0}'".format(self.name), fontsize=15)
-        #plt.show()
+        plt.show()
 
     def display_scale(self, ks):
         """ Display the specified scale.
