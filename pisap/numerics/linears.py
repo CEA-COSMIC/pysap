@@ -682,3 +682,167 @@ class nonOrthogonalUndecimatedTransform(Dictionary):
         id_formating = 0
         return name, bands_names, nb_band_per_scale, bands_lengths, \
                bands_shapes, id_trf, id_formating
+
+
+class isotropicAndCompactSupportWaveletInFourierSpace(Dictionary):
+    """ Isotropic and compact support wavelet in Fourier space.
+    """
+    def _trf_id(self):
+        raise NotImplementedError("ISAP backend produce NaN")
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "Isotropic and compact support wavelet in Fourier space"
+        # bands_names
+        bands_names = 'a'
+        # nb_band_per_scale
+        nb_band_per_scale = np.array([1] * (nb_scale-1) + [1])
+        # bands_lengths
+        nx, _ = self.data.shape
+        bands_lengths = nx * np.ones((nb_scale, 1))
+        bands_lengths[-1,1:] = 0
+        for i, scale in enumerate(bands_lengths):
+            scale /= 2**i
+        bands_lengths[-1,:] *= 2
+        bands_lengths = (bands_lengths**2).astype(int)
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 26
+        # type of from_cube
+        id_formating = 1
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating
+
+
+class pyramidalWaveletTransformInFourierSpaceAlgo2(Dictionary):
+    """ pyramidal wavelet transform in Fourier space: algo 2
+        (diff. between the square of two resolutions).
+    """
+    def _trf_id(self):
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "pyramidal wavelet transform in Fourier space: algo 2" \
+                    + "(diff. between the square of two resolutions)"
+        # bands_names
+        bands_names = 'a'
+        # nb_band_per_scale
+        nb_band_per_scale = np.array([1] * (nb_scale-1) + [1])
+        # bands_lengths
+        nx, _ = self.data.shape
+        bands_lengths = nx * np.ones((nb_scale, 1))
+        bands_lengths[-1,1:] = 0
+        for i, scale in enumerate(bands_lengths):
+            scale /= 2**i
+        bands_lengths[-1,:] *= 2
+        bands_lengths = (bands_lengths**2).astype(int)
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 27
+        # type of from_cube
+        id_formating = 1
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating
+
+
+class fastCurveletTransform(Dictionary):
+    """ Fast Curvelet Transform.
+    """
+    def _trf_id(self):
+        raise NotImplementedError("fastCurveletTransform not set yet")
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "Fast Curvelet Transform"
+        # bands_names
+        bands_names = 0
+        # nb_band_per_scale
+        nb_band_per_scale = 0
+        # bands_lengths
+
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 28
+        # type of from_cube
+        id_formating = 3
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating
+
+
+class waveletTransformViaLiftingScheme(Dictionary):
+    """ Wavelet transform via lifting scheme.
+    """
+    def _trf_id(self):
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "Wavelet transform via lifting scheme"
+        # bands_names
+        bands_names = 'v', 'd', 'h'
+        # nb_band_per_scale
+        nb_band_per_scale = np.array([3] * (nb_scale-1) + [1])
+        # bands_lengths
+        nx, _ = self.data.shape
+        bands_lengths = nx * np.ones((nb_scale, 3))
+        bands_lengths[-1,1:] = 0
+        for i, scale in enumerate(bands_lengths):
+            scale /= 2**(i+1)
+        bands_lengths[-1,:] *= 2
+        bands_lengths = (bands_lengths**2).astype(int)
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 29
+        # type of from_cube
+        id_formating = 2
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating
+
+
+class onLine5_3AndOnColumn4_4(Dictionary):
+    """ 5/3 on line and 4/4 on column.
+    """
+    def _trf_id(self):
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "5/3 on line and 4/4 on column"
+        # bands_names
+        bands_names = ['a', 'a', 'a']
+        # nb_band_per_scale
+        nb_band_per_scale = np.array([3] * (nb_scale-1) + [1])
+        # bands_lengths
+        nx, _ = self.data.shape
+        bands_lengths = (nx * nx) * np.ones((nb_scale, 3))
+        bands_lengths[-1, 1:] = 0
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 30
+        # type of from_cube
+        id_formating = 0
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating
+
+
+class onLine4_4AndOnColumn5_3(Dictionary):
+    """ 4/4 on line and 5/3 on column.
+    """
+    def _trf_id(self):
+        nb_scale = self.metadata['nb_scale']
+        # name
+        name = "4/4 on line and 5/3 on column"
+        # bands_names
+        bands_names = ['a', 'a', 'a']
+        # nb_band_per_scale
+        nb_band_per_scale = np.array([3] * (nb_scale-1) + [1])
+        # bands_lengths
+        nx, _ = self.data.shape
+        bands_lengths = (nx * nx) * np.ones((nb_scale, 3))
+        bands_lengths[-1, 1:] = 0
+        # bands_shapes
+        bands_shapes = set_bands_shapes(bands_lengths)
+        # idx tdf
+        id_trf = 31
+        # type of from_cube
+        id_formating = 0
+        return name, bands_names, nb_band_per_scale, bands_lengths, \
+               bands_shapes, id_trf, id_formating

@@ -374,5 +374,93 @@ class TestTrf(unittest.TestCase):
                                         IMG, nb_scale, isap_kwargs)
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
 
+    @unittest.skip("Isotropic and compact support wavelet in Fourier space skipped " \
+                     + "because ISAP backend produce NaN")
+    def test_isotropicAndCompactSupportWaveletInFourierSpace(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 26,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        isotropicAndCompactSupportWaveletInFourierSpace,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+    def test_pyramidalWaveletTransformInFourierSpaceAlgo2(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 27,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        pyramidalWaveletTransformInFourierSpaceAlgo2,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+    @unittest.skip("Fast Curvelet Transform skipped because not set yet")
+    def test_fastCurveletTransform(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 28,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        fastCurveletTransform,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+    def test_waveletTransformViaLiftingScheme(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 29,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        waveletTransformViaLiftingScheme,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+    def test_onLine5_3AndOnColumn4_4(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 30,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        onLine5_3AndOnColumn4_4,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+    def test_onLine4_4AndOnColumn5_3(self):
+        for nb_scale in NB_SCALES:
+            isap_kwargs = {
+                'type_of_multiresolution_transform': 31,
+                'number_of_scales': nb_scale,
+                'type_of_filters': 1,
+                'type_of_non_orthog_filters': 2,
+                'use_l2_norm': False,
+                }
+            pisap_trf_buf, isap_trf_buf = run_both_trf(
+                                        onLine4_4AndOnColumn5_3,
+                                        IMG, nb_scale, isap_kwargs)
+            np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+
+
 if __name__ == '__main__':
     unittest.main()
