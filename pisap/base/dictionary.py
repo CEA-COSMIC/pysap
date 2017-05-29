@@ -269,7 +269,7 @@ class DictionaryBase(object):
         if self.is_transform:
             raise ValueError("can't display native image if data transformed")
         img = self._data.reshape(self._native_image_shape)
-        plt.imshow(img, cmap=plt.get_cmap('gray'))
+        plt.imshow(img, cmap=plt.get_cmap('gist_stern'))
         plt.title("Native image")
         plt.show()
 
@@ -279,7 +279,7 @@ class DictionaryBase(object):
         if not self.is_transform:
             raise ValueError("can't display band if data not transformed")
         band = self.get_band(ks, kb).reshape(self.bands_shapes[ks][kb])
-        plt.imshow(band, cmap=plt.get_cmap('gray'))
+        plt.imshow(band, cmap=plt.get_cmap('gist_stern'))
         plt.title("scale={0},band={1}".format(ks, kb))
         plt.show()
 
@@ -310,7 +310,7 @@ class DictionaryBase(object):
         axes = [axes] if nb_band == 1 else axes
         for kb, axe in enumerate(axes):
             band = self.get_band(ks, kb).reshape(self.bands_shapes[ks][kb])
-            axe.imshow(band, cmap=plt.get_cmap('gray'))
+            axe.imshow(band, cmap=plt.get_cmap('gist_stern'))
             axe.set_title("band='{1}'".format(ks, self.bands_names[kb]))
         fig.suptitle('#Scale: {0}'.format(ks), fontsize=15)
         plt.show()
