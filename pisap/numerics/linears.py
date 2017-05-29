@@ -226,7 +226,7 @@ class MeyerWaveletsCompactInFourierSpace(Dictionary):
     """ Meyers wavelets (compact support in Fourier space).
     """
     def _trf_id(self):
-        raise NotImplementedError("WIP: produce NaN")
+        raise NotImplementedError("ISAP backend produce NaN")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Meyers wavelets (compact support in Fourier space)"

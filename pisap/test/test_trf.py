@@ -134,7 +134,7 @@ class TestTrf(unittest.TestCase):
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
 
     @unittest.skip("Meyer's wavelets (compact support in Fourier space) skipped " \
-                     + "because isap backend do not work")
+                     + "because ISAP backend produce NaN")
     def test_MeyerWaveletsCompactInFourierSpace(self):
         for nb_scale in NB_SCALES:
             isap_kwargs = {
