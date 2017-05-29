@@ -6,16 +6,16 @@ from scipy.io import loadmat
 
 import pisap
 from pisap.numerics.linears import *
-from pisap.base.utils import run_both_trf
+from pisap.base.utils import run_both
 
 
 # global cst
-imfile = "Iref.mat"
+imfile = "Iref.mat" # test data: a true brain scan
 img = loadmat(imfile)['I']
 min_buf = img.min()
 max_buf = img.max()
-IMG = (img - min_buf) / (max_buf - min_buf)
-NB_SCALES = [2, 4, 6]
+IMG = (img - min_buf) / (max_buf - min_buf) # to avoid 10^-10 values
+NB_SCALES = [2, 3, 4]
 EPS = 1.0e-10
 
 
@@ -30,10 +30,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        linearWaveletTransformATrousAlgorithm,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(linearWaveletTransformATrousAlgorithm,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_bsplineWaveletTransformATrousAlgorithm(self):
         for nb_scale in NB_SCALES:
@@ -44,10 +46,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        bsplineWaveletTransformATrousAlgorithm,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(bsplineWaveletTransformATrousAlgorithm,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_waveletTransformInFourierSpace(self):
         for nb_scale in NB_SCALES:
@@ -58,10 +62,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        waveletTransformInFourierSpace,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(waveletTransformInFourierSpace,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_morphologicalMedianTransform(self):
         for nb_scale in NB_SCALES:
@@ -72,10 +78,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        morphologicalMedianTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(morphologicalMedianTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_morphologicalMinmaxTransform(self):
         for nb_scale in NB_SCALES:
@@ -86,10 +94,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        morphologicalMinmaxTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(morphologicalMinmaxTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalLinearWaveletTransform(self):
         for nb_scale in NB_SCALES:
@@ -100,10 +110,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalLinearWaveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalLinearWaveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalBsplineWaveletTransform(self):
         for nb_scale in NB_SCALES:
@@ -114,10 +126,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalBsplineWaveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalBsplineWaveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalWaveletTransformInFourierSpaceAlgo1(self):
         for nb_scale in NB_SCALES:
@@ -128,10 +142,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalWaveletTransformInFourierSpaceAlgo1,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalWaveletTransformInFourierSpaceAlgo1,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     @unittest.skip("Meyer's wavelets (compact support in Fourier space) skipped " \
                      + "because ISAP backend produce NaN")
@@ -144,10 +160,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        MeyerWaveletsCompactInFourierSpace,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(MeyerWaveletsCompactInFourierSpace,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalMedianTransform(self):
         for nb_scale in NB_SCALES:
@@ -158,10 +176,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalMedianTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalMedianTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalLaplacian(self):
         for nb_scale in NB_SCALES:
@@ -172,10 +192,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalLaplacian,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalLaplacian,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_morphologicalPyramidalMinmaxTransform(self):
         for nb_scale in NB_SCALES:
@@ -186,10 +208,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        morphologicalPyramidalMinmaxTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(morphologicalPyramidalMinmaxTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_decompositionOnScalingFunction(self):
         for nb_scale in NB_SCALES:
@@ -200,10 +224,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        decompositionOnScalingFunction,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(decompositionOnScalingFunction,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_MallatWaveletTransform7_9Filters(self):
         for nb_scale in NB_SCALES:
@@ -214,10 +240,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        MallatWaveletTransform7_9Filters,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(MallatWaveletTransform7_9Filters,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_FeauveauWaveletTransform(self):
         for nb_scale in NB_SCALES:
@@ -228,10 +256,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        FeauveauWaveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(FeauveauWaveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_FeauveauWaveletTransformWithoutUndersampling(self):
         for nb_scale in NB_SCALES:
@@ -242,10 +272,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        FeauveauWaveletTransformWithoutUndersampling,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(FeauveauWaveletTransformWithoutUndersampling,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_LineColumnWaveletTransform1D1D(self):
         for nb_scale in NB_SCALES:
@@ -256,10 +288,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        LineColumnWaveletTransform1D1D,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(LineColumnWaveletTransform1D1D,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_haarWaveletTransform(self):
         for nb_scale in NB_SCALES:
@@ -270,10 +304,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        haarWaveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(haarWaveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_halfPyramidalTransform(self):
         for nb_scale in NB_SCALES:
@@ -284,10 +320,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        halfPyramidalTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(halfPyramidalTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_mixedHalfPyramidalWTAndMedianMethod(self):
         for nb_scale in NB_SCALES:
@@ -298,11 +336,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        mixedHalfPyramidalWTAndMedianMethod,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(mixedHalfPyramidalWTAndMedianMethod,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
-
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_undecimatedDiadicWaveletTransform(self):
         for nb_scale in NB_SCALES:
@@ -313,10 +352,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        undecimatedDiadicWaveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(undecimatedDiadicWaveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_mixedWTAndPMTMethod(self):
         for nb_scale in NB_SCALES:
@@ -327,10 +368,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        mixedWTAndPMTMethod,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(mixedWTAndPMTMethod,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_undecimatedHaarTransformATrousAlgorithm(self):
         for nb_scale in NB_SCALES:
@@ -341,10 +384,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        undecimatedHaarTransformATrousAlgorithm,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(undecimatedHaarTransformATrousAlgorithm,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_undecimatedBiOrthogonalTransform(self):
         for nb_scale in NB_SCALES:
@@ -355,10 +400,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        undecimatedBiOrthogonalTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(undecimatedBiOrthogonalTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_nonOrthogonalUndecimatedTransform(self):
         for nb_scale in NB_SCALES:
@@ -369,10 +416,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        nonOrthogonalUndecimatedTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(nonOrthogonalUndecimatedTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     @unittest.skip("Isotropic and compact support wavelet in Fourier space skipped " \
                      + "because ISAP backend produce NaN")
@@ -385,10 +434,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        isotropicAndCompactSupportWaveletInFourierSpace,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(isotropicAndCompactSupportWaveletInFourierSpace,
+                                       IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_pyramidalWaveletTransformInFourierSpaceAlgo2(self):
         for nb_scale in NB_SCALES:
@@ -399,10 +450,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        pyramidalWaveletTransformInFourierSpaceAlgo2,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(pyramidalWaveletTransformInFourierSpaceAlgo2,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     @unittest.skip("Fast Curvelet Transform skipped because not set yet")
     def test_fastCurveletTransform(self):
@@ -414,10 +467,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        fastCurveletTransform,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(fastCurveletTransform,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_waveletTransformViaLiftingScheme(self):
         for nb_scale in NB_SCALES:
@@ -428,10 +483,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        waveletTransformViaLiftingScheme,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(waveletTransformViaLiftingScheme,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_onLine5_3AndOnColumn4_4(self):
         for nb_scale in NB_SCALES:
@@ -442,10 +499,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        onLine5_3AndOnColumn4_4,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(onLine5_3AndOnColumn4_4,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
     def test_onLine4_4AndOnColumn5_3(self):
         for nb_scale in NB_SCALES:
@@ -456,10 +515,12 @@ class TestTrf(unittest.TestCase):
                 'type_of_non_orthog_filters': 2,
                 'use_l2_norm': False,
                 }
-            pisap_trf_buf, isap_trf_buf = run_both_trf(
-                                        onLine4_4AndOnColumn5_3,
-                                        IMG, nb_scale, isap_kwargs)
+            res = run_both(onLine4_4AndOnColumn5_3,
+                               IMG, nb_scale, isap_kwargs)
+            pisap_trf_buf, isap_trf_buf = res[0]
             np.testing.assert_allclose(pisap_trf_buf, isap_trf_buf)
+            pisap_recs_img, isap_recs_img = res[1]
+            np.testing.assert_allclose(pisap_recs_img, isap_recs_img)
 
 
 if __name__ == '__main__':

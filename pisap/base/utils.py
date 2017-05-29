@@ -110,6 +110,7 @@ def isap_transform(data, **kwargs):
         stable_mr_transform(in_image, out_mr_file, **kwargs)
         image = pisap.io.load(out_mr_file)
         isap_trf_buf = image.data
+        header = image.metadata
     except:
         raise
     finally:
@@ -117,13 +118,38 @@ def isap_transform(data, **kwargs):
             if os.path.isfile(path):
                 os.remove(path)
         os.rmdir(tmpdir)
-    return isap_trf_buf
+    return isap_trf_buf, header
 
 
-def run_both_trf(linear_op, data, nb_scale, isap_kwargs):
-    """ Run ispa and pisap trf.
+def isap_recons(data, header):
+    """ Return the reconstructed image.
+    """
+    cube = pisap.Image(data=data, metadata=header)
+    tmpdir = tempfile.mkdtemp()
+    in_mr_file = os.path.join(tmpdir, "cube.mr")
+    out_image = os.path.join(tmpdir, "out.fits")
+    try:
+        pisap.io.save(cube, in_mr_file)
+        stable_mr_recons(in_mr_file, out_image)
+        isap_recs_buf = pisap.io.load(out_image)
+    except:
+        raise
+    finally:
+        for path in (in_mr_file, out_image):
+            if os.path.isfile(path):
+                os.remove(path)
+        os.rmdir(tmpdir)
+    return isap_recs_buf
+
+
+def run_both(linear_op, data, nb_scale, isap_kwargs):
+    """ Run ispa and pisap trf and reconstruction.
     """
     init_kwarg = {'maxscale': nb_scale}
     linear_op = linear_op(**init_kwarg)
     trf = linear_op.op(data)
-    return trf.to_cube(), isap_transform(data, **isap_kwargs)
+    trf_img = trf.to_cube()
+    trf_isap_img, header =  isap_transform(data, **isap_kwargs)
+    recs_img = linear_op.adj_op(trf)
+    recs_isap_img = isap_recons(trf.to_cube(), header)
+    return (trf_img, trf_isap_img), (recs_img, recs_isap_img)
