@@ -99,8 +99,8 @@ def secure_mkdir(dirname):
         pass
 
 
-def isap_transform(data, **kwargs):
-    """ Return the transformation coefficient in a isap-cube format.
+def _isap_transform(data, **kwargs):
+    """ Helper return the transformation coefficient in a isap-cube format.
     """
     tmpdir = tempfile.mkdtemp()
     in_image = os.path.join(tmpdir, "in.fits")
@@ -121,8 +121,19 @@ def isap_transform(data, **kwargs):
     return isap_trf_buf, header
 
 
-def isap_recons(data, header):
-    """ Return the reconstructed image.
+def isap_transform(data, **kwargs):
+    """ Return the transformation coefficient in a isap-cube format.
+    """
+    if np.any(np.iscomplex(data)):
+        isap_trf_buf_r, header = _isap_transform(data.real, **kwargs)
+        isap_trf_buf_i, _ = _isap_transform(data.imag, **kwargs)
+        return isap_trf_buf_r + 1.j * isap_trf_buf_i, header
+    else:
+        return _isap_transform(data.astype(float), **kwargs)
+
+
+def _isap_recons(data, header):
+    """ Helper return the reconstructed image.
     """
     cube = pisap.Image(data=data, metadata=header)
     tmpdir = tempfile.mkdtemp()
@@ -140,6 +151,17 @@ def isap_recons(data, header):
                 os.remove(path)
         os.rmdir(tmpdir)
     return isap_recs_buf
+
+
+def isap_recons(data, header):
+    """ Return the reconstructed image.
+    """
+    if np.any(np.iscomplex(data)):
+        isap_recs_buf_r = _isap_recons(data.real, header)
+        isap_recs_buf_i = _isap_recons(data.imag, header)
+        return isap_recs_buf_r + 1.j * isap_recs_buf_i
+    else:
+        return _isap_recons(data.astype(float), header)
 
 
 def run_both(linear_op, data, nb_scale, isap_kwargs):
