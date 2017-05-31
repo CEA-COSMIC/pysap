@@ -67,7 +67,7 @@ class DictionaryBase(object):
         self.id_formating = id_formating
 
         self._data = data.flatten()
-        self._native_image_shape = data.shape
+        self.native_image_shape = data.shape
 
         self.nb_scale = nb_scale
         self.nb_band_per_scale = nb_band_per_scale
@@ -111,7 +111,7 @@ class DictionaryBase(object):
         if self.is_transform:
             return len(self._data) == int(self.bands_lengths.sum())
         else:
-            nx, ny = self._native_image_shape
+            nx, ny = self.native_image_shape
             return len(self._data) == int(nx*ny)
 
     def __ge__(self, other):
@@ -597,7 +597,7 @@ class DictionaryBase(object):
         return {'name': self.name,
                 'bands names': self.bands_names,
                 'id_formating': self.id_formating,
-                'native_image_shape': self._native_image_shape,
+                'native_image_shape': self.native_image_shape,
                 'nb_scale': self.nb_scale,
                 'nb_band_per_scale': self.nb_band_per_scale,
                 'bands_shapes': self.bands_shapes,
