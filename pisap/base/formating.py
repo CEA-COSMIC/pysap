@@ -282,7 +282,7 @@ def inflated_decimated_1_bands(trf):
         --------
         data: np.ndarray, the flatten 'cube'.
     """
-    cube = np.zeros(trf.cube_shape)
+    cube = np.zeros(trf.cube_shape, dtype=np.complex)
     tmp = cube
     for ks in range(trf.nb_scale-1):
         set_htl(tmp, trf.get_band(ks, 0))
@@ -307,7 +307,7 @@ def inflated_decimated_3_bands(trf):
         --------
         data: np.ndarray, the flatten 'cube'.
     """
-    cube = np.zeros(trf.cube_shape)
+    cube = np.zeros(trf.cube_shape, dtype=np.complex)
     tmp = cube
     for ks in range(trf.nb_scale-1):
         set_htr(tmp, trf.get_band(ks, 0))
@@ -348,7 +348,7 @@ def inflated_decimated_feauveau(trf):
         --------
         data: np.ndarray, the flatten 'cube'.
     """
-    cube = np.zeros(trf.cube_shape)
+    cube = np.zeros(trf.cube_shape, dtype=np.complex)
     tmp = cube
     for ks in range(trf.nb_scale-1):
         set_hbl(tmp, trf.get_band(ks, 0))

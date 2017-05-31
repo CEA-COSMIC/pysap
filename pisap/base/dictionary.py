@@ -125,11 +125,23 @@ class DictionaryBase(object):
         -------
         out: DictionaryBase, the element-wise result (True or False).
         """
-        if not self.check_same_metadata(other):
-            raise ValueError("Can only check greater or equal DictionaryBase"
-                               + "with DictionaryBase.")
+        if self.is_complex: # handle complex case
+            raise ValueError("Cannot compare '>=' complex.")
         cpy = copy.deepcopy(self)
-        cpy._data = self._data >= other._data
+        if isinstance(other, (int, long, float)): # scalar comparaison
+            cpy._data = other * np.ones_like(self._data)
+            cpy._data = self._data >= cpy._data
+        elif isinstance(other, DictionaryBase): # other DictionaryBase comparaison
+            if not self.check_same_metadata(other):
+                raise ValueError("Can only check greater or equal DictionaryBase"
+                                   + "with DictionaryBase.")
+            if other.is_complex:
+                raise ValueError("Cannot compare '>=' complex.")
+            # is_complex check if the imaginary value is zero
+            # still the 'dtype' of the data can be np.complex...
+            cpy._data = self._data.astype(float) >= other._data.astype(float)
+        else: # bucket case
+            raise ValueError("type of 'other' to compare >= not understood")
         return cpy
 
     def __add__(self, other):
@@ -268,8 +280,8 @@ class DictionaryBase(object):
         """
         if self.is_transform:
             raise ValueError("can't display native image if data transformed")
-        img = self._data.reshape(self._native_image_shape)
-        plt.imshow(img, cmap=plt.get_cmap('gist_stern'))
+        img = self._data.reshape(self.native_image_shape)
+        plt.imshow(np.absolute(img), cmap=plt.get_cmap('gist_stern'))
         plt.title("Native image")
         plt.show()
 
@@ -279,7 +291,7 @@ class DictionaryBase(object):
         if not self.is_transform:
             raise ValueError("can't display band if data not transformed")
         band = self.get_band(ks, kb).reshape(self.bands_shapes[ks][kb])
-        plt.imshow(band, cmap=plt.get_cmap('gist_stern'))
+        plt.imshow(np.absolute(band), cmap=plt.get_cmap('gist_stern'))
         plt.title("scale={0},band={1}".format(ks, kb))
         plt.show()
 
@@ -295,7 +307,7 @@ class DictionaryBase(object):
             for kb in range(self.nb_band_per_scale[ks]):
                 axe = axes[ks, kb]
                 band = self.get_band(ks, kb).reshape(self.bands_shapes[ks][kb])
-                axe.imshow(band, cmap='gist_stern')
+                axe.imshow(np.absolute(band), cmap='gist_stern')
                 axe.set_title("scale={0} band='{1}'".format(ks, self.bands_names[kb]))
         fig.suptitle("Decomposition '{0}'".format(self.name), fontsize=15)
         plt.show()
@@ -310,7 +322,7 @@ class DictionaryBase(object):
         axes = [axes] if nb_band == 1 else axes
         for kb, axe in enumerate(axes):
             band = self.get_band(ks, kb).reshape(self.bands_shapes[ks][kb])
-            axe.imshow(band, cmap=plt.get_cmap('gist_stern'))
+            axe.imshow(np.absolute(band), cmap=plt.get_cmap('gist_stern'))
             axe.set_title("band='{1}'".format(ks, self.bands_names[kb]))
         fig.suptitle('#Scale: {0}'.format(ks), fontsize=15)
         plt.show()
@@ -424,8 +436,8 @@ class DictionaryBase(object):
             raise ValueError("call of 'to_cube' with empty _data")
         return INFLATING_FCTS[self.id_formating](self)
 
-    def analysis(self, **kwargs):
-        """ Decompose on the dictionnary atoms.
+    def _analysis(self, data, **kwargs):
+        """ Helper to decompose on the dictionnary atoms.
 
         Parameters
         ----------
@@ -438,7 +450,6 @@ class DictionaryBase(object):
         in_image = os.path.join(tmpdir, "in.fits")
         out_mr_file = os.path.join(tmpdir, "cube.mr")
         try:
-            data = self._data.reshape(self._native_image_shape)
             pisap.io.save(data, in_image)
             stable_mr_transform(in_image, out_mr_file, **kwargs)
             image = pisap.io.load(out_mr_file)
@@ -451,18 +462,35 @@ class DictionaryBase(object):
                 if os.path.isfile(path):
                     os.remove(path)
             os.rmdir(tmpdir)
-        self.from_cube(cube)
+        return cube
 
-    def synthesis(self):
-        """ Reconstruct the image the vector data.
+    def analysis(self, **kwargs):
+        """ Decompose on the dictionnary atoms.
+
+        Parameters
+        ----------
+        kwargs: dict, the parameters that will be passed to
+            'pisap.extensions.mr_tansform'.
+        """
+        if self.is_complex:
+            data = self._data.real.reshape(self.native_image_shape)
+            cube_r = self._analysis(data, **kwargs)
+            data = self._data.imag.reshape(self.native_image_shape)
+            cube_i = self._analysis(data, **kwargs)
+            self.from_cube(cube_r+1.j*cube_i) # make a copy
+        else:
+            data = self._data.reshape(self.native_image_shape).astype(float)
+            self.from_cube(self._analysis(data, **kwargs))
+
+    def _synthesis(self, cube):
+        """ Helper to reconstruct the image the vector data.
 
         Returns
         -------
-        image: pisap.Image
+        image: np.ndarray
             the reconsructed image.
         """
-        cube = pisap.Image(data=self.to_cube(),
-                           metadata=self.isap_trf_header)
+        cube = pisap.Image(data=cube, metadata=self.isap_trf_header)
         tmpdir = tempfile.mkdtemp()
         in_mr_file = os.path.join(tmpdir, "cube.mr")
         out_image = os.path.join(tmpdir, "out.fits")
@@ -477,7 +505,27 @@ class DictionaryBase(object):
                 if os.path.isfile(path):
                     os.remove(path)
             os.rmdir(tmpdir)
-        return image
+        return image.data
+
+    def synthesis(self):
+        """ Reconstruct the image the vector data.
+
+        Returns
+        -------
+        image: pisap.Image
+            the reconsructed image.
+        """
+        cube = self.to_cube()
+        if np.any(np.iscomplex(cube)):
+            cube_r = cube.real
+            cube_i = cube.imag
+            img_r = self._synthesis(cube_r)
+            img_i = self._synthesis(cube_i)
+            return pisap.Image(data=img_r+1.j*img_i,
+                               metadata=self.isap_trf_header)
+        else:
+            return pisap.Image(data=self._synthesis(cube.astype(float)),
+                               metadata=self.isap_trf_header)
 
     @property
     def shape(self):
@@ -516,9 +564,17 @@ class DictionaryBase(object):
         out: DictionaryBase, the 'sign' coefficient on dictionnary
             (element-wise result).
         """
+        if self.is_complex:
+            raise ValueError("Cannot call 'sign' on complex data.")
         cpy = copy.deepcopy(self)
         cpy._data = np.sign(cpy._data)
         return cpy
+
+    @property
+    def is_complex(self):
+        """ Return if internet data is complex.
+        """
+        return np.any(np.iscomplex(self._data))
 
     @property
     def is_empty(self):

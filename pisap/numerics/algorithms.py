@@ -49,7 +49,7 @@ class PowerMethod():
 
         This method sets the initial value of x to an arrray of random values
         """
-        return np.random.random(self.data_shape)
+        return np.random.random(self.data_shape).astype(np.complex)
 
     def get_spec_rad(self, tolerance=1e-6, max_iter=150, verbose=0):
         """ Get spectral radius.

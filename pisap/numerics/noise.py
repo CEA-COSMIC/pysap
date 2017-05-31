@@ -92,7 +92,13 @@ def denoise(data, level, threshold_type='hard'):
                          '"soft"')
 
     if threshold_type == 'soft':
-        return data.sign * (data.absolute - level) * (data.absolute >= level)
+        if data.is_complex:
+            #sz = max( abs(z) - T , 0 ) / ( max( abs(z) - T, 0) + T ) * z
+            deno = (((data.absolute - level) >= 0)._data.max() + level) * data
+            num = ((data.absolute - level) >= 0)._data.max()
+            return deno / num
+        else:
+            return data.sign * (data.absolute - level) * (data.absolute >= level)
     else:
         return data * (data.absolute >= level)
 

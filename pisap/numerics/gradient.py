@@ -134,6 +134,6 @@ class Grad2D(GradBase, PowerMethod):
         -------
         np.ndarray result
         """
-        return np.real(pfft.ifft2(self.mask * x))
+        return pfft.ifft2(self.mask * x)
 
 
