@@ -93,6 +93,8 @@ def sparse_rec_condat_vu(
         print("-" * 20)
         print("Starting Condat-Vu proximal-dual splitting reconstruction "
               "algorithm.")
+        linear_op = linear_cls(**linear_kwargs)
+        print("The linear op used:\n{0}".format(linear_op.op(np.zeros(data.shape))))
     
     # Check input parameters
     if std_est_method not in ("image", "sparse"):
