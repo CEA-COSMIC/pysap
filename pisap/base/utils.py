@@ -179,3 +179,37 @@ def run_both(linear_op, data, nb_scale, isap_kwargs):
     recs_img = linear_op.adj_op(trf)
     recs_isap_img = isap_recons(trf.to_cube(), header)
     return (trf_img, trf_isap_img), (recs_img, recs_isap_img)
+
+
+def get_curvelet_bands_shapes(img_shape, nb_scale, nb_band_per_scale):
+    """ Return the 'bands_shapes' for FastCurveletTransform.
+    """
+    img = np.zeros(img_shape)
+    tmpdir = isapproof_mkdtemp()
+    in_image = os.path.join(tmpdir, "in.fits")
+    out_mr_file = os.path.join(tmpdir, "cube.mr")
+    kwargs = {'number_of_scales': nb_scale,
+              'type_of_multiresolution_transform': 28,
+               }
+    try:
+        pisap.io.save(img, in_image)
+        pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
+        cube = pisap.io.load(out_mr_file).data
+    except:
+        raise
+    finally:
+        for path in (in_image, out_mr_file):
+            if os.path.isfile(path):
+                os.remove(path)
+        os.rmdir(tmpdir)
+    bands_shapes = []
+    padd = 1 + nb_scale
+    for ks in range(nb_scale):
+        band_shapes = []
+        for kb in range(nb_band_per_scale[ks]):
+            Nx = int(cube[padd])
+            Ny = int(cube[padd+1])
+            band_shapes.append((Nx, Ny))
+            padd += (Nx * Ny + 2)
+        bands_shapes.append(band_shapes)
+    return bands_shapes

@@ -432,7 +432,7 @@ class DictionaryBase(object):
         cube: ndarray (nb_scales*bands_per_scale,), the cube that containes
             the decomposition coefficients.
         """
-        self._data = FLATTENING_FCTS[self.id_formating](cube, self.nb_scale)
+        self._data = FLATTENING_FCTS[self.id_formating](cube, self)
         self.is_transform = True
 
         if not self.metadata_is_valid():

@@ -10,7 +10,7 @@ This module contains linears operators classes.
 """
 import numpy as np
 from pisap.base.dictionary import Dictionary
-from pisap.base.utils import set_bands_shapes
+from pisap.base.utils import set_bands_shapes, get_curvelet_bands_shapes
 
 
 class linearWaveletTransformATrousAlgorithm(Dictionary):
@@ -745,22 +745,34 @@ class pyramidalWaveletTransformInFourierSpaceAlgo2(Dictionary):
                bands_shapes, id_trf, id_formating
 
 
+#from pisap.base.utils import adapt_shape_cur
+
 class fastCurveletTransform(Dictionary):
     """ Fast Curvelet Transform.
     """
     def _trf_id(self):
-        raise NotImplementedError("fastCurveletTransform not set yet")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Fast Curvelet Transform"
         # bands_names
-        bands_names = 0
+        bands_names = "d" * 16
         # nb_band_per_scale
-        nb_band_per_scale = 0
-        # bands_lengths
-
+        nb_band_per_scale = [16, 16, 8, 8, 8, 8, 8, 8, 8, 1]
+        nb_band_per_scale = np.array(nb_band_per_scale[:nb_scale])
+        nb_band_per_scale[-1] = 1
         # bands_shapes
-        bands_shapes = set_bands_shapes(bands_lengths)
+        #bands_shapes = SHAPE_CURVELETS[:nb_scale]
+        bands_shapes = get_curvelet_bands_shapes(self.data.shape, nb_scale, nb_band_per_scale)
+        #bands_shapes = adapt_shape_cur(SHAPE_CURVELETS[:nb_scale], fact=f)
+        if nb_scale == 2:
+            bands_shapes[-1] = [(bands_shapes[0][0][0], bands_shapes[0][0][0])]
+        else:
+            bands_shapes[-1] = [(bands_shapes[-1][0][0], bands_shapes[-1][0][0])]
+        # bands_lengths
+        bands_lengths = np.zeros((nb_scale, nb_band_per_scale.max()))
+        for ks in range(nb_scale):
+            for kb in range(nb_band_per_scale[ks]):
+                bands_lengths[ks, kb] = bands_shapes[ks][kb][0] * bands_shapes[ks][kb][1]
         # idx tdf
         id_trf = 28
         # type of from_cube

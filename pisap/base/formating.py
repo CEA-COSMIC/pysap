@@ -149,7 +149,7 @@ def set_ht(A, a):
 # FLATTEN
 
 
-def flatten_undecimated_n_bands(cube, nb_scale):
+def flatten_undecimated_n_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
         'flatten_undecimated_n_bands' concern the 'cube' where each layer correspond to a
         undecimated band. We can have multiple bands per scale, which lead to
@@ -166,7 +166,7 @@ def flatten_undecimated_n_bands(cube, nb_scale):
     return np.copy(cube.flatten())
 
 
-def flatten_decimated_1_bands(cube, nb_scale):
+def flatten_decimated_1_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
         'flatten_decimated_1_bands' concern the 'cube' where it's actually a 2d-array like
         the classic wavelet 2d-transform of 1 bands. It has the same formating
@@ -181,14 +181,14 @@ def flatten_decimated_1_bands(cube, nb_scale):
         data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
-    for i in range(nb_scale-1):
+    for i in range(trf.nb_scale-1):
         pieces.append(get_htl(cube).flatten())
         cube = get_hbr(cube)
     pieces.append(cube.flatten()) # get approx
     return np.concatenate(pieces)
 
 
-def flatten_decimated_3_bands(cube, nb_scale):
+def flatten_decimated_3_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
         'flatten_decimated_3_bands' concern the 'cube' where it's actually a 2d-array like
         the classic wavelet 2d-transform of 3 bands.
@@ -202,7 +202,7 @@ def flatten_decimated_3_bands(cube, nb_scale):
         data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
-    for i in range(nb_scale-1):
+    for i in range(trf.nb_scale-1):
         pieces.append(get_htr(cube).flatten())
         pieces.append(get_hbr(cube).flatten())
         pieces.append(get_hbl(cube).flatten())
@@ -211,7 +211,7 @@ def flatten_decimated_3_bands(cube, nb_scale):
     return np.concatenate(pieces)
 
 
-def flatten_vector(cube, nb_scale):
+def flatten_vector(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
         'flatten_vector' concern the 'curvelet-cube' where it's already a vector.
 
@@ -223,9 +223,23 @@ def flatten_vector(cube, nb_scale):
         --------
         data: np.ndarray, the flatten 'cube'.
     """
-    return np.copy(cube)
+    metadata_len = 1 + trf.nb_scale + 2 * trf.nb_band_per_scale.sum()
+    data = np.zeros(len(cube) - metadata_len)
+    cube_padd = 1 + trf.nb_scale + 2
+    data_padd = 0
+    for ks in range(trf.nb_scale):
+        for kb in range(trf.nb_band_per_scale[ks]):
+            tmp = cube[cube_padd:cube_padd+trf.bands_lengths[ks, kb]]
+            #tmp = np.nan_to_num(tmp) #XXX
+            data[data_padd:data_padd+trf.bands_lengths[ks, kb]] = tmp
+            Nx = trf.bands_shapes[ks][kb][0]
+            Ny = trf.bands_shapes[ks][kb][1]
+            cube_padd += (Nx * Ny + 2)
+            data_padd += (Nx * Ny)
+    return data
 
-def flatten_decimated_feauveau(cube, nb_scale):
+
+def flatten_decimated_feauveau(cube, trf):
     """ Flatten decomposition coefficients from a 'cube' to a vector.
         'flatten_decimated_feauveau' concern the 'cube' where it's the Feauveau
         decimated...
@@ -239,7 +253,7 @@ def flatten_decimated_feauveau(cube, nb_scale):
         data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
-    for i in range(nb_scale-1):
+    for i in range(trf.nb_scale-1):
         pieces.append(get_hbl(cube).flatten())
         pieces.append(get_hr(cube).flatten())
         cube = get_htl(cube)
@@ -332,7 +346,26 @@ def inflated_vector(trf):
         --------
         data: np.ndarray, the flatten 'cube'.
     """
-    return np.copy(trf._data)
+    metadata_len = 1 + trf.nb_scale + 2 * trf.nb_band_per_scale.sum()
+    cube = np.zeros(len(trf._data) + metadata_len)
+    cube[0] = trf.nb_scale
+    cube[1:1+trf.nb_scale] = trf.nb_band_per_scale
+    cube_padd = 1 + trf.nb_scale
+    data_padd = 0
+    for ks in range(trf.nb_scale):
+        for kb in range(trf.nb_band_per_scale[ks]):
+            Nx = trf.bands_shapes[ks][kb][0]
+            Ny = trf.bands_shapes[ks][kb][1]
+            #tmp = np.nan_to_num(tmp) #XXX
+            cube[cube_padd] = Nx
+            cube_padd += 1
+            cube[cube_padd] = Ny
+            cube_padd += 1
+            tmp = trf.get_band(ks, kb).flatten()
+            cube[cube_padd:cube_padd+trf.bands_lengths[ks, kb]] = tmp
+            cube_padd += (Nx * Ny)
+            data_padd += (Nx * Ny)
+    return cube
 
 
 def inflated_decimated_feauveau(trf):
