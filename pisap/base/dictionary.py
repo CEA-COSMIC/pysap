@@ -12,12 +12,11 @@ import copy
 import numpy as np
 import os
 import re
-import tempfile
 import matplotlib.pyplot as plt
 
 import pisap
 from pisap.base.formating import FLATTENING_FCTS, INFLATING_FCTS
-from pisap.base.utils import to_2d_array, stable_mr_recons, stable_mr_transform
+from pisap.base.utils import to_2d_array, isapproof_mkdtemp
 
 
 class DictionaryBase(object):
@@ -467,12 +466,12 @@ class DictionaryBase(object):
         """
         kwargs["number_of_scales"] = self.nb_scale
         kwargs.pop('maxscale')
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = isapproof_mkdtemp()
         in_image = os.path.join(tmpdir, "in.fits")
         out_mr_file = os.path.join(tmpdir, "cube.mr")
         try:
             pisap.io.save(data, in_image)
-            stable_mr_transform(in_image, out_mr_file, **kwargs)
+            pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
             image = pisap.io.load(out_mr_file)
             cube = image.data
             self.isap_trf_header = image.metadata
@@ -512,12 +511,12 @@ class DictionaryBase(object):
             the reconsructed image.
         """
         cube = pisap.Image(data=cube, metadata=self.isap_trf_header)
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = isapproof_mkdtemp()
         in_mr_file = os.path.join(tmpdir, "cube.mr")
         out_image = os.path.join(tmpdir, "out.fits")
         try:
             pisap.io.save(cube, in_mr_file)
-            stable_mr_recons(in_mr_file, out_image)
+            pisap.extensions.mr_recons(in_mr_file, out_image)
             image = pisap.io.load(out_image)
         except:
             raise
