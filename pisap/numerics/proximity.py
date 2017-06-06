@@ -46,6 +46,8 @@ class Positive(object):
         -------
         np.ndarray all positive elements from input data
         """
+        if np.issubsctype(data.dtype, np.complex):
+            raise ValueError("can't compare complex value")
         return data * (data > 0)
 
 
