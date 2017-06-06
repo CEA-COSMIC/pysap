@@ -267,10 +267,6 @@ class DictionaryBase(object):
         nb_band_per_scale: {4}
         bands_names: {5}
         data_len: {6}
-        bands_shapes:
-        {7}
-        bands_lengths:
-        {8}
         """.format(self.name,
                    self.native_image_shape,
                    self.nb_scale,
@@ -278,8 +274,6 @@ class DictionaryBase(object):
                    self.nb_band_per_scale,
                    self.bands_names,
                    len(self._data),
-                   self.bands_shapes,
-                   self.bands_lengths,
                    )
         return tmp
 
