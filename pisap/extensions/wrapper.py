@@ -65,5 +65,5 @@ class Sparse2dWrapper(object):
         self.exitcode = process.returncode
         if self.exitcode != 0 or self.stderr or "Error" in self.stdout:
             raise Sparse2dRuntimeError(
-                _cmd[0], " ".join(_cmd[1:]), self.stderr + self.stdout)
-
+                _cmd[0], " ".join(_cmd[1:]), self.stderr + self.stdout + \
+                                         "(exitcode: {0})".format(self.exitcode))
