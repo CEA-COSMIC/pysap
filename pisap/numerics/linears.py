@@ -457,16 +457,18 @@ class LineColumnWaveletTransform1D1D(Dictionary):
     """ Line Column Wavelet Transform (1D+1D).
     """
     def _trf_id(self):
-        nb_scale = 6
+        nx, _ = self.data.shape
+        _map = {128:5, 512:6}
+        self.metadata['nb_scale'] =  _map[nx]# fixed for this wavelet
+        nb_scale = self.metadata['nb_scale']
         # name
         name = "Line Column Wavelet Transform (1D+1D)"
         # bands_names
-        bands_names = ['d%d'%i for i in range(6)]
+        bands_names = ['d%d'%i for i in range( _map[nx])]
         # nb_band_per_scale
-        nb_band_per_scale = np.array([6] * nb_scale)
+        nb_band_per_scale = np.array([ _map[nx]] * nb_scale)
         # bands_lengths
-        nx, _ = self.data.shape
-        bands_lengths = (nx * nx) * np.ones((nb_scale, 6))
+        bands_lengths = (nx * nx) * np.ones((nb_scale,  _map[nx]))
         # bands_shapes
         bands_shapes = set_bands_shapes(bands_lengths)
         # idx tdf
