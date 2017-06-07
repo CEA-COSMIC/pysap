@@ -19,6 +19,10 @@ from pisap.base.formating import FLATTENING_FCTS, INFLATING_FCTS
 from pisap.base.utils import to_2d_array, isapproof_mkdtemp
 
 
+####
+## BASE CLASS
+
+
 class DictionaryBase(object):
     """ DictionaryBase for dictionnary transform tree nodes.
 
@@ -82,6 +86,8 @@ class DictionaryBase(object):
             raise ValueError("in {0}: 'metadata' ".format(type(self))
                                 + "passed for init is not valid.")
 
+    #### CHECKS
+
     def check_same_metadata(self, other):
         """ Check if other is a DictionaryBase with the same metadata.
 
@@ -112,6 +118,8 @@ class DictionaryBase(object):
         else:
             nx, ny = self.native_image_shape
             return len(self._data) == int(nx*ny)
+
+    #### OVERLOADING
 
     def __ge__(self, other):
         """ Overload the greater or equal operator. Make a deep copy.
@@ -277,17 +285,7 @@ class DictionaryBase(object):
                    )
         return tmp
 
-    def __iter__(self):
-        """ Define an iterator on the scale.
-
-        Returns
-        -------
-        scale: np.ndarry, during iteration.
-        """
-        for i in range(self.nb_scale):
-            start_padd = self.scales_padds[i]
-            stop_padd = self.scales_padds[i+1]
-            yield self._data[start_padd:stop_padd]
+    #### DISPLAY
 
     def display_image(self):
         """ Display the specified band.
@@ -340,6 +338,20 @@ class DictionaryBase(object):
             axe.set_title("band='{1}'".format(ks, self.bands_names[kb]))
         fig.suptitle('#Scale: {0}'.format(ks), fontsize=15)
         plt.show()
+
+    #### GETTER
+
+    def __iter__(self):
+        """ Define an iterator on the scale.
+
+        Returns
+        -------
+        scale: np.ndarry, during iteration.
+        """
+        for i in range(self.nb_scale):
+            start_padd = self.scales_padds[i]
+            stop_padd = self.scales_padds[i+1]
+            yield self._data[start_padd:stop_padd]
 
     def get_scale(self, ks):
         """ Get the designated scale by its idx_scale.
@@ -410,6 +422,8 @@ class DictionaryBase(object):
         mask[start_padd:stop_padd] = True
         return mask
 
+    #### SETTER
+
     def set_constant_values(self, values):
         """ Set constant values on each scale.
 
@@ -423,6 +437,8 @@ class DictionaryBase(object):
         for i, scale in enumerate(self): # default iter is band-iteration
             # 'scale' point on self._data[:]
             scale = values[i] * np.ones(len(scale))
+
+    #### ANALYSIS SYNTHESIS
 
     def from_cube(self, cube):
         """ Set the DictionaryBase decomposition coefficients from a cube.
@@ -541,6 +557,8 @@ class DictionaryBase(object):
             return pisap.Image(data=self._synthesis(cube.astype(float)),
                                metadata=self.isap_trf_header)
 
+    #### PROPERTY
+
     @property
     def shape(self):
         """ Property to get the shape.
@@ -616,6 +634,10 @@ class DictionaryBase(object):
                 'nb_band_per_scale': self.nb_band_per_scale,
                 'bands_shapes': self.bands_shapes,
                 }
+
+
+####
+## INTERFACES
 
 
 class Identity():
