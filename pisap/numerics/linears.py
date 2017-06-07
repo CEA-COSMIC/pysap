@@ -459,7 +459,7 @@ class LineColumnWaveletTransform1D1D(Dictionary):
     def _trf_id(self):
         nx, _ = self.data.shape
         _map = {128:5, 512:6}
-        self.metadata['nb_scale'] =  _map[nx]# fixed for this wavelet
+        self.metadata['nb_scale'] =  _map[nx] # fixed for this wavelet
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Line Column Wavelet Transform (1D+1D)"
@@ -747,8 +747,6 @@ class pyramidalWaveletTransformInFourierSpaceAlgo2(Dictionary):
                bands_shapes, id_trf, id_formating
 
 
-#from pisap.base.utils import adapt_shape_cur
-
 class fastCurveletTransform(Dictionary):
     """ Fast Curvelet Transform.
     """
@@ -763,9 +761,7 @@ class fastCurveletTransform(Dictionary):
         nb_band_per_scale = np.array(nb_band_per_scale[:nb_scale])
         nb_band_per_scale[-1] = 1
         # bands_shapes
-        #bands_shapes = SHAPE_CURVELETS[:nb_scale]
         bands_shapes = get_curvelet_bands_shapes(self.data.shape, nb_scale, nb_band_per_scale)
-        #bands_shapes = adapt_shape_cur(SHAPE_CURVELETS[:nb_scale], fact=f)
         if nb_scale == 2:
             bands_shapes[-1] = [(bands_shapes[0][0][0], bands_shapes[0][0][0])]
         else:

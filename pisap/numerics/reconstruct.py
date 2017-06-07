@@ -16,9 +16,8 @@ from scipy.linalg import norm
 
 # Package import
 import pisap
-from pisap import WaveletTransform
 from pisap.stats import sigma_mad
-from .linear import Identity
+from pisap.base.dictionary import Identity
 from .proximity import Threshold
 from .proximity import Positive
 from .optimization import ForwardBackward
@@ -84,7 +83,7 @@ def sparse_rec_condat_vu(
     -------
     x_final: Image
         the estimated Condat-Vu primal solution.
-    y_final: WaveletTransform
+    y_final: DictionaryBase
         the estimated Condat-Vu dual solution.    
     """
     # Welcome message

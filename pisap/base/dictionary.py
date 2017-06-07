@@ -618,6 +618,43 @@ class DictionaryBase(object):
                 }
 
 
+class Identity():
+    """ Identity operator class
+    This is a dummy class that can be used in the optimisation classes
+    """
+
+    def __init__(self):
+        self.l1norm = 1.0
+
+    def op(self, data, **kwargs):
+        """ Returns the input data unchanged
+
+        Parameters
+        ----------
+        data : np.ndarray
+            Input data array
+        **kwargs
+            Arbitrary keyword arguments
+        Returns
+        -------
+        np.ndarray input data
+        """
+        return data
+
+    def adj_op(self, data):
+        """ Returns the input data unchanged
+
+        Parameters
+        ----------
+        data : np.ndarray
+            Input data array
+        Returns
+        -------
+        np.ndarray input data
+        """
+        return data
+
+
 class Dictionary(object):
     """ Dictionary class.
 
