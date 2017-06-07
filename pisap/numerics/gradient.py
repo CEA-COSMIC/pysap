@@ -22,6 +22,7 @@ import scipy.fftpack as pfft
 
 # Package import
 from .algorithms import PowerMethod
+from pisap.base.utils import trunc_to_zero
 
 
 class GradBase(object):
@@ -50,7 +51,7 @@ class GradBase(object):
         -----
         Calculates  M^T (MX)
         """
-        return self.MtX(self.MX(x))
+        return trunc_to_zero(self.MtX(self.MX(x)))
 
     def get_grad(self, x):
         """ Get the gradient step
@@ -71,7 +72,7 @@ class GradBase(object):
 
         Calculates M^T (MX - Y)
         """
-        self.grad = self.MtX(self.MX(x) - self.y)
+        self.grad = trunc_to_zero(self.MtX(self.MX(x) - self.y))
 
 
 class Grad2D(GradBase, PowerMethod):

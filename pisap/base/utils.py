@@ -12,7 +12,97 @@ import os
 import tempfile
 import uuid
 import numpy as np
+import cv2
 import pisap
+
+
+def snr_estimation(img, level=0.1, ratio_dim_kernel_background=10,
+                    ratio_dim_kernel_zone_est=60):
+    """ Return an estimation of the SNR on the given image.
+    Parameter:
+    ----------
+    img: np.ndarray, the image, could be a complex one.
+
+    level: float, level to threshold the image for computing the internal mask,
+           default 0.1.
+
+    ratio_dim_kernel_background: int, ratio to the image dim for the kernel for
+                                 morphological open and close, for extracting the
+                                 background, default 60.
+
+    ratio_dim_kernel_zone_est: int, ratio to the image dim for the kernel for
+                               morphological open and close, for extracting the
+                               estimation signal zone, default 10.
+
+    Note:
+    ----
+    The function find an homogenous part of the image without any signal and
+    compare it to a part of an homogenous part of the image with a signal to
+    estimate the SNR.
+
+    Return:
+    ------
+    snr: float, the estimation of the snr.
+    """
+    if not isinstance(img, np.ndarray):
+        raise ValueError("wrong argument: only accept numpy array.")
+    if np.any(np.iscomplex(img)):
+        img_r = normalize(img.real)
+        snr_r = _snr_estimation(img_r, level=level,
+                        ratio_dim_kernel_background=ratio_dim_kernel_background,
+                        ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
+        img_i = normalize(img.imag)
+        snr_i = _snr_estimation(img_i, level=level,
+                        ratio_dim_kernel_background=ratio_dim_kernel_background,
+                        ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
+        return (snr_r, snr_i)
+    else:
+        img = normalize(img)
+        snr = _snr_estimation(img, level=level,
+                        ratio_dim_kernel_background=ratio_dim_kernel_background,
+                        ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
+        return (snr, )
+
+
+def _snr_estimation(img, level, ratio_dim_kernel_background, ratio_dim_kernel_zone_est):
+    """ Helper for snr_estimation.
+    """
+    # compute background mask
+    nx, ny = img.shape
+    _, thresh_img = cv2.threshold(img, level, 1.0, cv2.THRESH_BINARY)
+    kernel = np.ones((nx/ratio_dim_kernel_background, ny/ratio_dim_kernel_background))
+    signal_mask = cv2.morphologyEx(thresh_img, cv2.MORPH_CLOSE, kernel)
+    background = np.abs(signal_mask-1)
+    kernel = np.ones((nx/ratio_dim_kernel_zone_est, ny/ratio_dim_kernel_zone_est))
+    # compute signal mask
+    signal_zone_mask = cv2.morphologyEx(thresh_img, cv2.MORPH_CLOSE, kernel)
+    signal_estim_zone_mask = cv2.morphologyEx(np.abs(np.abs(signal_zone_mask - background)-1),
+                                              cv2.MORPH_OPEN, kernel)
+    # extract background and signal
+    zone_no_signal_estim = img[background == 1]
+    zone_signal_estim = img[signal_estim_zone_mask == 1]
+    size = int(min(len(zone_signal_estim), len(zone_no_signal_estim)))
+    # compute snr
+    norm_zone_no_signal_estim = np.linalg.norm(zone_no_signal_estim[:size])
+    norm_zone_signal_estim = np.linalg.norm(zone_signal_estim[:size])
+    return 20 * np.log10( norm_zone_signal_estim / norm_zone_no_signal_estim )
+
+
+def trunc_to_zero(data, eps=1.0e-7):
+    """ Threshold the given entries of data to zero if they are lesser than eps.
+    Return:
+    -----
+    new_data: np.ndarray, copy of data with a truncated entries.
+    """
+    if not isinstance(data, np.ndarray):
+        raise ValueError("wrong argument: only accept numpy array.")
+    new_data = np.copy(data) # copy
+    if np.issubsctype(data.dtype, np.complex):
+        new_data.real[np.abs(new_data.real) < eps] = 0
+        new_data.imag[np.abs(new_data.imag) < eps] = 0
+    else:
+        new_data[np.abs(new_data) < eps] = 0
+    return new_data
 
 
 def normalize(img):
