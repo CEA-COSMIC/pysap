@@ -32,7 +32,7 @@ class DictionaryBase(object):
     and dictionnary transform classes.
     """
 
-    def __init__(self, data=None, name=None, id_formating=None,
+    def __init__(self, data=None, name=None, id_formating=None, is_decimated=None,
                  bands_names=None, nb_scale=None, nb_band_per_scale=None,
                  bands_lengths=None, bands_shapes=None):
         """ Initialize the DictionaryBase class.
@@ -45,6 +45,9 @@ class DictionaryBase(object):
 
         id_formating: int, the id of the formating function to use in 'from_cube',
             see pisap/base/formating.py for more details.
+
+        is_decimated: bool, True if the decomposition include an decimation of the
+            band number of coefficients.
 
         data: np.ndarray, ndim=1, the value of the decomposition on the
             dictionnary.
@@ -66,6 +69,7 @@ class DictionaryBase(object):
         self.name = name
         self.bands_names = bands_names
         self.is_transform = False
+        self.is_decimated = is_decimated
         self.isap_trf_header = None
         self.id_formating = id_formating
 
@@ -83,7 +87,7 @@ class DictionaryBase(object):
         self.bands_shapes = bands_shapes
 
         if not self.metadata_is_valid():
-            raise ValueError("in {0}: 'metadata' ".format(type(self))
+            raise ValueError("in 'DictionaryBase': 'metadata' " \
                                 + "passed for init is not valid.")
 
     #### CHECKS
@@ -100,11 +104,22 @@ class DictionaryBase(object):
         out: bool, the result, True if same metadata.
         """
         if not isinstance(other, DictionaryBase):
-            raise ValueError("'other' should be a {0} ".format(DictionaryBase)
+            raise ValueError("'other' should be a 'DictionaryBase' " \
                               + "and not a {0}.".format(type(other)))
-        return (self.nb_scale == other.nb_scale and
-                (self.nb_band_per_scale == other.nb_band_per_scale).all() and
-                (self.bands_lengths == other.bands_lengths).all())
+        return  (self.is_transform == other.is_transform) and \
+                (self.is_decimated == other.is_decimated) and \
+                (self.nb_scale == other.nb_scale) and \
+                (self.nb_band_per_scale == other.nb_band_per_scale).all() and \
+                (self.bands_lengths == other.bands_lengths).all()
+
+    def data_is_valid(self):
+        """ Check if the data are coherent.
+
+        Returns
+        -------
+        out: bool, result, True if it's valid.
+        """
+        return (not self.is_empty) and np.all(np.isfinite(self._data))
 
     def metadata_is_valid(self):
         """ Check if the metadata are coherent w.r.t _data.
@@ -113,11 +128,17 @@ class DictionaryBase(object):
         -------
         out: bool, result, True if it's coherent.
         """
+        nx, ny = self.native_image_shape
+        res = (nx == ny) # only square-shape images
+        if self.is_decimated:
+            res = res and (nx / 2**(self.nb_scale-1) > 0) # check we do not decimate too much
         if self.is_transform:
-            return len(self._data) == int(self.bands_lengths.sum())
+            # check coherent shape-metadata
+            res = res and (len(self._data) == int(self.bands_lengths.sum()))
         else:
-            nx, ny = self.native_image_shape
-            return len(self._data) == int(nx*ny)
+            # check coherent shape-metadata
+            res = res and (len(self._data) == int(nx*ny))
+        return res
 
     #### OVERLOADING
 
@@ -203,20 +224,19 @@ class DictionaryBase(object):
             if len(coef) != self.nb_scale:
                 raise ValueError("Can only multiple list numerics with DictionaryBase "+
                                     "if len(list) == nb_scale.")
-            for coef_ in coef:
-                if not isinstance(coef_, (int, long, float, complex)):
-                    raise ValueError("Can only multiple numerics with DictionaryBase.")
             cpy = copy.deepcopy(self)
-            for i, scale in enumerate(cpy): # default iter is band-iteration
-                # 'scale' point on self._data[:]
-                scale *= coef[i]
+            for i, scale in enumerate(cpy):
+                if not isinstance(coef[i], (int, long, float, complex)):
+                    raise ValueError("Can only multiple numerics with DictionaryBase.")
+                scale = scale * coef[i]
         # scalar case
         elif isinstance(coef, (int, long, float, complex)):
             cpy = copy.deepcopy(self)
-            cpy._data *= coef
+            cpy._data = cpy._data * coef
+        # DictionaryBase case
         elif isinstance(coef, DictionaryBase):
             cpy = copy.deepcopy(self)
-            cpy._data *= coef._data
+            cpy._data = cpy._data * coef._data
         else:
             raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
                        + "accept numerics, list of numerics or DictionaryBase")
@@ -244,16 +264,18 @@ class DictionaryBase(object):
                 if not isinstance(coef_, (int, long, float, complex)):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
             cpy = copy.deepcopy(self)
-            for i, scale in enumerate(cpy): # default iter is band-iteration
-                # 'scale' point on self._data[:]
-                scale /= coef[i]
+            for i, scale in enumerate(cpy):
+                if not isinstance(coef[i], (int, long, float, complex)):
+                    raise ValueError("Can only multiple numerics with DictionaryBase.")
+                scale = scale / coef[i]
         # scalar case
         elif isinstance(coef, (int, long, float, complex)):
             cpy = copy.deepcopy(self)
-            cpy ._data /= coef
+            cpy._data = cpy._data / coef
+        # DictionaryBase case
         elif isinstance(coef, DictionaryBase):
             cpy = copy.deepcopy(self)
-            cpy._data /= coef._data
+            cpy._data = cpy._data / coef._data
         else:
             raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
                        + "accept numerics, list of numerics or DictionaryBase")
@@ -698,13 +720,14 @@ class Dictionary(object):
             raise("'_late_init' should only be call "
                     + "in 'op' after self.data is set")
         name, bands_names, nb_band_per_scale, bands_lengths, \
-              bands_shapes, id_trf, id_formating = self._trf_id()
+              bands_shapes, id_trf, id_formating, is_decimated = self._trf_id()
         self.metadata['name'] = name
         self.metadata['bands_names'] = bands_names
         self.metadata['nb_band_per_scale'] = nb_band_per_scale
         self.metadata['bands_lengths'] = bands_lengths
         self.metadata['bands_shapes'] = bands_shapes
         self.metadata['id_formating'] = id_formating
+        self.metadata['is_decimated'] = is_decimated
         self.isap_kwargs["type_of_multiresolution_transform"] = id_trf
         self.isap_kwargs["write_all_bands"] = False
         self.isap_kwargs["write_all_bands_with_block_interp"] = False

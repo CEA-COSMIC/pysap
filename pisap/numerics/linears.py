@@ -33,8 +33,10 @@ class linearWaveletTransformATrousAlgorithm(Dictionary):
         id_trf = 1
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class bsplineWaveletTransformATrousAlgorithm(Dictionary):
@@ -57,8 +59,10 @@ class bsplineWaveletTransformATrousAlgorithm(Dictionary):
         id_trf = 2
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class waveletTransformInFourierSpace(Dictionary):
@@ -81,8 +85,10 @@ class waveletTransformInFourierSpace(Dictionary):
         id_trf = 3
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class morphologicalMedianTransform(Dictionary):
@@ -105,8 +111,10 @@ class morphologicalMedianTransform(Dictionary):
         id_trf = 4
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class morphologicalMinmaxTransform(Dictionary):
@@ -129,8 +137,10 @@ class morphologicalMinmaxTransform(Dictionary):
         id_trf = 5
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalLinearWaveletTransform(Dictionary):
@@ -158,8 +168,10 @@ class pyramidalLinearWaveletTransform(Dictionary):
         id_trf = 6
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalBsplineWaveletTransform(Dictionary):
@@ -187,8 +199,10 @@ class pyramidalBsplineWaveletTransform(Dictionary):
         id_trf = 7
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalWaveletTransformInFourierSpaceAlgo1(Dictionary):
@@ -218,8 +232,10 @@ class pyramidalWaveletTransformInFourierSpaceAlgo1(Dictionary):
         id_trf = 8
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class MeyerWaveletsCompactInFourierSpace(Dictionary):
@@ -248,8 +264,10 @@ class MeyerWaveletsCompactInFourierSpace(Dictionary):
         id_trf = 9
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalMedianTransform(Dictionary):
@@ -277,8 +295,10 @@ class pyramidalMedianTransform(Dictionary):
         id_trf = 10
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalLaplacian(Dictionary):
@@ -306,8 +326,10 @@ class pyramidalLaplacian(Dictionary):
         id_trf = 11
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class morphologicalPyramidalMinmaxTransform(Dictionary):
@@ -335,8 +357,10 @@ class morphologicalPyramidalMinmaxTransform(Dictionary):
         id_trf = 12
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class decompositionOnScalingFunction(Dictionary):
@@ -364,8 +388,10 @@ class decompositionOnScalingFunction(Dictionary):
         id_trf = 13
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class MallatWaveletTransform7_9Filters(Dictionary):
@@ -393,8 +419,10 @@ class MallatWaveletTransform7_9Filters(Dictionary):
         id_trf = 14
         # type of from_cube
         id_formating = 2
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class FeauveauWaveletTransform(Dictionary):
@@ -425,8 +453,10 @@ class FeauveauWaveletTransform(Dictionary):
         id_trf = 15
         # type of from_cube
         id_formating = 4
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class FeauveauWaveletTransformWithoutUndersampling(Dictionary):
@@ -449,8 +479,10 @@ class FeauveauWaveletTransformWithoutUndersampling(Dictionary):
         id_trf = 16
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class LineColumnWaveletTransform1D1D(Dictionary):
@@ -475,8 +507,10 @@ class LineColumnWaveletTransform1D1D(Dictionary):
         id_trf = 17
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class haarWaveletTransform(Dictionary):
@@ -504,8 +538,10 @@ class haarWaveletTransform(Dictionary):
         id_trf = 18
         # type of from_cube
         id_formating = 2
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class halfPyramidalTransform(Dictionary):
@@ -528,8 +564,10 @@ class halfPyramidalTransform(Dictionary):
         id_trf = 19
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class mixedHalfPyramidalWTAndMedianMethod(Dictionary):
@@ -552,8 +590,10 @@ class mixedHalfPyramidalWTAndMedianMethod(Dictionary):
         id_trf = 20
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class undecimatedDiadicWaveletTransform(Dictionary):
@@ -577,8 +617,10 @@ class undecimatedDiadicWaveletTransform(Dictionary):
         id_trf = 21
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class mixedWTAndPMTMethod(Dictionary):
@@ -606,8 +648,10 @@ class mixedWTAndPMTMethod(Dictionary):
         id_trf = 22
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class undecimatedHaarTransformATrousAlgorithm(Dictionary):
@@ -630,8 +674,10 @@ class undecimatedHaarTransformATrousAlgorithm(Dictionary):
         id_trf = 23
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class undecimatedBiOrthogonalTransform(Dictionary):
@@ -656,8 +702,10 @@ class undecimatedBiOrthogonalTransform(Dictionary):
         id_trf = 24
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class nonOrthogonalUndecimatedTransform(Dictionary):
@@ -682,8 +730,10 @@ class nonOrthogonalUndecimatedTransform(Dictionary):
         id_trf = 25
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class isotropicAndCompactSupportWaveletInFourierSpace(Dictionary):
@@ -712,8 +762,10 @@ class isotropicAndCompactSupportWaveletInFourierSpace(Dictionary):
         id_trf = 26
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class pyramidalWaveletTransformInFourierSpaceAlgo2(Dictionary):
@@ -775,8 +827,10 @@ class fastCurveletTransform(Dictionary):
         id_trf = 28
         # type of from_cube
         id_formating = 3
+        # is decimated
+        is_decimated = False # since it's a not an 2**i decimation...
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class waveletTransformViaLiftingScheme(Dictionary):
@@ -804,8 +858,10 @@ class waveletTransformViaLiftingScheme(Dictionary):
         id_trf = 29
         # type of from_cube
         id_formating = 2
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class onLine5_3AndOnColumn4_4(Dictionary):
@@ -829,8 +885,10 @@ class onLine5_3AndOnColumn4_4(Dictionary):
         id_trf = 30
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class onLine4_4AndOnColumn5_3(Dictionary):
@@ -854,5 +912,7 @@ class onLine4_4AndOnColumn5_3(Dictionary):
         id_trf = 31
         # type of from_cube
         id_formating = 0
+        # is decimated
+        is_decimated = False
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
