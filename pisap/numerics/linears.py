@@ -795,14 +795,17 @@ class pyramidalWaveletTransformInFourierSpaceAlgo2(Dictionary):
         id_trf = 27
         # type of from_cube
         id_formating = 1
+        # is decimated
+        is_decimated = True
         return name, bands_names, nb_band_per_scale, bands_lengths, \
-               bands_shapes, id_trf, id_formating
+               bands_shapes, id_trf, id_formating, is_decimated
 
 
 class fastCurveletTransform(Dictionary):
     """ Fast Curvelet Transform.
     """
     def _trf_id(self):
+        raise NotImplementedError("ISAP backend produce NaN")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Fast Curvelet Transform"

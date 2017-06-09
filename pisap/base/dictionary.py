@@ -472,7 +472,6 @@ class DictionaryBase(object):
         """
         self._data = FLATTENING_FCTS[self.id_formating](cube, self)
         self.is_transform = True
-
         if not self.metadata_is_valid():
             raise ValueError("After call 'analysis' 'metadata' is corrupted.")
 
