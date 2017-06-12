@@ -167,7 +167,7 @@ class DictionaryBase(object):
             if other.is_complex:
                 raise ValueError("Cannot compare '>=' complex.")
             # is_complex check if the imaginary value is zero
-            # still the 'dtype' of the data can be np.complex...
+            # still the 'dtype' of the data can be np.complex and it's ok.
             cpy._data = self._data.astype(float) >= other._data.astype(float)
         else: # bucket case
             raise ValueError("type of 'other' to compare >= not understood")
@@ -454,8 +454,7 @@ class DictionaryBase(object):
         """
         if not isinstance(values, list):
             values = [values] * self.nb_scale
-        for i, scale in enumerate(self): # default iter is band-iteration
-            # 'scale' point on self._data[:]
+        for i, scale in enumerate(self):
             scale = values[i] * np.ones(len(scale))
 
     #### ANALYSIS SYNTHESIS
@@ -526,7 +525,7 @@ class DictionaryBase(object):
             cube_r = self._analysis(data, **kwargs)
             data = self._data.imag.reshape(self.native_image_shape)
             cube_i = self._analysis(data, **kwargs)
-            self.from_cube(cube_r+1.j*cube_i) # make a copy
+            self.from_cube(cube_r+1.j*cube_i)
         else:
             data = self._data.reshape(self.native_image_shape).astype(float)
             self.from_cube(self._analysis(data, **kwargs))
