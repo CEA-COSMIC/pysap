@@ -8,10 +8,11 @@
 """
 This module define the base structure that hold all transforms.
 """
-import copy
-import numpy as np
 import os
 import re
+import copy
+import numbers
+import numpy as np
 import matplotlib.pyplot as plt
 
 import pisap
@@ -156,7 +157,7 @@ class DictionaryBase(object):
         if self.is_complex: # handle complex case
             raise ValueError("Cannot compare '>=' complex.")
         cpy = copy.deepcopy(self)
-        if isinstance(other, (int, long, float)): # scalar comparaison
+        if isinstance(other, numbers.Number): # scalar comparaison
             cpy._data = other * np.ones_like(self._data)
             cpy._data = self._data >= cpy._data
         elif isinstance(other, DictionaryBase): # other DictionaryBase comparaison
@@ -226,11 +227,11 @@ class DictionaryBase(object):
                                     "if len(list) == nb_scale.")
             cpy = copy.deepcopy(self)
             for i, scale in enumerate(cpy):
-                if not isinstance(coef[i], (int, long, float, complex)):
+                if not isinstance(coef[i], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
                 scale = scale * coef[i]
         # scalar case
-        elif isinstance(coef, (int, long, float, complex)):
+        elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
             cpy._data = cpy._data * coef
         # DictionaryBase case
@@ -260,16 +261,13 @@ class DictionaryBase(object):
             if len(coef) != self.nb_scale:
                 raise ValueError("Can only multiple list numerics with DictionaryBase "+
                                     "if len(list) == nb_scale.")
-            for coef_ in coef:
-                if not isinstance(coef_, (int, long, float, complex)):
-                    raise ValueError("Can only multiple numerics with DictionaryBase.")
             cpy = copy.deepcopy(self)
             for i, scale in enumerate(cpy):
-                if not isinstance(coef[i], (int, long, float, complex)):
+                if not isinstance(coef[i], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
                 scale = scale / coef[i]
         # scalar case
-        elif isinstance(coef, (int, long, float, complex)):
+        elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
             cpy._data = cpy._data / coef
         # DictionaryBase case
