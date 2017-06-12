@@ -124,7 +124,7 @@ class ForwardBackward(FISTA):
                  lambda_update=None, use_fista=True, auto_iterate=True):
         FISTA.__init__(self, lambda_init, use_fista)
         self.x_old = x
-        self.z_old = np.copy(self.x_old)
+        self.z_old = copy.deepcopy(self.x_old)
         self.grad = grad
         self.prox = prox
         self.cost_func = cost
@@ -156,13 +156,13 @@ class ForwardBackward(FISTA):
         self.z_new = self.x_old + self.lambda_now * (self.x_new - self.x_old)
 
         # Test primal variable for convergence.
-        if np.sum(np.abs(self.z_old - self.z_new)) <= 1e-6:
+        if np.sum((self.z_old.absolute - self.z_new.absolute)) <= 1e-6:
             print(' - converged!')
             self.converge = True
 
         # Update old values for next iteration.
-        np.copyto(self.x_old, self.x_new)
-        np.copyto(self.z_old, self.z_new)
+        self.x_new = copy.deepcopy(self.x_old)
+        self.z_new = copy.deepcopy(self.z_old)
 
         # Update parameter values for next iteration.
         if not isinstance(self.lambda_update, type(None)):

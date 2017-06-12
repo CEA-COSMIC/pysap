@@ -12,6 +12,7 @@
 from __future__ import print_function
 import numpy as np
 import time
+import copy
 from scipy.linalg import norm
 
 # Package import
@@ -226,3 +227,111 @@ def sparse_rec_condat_vu(
 
     return pisap.Image(data=opt.x_final), opt.y_final
 
+
+def sparse_rec_fista(
+        data, gradient_cls, gradient_kwargs, linear_cls, linear_kwargs,
+        mu, lambda_init=1.0, max_nb_of_iter=300, atol=1e-4, verbose=0):
+
+    """ The Condat-Vu sparse reconstruction with reweightings.
+
+    Parameters
+    ----------
+    data: ndarray
+        the data to reconstruct: observation are expected in Fourier space.
+    gradient_cls: class
+        a derived 'GradBase' class.
+    gradient_kwargs: dict
+        the 'gradient_cls' parameters, the first parameter is the data to
+        be reconstructed.
+    linear_cls: class
+        a linear operator class.
+    linear_kwargs: dict
+        the 'linear_cls' parameters.
+    mu: float
+       coefficient of regularization.
+    lambda_init: float, (default 1.0)
+        initial value for the FISTA step.
+    max_nb_of_iter: int (optional, default 300)
+        the maximum number of iterations in the Condat-Vu proximal-dual
+        splitting algorithm.
+    atol: float (optional, default 1e-4)
+        tolerance threshold for convergence.
+    verbose: int (optional, default 0)
+        the verbosity level.
+
+    Returns
+    -------
+    x_final: Image
+        the estimated FISTA solution.
+    """
+   # Welcome message
+    start = time.clock()
+    if verbose > 0:
+        print("-" * 20)
+        print("Starting FISTA reconstruction algorithm.")
+        print("argmin_alpha || Ft*invL*alpha - y  ||_2**2 + mu * || alpha ||_1")
+        linear_op = linear_cls(**linear_kwargs)
+        print("The linear op used:\n{0}".format(linear_op.op(np.zeros(data.shape))))
+
+    # Define the linear operator
+    linear_op = linear_cls(**linear_kwargs)
+
+
+    # Define the gradient operator
+    gradient_kwargs['linear_cls'] = linear_op
+    grad_op = gradient_cls(data, **gradient_kwargs)
+
+    lipschitz_cst = grad_op.spec_rad
+
+    # Define initial primal and dual solutions
+    x_init = np.zeros(data.shape, dtype=np.complex) # grad_op.MtX(data)
+    alpha = linear_op.op(x_init)
+    alpha.set_constant_values(values=0.)
+    if verbose > 0:
+        print(" - image Variable Shape: ", x_init.shape)
+        print(" - alpha Variable Shape: ", alpha.shape)
+        print("-" * 20)
+
+    # Define the proximity dual operator
+    weights = copy.deepcopy(alpha)
+    weights.set_constant_values(values=lipschitz_cst * mu)
+    prox_op = Threshold(weights)
+
+    # Define the cost operator
+    cost_op = costFunction(
+        y=data,
+        grad=grad_op,
+        wavelet=linear_op,
+        weights=weights,
+        lambda_reg=None,
+        mode="sparse",
+        window=2,
+        print_cost=verbose > 0,
+        tolerance=atol,
+        positivity=False)
+
+    # Define the Condat-Vu optimization method
+    opt = ForwardBackward(
+        x=alpha,
+        grad=grad_op,
+        prox=prox_op,
+        cost=cost_op,
+        lambda_init = lambda_init,
+        lambda_update=None,
+        use_fista=True,
+        auto_iterate=True)
+
+    # Perform the reconstruction
+    opt.iterate(max_iter=max_nb_of_iter)
+
+    # Finish message
+    end = time.clock()
+    if verbose > 0:
+        cost_op.plot_cost()
+        print("-" * 20)
+        print(" - Final iteration number: ", cost_op.iteration)
+        print(" - Final log10 cost value: ", np.log10(cost_op.cost))
+        print(" - Converged: ", opt.converge)
+        print(" - Execution time: ", end - start, " seconds")
+
+    return pisap.Image(data=linear_op.adj_op(opt.x_final))

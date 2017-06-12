@@ -181,3 +181,70 @@ class Grad2D(GradBase):
         return pfft.ifft2(self.mask * x)
 
 
+class Grad2D_analyse(GradBase):
+    """ Analysis 2D gradient class
+
+    This class defines the grad operators for || M*Fft*invL*alpha - data ||**2.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        Input data array, an array of 2D observed images (i.e. with noise)
+    mask :  np.ndarray
+        The subsampling mask.
+    linear_cls: class
+        a linear operator class.
+    """
+    def __init__(self, data, mask, linear_cls):
+        """ Initilize the Grad2D_analyse class.
+        """
+        # Set class attributes
+        self.y = data
+        self.mask = mask
+        self.linear_cls = linear_cls
+        if mask is None:
+            self.mask = np.ones(data.shape, dtype=int)
+        self.get_spec_rad()
+
+    def get_initial_x(self):
+        """ Set initial value of x.
+
+        This method sets the initial value of x to an arrray of random values
+        """
+        fake_data = np.random.random(self.y.shape).astype(np.complex)
+        return self.linear_cls.op(fake_data)
+
+    def MX(self, alpha):
+        """ MX
+
+        This method calculates the action of the matrix M on the data X, in
+        this case fourier transform of the the input data
+
+        Parameters
+        ----------
+        alpha : DictionaryBase
+            Input analysis decomposition
+
+        Returns
+        -------
+        np.ndarray result recovered 2D kspace
+        """
+        return self.mask * pfft.fft2(self.linear_cls.adj_op(alpha))
+
+    def MtX(self, x):
+        """ MtX
+
+        This method calculates the action of the transpose of the matrix M on
+        the data X, in this case inverse fourier transform of the input data in
+        the frequency domain.
+
+        Parameters
+        ----------
+        x : np.ndarray
+            Input data array, an array of recovered 2D kspace
+
+        Returns
+        -------
+        DictionaryBase result
+        """
+        return self.linear_cls.op(pfft.ifft2(self.mask * x))
