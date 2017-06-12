@@ -119,13 +119,11 @@ class TestDictionary(unittest.TestCase):
         linear = haarWaveletTransform(**{'maxscale': nb_scale})
         trf = linear.op(IMGS[0])
 
-        #XXX break, not sure why...
         coefs = [float(i) for i in range(nb_scale)]
         new_trf = trf * coefs
         for ks, scale in enumerate(new_trf):
             np.testing.assert_array_equal(scale, coefs[ks] * trf.get_scale(ks))
 
-        #XXX break, not sure why...
         coefs_complex = [float(i)*1.j for i in range(nb_scale)]
         new_trf = trf * coefs_complex
         for ks, scale in enumerate(new_trf):
@@ -146,26 +144,21 @@ class TestDictionary(unittest.TestCase):
         linear = haarWaveletTransform(**{'maxscale': nb_scale})
         trf = linear.op(IMGS[0])
 
-        #XXX break, not sure why...
         coefs = [float(i) for i in range(nb_scale)]
         new_trf = trf / coefs
         for ks, scale in enumerate(new_trf):
-            np.testing.assert_array_equal(scale, coefs[ks] / trf.get_scale(ks))
+            np.testing.assert_array_equal(scale, trf.get_scale(ks) / coefs[ks])
 
-        #XXX break, not sure why...
         coefs_complex = [float(i)*1.j for i in range(nb_scale)]
         new_trf = trf / coefs_complex
         for ks, scale in enumerate(new_trf):
-            np.testing.assert_array_equal(scale, coefs_complex[ks] * trf.get_scale(ks))
+            np.testing.assert_array_equal(scale, trf.get_scale(ks) / coefs_complex[ks])
 
         coef = 2.0
-        np.testing.assert_array_equal((coef / trf)._data, coef / trf._data)
+        np.testing.assert_array_equal((trf / coef)._data, trf._data / coef)
 
         coef_complex = 1.0 + 1.j
-        np.testing.assert_array_equal((coef_complex / trf)._data,
-                                      coef_complex / trf._data)
+        np.testing.assert_array_equal((trf / coef_complex)._data,
+                                       trf._data / coef_complex)
 
-        np.testing.assert_array_equal(np.sqrt((trf.absolute / trf.absolute)._data),
-                                      trf.absolute._data)
-
-
+        self.assertTrue((trf.absolute / trf.absolute)._data == 1.0)

@@ -242,7 +242,6 @@ class MeyerWaveletsCompactInFourierSpace(Dictionary):
     """ Meyers wavelets (compact support in Fourier space).
     """
     def _trf_id(self):
-        raise NotImplementedError("ISAP backend produce NaN")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Meyers wavelets (compact support in Fourier space)"
@@ -740,7 +739,6 @@ class isotropicAndCompactSupportWaveletInFourierSpace(Dictionary):
     """ Isotropic and compact support wavelet in Fourier space.
     """
     def _trf_id(self):
-        raise NotImplementedError("ISAP backend produce NaN")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Isotropic and compact support wavelet in Fourier space"
@@ -805,7 +803,6 @@ class fastCurveletTransform(Dictionary):
     """ Fast Curvelet Transform.
     """
     def _trf_id(self):
-        raise NotImplementedError("ISAP backend produce NaN")
         nb_scale = self.metadata['nb_scale']
         # name
         name = "Fast Curvelet Transform"

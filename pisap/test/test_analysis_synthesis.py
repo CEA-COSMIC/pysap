@@ -181,8 +181,6 @@ class TestAnalysisSynthesis(unittest.TestCase):
                                            rtol=EPS,
                                            equal_nan=False)
 
-    @unittest.skip("'Meyer's wavelets (compact support in Fourier space)' skipped " \
-                     + "because ISAP backend produce NaN")
     def test_MeyerWaveletsCompactInFourierSpace(self):
         for IMG in IMGS:
             for nb_scale in NB_SCALES:
@@ -523,8 +521,6 @@ class TestAnalysisSynthesis(unittest.TestCase):
                                            rtol=EPS,
                                            equal_nan=False)
 
-    @unittest.skip("'Isotropic and compact support wavelet in Fourier space' skipped " \
-                     + "because ISAP backend produce NaN")
     def test_isotropicAndCompactSupportWaveletInFourierSpace(self):
         for IMG in IMGS:
             for nb_scale in NB_SCALES:
@@ -565,8 +561,6 @@ class TestAnalysisSynthesis(unittest.TestCase):
                                            rtol=EPS,
                                            equal_nan=False)
 
-    @unittest.skip("'Fast Curvelet Transform' skipped " \
-                     + "because ISAP backend produce NaN")
     def test_fastCurveletTransform(self):
         for IMG in IMGS:
             for nb_scale in NB_SCALES:
