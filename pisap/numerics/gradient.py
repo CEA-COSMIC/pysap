@@ -38,7 +38,42 @@ class GradBase(object):
         """
         raise NotImplementedError("'GradBase' is an abstract class: " \
                                     +   "it should not be instanciated")
-        return np.random.random(self.data_shape).astype(np.complex)
+
+    def MX(self, x):
+        """ MX
+
+        This method calculates the action of the matrix M on the data X, in
+        this case fourier transform of the the input data
+
+        Parameters
+        ----------
+        x : np.ndarray
+            Input data array, an array of recovered 2D images
+
+        Returns
+        -------
+        np.ndarray result
+        """
+        raise NotImplementedError("'GradBase' is an abstract class: " \
+                                    +   "it should not be instanciated")
+
+    def MtX(self, x):
+        """ MtX
+
+        This method calculates the action of the transpose of the matrix M on
+        the data X, in this case inverse fourier transform of the input data
+
+        Parameters
+        ----------
+        x : np.ndarray
+            Input data array, an array of recovered 2D images
+
+        Returns
+        -------
+        np.ndarray result
+        """
+        raise NotImplementedError("'GradBase' is an abstract class: " \
+                                    +   "it should not be instanciated")
 
     def get_spec_rad(self, tolerance=1e-6, max_iter=150, verbose=0):
         """ Get spectral radius.
@@ -118,7 +153,7 @@ class GradBase(object):
         self.grad = self.MtX(self.MX(x) - self.y)
 
 
-class Grad2D(GradBase):
+class Grad2D_synthese(GradBase):
     """ Standard 2D gradient class
 
     This class defines the operators for a 2D array
@@ -131,7 +166,7 @@ class Grad2D(GradBase):
         The subsampling mask.
     """
     def __init__(self, data, mask):
-        """ Initilize the Grad2D class.
+        """ Initilize the Grad2D_synthese class.
         """
         # Set class attributes
         self.y = data
@@ -212,8 +247,10 @@ class Grad2D_analyse(GradBase):
 
         This method sets the initial value of x to an arrray of random values
         """
-        fake_data = np.random.random(self.y.shape).astype(np.complex)
-        return self.linear_cls.op(fake_data)
+        fake_data = np.zeros(self.y.shape).astype(np.complex)
+        trf = self.linear_cls.op(fake_data)
+        trf._data = np.random.random(len(trf._data)).astype(np.complex)
+        return trf
 
     def MX(self, alpha):
         """ MX
