@@ -16,6 +16,22 @@ import cv2
 import pisap
 
 
+def generic_l2_norm(x):
+    """ Compute the L2 norm for the given input.
+
+    Parameters:
+    -----------
+    x: np.ndarray, DictionaryBase
+    """
+    if isinstance(x, np.ndarray):
+        return np.linalg.norm(x)
+    elif isinstance(x, pisap.base.dictionary.DictionaryBase):
+        return np.linalg.norm(x._data)
+    else:
+        TypeError("'generic_l2_norm' only accpet 'np.ndarray' or "
+                    + "'DictionaryBase': {0} not reconized.".format(type(x)))
+
+
 def snr_estimation(img, level=0.1, ratio_dim_kernel_background=10,
                     ratio_dim_kernel_zone_est=60):
     """ Return an estimation of the SNR on the given image.

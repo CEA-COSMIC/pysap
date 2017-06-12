@@ -16,13 +16,12 @@ Based on work by Yinghao Ge and Fred Ngole.
 """
 
 # System import
+import copy
 import numpy as np
 import scipy.fftpack as pfft
 
-
-# Package import
-from .algorithms import PowerMethod
-from pisap.base.utils import trunc_to_zero
+import pisap
+from pisap.base.utils import generic_l2_norm
 
 
 class GradBase(object):
@@ -31,6 +30,49 @@ class GradBase(object):
     This class defines the basic methods that will be inherited by specific
     gradient classes
     """
+
+    def get_initial_x(self):
+        """ Set initial value of x.
+
+        This method sets the initial value of x to an arrray of random values
+        """
+        raise NotImplementedError("'GradBase' is an abstract class: " \
+                                    +   "it should not be instanciated")
+        return np.random.random(self.data_shape).astype(np.complex)
+
+    def get_spec_rad(self, tolerance=1e-6, max_iter=150, verbose=0):
+        """ Get spectral radius.
+
+        This method calculates the spectral radius.
+
+        Parameters
+        ----------
+        tolerance : float (optional, default 1e-6)
+            Tolerance threshold for convergence.
+        max_iter : int (optional, default 150)
+            Maximum number of iterations.
+        verbose: int (optional, default 0)
+            The verbosity level.
+        """
+        # Set (or reset) values of x.
+        x_old = self.get_initial_x()
+
+        # Iterate until the L2 norm of x converges.
+        for i in xrange(max_iter):
+            x_new = self.MtMX(x_old) / generic_l2_norm(x_old)
+            if(np.abs(generic_l2_norm(x_new) - generic_l2_norm(x_old)) < tolerance):
+                if verbose > 0:
+                    print(" - Power Method converged after %d iterations!" %
+                           (i + 1))
+                break
+            elif i == max_iter - 1:
+                print(" - Power Method did not converge after %d "
+                      "iterations!" % max_iter)
+            x_new = copy.deepcopy(x_old)
+
+        self.spec_rad = generic_l2_norm(x_new)
+        self.inv_spec_rad = 1.0 / self.spec_rad
+
 
     def MtMX(self, x):
         """ M^T M X
@@ -75,7 +117,7 @@ class GradBase(object):
         self.grad = trunc_to_zero(self.MtX(self.MX(x) - self.y))
 
 
-class Grad2D(GradBase, PowerMethod):
+class Grad2D(GradBase):
     """ Standard 2D gradient class
 
     This class defines the operators for a 2D array
@@ -86,10 +128,6 @@ class Grad2D(GradBase, PowerMethod):
         Input data array, an array of 2D observed images (i.e. with noise)
     mask :  np.ndarray
         The subsampling mask.
-
-    Notes
-    -----
-    The properties of `GradBase` and `PowerMethod` are inherited in this class
     """
     def __init__(self, data, mask):
         """ Initilize the Grad2D class.
@@ -99,9 +137,14 @@ class Grad2D(GradBase, PowerMethod):
         self.mask = mask
         if mask is None:
             self.mask = np.ones(data.shape, dtype=int)
+        self.get_spec_rad()
 
-        # Inheritance
-        PowerMethod.__init__(self, self.MtMX, self.y.shape)
+    def get_initial_x(self):
+        """ Set initial value of x.
+
+        This method sets the initial value of x to an arrray of random values
+        """
+        return np.random.random(self.y.shape).astype(np.complex)
 
     def MX(self, x):
         """ MX
