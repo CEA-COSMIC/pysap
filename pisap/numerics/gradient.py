@@ -68,7 +68,7 @@ class GradBase(object):
             elif i == max_iter - 1:
                 print(" - Power Method did not converge after %d "
                       "iterations!" % max_iter)
-            x_new = copy.deepcopy(x_old)
+            x_old = copy.deepcopy(x_new)
 
         self.spec_rad = generic_l2_norm(x_new)
         self.inv_spec_rad = 1.0 / self.spec_rad
