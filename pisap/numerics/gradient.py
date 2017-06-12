@@ -93,7 +93,8 @@ class GradBase(object):
         -----
         Calculates  M^T (MX)
         """
-        return trunc_to_zero(self.MtX(self.MX(x)))
+        return self.MtX(self.MX(x))
+
 
     def get_grad(self, x):
         """ Get the gradient step
@@ -114,7 +115,7 @@ class GradBase(object):
 
         Calculates M^T (MX - Y)
         """
-        self.grad = trunc_to_zero(self.MtX(self.MX(x) - self.y))
+        self.grad = self.MtX(self.MX(x) - self.y)
 
 
 class Grad2D(GradBase):
