@@ -302,7 +302,6 @@ class GenForwardBackward():
                 break
 
         self.x_final = self.x_new
-        # self.cost_func.plot_cost()
 
 
 class Condat():
@@ -447,4 +446,3 @@ class Condat():
 
         self.x_final = self.x_new
         self.y_final = self.y_new
-        # self.cost_func.plot_cost()
