@@ -319,7 +319,7 @@ def sparse_rec_fista(
         lambda_init = lambda_init,
         lambda_update=None,
         use_fista=True,
-        auto_iterate=True)
+        auto_iterate=False)
 
     # Perform the reconstruction
     opt.iterate(max_iter=max_nb_of_iter)

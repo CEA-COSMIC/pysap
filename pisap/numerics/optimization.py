@@ -117,11 +117,11 @@ class ForwardBackward(FISTA):
         Option to use FISTA (default is 'True')
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, grad, prox, cost=None, lambda_init=None,
-                 lambda_update=None, use_fista=True, auto_iterate=True):
+                 lambda_update=None, use_fista=True, auto_iterate=False):
         FISTA.__init__(self, lambda_init, use_fista)
         self.x_old = x
         self.z_old = copy.deepcopy(self.x_old)
@@ -219,11 +219,11 @@ class GenForwardBackward():
         Proximity operator weights
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, grad, prox_list, cost=None, lambda_init=1.0,
-                 lambda_update=None, weights=None, auto_iterate=True,
+                 lambda_update=None, weights=None, auto_iterate=False,
                  plot=False):
         self.x_old = x
         self.grad = grad
@@ -349,12 +349,12 @@ class Condat():
         Extra factor passed to the dual proximity operator update
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, y, grad, prox, prox_dual, linear, cost,
                  rho,  sigma, tau, rho_update=None, sigma_update=None,
-                 tau_update=None, extra_factor_update=None, auto_iterate=True):
+                 tau_update=None, extra_factor_update=None, auto_iterate=False):
         self.x_old = x
         self.y_old = y
         self.grad = grad
