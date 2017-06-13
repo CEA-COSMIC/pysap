@@ -63,17 +63,17 @@ def snr_estimation(img, level=0.1, ratio_dim_kernel_background=10,
     if not isinstance(img, np.ndarray):
         raise ValueError("wrong argument: only accept numpy array.")
     if np.any(np.iscomplex(img)):
-        img_r = normalize(img.real)
+        img_r = min_max_normalize(img.real)
         snr_r = _snr_estimation(img_r, level=level,
                         ratio_dim_kernel_background=ratio_dim_kernel_background,
                         ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
-        img_i = normalize(img.imag)
+        img_i = min_max_normalize(img.imag)
         snr_i = _snr_estimation(img_i, level=level,
                         ratio_dim_kernel_background=ratio_dim_kernel_background,
                         ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
         return (snr_r, snr_i)
     else:
-        img = normalize(img)
+        img = min_max_normalize(img)
         snr = _snr_estimation(img, level=level,
                         ratio_dim_kernel_background=ratio_dim_kernel_background,
                         ratio_dim_kernel_zone_est=ratio_dim_kernel_zone_est)
@@ -121,7 +121,7 @@ def trunc_to_zero(data, eps=1.0e-7):
     return new_data
 
 
-def normalize(img):
+def min_max_normalize(img):
     """ Center and normalize the given array.
     Parameters:
     ----------
@@ -130,6 +130,15 @@ def normalize(img):
     min_img = img.min()
     max_img = img.max()
     return (img - min_img) / (max_img - min_img)
+
+
+def l2_normalize(img):
+    """ Center and normalize the given array.
+    Parameters:
+    ----------
+    img: np.ndarray
+    """
+    return img / np.linalg.norm(img)
 
 
 def isapproof_pathname(pathname):

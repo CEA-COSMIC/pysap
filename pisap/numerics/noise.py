@@ -64,43 +64,41 @@ def add_noise(image, sigma=1.0, noise_type="gauss"):
     return image
 
 
-def denoise(data, level, threshold_type='hard'):
-    """ Remove noise from data
-
-    This method perfoms hard or soft thresholding on the input data
+def soft_thresholding(data, level):
+    """ This method perfoms soft thresholding on the input data.
 
     Parameters
     ----------
     data : np.ndarray
         Input data array
-    level : float
+    level : np.ndarray or float
         Threshold level
-    threshold_type : str {'hard', 'soft'}
-        Type of noise to be added (default is 'hard')
 
     Returns
     -------
     np.ndarray thresholded data
-
-    Raises
-    ------
-    ValueError
-        If `threshold_type` is not 'hard' or 'soft'
     """
-    if threshold_type not in ('hard', 'soft'):
-        raise ValueError('Invalid threshold type. Options are "hard" or'
-                         '"soft"')
+    num = np.copy(data)
+    num = np.maximum(np.abs(num) - level, 0)
+    deno = num + level
+    return (num / deno) * data
 
-    if threshold_type == 'soft':
-        if data.is_complex:
-            #sz = max( abs(z) - T , 0 ) / ( max( abs(z) - T, 0) + T ) * z
-            deno = (((data.absolute - level) >= 0)._data.max() + level) * data
-            num = ((data.absolute - level) >= 0)._data.max()
-            return deno / num
-        else:
-            return data.sign * (data.absolute - level) * (data.absolute >= level)
-    else:
-        return data * (data.absolute >= level)
+
+def hard_thresholding(data, level):
+    """ This method perfoms hard thresholding on the input data.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        Input data array
+    level : np.ndarray or float
+        Threshold level
+
+    Returns
+    -------
+    np.ndarray thresholded data
+    """
+    return data * (np.abs(data) >= level)
 
 
 def sigma_mad_sparse(grad_op, linear_op):
