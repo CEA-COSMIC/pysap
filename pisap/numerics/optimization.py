@@ -155,11 +155,6 @@ class ForwardBackward(FISTA):
         # Step 5 from alg.10.7.
         self.z_new = self.x_old + self.lambda_now * (self.x_new - self.x_old)
 
-        # Test primal variable for convergence.
-        if np.sum((self.z_old.absolute - self.z_new.absolute)) <= 1e-6:
-            print(' - converged!')
-            self.converge = True
-
         # Update old values for next iteration.
         self.x_old = copy.deepcopy(self.x_new)
         self.z_old = copy.deepcopy(self.z_new)
@@ -170,10 +165,8 @@ class ForwardBackward(FISTA):
 
         # Test cost function for convergence.
         if not isinstance(self.cost_func, type(None)):
-            self.converge = self.cost_func.get_cost(self.z_new)
+            self.cost_func.get_cost(self.z_new) # deactivate early-stopping
 
-        if np.all(self.z_new == 0.0):
-            raise RuntimeError('The reconstruction is fucked!')
 
     def iterate(self, max_iter=150):
         """ Iterate
@@ -430,7 +423,8 @@ class Condat():
         self.y_old = copy.deepcopy(self.y_new)
 
         # Test cost function for convergence.
-        self.converge = self.cost_func.get_cost(self.x_new)
+        if not isinstance(self.cost_func, type(None)):
+            self.cost_func.get_cost(self.x_new) # deactivate early-stopping
 
     def iterate(self, max_iter=150):
         """ Iterate
