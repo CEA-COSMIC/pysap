@@ -18,7 +18,6 @@ This module contains classes of proximity operators for optimisation
 
 # System import
 import numpy as np
-import scipy.fftpack as pfft
 
 # Package import
 from .noise import soft_thresholding
@@ -34,7 +33,7 @@ class Positive(object):
 
     def op(self, data, **kwargs):
         """ This method returns the location of positive coefficients in the
-        input data 
+        input data
 
         Parameters
         ----------

@@ -242,13 +242,18 @@ def _isap_transform(data, **kwargs):
 
 def isap_transform(data, **kwargs):
     """ Return the transformation coefficient in a isap-cube format.
+
+    Return:
+    -------
+    cube: np.ndarray, the ISAP output
+    header: Python dictionary, the .fits header of the ISAP output
     """
     if np.any(np.iscomplex(data)):
         isap_trf_buf_r, header = _isap_transform(data.real, **kwargs)
         isap_trf_buf_i, _ = _isap_transform(data.imag, **kwargs)
         return isap_trf_buf_r + 1.j * isap_trf_buf_i, header
     else:
-        return _isap_transform(data.astype(float), **kwargs)
+        return _isap_transform(data.astype(float), **kwargs) # cube, header
 
 
 def _isap_recons(data, header):

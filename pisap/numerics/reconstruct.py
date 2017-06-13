@@ -85,7 +85,7 @@ def sparse_rec_condat_vu(
     x_final: Image
         the estimated Condat-Vu primal solution.
     y_final: DictionaryBase
-        the estimated Condat-Vu dual solution.    
+        the estimated Condat-Vu dual solution.
     """
     # Welcome message
     start = time.clock()
@@ -95,7 +95,7 @@ def sparse_rec_condat_vu(
               "algorithm.")
         linear_op = linear_cls(**linear_kwargs)
         print("The linear op used:\n{0}".format(linear_op.op(np.zeros(data.shape))))
-    
+
     # Check input parameters
     if std_est_method not in ("image", "sparse"):
         raise ValueError("Unrecognize std estimation method "
@@ -269,7 +269,7 @@ def sparse_rec_fista(
     if verbose > 0:
         print("-" * 20)
         print("Starting FISTA reconstruction algorithm.")
-        print("argmin_alpha || Ft*invL*alpha - y  ||_2**2 + mu * || alpha ||_1")
+        print("argmin_alpha |Ft*L*alpha - y|_2^2 + mu * |alpha|_1")
         linear_op = linear_cls(**linear_kwargs)
         print("The linear op used:\n{0}".format(linear_op.op(np.zeros(data.shape))))
 
@@ -310,7 +310,7 @@ def sparse_rec_fista(
         tolerance=atol,
         positivity=False)
 
-    # Define the Condat-Vu optimization method
+    # Define the FISTA optimization method
     opt = ForwardBackward(
         x=alpha,
         grad=grad_op,

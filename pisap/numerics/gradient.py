@@ -30,7 +30,6 @@ class GradBase(object):
     This class defines the basic methods that will be inherited by specific
     gradient classes
     """
-
     def get_initial_x(self):
         """ Set initial value of x.
 
@@ -145,7 +144,7 @@ class GradBase(object):
         self.grad = self.MtX(self.MX(x) - self.y)
 
 
-class Grad2D_synthese(GradBase):
+class Grad2DSynthese(GradBase):
     """ Standard 2D gradient class
 
     This class defines the operators for a 2D array
@@ -158,9 +157,8 @@ class Grad2D_synthese(GradBase):
         The subsampling mask.
     """
     def __init__(self, data, mask):
-        """ Initilize the Grad2D_synthese class.
+        """ Initilize the Grad2DSynthese class.
         """
-        # Set class attributes
         self.y = data
         self.mask = mask
         if mask is None:
@@ -209,10 +207,10 @@ class Grad2D_synthese(GradBase):
         return pfft.ifft2(self.mask * x)
 
 
-class Grad2D_analyse(GradBase):
+class Grad2DAnalyse(GradBase):
     """ Analysis 2D gradient class
 
-    This class defines the grad operators for || M*Fft*invL*alpha - data ||**2.
+    This class defines the grad operators for |M*F*invL*alpha - data|**2.
 
     Parameters
     ----------
@@ -224,9 +222,8 @@ class Grad2D_analyse(GradBase):
         a linear operator class.
     """
     def __init__(self, data, mask, linear_cls):
-        """ Initilize the Grad2D_analyse class.
+        """ Initilize the Grad2DAnalyse class.
         """
-        # Set class attributes
         self.y = data
         self.mask = mask
         self.linear_cls = linear_cls

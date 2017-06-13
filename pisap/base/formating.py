@@ -230,7 +230,6 @@ def flatten_vector(cube, trf):
     for ks in range(trf.nb_scale):
         for kb in range(trf.nb_band_per_scale[ks]):
             tmp = cube[cube_padd:cube_padd+trf.bands_lengths[ks, kb]]
-            #tmp = np.nan_to_num(tmp) #XXX
             data[data_padd:data_padd+trf.bands_lengths[ks, kb]] = tmp
             Nx = trf.bands_shapes[ks][kb][0]
             Ny = trf.bands_shapes[ks][kb][1]
@@ -356,7 +355,6 @@ def inflated_vector(trf):
         for kb in range(trf.nb_band_per_scale[ks]):
             Nx = trf.bands_shapes[ks][kb][0]
             Ny = trf.bands_shapes[ks][kb][1]
-            #tmp = np.nan_to_num(tmp) #XXX
             cube[cube_padd] = Nx
             cube_padd += 1
             cube[cube_padd] = Ny
