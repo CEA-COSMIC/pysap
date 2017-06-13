@@ -75,14 +75,14 @@ class GradBase(object):
         raise NotImplementedError("'GradBase' is an abstract class: " \
                                     +   "it should not be instanciated")
 
-    def get_spec_rad(self, tolerance=1e-6, max_iter=150, verbose=0):
+    def get_spec_rad(self, tolerance=1e-8, max_iter=100, coef_mul=1.1):
         """ Get spectral radius.
 
         This method calculates the spectral radius.
 
         Parameters
         ----------
-        tolerance : float (optional, default 1e-6)
+        tolerance : float (optional, default 1e-8)
             Tolerance threshold for convergence.
         max_iter : int (optional, default 150)
             Maximum number of iterations.
@@ -96,18 +96,10 @@ class GradBase(object):
         for i in xrange(max_iter):
             x_new = self.MtMX(x_old) / generic_l2_norm(x_old)
             if(np.abs(generic_l2_norm(x_new) - generic_l2_norm(x_old)) < tolerance):
-                if verbose > 0:
-                    print(" - Power Method converged after %d iterations!" %
-                           (i + 1))
                 break
-            elif i == max_iter - 1:
-                print(" - Power Method did not converge after %d "
-                      "iterations!" % max_iter)
             x_old = copy.deepcopy(x_new)
-
-        self.spec_rad = generic_l2_norm(x_new)
+        self.spec_rad = coef_mul * generic_l2_norm(x_new)
         self.inv_spec_rad = 1.0 / self.spec_rad
-
 
     def MtMX(self, x):
         """ M^T M X
