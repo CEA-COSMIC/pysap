@@ -161,8 +161,8 @@ class ForwardBackward(FISTA):
             self.converge = True
 
         # Update old values for next iteration.
-        self.x_new = copy.deepcopy(self.x_old)
-        self.z_new = copy.deepcopy(self.z_old)
+        self.x_old = copy.deepcopy(self.x_new)
+        self.z_old = copy.deepcopy(self.z_new)
 
         # Update parameter values for next iteration.
         if not isinstance(self.lambda_update, type(None)):
