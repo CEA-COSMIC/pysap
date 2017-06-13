@@ -118,4 +118,5 @@ def sigma_mad_sparse(grad_op, linear_op):
     sigma: list
         a list of str estimate for each scale.
     """
-    return [sigma_mad(scale_data) for scale_data in linear_op.op(grad_op.grad)]
+    trf_grad = linear_op.op(grad_op.grad)
+    return [sigma_mad(trf_grad.get_scale(ks)) for ks in range(trf_grad.nb_scale)]

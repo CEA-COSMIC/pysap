@@ -226,10 +226,10 @@ class DictionaryBase(object):
                 raise ValueError("Can only multiple list numerics with DictionaryBase "+
                                     "if len(list) == nb_scale.")
             cpy = copy.deepcopy(self)
-            for i, scale in enumerate(cpy):
-                if not isinstance(coef[i], numbers.Number):
+            for ks in range(self.nb_scale):
+                if not isinstance(coef[ks], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
-                scale = scale * coef[i]
+                self._data[self.get_scale_mask(ks)] = self.get_scale(ks) * coef[ks]
         # scalar case
         elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
@@ -262,10 +262,10 @@ class DictionaryBase(object):
                 raise ValueError("Can only multiple list numerics with DictionaryBase "+
                                     "if len(list) == nb_scale.")
             cpy = copy.deepcopy(self)
-            for i, scale in enumerate(cpy):
-                if not isinstance(coef[i], numbers.Number):
+            for ks in range(self.nb_scale):
+                if not isinstance(coef[ks], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
-                scale = scale / coef[i]
+                self._data[self.get_scale_mask(ks)] = self.get_scale(ks) / coef[ks]
         # scalar case
         elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
@@ -361,18 +361,6 @@ class DictionaryBase(object):
 
     #### GETTER
 
-    def __iter__(self):
-        """ Define an iterator on the scale.
-
-        Returns
-        -------
-        scale: np.ndarry, during iteration.
-        """
-        for i in range(self.nb_scale):
-            start_padd = self.scales_padds[i]
-            stop_padd = self.scales_padds[i+1]
-            yield self._data[start_padd:stop_padd]
-
     def get_scale(self, ks):
         """ Get the designated scale by its idx_scale.
 
@@ -454,8 +442,9 @@ class DictionaryBase(object):
         """
         if not isinstance(values, list):
             values = [values] * self.nb_scale
-        for i, scale in enumerate(self):
-            scale = values[i] * np.ones(len(scale))
+        for ks in range(self.nb_scale):
+            tmp = values[ks] * np.ones(self.scales_lengths[ks])
+            self._data[self.get_scale_mask(ks)] = tmp
 
     #### ANALYSIS SYNTHESIS
 

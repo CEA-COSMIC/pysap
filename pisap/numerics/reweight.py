@@ -95,9 +95,9 @@ class mReweight(object):
             w = (Ksig * sigma_i) / |Wtx_i| if |Wtx_i| > (Ksig * sigma_i)
         """
         weights = np.ones_like(y._data)
-        for scale_index, scale_data in enumerate(y):
-            thr = self.thresh_factor * sigma_est[scale_index]
-            index = scale_data > thr
-            scale_mask = y.get_scale_mask(scale_index)
-            weights[scale_mask][index] = thr / np.abs(y.get_scale(scale_index)[index])
+        for ks in range(y.nb_scale):
+            thr = self.thresh_factor * sigma_est[ks]
+            index = y.get_scale(ks) > thr
+            scale_mask = y.get_scale_mask(ks)
+            weights[scale_mask][index] = thr / np.abs(y.get_scale(ks)[index])
         self.weights._data = weights
