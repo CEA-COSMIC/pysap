@@ -21,7 +21,7 @@ import numpy as np
 import scipy.fftpack as pfft
 
 # Package import
-from .noise import denoise
+from .noise import soft_thresholding
 
 
 class Positive(object):
@@ -51,8 +51,8 @@ class Positive(object):
         return data * (data > 0)
 
 
-class Threshold(object):
-    """Threshold proximity operator
+class SoftThreshold(object):
+    """ Soft threshold proximity operator
 
     This class defines the threshold proximity operator
 
@@ -71,7 +71,7 @@ class Threshold(object):
 
         Parameters
         ----------
-        weights : np.ndarray
+        weights :DictionaryBase
             Input array of weights
         """
         self.weights = weights
@@ -83,16 +83,17 @@ class Threshold(object):
 
         Parameters
         ----------
-        data : np.ndarray
+        data : DictionaryBase
             Input data array
         extra_factor : float
             Additional multiplication factor
 
         Returns
         -------
-        np.ndarray thresholded data
+        DictionaryBase thresholded data
 
         """
         threshold = self.weights * extra_factor
-        return denoise(data, threshold, "hard")
+        data._data = soft_thresholding(data._data, threshold._data)
+        return data
 

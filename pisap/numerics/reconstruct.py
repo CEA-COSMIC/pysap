@@ -19,7 +19,7 @@ from scipy.linalg import norm
 import pisap
 from pisap.stats import sigma_mad
 from pisap.base.dictionary import Identity
-from .proximity import Threshold
+from .proximity import SoftThreshold
 from .proximity import Positive
 from .optimization import ForwardBackward
 from .optimization import Condat
@@ -157,7 +157,7 @@ def sparse_rec_condat_vu(
         prox_op = Identity()
 
     # Define the proximity dual operator
-    prox_dual_op = Threshold(reweight_op.weights)
+    prox_dual_op = SoftThreshold(reweight_op.weights)
 
     # Define the cost operator
     cost_op = costFunction(
@@ -294,8 +294,8 @@ def sparse_rec_fista(
 
     # Define the proximity dual operator
     weights = copy.deepcopy(alpha)
-    weights.set_constant_values(values=lipschitz_cst * mu)
-    prox_op = Threshold(weights)
+    weights.set_constant_values(values=mu/lipschitz_cst)
+    prox_op = SoftThreshold(weights)
 
     # Define the cost operator
     cost_op = costFunction(
