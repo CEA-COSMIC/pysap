@@ -130,14 +130,15 @@ class DictionaryBase(object):
         out: bool, result, True if it's coherent.
         """
         nx, ny = self.native_image_shape
-        res = (nx == ny) # only square-shape images
+        # check only square-shape images
+        res = (nx == ny)
+        # check we do not decimate too much
         if self.is_decimated:
-            res = res and (nx / 2**(self.nb_scale-1) > 0) # check we do not decimate too much
+            res = res and (nx / 2**(self.nb_scale) > 0)
+        # check coherent shape-metadata
         if self.is_transform:
-            # check coherent shape-metadata
             res = res and (len(self._data) == int(self.bands_lengths.sum()))
         else:
-            # check coherent shape-metadata
             res = res and (len(self._data) == int(nx*ny))
         return res
 
@@ -154,7 +155,7 @@ class DictionaryBase(object):
         -------
         out: DictionaryBase, the element-wise result (True or False).
         """
-        if self.is_complex: # handle complex case
+        if self.is_complex: # handle self complex case
             raise ValueError("Cannot compare '>=' complex.")
         cpy = copy.deepcopy(self)
         if isinstance(other, numbers.Number): # scalar comparaison
@@ -162,7 +163,7 @@ class DictionaryBase(object):
                 raise ValueError("Cannot compare '>=' complex.")
             cpy._data = other * np.ones_like(self._data)
             cpy._data = self._data >= cpy._data
-        elif isinstance(other, DictionaryBase): # other DictionaryBase comparaison
+        elif isinstance(other, DictionaryBase): # DictionaryBase comparaison
             if not self.check_same_metadata(other):
                 raise ValueError("Can only check greater or equal DictionaryBase"
                                    + "with DictionaryBase.")
@@ -247,7 +248,7 @@ class DictionaryBase(object):
                 cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data * coef._data
         else:
-            raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
+            raise ValueError("Wrong format of 'other': __mul__ only "
                        + "accept numerics, list of numerics or DictionaryBase")
         return cpy
 
@@ -289,7 +290,7 @@ class DictionaryBase(object):
                 cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data / coef._data
         else:
-            raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
+            raise ValueError("Wrong format of 'other': __div__ only "
                        + "accept numerics, list of numerics or DictionaryBase")
         return cpy
 
