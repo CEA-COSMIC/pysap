@@ -158,6 +158,8 @@ class DictionaryBase(object):
             raise ValueError("Cannot compare '>=' complex.")
         cpy = copy.deepcopy(self)
         if isinstance(other, numbers.Number): # scalar comparaison
+            if np.imag(other) != 0:
+                raise ValueError("Cannot compare '>=' complex.")
             cpy._data = other * np.ones_like(self._data)
             cpy._data = self._data >= cpy._data
         elif isinstance(other, DictionaryBase): # other DictionaryBase comparaison
@@ -229,14 +231,20 @@ class DictionaryBase(object):
             for ks in range(self.nb_scale):
                 if not isinstance(coef[ks], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
-                self._data[self.get_scale_mask(ks)] = self.get_scale(ks) * coef[ks]
+                if np.imag(coef[ks]) != 0: # cast to complex to avoid discards imaginary part
+                    cpy._data = cpy._data.astype(np.complex)
+                cpy._data[cpy.get_scale_mask(ks)] = self.get_scale(ks) * coef[ks]
         # scalar case
         elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
+            if np.imag(coef) != 0: # cast to complex to avoid discards imaginary part
+                cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data * coef
         # DictionaryBase case
         elif isinstance(coef, DictionaryBase):
             cpy = copy.deepcopy(self)
+            if coef.is_complex: # cast to complex to avoid discards imaginary part
+                cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data * coef._data
         else:
             raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
@@ -265,14 +273,20 @@ class DictionaryBase(object):
             for ks in range(self.nb_scale):
                 if not isinstance(coef[ks], numbers.Number):
                     raise ValueError("Can only multiple numerics with DictionaryBase.")
-                self._data[self.get_scale_mask(ks)] = self.get_scale(ks) / coef[ks]
+                if np.imag(coef[ks]) != 0: # cast to complex to avoid discards imaginary part
+                    cpy._data = cpy._data.astype(np.complex)
+                cpy._data[cpy.get_scale_mask(ks)] = cpy.get_scale(ks) / coef[ks]
         # scalar case
         elif isinstance(coef, numbers.Number):
             cpy = copy.deepcopy(self)
+            if np.imag(coef) != 0: # cast to complex to avoid discards imaginary part
+                cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data / coef
         # DictionaryBase case
         elif isinstance(coef, DictionaryBase):
             cpy = copy.deepcopy(self)
+            if coef.is_complex: # cast to complex to avoid discards imaginary part
+                cpy._data = cpy._data.astype(np.complex)
             cpy._data = cpy._data / coef._data
         else:
             raise ValueError("Wrong format of 'other' __mul__ or __div__ only "
