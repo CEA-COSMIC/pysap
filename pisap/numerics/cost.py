@@ -21,6 +21,7 @@ import numpy as np
 
 # Package import
 from pisap.plotting import plot_cost
+from pisap.base.dictionary import DictionaryBase
 
 
 class costFunction():
@@ -126,8 +127,13 @@ class costFunction():
         float l1 norm value
 
         """
-        y = self.weights * self.wavelet.op(x)
-        l1_norm = np.sum(y.absolute.to_cube())
+        if isinstance(x, DictionaryBase):
+            y = self.weights * (x)
+            l1_norm = np.sum(y.absolute.to_cube()).real
+        elif isinstance(x, np.ndarray):
+            np.sum(y.absolute._data)
+        else:
+            raise TypeError("l1norm can only be compute on DictionaryBase or np.ndarray")
         if self.print_cost:
             print(" - L1 NORM: ", l1_norm)
         return l1_norm
@@ -237,8 +243,8 @@ class costFunction():
             self.cost = (0.5 * self.l2norm(x) ** 2 + self.l1norm(x) +
                          self.nucnorm(x))
 
-        elif self.mode == 'sparse':
-            self.cost = self.l2norm(x) # ** 2 + self.l1norm(x)
+        elif self.mode == 'lasso':
+            self.cost = 0.5 * self.l2norm(x)**2 + self.lambda_reg * self.l1norm(x)
 
         elif self.mode == 'lowr':
             self.cost = (0.5 * self.l2norm(x) ** 2 + self.lambda_reg *

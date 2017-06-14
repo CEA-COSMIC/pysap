@@ -21,6 +21,7 @@ import numpy as np
 # Package import
 import pisap
 from pisap.stats import sigma_mad
+from pisap.numerics.linears import Dictionary
 
 
 def add_noise(image, sigma=1.0, noise_type="gauss"):
@@ -63,37 +64,41 @@ def add_noise(image, sigma=1.0, noise_type="gauss"):
     return image
 
 
-def denoise(data, level, threshold_type='hard'):
-    """ Remove noise from data
-
-    This method perfoms hard or soft thresholding on the input data
+def soft_thresholding(data, level):
+    """ This method perfoms soft thresholding on the input data.
 
     Parameters
     ----------
     data : np.ndarray
         Input data array
-    level : float
+    level : np.ndarray or float
         Threshold level
-    threshold_type : str {'hard', 'soft'}
-        Type of noise to be added (default is 'hard')
 
     Returns
     -------
     np.ndarray thresholded data
-
-    Raises
-    ------
-    ValueError
-        If `threshold_type` is not 'hard' or 'soft'
     """
-    if threshold_type not in ('hard', 'soft'):
-        raise ValueError('Invalid threshold type. Options are "hard" or'
-                         '"soft"')
+    num = np.copy(data)
+    num = np.maximum(np.abs(num) - level, 0)
+    deno = num + level
+    return (num / deno) * data
 
-    if threshold_type == 'soft':
-        return data.sign * (data.absolute - level) * (data.absolute >= level)
-    else:
-        return data * (data.absolute >= level)
+
+def hard_thresholding(data, level):
+    """ This method perfoms hard thresholding on the input data.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        Input data array
+    level : np.ndarray or float
+        Threshold level
+
+    Returns
+    -------
+    np.ndarray thresholded data
+    """
+    return data * (np.abs(data) >= level)
 
 
 def sigma_mad_sparse(grad_op, linear_op):
@@ -111,8 +116,5 @@ def sigma_mad_sparse(grad_op, linear_op):
     sigma: list
         a list of str estimate for each scale.
     """
-    residuals = linear_op.op(grad_op.grad).to_cube()
-    sigma = []
-    for scale_data in residuals[:, 0]:
-        sigma.append(sigma_mad(scale_data))
-    return sigma
+    trf_grad = linear_op.op(grad_op.grad)
+    return [sigma_mad(trf_grad.get_scale(ks)) for ks in range(trf_grad.nb_scale)]

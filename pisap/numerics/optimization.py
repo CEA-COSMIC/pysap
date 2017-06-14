@@ -117,14 +117,14 @@ class ForwardBackward(FISTA):
         Option to use FISTA (default is 'True')
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, grad, prox, cost=None, lambda_init=None,
-                 lambda_update=None, use_fista=True, auto_iterate=True):
+                 lambda_update=None, use_fista=True, auto_iterate=False):
         FISTA.__init__(self, lambda_init, use_fista)
         self.x_old = x
-        self.z_old = np.copy(self.x_old)
+        self.z_old = copy.deepcopy(self.x_old)
         self.grad = grad
         self.prox = prox
         self.cost_func = cost
@@ -155,14 +155,9 @@ class ForwardBackward(FISTA):
         # Step 5 from alg.10.7.
         self.z_new = self.x_old + self.lambda_now * (self.x_new - self.x_old)
 
-        # Test primal variable for convergence.
-        if np.sum(np.abs(self.z_old - self.z_new)) <= 1e-6:
-            print(' - converged!')
-            self.converge = True
-
         # Update old values for next iteration.
-        np.copyto(self.x_old, self.x_new)
-        np.copyto(self.z_old, self.z_new)
+        self.x_old = copy.deepcopy(self.x_new)
+        self.z_old = copy.deepcopy(self.z_new)
 
         # Update parameter values for next iteration.
         if not isinstance(self.lambda_update, type(None)):
@@ -170,10 +165,8 @@ class ForwardBackward(FISTA):
 
         # Test cost function for convergence.
         if not isinstance(self.cost_func, type(None)):
-            self.converge = self.cost_func.get_cost(self.z_new)
+            self.cost_func.get_cost(self.z_new) # deactivate early-stopping
 
-        if np.all(self.z_new == 0.0):
-            raise RuntimeError('The reconstruction is fucked!')
 
     def iterate(self, max_iter=150):
         """ Iterate
@@ -219,11 +212,11 @@ class GenForwardBackward():
         Proximity operator weights
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, grad, prox_list, cost=None, lambda_init=1.0,
-                 lambda_update=None, weights=None, auto_iterate=True,
+                 lambda_update=None, weights=None, auto_iterate=False,
                  plot=False):
         self.x_old = x
         self.grad = grad
@@ -309,7 +302,6 @@ class GenForwardBackward():
                 break
 
         self.x_final = self.x_new
-        # self.cost_func.plot_cost()
 
 
 class Condat():
@@ -349,12 +341,12 @@ class Condat():
         Extra factor passed to the dual proximity operator update
     auto_iterate : bool
         Option to automatically begin iterations upon initialisation (default
-        is 'True')
+        is 'False')
     """
 
     def __init__(self, x, y, grad, prox, prox_dual, linear, cost,
                  rho,  sigma, tau, rho_update=None, sigma_update=None,
-                 tau_update=None, extra_factor_update=None, auto_iterate=True):
+                 tau_update=None, extra_factor_update=None, auto_iterate=False):
         self.x_old = x
         self.y_old = y
         self.grad = grad
@@ -427,10 +419,11 @@ class Condat():
 
         # Update old values for next iteration.
         np.copyto(self.x_old, self.x_new)
-        y_old = copy.deepcopy(self.y_new)
+        self.y_old = copy.deepcopy(self.y_new)
 
         # Test cost function for convergence.
-        self.converge = self.cost_func.get_cost(self.x_new)
+        if not isinstance(self.cost_func, type(None)):
+            self.cost_func.get_cost(self.x_new) # deactivate early-stopping
 
     def iterate(self, max_iter=150):
         """ Iterate
@@ -453,4 +446,3 @@ class Condat():
 
         self.x_final = self.x_new
         self.y_final = self.y_new
-        # self.cost_func.plot_cost()

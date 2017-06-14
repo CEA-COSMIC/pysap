@@ -18,10 +18,9 @@ This module contains classes of proximity operators for optimisation
 
 # System import
 import numpy as np
-import scipy.fftpack as pfft
 
 # Package import
-from .noise import denoise
+from .noise import soft_thresholding
 
 
 class Positive(object):
@@ -34,7 +33,7 @@ class Positive(object):
 
     def op(self, data, **kwargs):
         """ This method returns the location of positive coefficients in the
-        input data 
+        input data
 
         Parameters
         ----------
@@ -46,11 +45,13 @@ class Positive(object):
         -------
         np.ndarray all positive elements from input data
         """
+        if np.issubsctype(data.dtype, np.complex):
+            raise ValueError("can't compare complex value")
         return data * (data > 0)
 
 
-class Threshold(object):
-    """Threshold proximity operator
+class SoftThreshold(object):
+    """ Soft threshold proximity operator
 
     This class defines the threshold proximity operator
 
@@ -69,7 +70,7 @@ class Threshold(object):
 
         Parameters
         ----------
-        weights : np.ndarray
+        weights :DictionaryBase
             Input array of weights
         """
         self.weights = weights
@@ -81,16 +82,17 @@ class Threshold(object):
 
         Parameters
         ----------
-        data : np.ndarray
+        data : DictionaryBase
             Input data array
         extra_factor : float
             Additional multiplication factor
 
         Returns
         -------
-        np.ndarray thresholded data
+        DictionaryBase thresholded data
 
         """
         threshold = self.weights * extra_factor
-        return denoise(data, threshold, "hard")
+        data._data = soft_thresholding(data._data, threshold._data)
+        return data
 
