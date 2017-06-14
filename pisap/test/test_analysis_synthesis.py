@@ -5,12 +5,12 @@ from scipy.io import loadmat
 
 import pisap
 from pisap.numerics.linears import *
-from pisap.base.utils import run_both, normalize
+from pisap.base.utils import run_both, l2_normalize
 
 
 # global cst
 IMGS = [pisap.io.load(osp.join("data", "M31_128.fits")).data, # 128 px
-        normalize(loadmat(osp.join("data", "Iref.mat"))['I']), # 512 px
+        l2_normalize(loadmat(osp.join("data", "Iref.mat"))['I']), # 512 px
         ]
 NB_SCALES = [2, 3, 4]
 EPS = 1.0e-10
