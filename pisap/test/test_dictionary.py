@@ -32,10 +32,10 @@ class TestDictionary(unittest.TestCase):
             self.fail("unexpected 'ValueError: {0}' occur in linear.op(IMGS[0])".format(e))
         # ok maxscale
         linear = haarWaveletTransform(**{'maxscale': 8})
-        try:
-            linear.op(IMGS[0])
-        except ValueError as e:
-            self.fail("unexpected 'ValueError: {0}' occur in linear.op(IMGS[0])".format(e))
+        self.assertRaisesRegexp(ValueError,
+                                "in 'DictionaryBase': 'metadata' " \
+                                 + "passed for init is not valid.",
+                                linear.op, IMGS[0])
         # wrong maxscale
         linear = haarWaveletTransform(**{'maxscale': 9})
         self.assertRaisesRegexp(ValueError,
@@ -101,13 +101,21 @@ class TestDictionary(unittest.TestCase):
         self.assertFalse(np.all(res._data))
 
         self.assertRaisesRegexp(ValueError,
-                                "type of 'other' to compare >= not understood",
+                                "Cannot compare '>=' complex.",
+                                trf_complex.__ge__, 10.0 + 10.0*1.j)
+
+        self.assertRaisesRegexp(ValueError,
+                                "Cannot compare '>=' complex.",
                                 trf.__ge__, 10.0 + 10.0*1.j)
+
+        self.assertRaisesRegexp(ValueError,
+                                "type of 'other' to compare >= not understood",
+                                trf.__ge__, "banana")
 
     def test_add(self):
         linear = haarWaveletTransform(**{'maxscale': 6})
         trf = linear.op(IMGS[0])
-        np.testing.assert_array_equal((trf+trf)._data, (2*trf)._data)
+        np.testing.assert_allclose((trf+trf)._data, (2*trf)._data)
 
     def test_sub(self):
         linear = haarWaveletTransform(**{'maxscale': 6})
@@ -130,13 +138,28 @@ class TestDictionary(unittest.TestCase):
             np.testing.assert_array_equal(scale, coefs_complex[ks] * trf.get_scale(ks))
 
         coef = 2.0
-        np.testing.assert_array_equal((coef * trf)._data, coef * trf._data)
+        np.testing.assert_allclose((coef * trf)._data, coef * trf._data)
 
         coef_complex = 1.0 + 1.j
-        np.testing.assert_array_equal((coef_complex * trf)._data,
+        np.testing.assert_allclose((coef_complex * trf)._data,
                                       coef_complex * trf._data)
 
-        np.testing.assert_array_equal(np.sqrt((trf.absolute * trf.absolute)._data),
+        # case list of real
+        coefs = list(np.linspace(-5, 5, nb_scale))
+        new_trf = trf * coefs
+        for ks in range(new_trf.nb_scale):
+            np.testing.assert_allclose(new_trf.get_scale(ks),
+                                          coefs[ks] * trf.get_scale(ks))
+
+        # case list of cplx
+        coefs_complex = list(1.j*np.linspace(-5, 5, nb_scale))
+        new_trf = trf * coefs_complex
+        for ks in range(new_trf.nb_scale):
+            np.testing.assert_allclose(new_trf.get_scale(ks),
+                                          coefs_complex[ks] * trf.get_scale(ks))
+
+        # case other DictinaryBase
+        np.testing.assert_allclose(np.sqrt((trf.absolute * trf.absolute)._data),
                                       trf.absolute._data)
 
     def test_div(self):
@@ -155,10 +178,27 @@ class TestDictionary(unittest.TestCase):
             np.testing.assert_array_equal(scale, trf.get_scale(ks) / coefs_complex[ks])
 
         coef = 2.0
-        np.testing.assert_array_equal((trf / coef)._data, trf._data / coef)
+        np.testing.assert_allclose((trf / coef)._data, trf._data / coef)
 
         coef_complex = 1.0 + 1.j
-        np.testing.assert_array_equal((trf / coef_complex)._data,
+        np.testing.assert_allclose((trf / coef_complex)._data,
                                        trf._data / coef_complex)
 
-        self.assertTrue((trf.absolute / trf.absolute)._data == 1.0)
+        # case list of real
+        coefs = list(np.linspace(-5, 5, nb_scale))
+        new_trf = trf / coefs
+        for ks in range(new_trf.nb_scale):
+            np.testing.assert_allclose(new_trf.get_scale(ks),
+                                          trf.get_scale(ks) / coefs[ks])
+
+        ## case list of cplx
+        coefs_complex = list(1.j*np.linspace(-5, 5, nb_scale))
+        new_trf = trf / coefs_complex
+        for ks in range(new_trf.nb_scale):
+            np.testing.assert_allclose(new_trf.get_scale(ks),
+                                          trf.get_scale(ks) / coefs_complex[ks])
+
+        # case other DictinaryBase
+        trf._data = trf._data + 10.0 # to avoid 0
+        np.testing.assert_allclose((trf / trf)._data,
+                                      np.ones_like(trf._data))
