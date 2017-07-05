@@ -1,0 +1,43 @@
+sudo: required
+dist: trusty
+language: python
+
+python:
+    - "2.7"
+    - "3.4"
+    - "3.5"
+
+before_install:
+    - sudo apt-get update
+    - wget http://xxx/sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
+    - sudo dpkg -i sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
+    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then 
+        wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh; 
+      else
+        wget http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b -p $HOME/miniconda
+    - export PATH=/home/travis/miniconda/bin:$PATH
+    - hash -r
+
+install:
+    - conda update --yes conda
+    - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
+    - source activate testenv
+    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install mock; fi
+    - conda install --yes numpy scipy matplotlib
+    - pip install nose
+    - pip install nose-exclude
+    - pip install coverage
+    - pip install coveralls
+    - pip install pep8
+    - pip install nibabel
+    - pip install .
+
+script:
+    - python setup.py nosetests
+    - pep8 . --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
+
+after_success:
+    - coveralls
