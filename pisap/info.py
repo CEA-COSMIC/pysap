@@ -35,7 +35,7 @@ piSAP
 
 piSAP is a Python package related to sparsity and its application in
 astronomical or mediacal data analysis.
-This package also bind the 'sparse2d' C++ library
+This package binds the 'sparse2d' C++ library
 that allows sparse decomposition, denoising and deconvolution.
 """
 
@@ -59,7 +59,7 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pisap"]
 REQUIRES = [
-    "numpy>=1.12.0",
+    "numpy>=1.11.0",
     "scipy>=0.18.0",
     "pyfits>=3.4",
     "nibabel>=2.1.0"

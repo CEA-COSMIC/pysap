@@ -9,7 +9,6 @@
 """ This module defines common vizualisation tools.
 """
 
-from .transform import plot_transform
-from .transform import plot_wavelet
 from .image import plot_data
 from .optimization import plot_cost
+from .transform import plot_transform

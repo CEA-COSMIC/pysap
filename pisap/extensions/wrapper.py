@@ -7,6 +7,7 @@
 ##########################################################################
 
 # System import
+from __future__ import print_function
 import os
 import json
 import warnings
@@ -21,17 +22,20 @@ from pisap.base.exceptions import Sparse2dConfigurationError
 class Sparse2dWrapper(object):
     """ Parent class for the wrapping of Sparse2d commands.
     """
-    def __init__(self, env=None):
+    def __init__(self, env=None, verbose=False):
         """ Initialize the Sparse2dWrapper class by setting properly the
         environment.
 
         Parameters
         ----------
         env: dict (optional, default None)
-            The current environment in which the Sparse2d command will be
+            the current environment in which the Sparse2d command will be
             executed. Default None, the current environment.
+        verbose: bool, default False
+            control the verbosity level.
         """
         self.environment = env
+        self.verbose = verbose
         if env is None:
             self.environment = os.environ
 
@@ -55,6 +59,9 @@ class Sparse2dWrapper(object):
 
         # Command must contain only strings
         _cmd = [str(elem) for elem in cmd]
+        if self.verbose:
+            print("[info] Executing ISAP command: {0}...".format(
+                " ".join(_cmd)))
 
         # Execute the command
         process = subprocess.Popen(_cmd,
@@ -66,4 +73,3 @@ class Sparse2dWrapper(object):
         if self.exitcode != 0 or self.stderr or "Error" in self.stdout:
             raise Sparse2dRuntimeError(
                 _cmd[0], " ".join(_cmd[1:]), self.stderr + self.stdout)
-

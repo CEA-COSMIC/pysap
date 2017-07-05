@@ -76,4 +76,3 @@ class LoaderBase(object):
         """
         raise NotImplementedError(
             "The 'save' method must be implemented in subclasses.")
-

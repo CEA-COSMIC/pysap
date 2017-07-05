@@ -20,7 +20,7 @@ from pisap.base.loaders import NIFTI
 LOADERS = [FITS, NIFTI]
 
 
-def load(path, dtype=numpy.single) :
+def load(path, dtype=numpy.single):
     """ Load an image.
 
     Parameters
@@ -29,24 +29,24 @@ def load(path, dtype=numpy.single) :
         the path to the data to be loaded.
     dtype: str
        type to which the data will be cast. Passing 'None' will not cast.
-    
+
     Returns
     -------
     image: Image
         the loaded image.
     """
-    # Load the image 
+    # Load the image
     loader = get_loader(path)
     image = loader.load(path)
-    
+
     # Cast the image if requested
-    if dtype :
+    if dtype:
         image.data = image.data.astype(dtype)
-       
-    return image    
+
+    return image
 
 
-def save(image, path) :
+def save(image, path):
     """ Save an image.
 
     Parameters

@@ -4,34 +4,38 @@
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
 # for details.
-#
-#:Author: Samuel Farrens <samuel.farrens@gmail.com>
-#:Version: 1.1
-#:Date: 04/01/2017
 ##########################################################################
 
 """
-This module contains linear operator classes.
+This module contains linears operators classes.
 """
 
 # System import
-import numpy as np
+import numpy
 
 # Package import
-from pisap import WaveletTransform
+import pisap.extensions.transform
+from pisap.base.transform import WaveletTransformBase
 
 
 class Wavelet(object):
-    """ Wavelet class.
-
-    This class defines the wavelet transform operators
+    """ This class defines the wavelet transform operators.
     """
-
-    def __init__(self, maxscale=4, **kwargs):
+    def __init__(self, wavelet, nb_scale=4):
         """ Initialize the Wavelet class.
+
+        Parameters
+        ----------
+        wavelet: str
+            the wavelet to be used during the decomposition.
+        nb_scales: int, default 4
+            The number of scales in the decomposition.
         """
-        self.maxscale = maxscale
-        self.isap_kwargs = kwargs
+        self.nb_scale = nb_scale
+        if wavelet not in WaveletTransformBase.REGISTRY:
+            raise ValueError("Unknown tranformation '{0}'.".format(wavelet))
+        self.transform = WaveletTransformBase.REGISTRY[wavelet](
+            nb_scale=nb_scale, verbose=0)
 
     def op(self, data):
         """ Operator.
@@ -40,35 +44,37 @@ class Wavelet(object):
 
         Parameters
         ----------
-        data : np.ndarray
+        data: ndarray
             Input data array, a 2D image.
 
         Returns
         -------
-        np.ndarray wavelet convolved data.
+        coeffs: ndarray
+            The wavelet coefficients.
         """
-        trf = WaveletTransform(data=data, wavelet="",
-                               maxscale=self.maxscale, use_isap=True)
-        trf.analysis(**self.isap_kwargs)
-        return trf
+        self.transform.data = data
+        self.transform.analysis()
+        return self.transform.analysis_data
 
-    def adj_op(self, trf, dtype="array"):
+    def adj_op(self, coeffs, dtype="array"):
         """ Adjoint operator.
 
         This method returns the reconsructed image.
 
         Parameters
         ----------
-        trf : WaveletTransform
-            wavelet coefficients store in a wavelet tree.
-        dtype: str (optional, default 'array')
-            if 'array' return the data as a ndarray, otherwise return an image.
+        coeffs: ndarray
+            The wavelet coefficients.
+        dtype: str, default 'array'
+            if 'array' return the data as a ndarray, otherwise return a
+            pisap.Image.
 
         Returns
         -------
-        np.ndarray reconstructed data.
+        ndarray reconstructed data.
         """
-        image = trf.synthesis()
+        self.transform.analysis_data = coeffs
+        image = self.transform.synthesis()
         if dtype == "array":
             return image.data
         return image
@@ -79,64 +85,20 @@ class Wavelet(object):
         Parameters
         ----------
         data_shape: uplet
-            the ndarray data shape.
-
+            the data shape.
         Returns
         -------
         norm: float
             the L2 norm.
         """
         # Create fake data.
-        data_shape = np.asarray(data_shape)
-        data_shape += data_shape % 2 - 1
-        fake_data = np.zeros(data_shape)
+        data_shape = numpy.asarray(data_shape)
+        data_shape += data_shape % 2
+        fake_data = numpy.zeros(data_shape)
         fake_data[zip(data_shape / 2)] = 1
 
         # Call mr_transform.
-        mr_filters = self.op(fake_data).to_cube()
+        data = self.op(fake_data)
 
-        # Compute the L1 norm
-        norm = 0
-        for fltr in mr_filters[:, 0]:
-            norm +=  np.linalg.norm(fltr)
-
-        return norm
-
-
-
-class Identity():
-    """ Identity operator class
-    This is a dummy class that can be used in the optimisation classes
-    """
-
-    def __init__(self):
-        self.l1norm = 1.0
-
-    def op(self, data, **kwargs):
-        """ Returns the input data unchanged
-
-        Parameters
-        ----------
-        data : np.ndarray
-            Input data array
-        **kwargs
-            Arbitrary keyword arguments
-        Returns
-        -------
-        np.ndarray input data
-        """
-        return data
-
-    def adj_op(self, data):
-        """ Returns the input data unchanged
-
-        Parameters
-        ----------
-        data : np.ndarray
-            Input data array
-        Returns
-        -------
-        np.ndarray input data
-        """
-        return data
-
+        # Compute the L2 norm
+        return numpy.linalg.norm(data)

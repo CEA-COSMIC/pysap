@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 ##########################################################################
-# NSAp - Copyright (C) CEA, 2016
+# XXX - Copyright (C) XXX, 2017
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -15,24 +15,13 @@ import os
 
 release_info = {}
 infopath = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "pyfreesurfer", "info.py"))
+    os.path.join(os.path.dirname(__file__), "pisap", "info.py"))
 with open(infopath) as open_file:
     exec(open_file.read(), release_info)
 pkgdata = {
-    "pyfreesufer": ["tests/*.py", "tests/*/*.py",
-                    "plots/tkmedit_slicer_edges.tcl",
-                    "plots/tkmedit_slicer_labels.tcl",
-                    "plot/resources/*.json"],
+    "pisap": ["test/*.py", "demo/*.ipynb"]
 }
-scripts = [
-    "pyfreesurfer/scripts/pyfreesurfer_conversion",
-    "pyfreesurfer/scripts/pyfreesurfer_datacheck",
-    "pyfreesurfer/scripts/pyfreesurfer_qualitycheck",
-    "pyfreesurfer/scripts/pyfreesurfer_reconall",
-    "pyfreesurfer/scripts/pyfreesurfer_stats",
-    "pyfreesurfer/scripts/pyfreesurfer_textures",
-    "pyfreesurfer/scripts/pyfreesurfer_hcp"
-]
+scripts = []
 
 setup(
     name=release_info["NAME"],

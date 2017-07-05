@@ -27,6 +27,10 @@ def plot_data(data, scroll_axis=2):
     if data.ndim not in range(1, 4):
         raise ValueError("Unsupported data dimension.")
 
+    # Deal with complex data
+    if numpy.iscomplex(data).any():
+        data = numpy.abs(data)
+
     # Create application
     app = pyqtgraph.mkQApp()
 

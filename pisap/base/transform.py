@@ -7,213 +7,285 @@
 ##########################################################################
 
 """
-Wavelet transform module.
+Wavelet transform base module.
 """
 
 # System import
 from __future__ import division, print_function, absolute_import
-from numbers import Number
-import os
-import numpy
+from pprint import pprint
+import shutil
 import tempfile
+import uuid
+import os
 
 # Package import
 import pisap
-from pisap.base.exceptions import Exception
-from pisap.base.nodes import Node2D
-from pisap.base.nodes import Node1D
-from .wavelet import Wavelet
 from pisap.plotting import plot_transform
 
+# Third party import
+import numpy
 
-def WaveletTransform(data, wavelet, maxscale, mode="symmetric", use_isap=False,
-                     **kwargs):
-    """ Create a factory to select the proper node type automatically.
-    Currently support only 1D or 2D data.
 
-    Parameters
-    ----------
-    data: nd-array
-        input data/signal.
-    wavelet: str
-        wavelet used in Discrete Wavelet Transform (DWT) decomposition
-        and reconstruction.
-    maxscale: int
-        the maximum scale of decomposition.
-    mode: str (optional, default 'symmetric')
-        signal extension mode for the 'dwt' and 'idwt' decomposition and
-        reconstruction functions.
-    use_isap: bool (optional, default False)
-        if True, use the C++ optimized ISAP library for the wavelet
-        decomposition/reconstruction.
-    kwargs: dict
-        the parameters used to construct the wavlet.
-
-    Returns
-    -------
-    transform: WaveletTransformBase
-        the desired transform.
+class MetaRegister(type):
+    """ Simple Python metaclass registry pattern.
     """
-    # Check data dimension
-    if data is not None:
-        ndim = data.ndim
-        if ndim not in [1, 2]:
-            raise Exception("The WaveletTransform currently support only 1D "
-                            "or 2D signals.")
-    else:
-        ndim = 0
+    REGISTRY = {}
 
-    # Create object
-    if ndim in (0, 1):
-        cls = type("WaveletTransform1D", (WaveletTransformBase, Node1D),
-                   {"x": "a", "y": "d"})
-    else:
-        cls = type("WaveletTransform2D", (WaveletTransformBase, Node2D),
-                   {"x": "l", "y": "h"})
-    return cls(data, wavelet, maxscale, mode, use_isap, **kwargs)
+    def __new__(cls, name, bases, attrs):
+        """ Allocation.
+
+        Parameters
+        ----------
+        name: str
+            the name of the class.
+        bases: tuple
+            the base classes.
+        attrs:
+            the attributes defined for the class.
+        """
+        new_cls = type.__new__(cls, name, bases, attrs)
+        if name in cls.REGISTRY:
+            raise ValueError(
+                "'{0}' name already used in registry.".format(name))
+        if name not in ("WaveletTransformBase", "ISAPWaveletTransformBase"):
+            cls.REGISTRY[name] = new_cls
+        return new_cls
 
 
 class WaveletTransformBase(object):
-    """ Data structure representing wavelet decomposition of a signal.
+    """ Data structure representing a signal wavelet decomposition.
+
+    Available transforms are define in 'pisap.transform'.
     """
-    # Define class parameters
-    x = None
-    y = None
+    __metaclass__ = MetaRegister
 
-    def __init__(self, data, wavelet, maxscale, mode="symmetric",
-                 use_isap=False, **kwargs):
-        """ Initialize the WaveletTransform class.
+    def __init__(self, nb_scale, verbose=0):
+        """ Initialize the WaveletTransformBase class.
 
         Parameters
         ----------
-        data: nd-array
-            input data/signal.
-        wavelet: str
-            wavelet used in Discrete Wavelet Transform (DWT) decomposition
-            and reconstruction.
-        maxscale: int
-            the maximum scale of decomposition.
-        mode: str (optional, default 'symmetric')
-            signal extension mode for the 'dwt' and 'idwt' decomposition and
-            reconstruction functions.
-        use_isap: bool (optional, default False)
-            if True, use the C++ optimized ISAP library for the wavelet
-            decomposition/reconstruction.
-        kwargs: dict
-            the parameters used to construct the wavlet.
+        data: ndarray
+            the input data.
+        nb_scale: int
+            the number of scale of the decomposition that includes the
+            approximation scale.
+        verbose: int, default 0
+            control the verbosity level
         """
-        # Get the maximum scale
-        if data is not None:
-            self._data = numpy.asarray(data, dtype=numpy.double)
-            self.data_size = data.shape
-        else:
-            self.data_size = None
+        # Wavelet transform parameters
+        self.nb_scale = nb_scale
+        self.name = None
+        self.bands_names = None
+        self.nb_band_per_scale = None
+        self.bands_lengths = None
+        self.bands_shapes = None
+        self.isap_transform_id = None
+        self.flatten_fct = None
+        self.unflatten_fct = None
+        self.is_decimated = None
+        self.scales_lengths = None
+        self.scales_padds = None
 
-        # Define class attributes
-        self.use_isap = use_isap
-        self.mode = mode
-        self._maxscale = maxscale
-        self.isap_trf_header = None
+        # Data that can be decalred afterward
+        self._data = None
+        self._image_metadata = {}
+        self._data_shape = None
+        self._iso_shape = None
+        self._analysis_data = None
+        self._analysis_shape = None
+        self._analysis_header = None
+        self.verbose = verbose
 
-        # Inheritance
-        if self.use_isap:
-            super(WaveletTransformBase, self).__init__(
-                parent=None, data=None, node_name="")
-            self.wavelet = None
-            self.walk()     
-        else:
-            super(WaveletTransformBase, self).__init__(
-                parent=None, data=self._data, node_name="")
-            self.wavelet = Wavelet(wavelet, **kwargs)
-
-    def get_scale(self, scale, order="natural", decompose=True):
-        """ Returns all nodes from specified scale.
+    def __getitem__(self, given):
+        """ Access the analysis designated scale/band coefficients.
 
         Parameters
         ----------
-        scale: int
-            decomposition scale from which the nodes will be collected.
-        order: str (optional, default 'natural')
-            if 'natural' a flat list is returned,
-            else if 'freq' a 2d structure with rows and cols sorted by
-            corresponding dimension frequency of 2d coefficient array
-            (adapted from 1d case).
-        decompose: bool (optional, default True)
-            if set then the method will try to decompose the data up
-            to the specified scale.
+        given: int, slice or tuple
+            the scale and band indices.
 
         Returns
         -------
-        nodes: list or list of list
-            the nodes with requested scale and ordering.
+        coeffs: ndarray or list of ndarray
+            the analysis coefficients.
         """
-        # Check input parameters
-        if order not in ("natural", "freq"):
-            raise ValueError("Unrecognize order '{0}'.".format(order))
-        if scale > self.maxscale:
-            raise ValueError(
-                "The desired scale '{0}' cannot be greater than the "
-                "maximum decomposition scale value '{1}'.".format(
-                    scale, self.maxscale))
+        # Test input parameters
+        if self._analysis_data is None:
+            raise ValueError("Please specify first the decomposition "
+                             "coefficients array.")
 
-        # Get the node of desired scale
-        result = []
-        def collect(node):
-            if node.scale == scale:
-                result.append(node)
-                return False
-            return True
-        self.walk(collect, decompose=decompose)
+        # Handle slice object
+        if isinstance(given, slice):
+            raise ValueError("You must specify a specific band, slice is not "
+                             "accepted.")
 
-        # Sort the nodes based on the requested order
-        if order == "freq":
-            nodes = {}
-            for (row_path, col_path), node in [
-                    (self.expand_path(node.path), node) for node in result]:
-                nodes.setdefault(row_path, {})[col_path] = node
-            graycode_order = get_graycode_order(scale, x=self.x, y=self.y)
-            nodes = [nodes[path] for path in graycode_order if path in nodes]
-            result = []
-            for row in nodes:
-                result.append(
-                    [row[path] for path in graycode_order if path in row])
+        # Handle multidim slice object
+        elif isinstance(given, tuple):
+            if len(given) != 2:
+                raise ValueError("Two indices expected: scale - band.")
+            if isinstance(given[0], slice):
+                raise ValueError(
+                    "You must specify a specific band, slice is not accepted.")
+            if isinstance(given[1], slice):
+                start = given[1].start or 0
+                stop = given[1].stop or self.nb_band_per_scale[given[0]]
+                step = given[1].step or 1
+                coeffs = [self.band_at(given[0], index)
+                          for index in range(start, stop, step)]
+            else:
+                coeffs = [self.band_at(given[0], given[1])]
 
-        return result
-
-    def show(self, scales=None):
-        """ Display the different bands on the requested scales.
-
-        Parameters
-        ----------
-        scales: list  (optional, deafault None)
-            the desired scales, if None compute at all scales.
-        """
-        if self.use_isap:
-            cube = pisap.Image(data=self.to_cube()[:, 0],
-                               metadata=self.isap_trf_header)
-            cube.show()
+        # Handling plain index
         else:
-            scales = scales or range(self.maxscale)
-            plot_transform(self, scales)
+            bands = range(self.nb_band_per_scale[given])
+            coeffs = [self.band_at(given, index) for index in bands]
 
-    def set_constant_values(self, values):
-        """ Set constant values on each scale.
+        # Format output
+        if len(coeffs) == 1:
+            coeffs = coeffs[0]
+
+        return coeffs
+
+    ##########################################################################
+    # Properties
+    ##########################################################################
+
+    def _set_data(self, data):
+        """ Set the input data array.
 
         Parameters
         ----------
-        values: list of float or float
-            the values to be associated to each scale.
+        data: nd-array or pisap.Image
+            input data/signal.
         """
-        if not isinstance(values, list):
-            values = [values] * (self._maxscale + 1)
-        for scale in range(self._maxscale + 1):
-            for node in self.get_scale(scale):
-                if node.data is not None:
-                    node.data *= 0  
-                    node.data += values[scale]
+        if self.verbose > 0 and self._data is not None:
+            print("[info] Replacing existing input data array.")
+        if not all([e == data.shape[0] for e in data.shape]):
+            raise ValueError("Expect a square shape data.")
+        if data.ndim != 2:
+            raise ValueError("Expect a two-dim data array.")
+        if self.is_decimated and not (data.shape[0] // 2**(self.nb_scale) > 0):
+            raise ValueError("Can't decimate the data with the specified "
+                             "number of scales.")
+        if isinstance(data, pisap.Image):
+            self._data = data.data
+            self._image_metadata = data.metadata
+        else:
+            self._data = data
+        self._data_shape = self._data.shape
+        self._iso_shape = self._data_shape[0]
+
+        self._set_transformation_parameters()
+        self._compute_transformation_parameters()
+
+    def _get_data(self):
+        """ Get the input data array.
+
+        Returns
+        -------
+        data: nd-array
+            input data/signal.
+        """
+        return self._data
+
+    def _set_analysis_data(self, analysis_data):
+        """ Set the decomposition coefficients array.
+
+        Parameters
+        ----------
+        analysis_data: nd-array
+            decomposition coefficients array.
+        """
+        if self.verbose > 0 and self._analysis_data is not None:
+            print("[info] Replacing existing decomposition coefficients "
+                  "array.")
+        if len(analysis_data.flatten()) != self.bands_lengths.sum():
+            raise ValueError("The wavelet coefficients do not correspond to "
+                             "the wavelet transform parameters.")
+        self._analysis_data = analysis_data
+
+    def _get_analysis_data(self):
+        """ Get the decomposition coefficients array.
+
+        Returns
+        -------
+        analysis_data: nd-array
+            decomposition coefficients array.
+        """
+        return self._analysis_data
+
+    def _set_analysis_header(self, analysis_header):
+        """ Set the decomposition coefficients header.
+
+        Parameters
+        ----------
+        analysis_header: dict
+            decomposition coefficients array.
+        """
+        if self.verbose > 0 and self._analysis_header is not None:
+            print("[info] Replacing existing decomposition coefficients "
+                  "header.")
+        self._analysis_header = analysis_header
+
+    def _get_analysis_header(self):
+        """ Get the decomposition coefficients header.
+
+        Returns
+        -------
+        analysis_header: dict
+            decomposition coefficients header.
+        """
+        return self._analysis_header
+
+    data = property(_get_data, _set_data)
+    analysis_data = property(_get_analysis_data, _set_analysis_data)
+    analysis_header = property(_get_analysis_header, _set_analysis_header)
+
+    ##########################################################################
+    # Public members
+    ##########################################################################
+
+    @classmethod
+    def bands_shapes(cls, bands_lengths, ratio=None):
+        """ Return the different bands associated shapes given there lengths.
+
+        Parameters
+        ----------
+        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
+            array holding the length between two bands of the data
+            vector per scale.
+        ratio: ndarray, default None
+            a array containing ratios for eeach scale and each band.
+
+        Returns
+        -------
+        bands_shapes: list of list of 2-uplet (<nb_scale>, <nb_band_per_scale>)
+            structure holding the shape of each bands at each scale.
+        """
+        if ratio is None:
+            ratio = numpy.ones_like(bands_lengths)
+        bands_shapes = []
+        for band_number, scale_data in enumerate(bands_lengths):
+            scale_shapes = []
+            for scale_number, scale_padd in enumerate(scale_data):
+                shape = (
+                    int(numpy.sqrt(
+                        scale_padd * ratio[band_number, scale_number])),
+                    int(numpy.sqrt(
+                        scale_padd / ratio[band_number, scale_number])))
+                scale_shapes.append(shape)
+            bands_shapes.append(scale_shapes)
+        return bands_shapes
+
+    def show(self):
+        """ Display the different bands at the different decomposition scales.
+        """
+        plot_transform(self)
 
     def analysis(self, **kwargs):
-        """ Decompose all the nodes.
+        """ Decompose a real or complex signal using ISAP.
+
+        Fill the instance 'analysis_data' and 'analysis_header' parameters.
 
         Parameters
         ----------
@@ -221,93 +293,238 @@ class WaveletTransformBase(object):
             the parameters that will be passed to
             'pisap.extensions.mr_tansform'.
         """
-        # Check input parameters
-        if "number_of_scales" in kwargs:
-            print("The 'number_of_scales' mr_tansform parameter was set "
-                  "automatically to '{0}'.".format(self.maxscale + 1))
-        kwargs["number_of_scales"] = self.maxscale + 1
+        # Checks
+        if self._data is None:
+            raise ValueError("Please specify first the input data.")
 
-        # Create nodes/decompose
-        self.walk()
+        # Update ISAP parameters
+        kwargs["type_of_multiresolution_transform"] = self.isap_transform_id
+        kwargs["number_of_scales"] = self.nb_scale
 
-        # Insert the ISAP decomposition result
-        if self.use_isap:
-            tmpdir = tempfile.mkdtemp()
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_mr_file = os.path.join(tmpdir, "cube.mr")
-            try:
-                pisap.io.save(self._data, in_image)
-                pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
-                image = pisap.io.load(out_mr_file)
-                cube = image.data
-                self.isap_trf_header = image.metadata
-            except:
-                raise
-            finally:
-                for path in (in_image, out_mr_file):
-                    if os.path.isfile(path):
-                        os.remove(path)
-                os.rmdir(tmpdir)
-            self.from_cube(cube)
+        # Analysis
+        if numpy.iscomplexobj(self._data):
+            analysis_data_real, self.analysis_header = self._analysis(
+                self._data.real, **kwargs)
+            analysis_data_imag, _ = self._analysis(
+                self._data.imag, **kwargs)
+            self._analysis_data = analysis_data_real + 1.j * analysis_data_imag
+        else:
+            self._analysis_data, self._analysis_header = self._analysis(
+                self._data, **kwargs)
+
+        # Reorganize the generated coefficents
+        self._analysis_shape = self._analysis_data.shape
+        self._analysis_data = self.flatten_fct(self._analysis_data, self)
 
     def synthesis(self):
-        """ Reconstruct the image from all nodes.
+        """ Reconstruct a real or complex signal from the wavelet coefficients
+        using ISAP.
 
         Returns
         -------
-        image: pisap.Image
-            the reconsructed image.
+        data: pisap.Image
+            the reconstructed data/signal.
         """
-        # Initilize the output image
-        image = None
+        # Checks
+        if self._analysis_data is None:
+            raise ValueError("Please specify first the decomposition "
+                             "coefficients array.")
+        if self._analysis_header is None:
+            raise ValueError("Please specify first the decomposition "
+                             "coefficients header.")
 
-        # Use ISAP for the reconstruction
-        if self.use_isap:
-            cube = pisap.Image(data=self.to_cube()[:, 0],
-                               metadata=self.isap_trf_header)
-            tmpdir = tempfile.mkdtemp()
-            in_mr_file = os.path.join(tmpdir, "cube.mr")
-            out_image = os.path.join(tmpdir, "out.fits")
-            try:
-                pisap.io.save(cube, in_mr_file)
-                pisap.extensions.mr_recons(in_mr_file, out_image, verbose=True)
-                image = pisap.io.load(out_image)
-            except:
-                raise
-            finally:
-                for path in (in_mr_file, out_image):
-                    if os.path.isfile(path):
-                        os.remove(path)
-                os.rmdir(tmpdir)
+        # Message
+        if self.verbose > 1:
+            print("[info] Synthesis header:")
+            pprint(self._analysis_header)
 
-        # Use the embedded python code otherwise
+        # Reorganize the coefficents with ISAP convention
+        self._analysis_data = self.unflatten_fct(self)
+
+        # Synthesis
+        if numpy.iscomplexobj(self._analysis_data):
+            data_real = self._synthesis(
+                self._analysis_data.real, self._analysis_header)
+            data_imag = self._synthesis(
+                self._analysis_data.imag, self._analysis_header)
+            data = data_real + 1.j * data_imag
         else:
-            image = pisap.Image(data=self.reconstruct())
+            data = self._synthesis(
+                self._analysis_data, self._analysis_header)
 
-        return image
+        return pisap.Image(data=data, metadata=self._image_metadata)
 
+    def band_at(self, scale, band):
+        """ Get the band at a specific scale.
 
-def get_graycode_order(scale, x="a", y="d"):
-    """ Get the decomposition mosaic.
+        Parameters
+        ----------
+        scale: int
+            index of the scale.
+        band: int
+            index of the band.
 
-    Parameters
-    ----------
-    scale: int
-        the decomposition scale.
-    x: str (optional, default 'a')
-        the x assocaited label.
-    y: str (optional, default 'b')
-        the x assocaited label.
-    
-    Returns
-    -------
-    graycode_order: list of str
-        the mosaic.
-    """
-    graycode_order = [x, y]
-    for i in range(scale - 1):
-        graycode_order = [x + path for path in graycode_order] +[
-                          y + path for path in graycode_order[::-1]]
-    return graycode_order
+        Returns
+        -------
+        band_data: nd-arry
+            the requested band data array.
+        """
+        # Message
+        if self.verbose > 1:
+            print("[info] Accessing scale {0} and band {1}...".format(
+                scale, band))
 
+        # Compute selected scale/band start/stop indices
+        start_scale_padd = self.scales_padds[scale]
+        start_band_padd = (
+            self.bands_lengths[scale, :band + 1].sum() -
+            self.bands_lengths[scale, band])
+        start_padd = start_scale_padd + start_band_padd
+        stop_padd = start_padd + self.bands_lengths[scale, band]
 
+        # Get the band array
+        band_data = self.analysis_data[start_padd: stop_padd].reshape(
+            self.bands_shapes[scale][band])
+
+        return band_data
+
+    ##########################################################################
+    # Private members
+    ##########################################################################
+
+    def _set_transformation_parameters(self):
+        """ Define the transformation class parameters.
+
+        Attributes
+        ----------
+        name: str
+            the name of the decomposition.
+        bands_names: list of str
+            the name of the different bands.
+        flatten_fct: callable
+            a function used to reorganize the ISAP decomposition coefficients,
+            see 'pisap/extensions/formating.py' module for more details.
+        unflatten_fct: callable
+            a function used to reorganize the decomposition coefficients using
+            ISAP convention, see 'pisap/extensions/formating.py' module for
+            more details.
+        is_decimated: bool
+            True if the decomposition include a decimation of the
+            band number of coefficients.
+        nb_band_per_scale: ndarray (<nb_scale>, )
+            vector of int holding the number of band per scale.
+        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
+            array holding the length between two bands of the data
+            vector per scale.
+        bands_shapes: list of list of 2-uplet (<nb_scale>, <nb_band_per_scale>)
+            structure holding the shape of each bands at each scale.
+        isap_transform_id: int
+            the label of the ISAP transformation.
+        """
+        raise NotImplementedError("Abstract method should not be declared "
+                                  "in derivate classes.")
+
+    def _compute_transformation_parameters(self):
+        """ Compute information in order to be split scale/band flatten data.
+
+        Attributes
+        ----------
+        scales_lengths: ndarray (<nb_scale>, )
+            the length of each band.
+        scales_padds: ndarray (<nb_scale> + 1, )
+            the index of the data associated to each scale.
+        """
+        if self.bands_lengths is None:
+            raise ValueError(
+                "The transformation parameters have not been set.")
+        self.scales_lengths = self.bands_lengths.sum(axis=1)
+        self.scales_padds = numpy.zeros((self.nb_scale + 1, ), dtype=int)
+        self.scales_padds[1:] = self.scales_lengths.cumsum()
+
+    # TODO @classmethod
+    def _analysis(self, data, **kwargs):
+        """ Decompose a real signal using ISAP.
+
+        Parameters
+        ----------
+        data: nd-array
+            a real array to be decomposed.
+        kwargs: dict (optional)
+            the parameters that will be passed to
+            'pisap.extensions.mr_tansform'.
+
+        Returns
+        -------
+        analysis_data: nd_array
+            the decomposition coefficients.
+        analysis_header: dict
+            the decomposition associated information.
+        """
+        kwargs["verbose"] = self.verbose > 0
+        tmpdir = self._mkdtemp()
+        in_image = os.path.join(tmpdir, "in.fits")
+        out_mr_file = os.path.join(tmpdir, "cube.mr")
+        try:
+            pisap.io.save(data, in_image)
+            pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
+            image = pisap.io.load(out_mr_file)
+            analysis_data = image.data
+            analysis_header = image.metadata
+        except:
+            raise
+        finally:
+            shutil.rmtree(tmpdir)
+
+        return analysis_data, analysis_header
+
+    # TODO @classmethod
+    def _synthesis(self, analysis_data, analysis_header):
+        """ Reconstruct a real signal from the wavelet coefficients using ISAP.
+
+        Parameters
+        ----------
+        analysis_data: nd-array
+            the wavelet coefficients array.
+        analysis_header: dict
+            the wavelet decomposition parameters.
+
+        Returns
+        -------
+        data: nd-array
+            the reconstructed data array.
+        """
+        cube = pisap.Image(data=analysis_data, metadata=analysis_header)
+        tmpdir = self._mkdtemp()
+        in_mr_file = os.path.join(tmpdir, "cube.mr")
+        out_image = os.path.join(tmpdir, "out.fits")
+        try:
+            pisap.io.save(cube, in_mr_file)
+            pisap.extensions.mr_recons(
+                in_mr_file, out_image, verbose=(self.verbose > 0))
+            data = pisap.io.load(out_image).data
+        except:
+            raise
+        finally:
+            shutil.rmtree(tmpdir)
+
+        return data
+
+    def _mkdtemp(self):
+        """ Method to generate a temporary folder compatible with the ISAP
+        implementation.
+
+        If 'jpg' or 'pgm' (with any case for each letter) are in the pathname,
+        it will corrupt the format detection in ISAP.
+
+        Returns
+        -------
+        tmpdir: str
+            the generated ISAP compliant temporary folder.
+        """
+        tmpdir = None
+        while (tmpdir is None or "pgm" in tmpdir.lower() or
+               "jpg" in tmpdir.lower()):
+            if tmpdir is not None and os.path.exists(tmpdir):
+                os.rmdir(tmpdir)
+            tmpdir = tempfile.mkdtemp()
+        return tmpdir

@@ -5,10 +5,6 @@
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
 # for details.
-#
-#:Author: Samuel Farrens <samuel.farrens@gmail.com>
-#:Version: 1.1
-#:Date: 05/01/2017
 ##########################################################################
 
 # System import
@@ -20,7 +16,7 @@ def mad(data):
     array.
 
     The median absolute deviation is a measure of statistical dispersion.
-    Moreover, the MAD is a robust statistic, being more resilient to outliers 
+    Moreover, the MAD is a robust statistic, being more resilient to outliers
     in a data set than the standard deviation. In the standard deviation,
     the distances from the mean are squared, so large deviations are weighted
     more heavily, and thus outliers can heavily influence it. In the MAD,
@@ -52,3 +48,27 @@ def sigma_mad(data):
     For normally distributed data k is taken to be 1.4826.
     """
     return 1.4826 * mad(data)
+
+
+def multiscale_sigma_mad(grad_op, linear_op):
+    """ Estimate the std from the mad routine on each approximation scale.
+
+    Parameters
+    ----------
+    grad_op: instance
+        Gradient operator.
+    linear_op: instance
+        Linear operator.
+    Returns
+    -------
+    sigma: list
+        a list of str estimate for each scale.
+    """
+    linear_op.op(grad_op.grad)
+    sigma = []
+    for scale in range(linear_op.transform.nb_scale):
+        scale_data = linear_op.transform[scale]
+        if isinstance(scale_data, list):
+            scale_data = np.concatenate(scale_data)
+        sigma.append(sigma_mad(scale_data))
+    return sigma

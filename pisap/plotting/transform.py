@@ -10,20 +10,23 @@
 import matplotlib.pyplot as plt
 from pyqtgraph.Qt import QtGui
 import pyqtgraph
+import numpy
 
 
-def plot_transform(wavelet, scales):
+def plot_transform(transform, scales=None, multiview=False):
     """ Display the different bands on the requested scales.
 
     Parameters
     ----------
-    wavelet: Wavelet
-        a wavelet.
-    scales: list  (optional, deafault None)
+    transform: WaveletTransformBase derived instance
+        a wavelet decomposition.
+    scales: list of int, default None
         the desired scales, if None compute at all scales.
+    multiview: bool, default False
+        if True use a slider to select a specific band.
     """
     # Set default scales
-    scales = scales or [4]
+    scales = scales or range(transform.nb_scale)
 
     # Create application and tab widget
     app = pyqtgraph.mkQApp()
@@ -36,77 +39,47 @@ def plot_transform(wavelet, scales):
 
         # Create the plots for this scales with scrolling possibilities
         scroller = QtGui.QScrollArea()
-        window = pyqtgraph.GraphicsWindow()
-        scroller.setWidget(window)
         tabs.addTab(scroller, "Scale {0}".format(scale))
 
         # Go through each band of the current scale
-        for row_subband in wavelet.get_scale(scale, order="freq"):
-            for subband in row_subband:
-                if subband.data.ndim == 1:
-                   ax = window.addPlot()
-                   ax.plot(subband.data, pen=pen)
-                elif subband.data.ndim == 2:
+        # > using multiview
+        # TODO: update this code
+        if multiview:
+            raise NotImplementedError(
+                "Multiview transform view not yet implemented.")
+            window = pyqtgraph.image(numpy.asarray(transform[scale]))
+            scroller.setWidget(window)
+        # > using mosaic
+        else:
+            window = pyqtgraph.GraphicsWindow()
+            scroller.setWidget(window)
+
+            scale_data = transform[scale]
+            if not isinstance(scale_data, list):
+                scale_data = [scale_data]
+
+            for subband_data in scale_data:
+
+                # Deal with complex data
+                if numpy.iscomplex(subband_data).any():
+                    subband_data = numpy.abs(subband_data)
+                subband_data = numpy.lib.pad(
+                    subband_data, 1, "constant",
+                    constant_values=subband_data.max())
+
+                # Select viewer
+                if subband_data.ndim == 1:
+                    ax = window.addPlot()
+                    ax.plot(subband_data, pen=pen)
+                elif subband_data.ndim == 2:
                     box = window.addViewBox()
                     box.setAspectLocked(True)
-                    image = pyqtgraph.ImageItem(subband.data)
+                    image = pyqtgraph.ImageItem(subband_data)
                     box.addItem(image)
                 else:
                     raise ValueError("This function currently support only "
-                                     "2D or 3D data.")
-            window.nextRow()
-
-    # Display the tab
-    tabs.show()
-
-    # Run application
-    app.exec_()
-
-
-def plot_wavelet(wavelet, scales=None):
-    """ Display approximations of scaling function (phi) and wavelet
-    function (psi) on xgrid (x) at given scales.
-
-    Parameters
-    ----------
-    wavelet: Wavelet
-        a wavelet.
-    scales: list (optional, deafault None)
-        the desired scales, if None compute at scale 4.
-    """
-    # Set default scales
-    scales = scales or [4]
-
-    # Create application and tab widget
-    app = pyqtgraph.mkQApp()
-    tabs = QtGui.QTabWidget()
-    tabs.setWindowTitle("Wavelets")
-
-    # Go through each scale
-    pen = pyqtgraph.intColor(2)
-    for scale in scales:
-
-        # Create the plots for this scales with scrolling possibilities
-        scroller = QtGui.QScrollArea()
-        window = pyqtgraph.GraphicsWindow()
-        scroller.setWidget(window)
-        if wavelet.wtype == "orthogonal":
-            phi, psi, x = wavelet.wavefun(scale=scale)
-            ax = window.addPlot(title=wavelet.name + " phi")
-            ax.plot(phi, pen=pen)
-            bx = window.addPlot(title=wavelet.name + " psi")
-            bx.plot(psi, pen=pen)
-        else:
-            phi, psi, phi_r, psi_r, x = wavelet.wavefun(scale=scale)
-            ax = window.addPlot(title=wavelet.name + " phi")
-            ax.plot(phi, pen=pen)
-            bx = window.addPlot(title=wavelet.name + " psi")
-            bx.plot(psi, pen=pen)
-            ax = window.addPlot(title=wavelet.name + " phi_r")
-            ax.plot(phi_r, pen=pen)
-            bx = window.addPlot(title=wavelet.name + " psi_r")
-            bx.plot(psi_r, pen=pen)
-        tabs.addTab(scroller, "Scale {0}".format(scale))
+                                     "1D or 2D data.")
+                window.nextRow()
 
     # Display the tab
     tabs.show()

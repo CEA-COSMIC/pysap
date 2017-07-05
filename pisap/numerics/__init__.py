@@ -11,3 +11,5 @@
 This module defines common optimization strategies with predefined operators,
 gradients, costs, ...
 """
+from .reconstruct import sparse_rec_condat_vu
+from .reconstruct import sparse_rec_fista

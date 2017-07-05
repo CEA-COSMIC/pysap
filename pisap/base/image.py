@@ -22,11 +22,11 @@ class Image(Observable):
         * data: an array of data stored in a numpy.ndarray
         * data_type: whether the data is scalar, vector or matrix.
         * a dictionary of metadata
-        
+
     If data_type is 'vector' or 'matrix', an array of dimension N will have a
     spacing of size N-1, respectivelly N-2.
-        
-    The following event is allowed: 
+
+    The following event is allowed:
         * modified
     """
     def __init__(self, shape=None, spacing=None, data_type="scalar",
@@ -69,17 +69,17 @@ class Image(Observable):
         else:
             if shape is None:
                 raise Exception("Wrong shape '{0}'.".format(shape))
-            if "value" in kwargs :
+            if "value" in kwargs:
                 value = kwargs["value"]
-                del kwargs["value"] 
-            else :
+                del kwargs["value"]
+            else:
                 value = None
             self.data = numpy.ndarray(shape, **kwargs)
-            if value is not None : 
+            if value is not None:
                 self.data.fill(value)
 
         # Image spacing initialization
-        if spacing is None :
+        if spacing is None:
             self._set_spacing(self._default_spacing())
         else:
             self._set_spacing(spacing)
@@ -98,19 +98,19 @@ class Image(Observable):
         """ Get an items of the image data.
         """
         return self.data[where]
-    
+
     def __setitem__(self, where, value):
         """ Set an item to the image data.
         """
         self.data[where] = value
-    
+
     def __array__(self):
         """ Return image data as a numpy array.
         """
         return numpy.asarray(self.data)
 
     ######################################################################
-    # Properties 
+    # Properties
     ######################################################################
 
     def _get_spacing(self):
@@ -144,7 +144,7 @@ class Image(Observable):
         """ Get the image data type.
         """
         return self.data.dtype
-    
+
     def _get_ndim(self):
         """ Get the image dimension.
         This function accounts for non-scalar data, i.e. 'vector' or 'matrix'
@@ -184,7 +184,7 @@ class Image(Observable):
     ndim = property(_get_ndim)
 
     ######################################################################
-    # Private interface 
+    # Private interface
     ######################################################################
 
     def _default_spacing(self):
@@ -192,4 +192,3 @@ class Image(Observable):
         """
         dim = self._get_ndim()
         return numpy.ones(dim, dtype=numpy.single)
-

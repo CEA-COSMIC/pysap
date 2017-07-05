@@ -39,4 +39,3 @@ class Sparse2dConfigurationError(Sparse2dError):
     def __init__(self, command_name):
         message = "Sparse2d command '{0}' not found.".format(command_name)
         super(Sparse2dConfigurationError, self).__init__(message)
-

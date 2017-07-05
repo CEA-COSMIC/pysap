@@ -34,17 +34,17 @@ def mr_transform(
             cmd.append(key)
     if number_of_undecimated_scales is not None:
         cmd += ["-u", number_of_undecimated_scales]
-    if type_of_multiresolution_transform in (6, 7, 8, 10, 12, 19, 20, 11, 27):
+    if type_of_multiresolution_transform in (6, 7, 8, 10, 12, 11, 27):
         cmd += ["-c", nbiter]
     if type_of_multiresolution_transform in (29, ):
         cmd += ["-l", type_of_lifting_transform]
     if type_of_multiresolution_transform in (14, ):
         cmd += ["-T", type_of_filters]
-        cmd += ["-L", use_l2_norm]
+        cmd += ["-L"]
     cmd += [in_image, out_mr_file]
 
     # Execute the command
-    process = Sparse2dWrapper()
+    process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
 
 
@@ -110,21 +110,22 @@ def mr_filter(
     cmd += [in_image, out_image]
 
     # Execute the command
-    process = Sparse2dWrapper()
+    process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
 
 
-def mr_deconv(in_image, in_psf, out_image, type_of_deconvolution=3,
-              type_of_multiresolution_transform=2, type_of_filters=1,
-              number_of_undecimated_scales=None, sigma=None, c=None,
-              type_of_noise=1, number_of_scales=4, nsigma=3,
-              number_of_iterations=500, epsilon=0.001,
-              rms_map_file_name=None, icf_fwhm=None,
-              suppress_positive_constraint=False, icf_file_name=None,
-              first_guess_file_name=None, residual_file_name=None,
-              no_auto_shift_max_psf=False, detect_only_positive_structure=False,
-              suppress_isolated_pixels=False, suppress_last_scale=False,
-              optimization=None, regul_param=0, verbose=False):
+def mr_deconv(
+        in_image, in_psf, out_image, type_of_deconvolution=3,
+        type_of_multiresolution_transform=2, type_of_filters=1,
+        number_of_undecimated_scales=None, sigma=None, c=None,
+        type_of_noise=1, number_of_scales=4, nsigma=3,
+        number_of_iterations=500, epsilon=0.001,
+        rms_map_file_name=None, icf_fwhm=None,
+        suppress_positive_constraint=False, icf_file_name=None,
+        first_guess_file_name=None, residual_file_name=None,
+        no_auto_shift_max_psf=False, detect_only_positive_structure=False,
+        suppress_isolated_pixels=False, suppress_last_scale=False,
+        optimization=None, regul_param=0, verbose=False):
     """ Wrap the Sparse2d 'mr_deconv'.
     """
     # Generate the command
@@ -163,11 +164,12 @@ def mr_deconv(in_image, in_psf, out_image, type_of_deconvolution=3,
     cmd += [in_image, in_psf, out_image]
 
     # Execute the command
-    process = Sparse2dWrapper()
+    process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
 
 
-def mr_recons(in_mr_file, out_image, verbose=False):
+def mr_recons(
+        in_mr_file, out_image, verbose=False):
     """ Wrap the Sparse2d 'mr_recons'.
     """
     # Generate the command
@@ -177,7 +179,5 @@ def mr_recons(in_mr_file, out_image, verbose=False):
     cmd += [in_mr_file, out_image]
 
     # Execute the command
-    process = Sparse2dWrapper()
+    process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
-
-
