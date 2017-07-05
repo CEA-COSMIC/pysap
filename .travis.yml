@@ -33,6 +33,7 @@ install:
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
+    - pip install git+https://github.com/AGrigis/sf_deconvolve.git
     - pip install .
 
 script:
