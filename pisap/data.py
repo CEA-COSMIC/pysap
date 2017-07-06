@@ -25,28 +25,28 @@ from pisap.base.exceptions import Exception
 # Global parameters
 SAMPLE_DATE_FILES = {
     "mri-nifti": {
-        "url": "http://nsap.intra.cea.fr/datasets/t1_localizer.nii.gz",
-        "md5sum": None
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "t1_localizer.nii.gz"),
+        "md5sum": "9617b36e5510a4783038c63241da21d4"
      },
     "mri-slice-nifti": {
-        "url": os.path.join(
-            "{PISAP:s}", "demo", "data", "mri", "BrainPhantom512.nii.gz"),
-        "md5sum": None
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "BrainPhantom512.nii.gz"),
+        "md5sum": "19983e6003ae94487d03131f4bacae2e"
     },
     "mri-mask": {
-        "url": os.path.join(
-            "{PISAP:s}", "demo", "data", "mri", "mask_BrainPhantom512.nii.gz"),
-        "md5sum": None
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "mask_BrainPhantom512.nii.gz"),
+        "md5sum": "078760d89e737e69b5578d47e368c42f"
     },
     "astro-fits": {
-        "url": os.path.join(
-            "{PISAP:s}", "demo", "data", "astro", "M31_128.fits"),
-        "md5sum": None
+        "url": "ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/M31_128.fits",
+        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad"
     },
     "astro-mask": {
-        "url": os.path.join(
-            "{PISAP:s}", "demo", "data", "astro", "mask25_sig40.fits"),
-        "md5sum": None
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "mask25_sig40.fits"),
+        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pisap")
