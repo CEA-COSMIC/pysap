@@ -22,6 +22,7 @@ from pisap.base.transform import WaveletTransformBase
 class TestAnalysisSynthesis(unittest.TestCase):
     """ Test the analysis/synthesis of an input image.
     """
+
     def setUp(self):
         """ Get the data from the server.
         """
@@ -30,10 +31,13 @@ class TestAnalysisSynthesis(unittest.TestCase):
         self.images = [
             pisap.io.load(fits_file),
             pisap.io.load(nii_file)]
-        print("[info] Image loaded for test: {0}.".format(
+        self.verbose = False #XXX
+        if self.verbose:
+            print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
         self.transforms = WaveletTransformBase.REGISTRY.values()
-        print("[info] Found {0} transformations.".format(len(self.transforms)))
+        if self.verbose:
+            print("[info] Found {0} transformations.".format(len(self.transforms)))
         self.nb_scales = [2, 3, 4]
         self.errors = [{
             2: {'BsplineWaveletTransformATrousAlgorithm': 0.0,
@@ -230,8 +234,9 @@ class TestAnalysisSynthesis(unittest.TestCase):
             for nb_scale in self.nb_scales:
                 # d[nb_scale] = {}
                 for transform in self.transforms:
-                    print("[info] Testing {0}...".format(transform))
-                    transform = transform(nb_scale=nb_scale, verbose=1)
+                    if self.verbose:
+                        print("[info] Testing {0}...".format(transform))
+                    transform = transform(nb_scale=nb_scale, verbose=0)
                     transform.data = image
                     transform.analysis()
                     # transform.show()
@@ -242,15 +247,17 @@ class TestAnalysisSynthesis(unittest.TestCase):
                                       rtol=1e-5)))
                     # d[nb_scale][transform.__class__.__name__] = mismatch
                     error = errors[nb_scale][transform.__class__.__name__]
-                    self.assertTrue(mismatch < error + 1e-8)
+                    msg = "{0} failed".format(transform.__class__.__name__)
+                    self.assertTrue(mismatch < error + 1e-8, msg=msg)
             # pprint(d)
 
     def test_accessors(self):
         """ Test all the accessors.
         """
         transform = self.transforms[0]
-        print("[info] Testing accessors on {0}...".format(transform))
-        transform = transform(nb_scale=4, verbose=2)
+        if self.verbose:
+            print("[info] Testing accessors on {0}...".format(transform))
+        transform = transform(nb_scale=4, verbose=0)
         transform.data = self.images[0]
         transform.analysis()
         self.assertEqual(transform[0, 0].shape, (128, 128))
