@@ -8,7 +8,7 @@
 
 # System import
 #import pyfits #no longer maintained, at least in MacOs
-import astropy.io as pyfits
+from astropy.io import fits as pyfits
 import numpy
 
 # Package import
