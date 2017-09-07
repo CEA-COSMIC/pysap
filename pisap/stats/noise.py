@@ -64,7 +64,7 @@ def multiscale_sigma_mad(grad_op, linear_op):
     sigma: list
         a list of str estimate for each scale.
     """
-    linear_op.op(grad_op.grad)
+    d = linear_op.op(grad_op.grad)
     sigma = []
     for scale in range(linear_op.transform.nb_scale):
         scale_data = linear_op.transform[scale]

@@ -17,6 +17,7 @@ from scipy.linalg import norm
 import pisap
 from pisap.stats import sigma_mad
 from pisap.stats import multiscale_sigma_mad
+from .proximity import SoftThreshold2Dt
 from .reweight import mReweight
 
 # Third party import
@@ -115,7 +116,7 @@ def sparse_rec_condat_vu(
     # Define the weights used during the thresholding in the sparse domain
     # and the shape of the dual
     weights = linear_op.op(np.zeros(data.shape))
-    weights[...] = std_thr * std_est
+    weights[...] = 1. # std_thr * std_est
     if std_est_method == "image":
         reweight_op = cwbReweight(weights)
     else:
@@ -155,7 +156,8 @@ def sparse_rec_condat_vu(
         prox_op = Identity()
 
     # Define the proximity dual operator
-    prox_dual_op = SoftThreshold(reweight_op.weights)
+    prox_dual_op = SoftThreshold2Dt(reweight_op.weights, grad_op, linear_op,
+                                    verbose=verbose)
 
     # Define the cost operator
     cost_op = costFunction(
