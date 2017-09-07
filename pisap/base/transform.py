@@ -109,36 +109,79 @@ class WaveletTransformBase(object):
         coeffs: ndarray or list of ndarray
             the analysis coefficients.
         """
-        # Test input parameters
+        # Convert given index to generic scale/band index
+        if not isinstance(given, tuple):
+            given = (given, slice(None))
+
+        # Check that we have a valid given index
+        if len(given) != 2:
+            raise ValueError("Expect a scale/band int or 2-uplet index.")
+
+        # Check some data are stored in the structure
         if self._analysis_data is None:
             raise ValueError("Please specify first the decomposition "
                              "coefficients array.")
 
-        # Handle slice object
-        if isinstance(given, slice):
-            raise ValueError("You must specify a specific band, slice is not "
-                             "accepted.")
+        # Handle multidim slice object
+        if isinstance(given[0], slice):
+            start = given[0].start or 0
+            stop = given[0].stop or self.nb_scale
+            step = given[0].step or 1
+            coeffs = [self.__getitem__((index, given[1]))
+                      for index in range(start, stop, step)]
+        elif isinstance(given[1], slice):
+            start = given[1].start or 0
+            stop = given[1].stop or self.nb_band_per_scale[given[0]]
+            step = given[1].step or 1
+            coeffs = [self.band_at(given[0], index)
+                      for index in range(start, stop, step)]
+        else:
+            coeffs = [self.band_at(given[0], given[1])]
+
+        # Format output
+        if len(coeffs) == 1:
+            coeffs = coeffs[0]
+
+        return coeffs
+
+    def __setitem__(self, given, array):
+        """ Set the analysis designated scale/band coefficients.
+
+        Parameters
+        ----------
+        given: tuple
+            the scale and band indices.
+        array: ndarray
+            the specific scale/band data as an array.
+        """
+        # Check that we have a valid given index
+        if len(given) != 2:
+            raise ValueError("Expect a scale/band int or 2-uplet index.")
+
+        # Check given index
+        if isinstance(given[0], slice) or isinstance(given[1], slice):
+            raise ValueError("Expect a scale/band int index (no slice).")
+
+        # Check some data are stored in the structure
+        if self._analysis_data is None:
+            raise ValueError("Please specify first the decomposition "
+                             "coefficients array.")
 
         # Handle multidim slice object
-        elif isinstance(given, tuple):
-            if len(given) != 2:
-                raise ValueError("Two indices expected: scale - band.")
-            if isinstance(given[0], slice):
-                raise ValueError(
-                    "You must specify a specific band, slice is not accepted.")
-            if isinstance(given[1], slice):
-                start = given[1].start or 0
-                stop = given[1].stop or self.nb_band_per_scale[given[0]]
-                step = given[1].step or 1
-                coeffs = [self.band_at(given[0], index)
-                          for index in range(start, stop, step)]
-            else:
-                coeffs = [self.band_at(given[0], given[1])]
-
-        # Handling plain index
+        if isinstance(given[0], slice):
+            start = given[0].start or 0
+            stop = given[0].stop or self.nb_scale
+            step = given[0].step or 1
+            coeffs = [self.__getitem__((index, given[1]))
+                      for index in range(start, stop, step)]
+        elif isinstance(given[1], slice):
+            start = given[1].start or 0
+            stop = given[1].stop or self.nb_band_per_scale[given[0]]
+            step = given[1].step or 1
+            coeffs = [self.band_at(given[0], index)
+                      for index in range(start, stop, step)]
         else:
-            bands = range(self.nb_band_per_scale[given])
-            coeffs = [self.band_at(given, index) for index in bands]
+            coeffs = [self.band_at(given[0], given[1])]
 
         # Format output
         if len(coeffs) == 1:
@@ -371,7 +414,7 @@ class WaveletTransformBase(object):
         """
         # Message
         if self.verbose > 1:
-            print("[info] Accessing scale {0} and band {1}...".format(
+            print("[info] Accessing scale '{0}' and band '{1}'...".format(
                 scale, band))
 
         # Compute selected scale/band start/stop indices
@@ -425,7 +468,7 @@ class WaveletTransformBase(object):
                                   "in derivate classes.")
 
     def _compute_transformation_parameters(self):
-        """ Compute information in order to be split scale/band flatten data.
+        """ Compute information in order to split scale/band flatten data.
 
         Attributes
         ----------
@@ -497,15 +540,18 @@ class WaveletTransformBase(object):
         tmpdir = self._mkdtemp()
         in_mr_file = os.path.join(tmpdir, "cube.mr")
         out_image = os.path.join(tmpdir, "out.fits")
-        try:
-            pisap.io.save(cube, in_mr_file)
-            pisap.extensions.mr_recons(
-                in_mr_file, out_image, verbose=(self.verbose > 0))
-            data = pisap.io.load(out_image).data
-        except:
-            raise
-        finally:
-            shutil.rmtree(tmpdir)
+        if 1: #self.__is_decimated__:
+            try:
+                pisap.io.save(cube, in_mr_file)
+                pisap.extensions.mr_recons(
+                    in_mr_file, out_image, verbose=(self.verbose > 0))
+                data = pisap.io.load(out_image).data
+            except:
+                raise
+            finally:
+                shutil.rmtree(tmpdir)
+        else:
+            pass
 
         return data
 
