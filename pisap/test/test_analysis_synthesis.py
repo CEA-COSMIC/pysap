@@ -221,30 +221,29 @@ class TestAnalysisSynthesis(unittest.TestCase):
                 'WaveletTransformViaLiftingScheme': 0.0}
         }]
 
-    if 0:
-        def test_wavelet_transformations(self):
-            """ Test all the registered transformations.
-            """
-            # from pprint import pprint
-            # d = {}
-            for errors, image in zip(self.errors, self.images):
-                for nb_scale in self.nb_scales:
-                    # d[nb_scale] = {}
-                    for transform in self.transforms:
-                        print("[info] Testing {0}...".format(transform))
-                        transform = transform(nb_scale=nb_scale, verbose=1)
-                        transform.data = image
-                        transform.analysis()
-                        # transform.show()
-                        recim = transform.synthesis()
-                        # recim.show()
-                        mismatch = (1. - numpy.mean(
-                            numpy.isclose(recim.data, image.data, atol=1e-8,
-                                          rtol=1e-5)))
-                        # d[nb_scale][transform.__class__.__name__] = mismatch
-                        error = errors[nb_scale][transform.__class__.__name__]
-                        self.assertTrue(mismatch < error + 1e-8)
-                # pprint(d)
+    def test_wavelet_transformations(self):
+        """ Test all the registered transformations.
+        """
+        # from pprint import pprint
+        # d = {}
+        for errors, image in zip(self.errors, self.images):
+            for nb_scale in self.nb_scales:
+                # d[nb_scale] = {}
+                for transform in self.transforms:
+                    print("[info] Testing {0}...".format(transform))
+                    transform = transform(nb_scale=nb_scale, verbose=1)
+                    transform.data = image
+                    transform.analysis()
+                    # transform.show()
+                    recim = transform.synthesis()
+                    # recim.show()
+                    mismatch = (1. - numpy.mean(
+                        numpy.isclose(recim.data, image.data, atol=1e-8,
+                                      rtol=1e-5)))
+                    # d[nb_scale][transform.__class__.__name__] = mismatch
+                    error = errors[nb_scale][transform.__class__.__name__]
+                    self.assertTrue(mismatch < error + 1e-8)
+            # pprint(d)
 
     def test_accessors(self):
         """ Test all the accessors.
