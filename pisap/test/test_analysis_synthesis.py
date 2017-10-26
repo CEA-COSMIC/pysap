@@ -281,6 +281,5 @@ class TestAnalysisSynthesis(unittest.TestCase):
         self.assertTrue(numpy.allclose(transform[0, 0], band_array))
 
 
-
 if __name__ == "__main__":
     unittest.main()

@@ -17,10 +17,16 @@ import shutil
 import tempfile
 import uuid
 import os
+import warnings
 
 # Package import
 import pisap
 from pisap.plotting import plot_transform
+try:
+    import pysparse
+except:
+    warnings.warn("Sparse2d python bindings not found, use binaries.")
+    pysparse = None
 
 # Third party import
 import numpy
@@ -59,7 +65,7 @@ class WaveletTransformBase(object):
     """
     __metaclass__ = MetaRegister
 
-    def __init__(self, nb_scale, verbose=0):
+    def __init__(self, nb_scale, verbose=0, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -95,6 +101,15 @@ class WaveletTransformBase(object):
         self._analysis_shape = None
         self._analysis_header = None
         self.verbose = verbose
+
+        # Transformation
+        if pysparse is not None:
+            kwargs["type_of_multiresolution_transform"] = (
+                self.__isap_transform_id__)
+            kwargs["number_of_scales"] = self.nb_scale
+            self.trf = pysparse.MRTransform(**kwargs)
+        else:
+            self.trf = None
 
     def __getitem__(self, given):
         """ Access the analysis designated scale/band coefficients.
@@ -356,8 +371,9 @@ class WaveletTransformBase(object):
                 self._data, **kwargs)
 
         # Reorganize the generated coefficents
-        self._analysis_shape = self._analysis_data.shape
-        self._analysis_data = self.flatten_fct(self._analysis_data, self)
+        if isinstance(self._analysis_data, numpy.ndarray):
+            self._analysis_shape = self._analysis_data.shape
+            self._analysis_data = self.flatten_fct(self._analysis_data, self)
 
     def synthesis(self):
         """ Reconstruct a real or complex signal from the wavelet coefficients
@@ -372,7 +388,7 @@ class WaveletTransformBase(object):
         if self._analysis_data is None:
             raise ValueError("Please specify first the decomposition "
                              "coefficients array.")
-        if self._analysis_header is None:
+        if pysparse is None and self._analysis_header is None:
             raise ValueError("Please specify first the decomposition "
                              "coefficients header.")
 
@@ -382,7 +398,8 @@ class WaveletTransformBase(object):
             pprint(self._analysis_header)
 
         # Reorganize the coefficents with ISAP convention
-        self._analysis_data = self.unflatten_fct(self)
+        if pysparse is None:
+            self._analysis_data = self.unflatten_fct(self)
 
         # Synthesis
         if numpy.iscomplexobj(self._analysis_data):
@@ -503,20 +520,28 @@ class WaveletTransformBase(object):
         analysis_header: dict
             the decomposition associated information.
         """
-        kwargs["verbose"] = self.verbose > 0
-        tmpdir = self._mkdtemp()
-        in_image = os.path.join(tmpdir, "in.fits")
-        out_mr_file = os.path.join(tmpdir, "cube.mr")
-        try:
-            pisap.io.save(data, in_image)
-            pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
-            image = pisap.io.load(out_mr_file)
-            analysis_data = image.data
-            analysis_header = image.metadata
-        except:
-            raise
-        finally:
-            shutil.rmtree(tmpdir)
+        # Use subprocess to execute binaries
+        if pysparse is None:
+            kwargs["verbose"] = self.verbose > 0
+            tmpdir = self._mkdtemp()
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_mr_file = os.path.join(tmpdir, "cube.mr")
+            try:
+                pisap.io.save(data, in_image)
+                pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
+                image = pisap.io.load(out_mr_file)
+                analysis_data = image.data
+                analysis_header = image.metadata
+            except:
+                raise
+            finally:
+                shutil.rmtree(tmpdir)
+
+        # Use Python bindings
+        else:
+            analysis_data = self.trf.transform(
+                data.astype(numpy.double), save=False)
+            analysis_header = None
 
         return analysis_data, analysis_header
 
@@ -536,22 +561,29 @@ class WaveletTransformBase(object):
         data: nd-array
             the reconstructed data array.
         """
-        cube = pisap.Image(data=analysis_data, metadata=analysis_header)
-        tmpdir = self._mkdtemp()
-        in_mr_file = os.path.join(tmpdir, "cube.mr")
-        out_image = os.path.join(tmpdir, "out.fits")
-        if 1: #self.__is_decimated__:
-            try:
-                pisap.io.save(cube, in_mr_file)
-                pisap.extensions.mr_recons(
-                    in_mr_file, out_image, verbose=(self.verbose > 0))
-                data = pisap.io.load(out_image).data
-            except:
-                raise
-            finally:
-                shutil.rmtree(tmpdir)
+        # Use subprocess to execute binaries
+        if pysparse is None:
+
+            cube = pisap.Image(data=analysis_data, metadata=analysis_header)
+            tmpdir = self._mkdtemp()
+            in_mr_file = os.path.join(tmpdir, "cube.mr")
+            out_image = os.path.join(tmpdir, "out.fits")
+            if 1: #self.__is_decimated__:
+                try:
+                    pisap.io.save(cube, in_mr_file)
+                    pisap.extensions.mr_recons(
+                        in_mr_file, out_image, verbose=(self.verbose > 0))
+                    data = pisap.io.load(out_image).data
+                except:
+                    raise
+                finally:
+                    shutil.rmtree(tmpdir)
+            else:
+                pass
+
+        # Use Python bindings
         else:
-            pass
+            data = self.trf.reconstruct(analysis_data)
 
         return data
 
