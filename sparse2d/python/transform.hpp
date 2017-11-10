@@ -56,6 +56,8 @@ public:
 
 private:
     MultiResol mr;
+    FilterAnaSynt fas;
+    FilterAnaSynt *ptrfas = NULL;
     bool mr_initialized;
     std::string m_opath;
     int type_of_multiresolution_transform;
@@ -96,7 +98,7 @@ MRTransform::MRTransform(
     this->use_l2_norm = use_l2_norm;
     this->type_of_non_orthog_filters = type_of_non_orthog_filters;
     this->verbose = verbose;
-    this->nb_of_undecimated_scales = 1;
+    this->nb_of_undecimated_scales = -1;
     this->mr_initialized = false;
 
     // The maximum number of threads returned by omp_get_max_threads()
@@ -152,7 +154,7 @@ MRTransform::MRTransform(
 	if ((this->mr_transform != TO_LIFTING) && (this->lift_transform != DEF_LIFT))
         throw std::invalid_argument("-l option is only available with lifting transform.");
 	if ((this->mr_transform != TO_UNDECIMATED_MALLAT) && (this->mr_transform != TO_MALLAT) &&
-            ((this->use_l2_norm) || (this->filter != F_MALLAT_7_9)))
+            (this->use_l2_norm))
 	    throw std::invalid_argument("-T and -L options are only valid with Mallat transform.");
 }
 
@@ -220,8 +222,8 @@ bp::list MRTransform::Transform(const bn::ndarray& arr, bool save){
     Ifloat data = array2image_2d(arr);
     if (!this->mr_initialized) {
         //MultiResol mr;
-        FilterAnaSynt fas;
-        FilterAnaSynt *ptrfas = NULL;
+        //FilterAnaSynt fas;
+        //FilterAnaSynt *ptrfas = NULL;
         if ((this->mr_transform == TO_MALLAT) || (this->mr_transform == TO_UNDECIMATED_MALLAT)) {
             fas.Verbose = (Bool)this->verbose;
             fas.alloc(this->filter);
@@ -262,7 +264,23 @@ bp::list MRTransform::Transform(const bn::ndarray& arr, bool save){
         mr_data.append(image2array_2d(mr.band(s)));
     }
 
-    return mr_data;
+    // Get the number of bands for each scale
+    bp::list mr_scale;
+    int nb_bands_count = 0;
+    for (int s=0; s<mr.nbr_scale(); s++) {
+        nb_bands_count += mr.nbr_band_per_resol(s);
+        mr_scale.append(mr.nbr_band_per_resol(s));
+    }
+    if (nb_bands_count != mr.nbr_band()) {
+        mr_scale[-1] = 1;
+    }
+    
+    // Format the result
+    bp::list mr_result;
+    mr_result.append(mr_data);
+    mr_result.append(mr_scale);
+
+    return mr_result;
 }
 
 // Reconstruction method

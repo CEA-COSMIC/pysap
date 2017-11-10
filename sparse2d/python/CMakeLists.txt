@@ -15,20 +15,6 @@ list(APPEND CMAKE_MODULE_PATH  "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 project(pysparse)
 
-  # Find cfitsio
-  pkg_check_modules(CFITSIO REQUIRED cfitsio)
-  include_directories(${CFITSIO_INCLUDE_DIRS})
-  link_directories(${CFITSIO_LIBRARY_DIRS})
-
-  # Define the sparse2d include directories
-  set(Spase2d_INSTALL_DIR ${CMAKE_SOURCE_DIR}/../build/local_install/usr)
-  set(Spase2d_INCLUDE_DIR ${Spase2d_INSTALL_DIR}/include /home/ag239446/git/pisap/sparse2d/src/libtools)
-  include_directories(${Spase2d_INCLUDE_DIR})
-
-  # Define the sparse2d libraries
-  set(Sparse2d_LIBRARIES mga2d sparse2d sparse1d tools)
-  link_directories(${Spase2d_INSTALL_DIR}/lib)
-
   # Define boost options
   SET(Boost_USE_STATIC_LIBS ON)
   SET(Boost_USE_MULTITHREADED ON)
@@ -43,15 +29,23 @@ project(pysparse)
   find_package(PythonLibs REQUIRED)
   find_package(OpenMP REQUIRED)
   include(BuildBoost) # Custom module
+  include(BuildCfitsIO) # Custom module
+  include(BuildSparse2D) # Custom module
 
   # Includes
   include_directories(${Boost_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+  include_directories(${cfitsio_INCLUDE_DIR})
+  include_directories(${sparse2d_INCLUDE_DIR})
   link_directories(${Boost_LIBRARY_DIR})
+  link_directories(${cfitsio_LIBRARY_DIR})
+  link_directories(${sparse2d_LIBRARY_DIR})
 
   # Build and link the pylib module
   add_library(pysparse SHARED pysparse.cpp)
-  target_link_libraries(pysparse ${Sparse2d_LIBRARIES} -lcfitsio ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+  target_link_libraries(pysparse ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
   add_dependencies(pysparse Boost)
+  add_dependencies(pysparse cfitsio)
+  add_dependencies(pysparse sparse2d)
 
   # Tweaks the name of the library to match what Python expects
   set_target_properties(pysparse PROPERTIES SUFFIX .so)

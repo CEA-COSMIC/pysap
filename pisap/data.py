@@ -69,8 +69,8 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
 
     Returns
     -------
-    path: str
-        the path to the desired dataset.
+    image: Image
+        the loaded dataset.
     """
     # First get the data url
     dataset = SAMPLE_DATE_FILES.get(dataset_name)
@@ -94,7 +94,10 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
             raise Exception("File '{0}' checksum verification has "
                             "failed.".format(path))
 
-    return path
+    # Load the dataset
+    image = pisap.io.load(path)
+
+    return image
 
 
 def md5_sum_file(fname):

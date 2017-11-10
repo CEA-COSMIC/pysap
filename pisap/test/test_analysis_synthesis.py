@@ -25,11 +25,9 @@ class TestAnalysisSynthesis(unittest.TestCase):
     def setUp(self):
         """ Get the data from the server.
         """
-        fits_file = get_sample_data(dataset_name="astro-fits")
-        nii_file = get_sample_data(dataset_name="mri-slice-nifti")
         self.images = [
-            pisap.io.load(fits_file),
-            pisap.io.load(nii_file)]
+            get_sample_data(dataset_name="astro-fits"),
+            get_sample_data(dataset_name="mri-slice-nifti")]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
         self.transforms = WaveletTransformBase.REGISTRY.values()
@@ -244,42 +242,6 @@ class TestAnalysisSynthesis(unittest.TestCase):
                     error = errors[nb_scale][transform.__class__.__name__]
                     self.assertTrue(mismatch < error + 1e-8)
             # pprint(d)
-
-    def test_accessors(self):
-        """ Test all the accessors.
-        """
-        # Test 3-bands undecimated transform
-        nb_scale = 4
-        transform = WaveletTransformBase.REGISTRY[
-            "UndecimatedBiOrthogonalTransform"]
-        transform = transform(nb_scale=nb_scale, verbose=2)
-        transform.data = self.images[0]
-        transform.analysis()
-        # Get with scale index only
-        for scale in range(nb_scale - 1):
-            band_data = transform[scale]
-            self.assertEqual(len(band_data), 3)
-            for band_array in band_data:
-                self.assertEqual(band_array.shape, (128, 128))
-        band_array = transform[nb_scale - 1]
-        self.assertEqual(band_array.shape, (128, 128))
-        # Get with scale and band
-        self.assertEqual(transform[0, 0].shape, (128, 128))
-        # Get with scale and band as slice
-        band_data = transform[2, 1:3:1]
-        self.assertEqual(len(band_data), 2)
-        for band_array in band_data:
-            self.assertEqual(band_array.shape, (128, 128))
-        # Get with scale as slice and band
-        band_data = transform[1:3, 0]
-        self.assertEqual(len(band_data), 2)
-        for band_array in band_data:
-            self.assertEqual(band_array.shape, (128, 128))
-        # Modify a band on the fly
-        band_array = transform[0, 0]
-        band_array[:, :] = 10
-        self.assertTrue(numpy.allclose(transform[0, 0], band_array))
-
 
 if __name__ == "__main__":
     unittest.main()

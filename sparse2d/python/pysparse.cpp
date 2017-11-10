@@ -84,5 +84,11 @@ BOOST_PYTHON_MODULE(pysparse){
                 get_opath_function_type( &::MRTransform::get_opath ),
                 set_opath_function_type( &::MRTransform::set_opath ) );  
         }
+
     }
+
+    // Module property
+    bp::scope().attr("__version__") = "0.0.1";
+    bp::scope().attr("__doc__") = "Python bindings for ISAP";
+
 }

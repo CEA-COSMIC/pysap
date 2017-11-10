@@ -9,7 +9,7 @@
 # Module current version
 version_major = 0
 version_minor = 0
-version_micro = 0
+version_micro = 1
 
 # Expected by setup.py: string of form "X.Y.Z"
 __version__ = "{0}.{1}.{2}".format(version_major, version_minor, version_micro)
@@ -52,7 +52,11 @@ URL = "https://github.com/neurospin/pisap"
 DOWNLOAD_URL = "https://github.com/neurospin/pisap"
 LICENSE = "CeCILL-B"
 CLASSIFIERS = CLASSIFIERS
-AUTHOR = "piSAP developers"
+AUTHOR = """
+Antoine Grigis <antoine.grigis@cea.fr>
+Jean-Luc Starck <jl.stark@cea.fr>
+Philippe Ciuciu <philippe.ciuciu@cea.fr>
+"""
 AUTHOR_EMAIL = "XXX"
 PLATFORMS = "OS Independent"
 ISRELEASE = True
@@ -62,6 +66,8 @@ REQUIRES = [
     "numpy>=1.11.0",
     "scipy>=0.18.0",
     "pyfits>=3.4",
-    "nibabel>=2.1.0"
+    "nibabel>=2.1.0",
+    "pyqtgraph>=0.10.0",
+    "pysparse>=0.0.1"
 ]
 EXTRA_REQUIRES = {}
