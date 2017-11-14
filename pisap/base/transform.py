@@ -420,9 +420,11 @@ class WaveletTransformBase(object):
         # Synthesis
         if numpy.iscomplexobj(self._analysis_data[0]):
             data_real = self._synthesis(
-                [arr.real for arr in self._analysis_data], self._analysis_header)
+                [arr.real for arr in self._analysis_data],
+                self._analysis_header)
             data_imag = self._synthesis(
-                [arr.imag for arr in self._analysis_data], self._analysis_header)
+                [arr.imag for arr in self._analysis_data],
+                self._analysis_header)
             data = data_real + 1.j * data_imag
         else:
             data = self._synthesis(
@@ -469,7 +471,8 @@ class WaveletTransformBase(object):
         else:
 
             # Get the band array
-            index = numpy.sum(self.nb_band_per_scale[:scale]).astype(int) + band
+            index = (numpy.sum(self.nb_band_per_scale[:scale]).astype(int) +
+                     band)
             band_data = self.analysis_data[index]
 
         return band_data
@@ -594,16 +597,15 @@ class WaveletTransformBase(object):
             tmpdir = self._mkdtemp()
             in_mr_file = os.path.join(tmpdir, "cube.mr")
             out_image = os.path.join(tmpdir, "out.fits")
-            if 1: #self.__is_decimated__:
-                try:
-                    pisap.io.save(cube, in_mr_file)
-                    pisap.extensions.mr_recons(
-                        in_mr_file, out_image, verbose=(self.verbose > 0))
-                    data = pisap.io.load(out_image).data
-                except:
-                    raise
-                finally:
-                    shutil.rmtree(tmpdir)
+            try:
+                pisap.io.save(cube, in_mr_file)
+                pisap.extensions.mr_recons(
+                    in_mr_file, out_image, verbose=(self.verbose > 0))
+                data = pisap.io.load(out_image).data
+            except:
+                raise
+            finally:
+                shutil.rmtree(tmpdir)
             else:
                 pass
 

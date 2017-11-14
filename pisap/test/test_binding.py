@@ -28,14 +28,14 @@ class TestWarpAndBinding(unittest.TestCase):
         """ Get the data from the server.
         """
         self.images = [
-            #get_sample_data(dataset_name="astro-fits"),
+            # get_sample_data(dataset_name="astro-fits"),
             get_sample_data(dataset_name="mri-slice-nifti")]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
         self.transforms = [
             pisap.load_transform(name) for name in pisap.AVAILABLE_TRANSFORMS]
         print("[info] Found {0} transformations.".format(len(self.transforms)))
-        self.nb_scales = [3] # [2, 3, 4]
+        self.nb_scales = [3]  # [2, 3, 4]
         self.nb_iter = 10
 
     def test_wavelet_transformations(self):
@@ -53,9 +53,9 @@ class TestWarpAndBinding(unittest.TestCase):
                     transform.info
                     transform.data = image
                     transform.analysis()
-                    #transform.show()
+                    # transform.show()
                     recim = transform.synthesis()
-                    #recim.show()
+                    # recim.show()
                     mismatch = (1. - numpy.mean(
                         numpy.isclose(recim.data, image.data, atol=1e-8,
                                       rtol=1e-5)))

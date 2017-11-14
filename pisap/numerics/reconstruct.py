@@ -116,7 +116,7 @@ def sparse_rec_condat_vu(
     # Define the weights used during the thresholding in the sparse domain
     # and the shape of the dual
     weights = linear_op.op(np.zeros(data.shape))
-    weights[...] = 1. # std_thr * std_est
+    weights[...] = 1.  # std_thr * std_est
     if std_est_method == "image":
         reweight_op = cwbReweight(weights)
     else:
