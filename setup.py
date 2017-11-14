@@ -19,7 +19,7 @@ infopath = os.path.abspath(
 with open(infopath) as open_file:
     exec(open_file.read(), release_info)
 pkgdata = {
-    "pisap": ["test/*.py", "demo/*.ipynb"]
+    "pisap": ["test/*.py", "test/*.json", "demo/*.ipynb"]
 }
 scripts = []
 
