@@ -528,7 +528,6 @@ class WaveletTransformBase(object):
         self.scales_padds = numpy.zeros((self.nb_scale + 1, ), dtype=int)
         self.scales_padds[1:] = self.scales_lengths.cumsum()
 
-    # TODO @classmethod
     def _analysis(self, data, **kwargs):
         """ Decompose a real signal using ISAP.
 
@@ -567,7 +566,6 @@ class WaveletTransformBase(object):
 
         return analysis_data, analysis_header
 
-    # TODO @classmethod
     def _synthesis(self, analysis_data, analysis_header):
         """ Reconstruct a real signal from the wavelet coefficients using ISAP.
 
