@@ -99,6 +99,7 @@ class WaveletTransformBase(object):
         self._analysis_data = None
         self._analysis_shape = None
         self._analysis_header = None
+        self._analysis_buffer_shape = None
         self.verbose = verbose
 
         # Transformation
@@ -384,11 +385,6 @@ class WaveletTransformBase(object):
             self._analysis_data, self._analysis_header = self._analysis(
                 self._data, **kwargs)
 
-        # Reorganize the generated coefficents
-        if isinstance(self._analysis_data, numpy.ndarray):
-            self._analysis_shape = self._analysis_data.shape
-            self._analysis_data = self.flatten_fct(self._analysis_data, self)
-
     def synthesis(self):
         """ Reconstruct a real or complex signal from the wavelet coefficients
         using ISAP.
@@ -412,7 +408,16 @@ class WaveletTransformBase(object):
             pprint(self._analysis_header)
 
         # Reorganize the coefficents with ISAP convention
+        # TODO: do not backup the list of bands
         if self.use_wrapping:
+            analysis_buffer = numpy.zeros(
+                self._analysis_buffer_shape, dtype=numpy.single)
+            for scale, nb_bands in enumerate(self.nb_band_per_scale):
+                for band in range(nb_bands):
+                    self._set_linear_band(scale, band, analysis_buffer,
+                                          self.band_at(scale, band))
+            _saved_analysis_data = self._analysis_data
+            self._analysis_data = analysis_buffer
             self._analysis_data = [self.unflatten_fct(self)]
 
         # Synthesis
@@ -427,6 +432,10 @@ class WaveletTransformBase(object):
         else:
             data = self._synthesis(
                 self._analysis_data, self._analysis_header)
+
+        # TODO: remove this code asap
+        if self.use_wrapping:
+            self._analysis_data = _saved_analysis_data
 
         return pisap.Image(data=data, metadata=self._image_metadata)
 
@@ -450,34 +459,78 @@ class WaveletTransformBase(object):
             print("[info] Accessing scale '{0}' and band '{1}'...".format(
                 scale, band))
 
-        # Use wrapping case
-        if self.use_wrapping:
-
-            # Compute selected scale/band start/stop indices
-            start_scale_padd = self.scales_padds[scale]
-            start_band_padd = (
-                self.bands_lengths[scale, :band + 1].sum() -
-                self.bands_lengths[scale, band])
-            start_padd = start_scale_padd + start_band_padd
-            stop_padd = start_padd + self.bands_lengths[scale, band]
-
-            # Get the band array
-            band_data = self.analysis_data[start_padd: stop_padd].reshape(
-                self.bands_shapes[scale][band])
-
-        # Use binding case
-        else:
-
-            # Get the band array
-            index = (numpy.sum(self.nb_band_per_scale[:scale]).astype(int) +
-                     band)
-            band_data = self.analysis_data[index]
+        # Get the band array
+        index = numpy.sum(self.nb_band_per_scale[:scale]).astype(int) + band
+        band_data = self.analysis_data[index]
 
         return band_data
 
     ##########################################################################
     # Private members
     ##########################################################################
+
+    def _get_linear_band(self, scale, band, analysis_data):
+        """ Access the desired band data from a 1D linear analysis buffer.
+
+        Parameters
+        ----------
+        scale: int
+            index of the scale.
+        band: int
+            index of the band.
+        analysis_data: nd-array (N, )
+            the analysis buffer.
+
+        Returns
+        -------
+        band_data: nd-arry (M, )
+            the requested band buffer.
+        """
+        # Compute selected scale/band start/stop indices
+        start_scale_padd = self.scales_padds[scale]
+        start_band_padd = (
+            self.bands_lengths[scale, :band + 1].sum() -
+            self.bands_lengths[scale, band])
+        start_padd = start_scale_padd + start_band_padd
+        stop_padd = start_padd + self.bands_lengths[scale, band]
+
+        # Get the band array
+        band_data = analysis_data[start_padd: stop_padd].reshape(
+            self.bands_shapes[scale][band])
+
+        return band_data
+
+    def _set_linear_band(self, scale, band, analysis_data, band_data):
+        """ Set the desired band data in a 1D linear analysis buffer.
+
+        Parameters
+        ----------
+        scale: int
+            index of the scale.
+        band: int
+            index of the band.
+        analysis_data: nd-array (N, )
+            the analysis buffer.
+        band_data: nd-array (M, M)
+            the band data to be added in the analysis buffer.
+
+        Returns
+        -------
+        analysis_data: nd-arry (N, )
+            the updated analysis buffer.
+        """
+        # Compute selected scale/band start/stop indices
+        start_scale_padd = self.scales_padds[scale]
+        start_band_padd = (
+            self.bands_lengths[scale, :band + 1].sum() -
+            self.bands_lengths[scale, band])
+        start_padd = start_scale_padd + start_band_padd
+        stop_padd = start_padd + self.bands_lengths[scale, band]
+
+        # Get the band array
+        analysis_data[start_padd: stop_padd] = band_data.flatten()
+
+        return analysis_data
 
     def _set_transformation_parameters(self):
         """ Define the transformation class parameters.
@@ -558,11 +611,26 @@ class WaveletTransformBase(object):
                 analysis_data = image.data
                 analysis_header = image.metadata
 
+            # Reorganize the generated coefficents
+            self._analysis_shape = analysis_data.shape
+            analysis_buffer = self.flatten_fct(analysis_data, self)
+            self._analysis_buffer_shape = analysis_buffer.shape
+            if not isinstance(self.nb_band_per_scale, list):
+                self.nb_band_per_scale = (
+                    self.nb_band_per_scale.squeeze().tolist())
+            analysis_data = []
+            for scale, nb_bands in enumerate(self.nb_band_per_scale):
+                for band in range(nb_bands):
+                    analysis_data.append(self._get_linear_band(
+                        scale, band, analysis_buffer))
+
         # Use Python bindings
         else:
             analysis_data, self.nb_band_per_scale = self.trf.transform(
                 data.astype(numpy.double), save=False)
             analysis_header = None
+            print(self.nb_scale)
+            print(self.nb_band_per_scale)
 
         return analysis_data, analysis_header
 
