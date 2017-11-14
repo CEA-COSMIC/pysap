@@ -13,6 +13,9 @@
 .. |Python34| image:: https://img.shields.io/badge/python-3.4-blue.svg
 .. _Python34: https://badge.fury.io/py/pisap
 
+.. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
+.. _Python35: https://badge.fury.io/py/pisap
+
 .. |PyPi| image:: https://badge.fury.io/py/pisap.svg
 .. _PyPi: https://badge.fury.io/py/pisap
 
