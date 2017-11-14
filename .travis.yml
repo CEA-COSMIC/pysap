@@ -9,8 +9,8 @@ python:
 
 before_install:
     - sudo apt-get update
-    - wget http://xxx/sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
-    - sudo dpkg -i sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
+    #- wget http://xxx/sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
+    #- sudo dpkg -i sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
     - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then 
         wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh; 
       else
@@ -33,7 +33,7 @@ install:
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
-    - pip install git+https://github.com/AGrigis/sf_deconvolve.git
+    #- pip install git+https://github.com/AGrigis/sf_deconvolve.git
     - pip install .
 
 script:
