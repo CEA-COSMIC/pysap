@@ -360,7 +360,9 @@ class FeauveauWaveletTransform(ISAPWaveletTransformBase):
     __isap_scale_shift__ = 1
 
     def _set_transformation_parameters(self):
-        raise NotImplementedError
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
         self.name = "Feauveau's wavelet transform"
         ratios = numpy.ones_like(bands_lengths, dtype=float)
         ratios[:, 1] *= 2.0
@@ -390,7 +392,9 @@ class LineColumnWaveletTransform1D1D(ISAPWaveletTransformBase):
     __isap_nb_bands__ = 1
 
     def _set_transformation_parameters(self):
-        raise NotImplementedError
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
         _map = {128: 5, 512: 6}
         self.nb_scale = _map[self._iso_shape]  # fixed for this wavelet
         self.name = "Line Column Wavelet Transform (1D+1D)"
@@ -527,7 +531,9 @@ class FastCurveletTransform(ISAPWaveletTransformBase):
     __isap_nb_bands__ = 1
 
     def _set_transformation_parameters(self):
-        raise NotImplementedError
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
         self.name = "Fast Curvelet Transform"
         self.bands_names = ["d"] * 16
         self.nb_band_per_scale = [16, 16, 8, 8, 8, 8, 8, 8, 8, 1]
