@@ -21,3 +21,4 @@ from pisap.base.image import Image
 import pisap.extensions
 from pisap.utils import AVAILABLE_TRANSFORMS
 from pisap.utils import load_transform
+from pisap.utils import TempDir

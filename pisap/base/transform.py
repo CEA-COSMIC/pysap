@@ -13,8 +13,6 @@ Wavelet transform base module.
 # System import
 from __future__ import division, print_function, absolute_import
 from pprint import pprint
-import shutil
-import tempfile
 import uuid
 import os
 import warnings
@@ -552,19 +550,14 @@ class WaveletTransformBase(object):
         # Use subprocess to execute binaries
         if self.use_wrapping:
             kwargs["verbose"] = self.verbose > 0
-            tmpdir = self._mkdtemp()
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_mr_file = os.path.join(tmpdir, "cube.mr")
-            try:
+            with pisap.TempDir(isap=True) as tmpdir:
+                in_image = os.path.join(tmpdir, "in.fits")
+                out_mr_file = os.path.join(tmpdir, "cube.mr")
                 pisap.io.save(data, in_image)
                 pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
                 image = pisap.io.load(out_mr_file)
                 analysis_data = image.data
                 analysis_header = image.metadata
-            except:
-                raise
-            finally:
-                shutil.rmtree(tmpdir)
 
         # Use Python bindings
         else:
@@ -594,43 +587,16 @@ class WaveletTransformBase(object):
         if self.use_wrapping:
 
             cube = pisap.Image(data=analysis_data[0], metadata=analysis_header)
-            tmpdir = self._mkdtemp()
-            in_mr_file = os.path.join(tmpdir, "cube.mr")
-            out_image = os.path.join(tmpdir, "out.fits")
-            try:
+            with pisap.TempDir(isap=True) as tmpdir:
+                in_mr_file = os.path.join(tmpdir, "cube.mr")
+                out_image = os.path.join(tmpdir, "out.fits")
                 pisap.io.save(cube, in_mr_file)
                 pisap.extensions.mr_recons(
                     in_mr_file, out_image, verbose=(self.verbose > 0))
                 data = pisap.io.load(out_image).data
-            except:
-                raise
-            finally:
-                shutil.rmtree(tmpdir)
-            else:
-                pass
 
         # Use Python bindings
         else:
             data = self.trf.reconstruct(analysis_data)
 
         return data
-
-    def _mkdtemp(self):
-        """ Method to generate a temporary folder compatible with the ISAP
-        implementation.
-
-        If 'jpg' or 'pgm' (with any case for each letter) are in the pathname,
-        it will corrupt the format detection in ISAP.
-
-        Returns
-        -------
-        tmpdir: str
-            the generated ISAP compliant temporary folder.
-        """
-        tmpdir = None
-        while (tmpdir is None or "pgm" in tmpdir.lower() or
-               "jpg" in tmpdir.lower()):
-            if tmpdir is not None and os.path.exists(tmpdir):
-                os.rmdir(tmpdir)
-            tmpdir = tempfile.mkdtemp()
-        return tmpdir

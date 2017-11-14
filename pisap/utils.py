@@ -13,6 +13,7 @@ A module with common functions to list and load transformations.
 # System import
 from __future__ import division, print_function, absolute_import
 import shutil
+import tempfile
 
 # Package import
 import pisap.extensions.transform
@@ -47,17 +48,48 @@ def load_transform(name):
 class TempDir(object):
     """ Create a tempdir with the with synthax.
     """
-    def __init__(self):
+    def __init__(self, isap=False):
+        """ Initialize the TempDir class.
+
+        Parameters
+        ----------
+        isap: bool, default False
+            if set, generates a temporary folder compatible with ISAP.
+        """
         self.path = None
+        self.isap = isap
         return
 
     def __enter__(self):
-        self.path = tempfile.mkdtemp()
+        if self.isap:
+            self.path = self._mkdtemp_isap()
+        else:
+            self.path = tempfile.mkdtemp()
         return self.path
 
     def __exit__(self, type, value, traceback):
         if self.path is not None:
             shutil.rmtree(self.path)
+
+    def _mkdtemp_isap(self):
+        """ Method to generate a temporary folder compatible with the ISAP
+        implementation.
+
+        If 'jpg' or 'pgm' (with any case for each letter) are in the pathname,
+        it will corrupt the format detection in ISAP.
+
+        Returns
+        -------
+        tmpdir: str
+            the generated ISAP compliant temporary folder.
+        """
+        tmpdir = None
+        while (tmpdir is None or "pgm" in tmpdir.lower() or
+               "jpg" in tmpdir.lower()):
+            if tmpdir is not None and os.path.exists(tmpdir):
+                os.rmdir(tmpdir)
+            tmpdir = tempfile.mkdtemp()
+        return tmpdir
 
 
 def logo():
