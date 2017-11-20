@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -121,44 +131,32 @@
   <span class="target" id="module-pisap.numerics.gradient"></span><p>This module contains classses for defining algorithm operators and gradients.
 Based on work by Yinghao Ge and Fred Ngole.</p>
 <dl class="class">
-<dt id="pisap.numerics.gradient.Grad2D">
-<em class="property">class </em><code class="descclassname">pisap.numerics.gradient.</code><code class="descname">Grad2D</code><span class="sig-paren">(</span><em>data</em>, <em>mask</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2D" title="Permalink to this definition">¶</a></dt>
-<dd><p>Standard 2D gradient class</p>
-<p>This class defines the operators for a 2D array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>Input data array, an array of 2D observed images (i.e. with noise)</p>
-</div></blockquote>
-<p><strong>mask</strong> :  np.ndarray</p>
-<blockquote class="last">
-<div><p>The subsampling mask.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The properties of <cite>GradBase</cite> and <cite>PowerMethod</cite> are inherited in this class</p>
+<dt id="pisap.numerics.gradient.Grad2DAnalyse">
+<em class="property">class </em><code class="descclassname">pisap.numerics.gradient.</code><code class="descname">Grad2DAnalyse</code><span class="sig-paren">(</span><em>data</em>, <em>mask</em>, <em>linear_operator</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DAnalyse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DAnalyse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analysis 2D gradient class.</p>
+<p>This class defines the grad operators for <a href="#id1"><span class="problematic" id="id2">|</span></a>M*F*invL*alpha - data|**2.</p>
 <dl class="method">
-<dt id="pisap.numerics.gradient.Grad2D.MX">
-<code class="descname">MX</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2D.MX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2D.MX" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method calculates the action of the matrix M on the data X, in
+<dt id="pisap.numerics.gradient.Grad2DAnalyse.MX">
+<code class="descname">MX</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DAnalyse.MX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DAnalyse.MX" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="upperroman simple" start="1010">
+<li></li>
+</ol>
+<p>This method calculates the action of the matrix M on the data X, in
 this case fourier transform of the the input data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : np.ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x: nd-array</strong></p>
 <blockquote>
-<div><p>Input data array, an array of recovered 2D images</p>
+<div><p>Input decomposisiton coefficients.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray result</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coeffs: np.ndarray</p>
+<blockquote class="last">
+<div><p>Fourier transform coefficents.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -166,82 +164,105 @@ this case fourier transform of the the input data</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pisap.numerics.gradient.Grad2D.MtX">
-<code class="descname">MtX</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2D.MtX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2D.MtX" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method calculates the action of the transpose of the matrix M on
-the data X, in this case inverse fourier transform of the input data</p>
+<dt id="pisap.numerics.gradient.Grad2DAnalyse.MtX">
+<code class="descname">MtX</code><span class="sig-paren">(</span><em>coeffs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DAnalyse.MtX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DAnalyse.MtX" title="Permalink to this definition">¶</a></dt>
+<dd><p>MtX.</p>
+<p>This method calculates the action of the transpose of the matrix M on
+the data X, in this case inverse fourier transform of the input data in
+the frequency domain.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : np.ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x: np.ndarray</strong></p>
 <blockquote>
-<div><p>Input data array, an array of recovered 2D images</p>
+<div><p>Input data array, an array of recovered 2D kspace</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray result</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">x: nd-array</p>
+<blockquote class="last">
+<div><p>Reconstructed data array decomposisiton coefficients.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pisap.numerics.gradient.Grad2DAnalyse.set_initial_x">
+<code class="descname">set_initial_x</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DAnalyse.set_initial_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DAnalyse.set_initial_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial value of x.</p>
+<p>This method sets the initial value of x to an arrray of random values</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="pisap.numerics.gradient.GradBase">
-<em class="property">class </em><code class="descclassname">pisap.numerics.gradient.</code><code class="descname">GradBase</code><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#GradBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.GradBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Basic gradient class</p>
-<p>This class defines the basic methods that will be inherited by specific
-gradient classes</p>
+<dt id="pisap.numerics.gradient.Grad2DSynthese">
+<em class="property">class </em><code class="descclassname">pisap.numerics.gradient.</code><code class="descname">Grad2DSynthese</code><span class="sig-paren">(</span><em>data</em>, <em>mask</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DSynthese"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DSynthese" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard 2D gradient.</p>
+<p>This class defines the operators for a 2D array.</p>
 <dl class="method">
-<dt id="pisap.numerics.gradient.GradBase.MtMX">
-<code class="descname">MtMX</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#GradBase.MtMX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.GradBase.MtMX" title="Permalink to this definition">¶</a></dt>
-<dd><p>M^T M X</p>
-<p>This method calculates the action of the transpose of the matrix M on
-the action of the matrix M on the data X</p>
+<dt id="pisap.numerics.gradient.Grad2DSynthese.MX">
+<code class="descname">MX</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DSynthese.MX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DSynthese.MX" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="upperroman simple" start="1010">
+<li></li>
+</ol>
+<p>This method calculates the action of the matrix M on the data X, in
+this case fourier transform of the the input data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : np.ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x: np.ndarray</strong></p>
 <blockquote>
-<div><p>Input data array</p>
+<div><p>Input data array.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray result</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coeffs: np.ndarray</p>
+<blockquote class="last">
+<div><p>Fourier transform coefficents.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Notes</p>
-<p>Calculates  M^T (MX)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pisap.numerics.gradient.GradBase.get_grad">
-<code class="descname">get_grad</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#GradBase.get_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.GradBase.get_grad" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the gradient step</p>
-<p>This method calculates the gradient step from the input data</p>
+<dt id="pisap.numerics.gradient.Grad2DSynthese.MtX">
+<code class="descname">MtX</code><span class="sig-paren">(</span><em>coeffs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DSynthese.MtX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DSynthese.MtX" title="Permalink to this definition">¶</a></dt>
+<dd><p>MtX.</p>
+<p>This method calculates the action of the transpose of the matrix M on
+the data X, in this case inverse fourier transform of the input data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : np.ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coeffs: np.ndarray</strong></p>
 <blockquote>
-<div><p>Input data array</p>
+<div><p>Fourier transform coefficents.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray gradient value</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">x: np.ndarray</p>
+<blockquote class="last">
+<div><p>Reconstructed data array</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Notes</p>
-<p>Calculates M^T (MX - Y)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pisap.numerics.gradient.Grad2DSynthese.set_initial_x">
+<code class="descname">set_initial_x</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/gradient.html#Grad2DSynthese.set_initial_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.gradient.Grad2DSynthese.set_initial_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial value of x.</p>
+<p>This method sets the initial value of x to an arrray of random values</p>
 </dd></dl>
 
 </dd></dl>
@@ -251,6 +272,7 @@ the action of the matrix M on the data X</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -258,7 +280,11 @@ the action of the matrix M on the data X</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

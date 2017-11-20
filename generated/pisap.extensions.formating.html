@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PISAP &mdash; piSAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="piSAP" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="pisap.html">Pisap</a></li>
+<li><a href="pisap.base.html">Pisap.base</a></li>
+<li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
+<li><a href="pisap.numerics.html">Pisap.numerics</a></li>
+<li><a href="pisap.extensions.html">Pisap.extensions</a></li>
+<li><a href="pisap.plotting.html">Pisap.plotting</a></li>
+<li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
+          </ul>
+        </li>-->
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pisap <strong>version 0.0.1</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pisap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      <ul class="simple">
+</ul>
+
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pisap.extensions.formating"></span><p>This module contains all the function to flatten properly the cube from a ISAP
+.fits raw data.</p>
+<dl class="function">
+<dt id="pisap.extensions.formating.flatten_decimated_1_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">flatten_decimated_1_bands</code><span class="sig-paren">(</span><em>cube</em>, <em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#flatten_decimated_1_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.flatten_decimated_1_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the decomposition coefficients from a &#8216;cube&#8217; to a vector.
+&#8216;flatten_decimated_1_bands&#8217; concern the &#8216;cube&#8217; where it&#8217;s actually a
+2d-array like
+the classic wavelet 2d-transform of 1 bands. It has the same formating
+than the 3 bands but the &#8216;v&#8217; and &#8216;h&#8217; bands or set to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cube: np.ndarray, the cube that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.flatten_decimated_3_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">flatten_decimated_3_bands</code><span class="sig-paren">(</span><em>cube</em>, <em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#flatten_decimated_3_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.flatten_decimated_3_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the decomposition coefficients from a &#8216;cube&#8217; to a vector.
+&#8216;flatten_decimated_3_bands&#8217; concern the &#8216;cube&#8217; where it&#8217;s actually
+a 2d-array like
+the classic wavelet 2d-transform of 3 bands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cube: np.ndarray, the cube that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.flatten_decimated_feauveau">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">flatten_decimated_feauveau</code><span class="sig-paren">(</span><em>cube</em>, <em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#flatten_decimated_feauveau"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.flatten_decimated_feauveau" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten decomposition coefficients from a &#8216;cube&#8217; to a vector.
+&#8216;flatten_decimated_feauveau&#8217; concern the &#8216;cube&#8217; where it&#8217;s the Feauveau
+decimated...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cube: np.ndarray, the cube that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.flatten_undecimated_n_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">flatten_undecimated_n_bands</code><span class="sig-paren">(</span><em>cube</em>, <em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#flatten_undecimated_n_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.flatten_undecimated_n_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the decomposition coefficients from a &#8216;cube&#8217; to a vector.
+&#8216;flatten_undecimated_n_bands&#8217; concern the &#8216;cube&#8217; where each layer
+correspond to a
+undecimated band. We can have multiple bands per scale, which lead to
+nb_scale * nb_band_per_scale for one dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cube: np.ndarray, the cube that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.flatten_vector">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">flatten_vector</code><span class="sig-paren">(</span><em>cube</em>, <em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#flatten_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.flatten_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the decomposition coefficients from a &#8216;cube&#8217; to a vector.
+&#8216;flatten_vector&#8217; concern the &#8216;curvelet-cube&#8217; where it&#8217;s already
+a vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cube: np.ndarray, the cube that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_hb">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_hb</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_hb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_hb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_hbl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_hbl</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_hbl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_hbl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_hbr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_hbr</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_hbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_hbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom-right of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_hl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_hl</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_hl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_hl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_hr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_hr</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_hr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-right of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_ht">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_ht</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_ht"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_ht" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_htl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_htl</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_htl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_htl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.get_htr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">get_htr</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#get_htr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.get_htr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top-right of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.inflated_decimated_1_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">inflated_decimated_1_bands</code><span class="sig-paren">(</span><em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#inflated_decimated_1_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.inflated_decimated_1_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inflated the decomposition coefficients from a vector to a &#8216;cube&#8217;.
+&#8216;inflated_decimated_1_bands&#8217; concern the vector where it&#8217;s actually a
+2d-array like the classic wavelet 2d-transform of 1 bands. It has the
+same formating than the 3 bands but the &#8216;v&#8217; and &#8216;h&#8217; bands or set to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vector: np.ndarray, the vector that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.inflated_decimated_3_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">inflated_decimated_3_bands</code><span class="sig-paren">(</span><em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#inflated_decimated_3_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.inflated_decimated_3_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inflated the decomposition coefficients from a vector to a &#8216;cube&#8217;.
+&#8216;inflated_decimated_3_bands&#8217; concern the vector where it&#8217;s actually a
+2d-array like the classic wavelet 2d-transform of 3 bands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vector: np.ndarray, the vector that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.inflated_decimated_feauveau">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">inflated_decimated_feauveau</code><span class="sig-paren">(</span><em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#inflated_decimated_feauveau"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.inflated_decimated_feauveau" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inflated the decomposition coefficients from a vector to a &#8216;cube&#8217;.
+&#8216;inflated_decimated_feauveau&#8217; concern the vector where it&#8217;s the
+Feauveau decimated...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vector: np.ndarray, the vector that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.inflated_undecimated_n_bands">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">inflated_undecimated_n_bands</code><span class="sig-paren">(</span><em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#inflated_undecimated_n_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.inflated_undecimated_n_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inflated the decomposition coefficients from a vector to a &#8216;cube&#8217;.
+&#8216;inflated_undecimated_n_bands&#8217; concern the vector where each layer
+correspond to a undecimated band. We can have multiple bands per scale,
+which lead to nb_scale * nb_band_per_scale for one dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vector: np.ndarray, the vector that containes the decomposition</strong></p>
+<p class="last"><strong>coefficients.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.inflated_vector">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">inflated_vector</code><span class="sig-paren">(</span><em>trf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#inflated_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.inflated_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inflated the decomposition coefficients from a vector to a &#8216;cube&#8217;.
+&#8216;inflated_vector&#8217; concern the vector where it&#8217;s encode a curvelet
+Parameters
+&#8212;&#8212;&#8212;-
+vector np.ndarray, the vector that containes the decomposition
+coefficients.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_hb">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_hb</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_hb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_hb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_hbl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_hbl</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_hbl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_hbl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_hbr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_hbr</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_hbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_hbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-bottom-right of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_hl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_hl</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_hl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_hl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_hr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_hr</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_hr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-right of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_ht">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_ht</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_ht"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_ht" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_htl">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_htl</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_htl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_htl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top-left of the given array.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.extensions.formating.set_htr">
+<code class="descclassname">pisap.extensions.formating.</code><code class="descname">set_htr</code><span class="sig-paren">(</span><em>A</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/formating.html#set_htr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.formating.set_htr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the half-top-right of the given array.</p>
+</dd></dl>
+
+
+
+          </div>
+        </div>
+      </div>
+
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
+</div>
+  </body>
+</html>

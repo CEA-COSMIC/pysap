@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -48,7 +49,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -58,75 +70,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#">
-        <img alt="Logo" src="_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="#">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="generated/pisap.html">Pisap</a></li>
 <li><a href="generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-<!-- Banner -->
-<div class="container-fluid banner-container">
-  <div class="row banner-inner">
-      <div class="col-xs-4">
-        <div id="examples_carousel" class="carousel" data-ride="carousel">
-	      <ol class="carousel-indicators">
-            <li data-target='#examples_carousel' data-slide-to='0' class='active'></li>
-<li data-target='#examples_carousel' data-slide-to='1' </li>
-	      </ol>
-	      <!-- Carousel items -->
-	      <div class="carousel-inner" role="listbox">
-            <div class="active item"><a href="#"><img src="_static/carousel/sparse_reconstruction_via_condatvu_astro.png"></div></a>
-<div class="item"><a href="#"><img src="_static/carousel/dirty_astro.png"></a></div>
-	      </div>
-	      <!-- Carousel nav -->
-          <a class="left carousel-control" href="#examples_carousel" role="button" data-slide="prev">
-            <span class="icon-prev" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="right carousel-control" href="#examples_carousel" role="button" data-slide="next">
-            <span class="icon-next" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-       </div>
-	  </div>
-      <div class="col-xs-8">
-            <p>Python Interactive Sparse Astronomical Data Analysis Package</p>
-    <ul class="simple">
-    <li>Offers a common API for  astronomical and neuroimaging datasets.</li>
-    <li>Offers a Python and fast C++ API.</li>
-    </ul>   
-      </div>   
-  </div>
-</div>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -136,11 +112,8 @@
 
       <!-- toc tree -->
       <ul>
-<li><a class="reference internal" href="#">piSAP</a><ul>
-<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#">piSAP</a></li>
 <li><a class="reference internal" href="#search">Search</a></li>
-</ul>
-</li>
 </ul>
 
 
@@ -149,6 +122,43 @@
   
 
   <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-xs-4">
+            <div id="examples_carousel" class="carousel" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target='#examples_carousel' data-slide-to='0' class='active'></li>
+<li data-target='#examples_carousel' data-slide-to='1' </li>
+              </ol>
+              <!-- Carousel items -->
+              <div class="carousel-inner" role="listbox">
+                <div class="active item"><a href="#"><img src="_static/carousel/sparse_reconstruction_via_condatvu_astro.png"></div></a>
+<div class="item"><a href="#"><img src="_static/carousel/dirty_astro.png"></a></div>
+              </div>
+              <!-- Carousel nav -->
+              <a class="left carousel-control" href="#examples_carousel" role="button" data-slide="prev">
+                <span class="icon-prev" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#examples_carousel" role="button" data-slide="next">
+                <span class="icon-next" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+           </div>
+          </div>
+          <div class="col-xs-8">
+                <div class="summary-carousel container">
+    <p>PySphinxDoc is a Python module for <strong>interactive sparse astronomical and
+    MRI data analysis</strong> that offers:</p>
+    <ul class="simple">
+    <li>a common API for astronomical and neuroimaging datasets.</li>
+    <li>an accces to 'sparse2d' using a wrapping or a binding strategy.</li>
+    <li>a user graphical interface to play with the provided functions.</li>
+    </ul>
+    </div>
+          </div>   
+      </div>
+    </div>
       
       <div class="documentwrapper">
         <div class="bodywrapper">
@@ -158,27 +168,21 @@
 <h1>piSAP<a class="headerlink" href="#pisap" title="Permalink to this headline">¶</a></h1>
 <p>piSAP is a Python package related to sparsity and its application in
 astronomical or mediacal data analysis.
-This package also bind the &#8216;sparse2d&#8217; C++ library
+This package binds the &#8216;sparse2d&#8217; C++ library
 that allows sparse decomposition, denoising and deconvolution.</p>
-<div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="generated/installation.html">Installing <cite>pisap</cite></a></li>
-<li class="toctree-l1"><a class="reference internal" href="generated/documentation.html">Documentation of PISAP</a></li>
-</ul>
 </div>
 </div>
 <div class="section" id="search">
-<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<h1>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference internal" href="search.html"><span>Search Page</span></a></p>
-</div>
 </div>
 
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -186,7 +190,11 @@ that allows sparse decomposition, denoising and deconvolution.</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

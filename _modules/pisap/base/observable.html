@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../../index.html">
-        <img alt="Logo" src="../../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,7 +128,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.base.observable</h1><div class="highlight"><pre>
-<span class="c1">##########################################################################</span>
+<span></span><span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
@@ -136,11 +146,11 @@
 <div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../../generated/pisap.base.observable.html#pisap.base.observable.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Base class for observable classes.</span>
 
-<span class="sd">    This class defines a simple interface to add or remove observers </span>
+<span class="sd">    This class defines a simple interface to add or remove observers</span>
 <span class="sd">    on an object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initilize the Observable class.</span>
 
 <span class="sd">        Parameters</span>
@@ -151,15 +161,15 @@
         <span class="c1"># Define class parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_signals</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span> <span class="o">=</span> <span class="p">{}</span>
-    
+
         <span class="c1"># Set allowed signals</span>
-        <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="n">signals</span> <span class="p">:</span>
+        <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_signals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="c1"># Set a lock option to avoid multiple observer notifications</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_locked</span> <span class="o">=</span> <span class="bp">False</span>
-   
+
 <div class="viewcode-block" id="Observable.add_observer"><a class="viewcode-back" href="../../../generated/pisap.base.observable.html#pisap.base.observable.Observable.add_observer">[docs]</a>    <span class="k">def</span> <span class="nf">add_observer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Add an observer to the object.</span>
 <span class="sd">        Raise an exception if the signal is not allowed.</span>
@@ -171,7 +181,7 @@
 <span class="sd">        observer: @func</span>
 <span class="sd">            a function that will be called when the signal is emitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_is_allowed_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>          
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_allowed_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_observer</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">observer</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Observable.remove_observer"><a class="viewcode-back" href="../../../generated/pisap.base.observable.html#pisap.base.observable.Observable.remove_observer">[docs]</a>    <span class="k">def</span> <span class="nf">remove_observer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
@@ -185,9 +195,9 @@
 <span class="sd">        observer: @func</span>
 <span class="sd">            an obervation function to be removed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_is_allowed_event</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>         
-        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_observer</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span><span class="n">observer</span><span class="p">)</span></div>
-    
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_allowed_event</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_observer</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">observer</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Observable.notify_observers"><a class="viewcode-back" href="../../../generated/pisap.base.observable.html#pisap.base.observable.Observable.notify_observers">[docs]</a>    <span class="k">def</span> <span class="nf">notify_observers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Notify observers of a given signal.</span>
 
@@ -201,43 +211,42 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out: bool</span>
-<span class="sd">            Fasle if a notification is in progress, </span>
-<span class="sd">            otherwise True.</span>
-<span class="sd">        &quot;&quot;&quot;</span>       
+<span class="sd">            Fasle if a notification is in progress, otherwise True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Chack if a notification if in progress</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locked</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
-        
+
         <span class="c1"># Set the lock</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_locked</span> <span class="o">=</span> <span class="bp">True</span>
-        
+
         <span class="c1"># Create a signal object</span>
         <span class="n">signal_to_be_notified</span> <span class="o">=</span> <span class="n">SignalObject</span><span class="p">()</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">signal_to_be_notified</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">signal_to_be_notified</span><span class="p">,</span> <span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">signal</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">signal_info</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">signal_to_be_notified</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
         <span class="c1"># Notify all the observers</span>
-        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span> <span class="p">:</span>
+        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]:</span>
             <span class="n">observer</span><span class="p">(</span><span class="n">signal_to_be_notified</span><span class="p">)</span>
-        
+
         <span class="c1"># Unlock the notification process</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_locked</span> <span class="o">=</span> <span class="bp">False</span></div>
-    
+
     <span class="c1">######################################################################</span>
-    <span class="c1"># Properties </span>
+    <span class="c1"># Properties</span>
     <span class="c1">######################################################################</span>
-    
+
     <span class="k">def</span> <span class="nf">_get_allowed_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Events allowed for the current object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_signals</span>
-    
+
     <span class="n">allowed_signals</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_allowed_signals</span><span class="p">)</span>
-    
+
     <span class="c1">######################################################################</span>
-    <span class="c1"># Private interface </span>
+    <span class="c1"># Private interface</span>
     <span class="c1">######################################################################</span>
 
     <span class="k">def</span> <span class="nf">_is_allowed_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
@@ -249,7 +258,7 @@
 <span class="sd">        signal: str</span>
 <span class="sd">            a signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">signal</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_signals</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">signal</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_signals</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Signal &#39;{0}&#39; is not allowed for &#39;{1}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
@@ -263,7 +272,7 @@
 <span class="sd">        observer: @func</span>
 <span class="sd">            an obervation function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">observer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]:</span> 
+        <span class="k">if</span> <span class="n">observer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_remove_observer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
@@ -278,12 +287,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span></div>
-  
 </pre></div>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -291,7 +300,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

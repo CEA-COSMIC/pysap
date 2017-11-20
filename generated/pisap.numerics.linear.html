@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,85 +128,32 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-pisap.numerics.linear"></span><p>This module contains linear operator classes.</p>
-<dl class="class">
-<dt id="pisap.numerics.linear.Identity">
-<em class="property">class </em><code class="descclassname">pisap.numerics.linear.</code><code class="descname">Identity</code><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity operator class
-This is a dummy class that can be used in the optimisation classes</p>
-<dl class="method">
-<dt id="pisap.numerics.linear.Identity.adj_op">
-<code class="descname">adj_op</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Identity.adj_op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Identity.adj_op" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the input data unchanged</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>Input data array</p>
-</div></blockquote>
-<p><strong>Returns</strong></p>
-<p><strong>&#8212;&#8212;-</strong></p>
-<p class="last"><strong>np.ndarray input data</strong></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pisap.numerics.linear.Identity.op">
-<code class="descname">op</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Identity.op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Identity.op" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the input data unchanged</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>Input data array</p>
-</div></blockquote>
-<p><strong>**kwargs</strong></p>
-<blockquote>
-<div><p>Arbitrary keyword arguments</p>
-</div></blockquote>
-<p><strong>Returns</strong></p>
-<p><strong>&#8212;&#8212;-</strong></p>
-<p class="last"><strong>np.ndarray input data</strong></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+  <span class="target" id="module-pisap.numerics.linear"></span><p>This module contains linears operators classes.</p>
 <dl class="class">
 <dt id="pisap.numerics.linear.Wavelet">
-<em class="property">class </em><code class="descclassname">pisap.numerics.linear.</code><code class="descname">Wavelet</code><span class="sig-paren">(</span><em>maxscale=4</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Wavelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Wavelet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wavelet class.</p>
-<p>This class defines the wavelet transform operators</p>
+<em class="property">class </em><code class="descclassname">pisap.numerics.linear.</code><code class="descname">Wavelet</code><span class="sig-paren">(</span><em>wavelet</em>, <em>nb_scale=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Wavelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Wavelet" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defines the wavelet transform operators.</p>
 <dl class="method">
 <dt id="pisap.numerics.linear.Wavelet.adj_op">
-<code class="descname">adj_op</code><span class="sig-paren">(</span><em>trf</em>, <em>dtype='array'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Wavelet.adj_op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Wavelet.adj_op" title="Permalink to this definition">¶</a></dt>
+<code class="descname">adj_op</code><span class="sig-paren">(</span><em>coeffs</em>, <em>dtype='array'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/linear.html#Wavelet.adj_op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.linear.Wavelet.adj_op" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjoint operator.</p>
 <p>This method returns the reconsructed image.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>trf</strong> : WaveletTransform</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coeffs: ndarray</strong></p>
 <blockquote>
-<div><p>wavelet coefficients store in a wavelet tree.</p>
+<div><p>The wavelet coefficients.</p>
 </div></blockquote>
-<p><strong>dtype: str (optional, default &#8216;array&#8217;)</strong></p>
+<p><strong>dtype: str, default &#8216;array&#8217;</strong></p>
 <blockquote>
-<div><p>if &#8216;array&#8217; return the data as a ndarray, otherwise return an image.</p>
+<div><p>if &#8216;array&#8217; return the data as a ndarray, otherwise return a
+pisap.Image.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray reconstructed data.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ndarray reconstructed data.</p>
 </td>
 </tr>
 </tbody>
@@ -213,11 +170,11 @@ This is a dummy class that can be used in the optimisation classes</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data_shape: uplet</strong></p>
 <blockquote>
-<div><p>the ndarray data shape.</p>
+<div><p>the data shape.</p>
 </div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">norm: float</p>
+<p><strong>Returns</strong></p>
+<p><strong>&#8212;&#8212;-</strong></p>
+<p><strong>norm: float</strong></p>
 <blockquote class="last">
 <div><p>the L2 norm.</p>
 </div></blockquote>
@@ -236,13 +193,16 @@ This is a dummy class that can be used in the optimisation classes</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: ndarray</strong></p>
 <blockquote>
 <div><p>Input data array, a 2D image.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">np.ndarray wavelet convolved data.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coeffs: ndarray</p>
+<blockquote class="last">
+<div><p>The wavelet coefficients.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -256,6 +216,7 @@ This is a dummy class that can be used in the optimisation classes</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -263,7 +224,11 @@ This is a dummy class that can be used in the optimisation classes</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

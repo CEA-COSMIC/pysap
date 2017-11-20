@@ -1,7 +1,21 @@
 .. AUTO-GENERATED FILE -- DO NOT EDIT!
 
-Documentation of PISAP
-=======================
+API documentation of PISAP
+===========================
+
+This is the classes and functions reference in pisap. Please refer to the gallery for further details, as the class and function raw specifications may not be enough to give full guidelines on their uses.
+
+.. rst-class:: documentation-contents
+
+  **Contents**:
+    * `pisap <pisap.html>`_
+    * `pisap.base <pisap.base.html>`_
+    * `pisap.stats <pisap.stats.html>`_
+    * `pisap.apps <pisap.apps.html>`_
+    * `pisap.numerics <pisap.numerics.html>`_
+    * `pisap.extensions <pisap.extensions.html>`_
+    * `pisap.plotting <pisap.plotting.html>`_
+    * `pisap.base.loaders <pisap.base.loaders.html>`_
 
 .. raw:: html
 
@@ -31,20 +45,20 @@ Documentation of PISAP
     datasets.</p>    </blockquote>
     </div>
     <div class='col-md-4'>
-    <h3><a href='pisap.sparsity.html'>
-    pisap.sparsity
-    </a></h3>
-    <blockquote>
-        <p>This module defines Python implementation of the ISAP C++ library.</p>    </blockquote>
-    </div>
-
-    </div>
-    <div class='row'>    <div class='col-md-4'>
     <h3><a href='pisap.stats.html'>
     pisap.stats
     </a></h3>
     <blockquote>
         <p>This module defines common statistical functions or utility functions.</p>    </blockquote>
+    </div>
+
+    </div>
+    <div class='row'>    <div class='col-md-4'>
+    <h3><a href='pisap.apps.html'>
+    pisap.apps
+    </a></h3>
+    <blockquote>
+        <p>Module that provides a graphical application to execute functions.</p>    </blockquote>
     </div>
     <div class='col-md-4'>
     <h3><a href='pisap.numerics.html'>

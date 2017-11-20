@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -119,12 +129,48 @@
           <div class="body" role="main">
             
   <span class="target" id="module-pisap.stats.noise"></span><dl class="function">
+<dt id="pisap.stats.noise.histogram">
+<code class="descclassname">pisap.stats.noise.</code><code class="descname">histogram</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em>, <em>lower_cut=0.0</em>, <em>cumulate=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/stats/noise.html#histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.stats.noise.histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the histogram of an input dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: Image</strong></p>
+<blockquote>
+<div><p>the image that contains the dataset to be analysed.</p>
+</div></blockquote>
+<p><strong>nbins: int, default 256</strong></p>
+<blockquote>
+<div><p>the histogram number of bins.</p>
+</div></blockquote>
+<p><strong>lower_cut: float, default 0</strong></p>
+<blockquote>
+<div><p>do not consider the intensities under this threshold.</p>
+</div></blockquote>
+<p><strong>cumulate: bool, default False</strong></p>
+<blockquote>
+<div><p>if set compute the cumulate histogram.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">hist_im: Image</p>
+<blockquote class="last">
+<div><p>the generated histogram.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="pisap.stats.noise.mad">
 <code class="descclassname">pisap.stats.noise.</code><code class="descname">mad</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/stats/noise.html#mad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.stats.noise.mad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function that returns the median absolute deviation (MAD) of an input
 array.</p>
 <p>The median absolute deviation is a measure of statistical dispersion.
-Moreover, the MAD is a robust statistic, being more resilient to outliers 
+Moreover, the MAD is a robust statistic, being more resilient to outliers
 in a data set than the standard deviation. In the standard deviation,
 the distances from the mean are squared, so large deviations are weighted
 more heavily, and thus outliers can heavily influence it. In the MAD,
@@ -154,6 +200,34 @@ For normally distributed data k is taken to be 1.4826.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="pisap.stats.noise.multiscale_sigma_mad">
+<code class="descclassname">pisap.stats.noise.</code><code class="descname">multiscale_sigma_mad</code><span class="sig-paren">(</span><em>grad_op</em>, <em>linear_op</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/stats/noise.html#multiscale_sigma_mad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.stats.noise.multiscale_sigma_mad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the std from the mad routine on each approximation scale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>grad_op: instance</strong></p>
+<blockquote>
+<div><p>Gradient operator.</p>
+</div></blockquote>
+<p><strong>linear_op: instance</strong></p>
+<blockquote>
+<div><p>Linear operator.</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p><strong>&#8212;&#8212;-</strong></p>
+<p><strong>sigma: list</strong></p>
+<blockquote class="last">
+<div><p>a list of str estimate for each scale.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="pisap.stats.noise.sigma_mad">
 <code class="descclassname">pisap.stats.noise.</code><code class="descname">sigma_mad</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/stats/noise.html#sigma_mad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.stats.noise.sigma_mad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function that returns an estimation of the std using the MAD as a
@@ -168,6 +242,7 @@ For normally distributed data k is taken to be 1.4826.</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -175,7 +250,11 @@ For normally distributed data k is taken to be 1.4826.</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../../index.html">
-        <img alt="Logo" src="../../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,7 +128,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.base.transform</h1><div class="highlight"><pre>
-<span class="c1">##########################################################################</span>
+<span></span><span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
@@ -127,213 +137,352 @@
 <span class="c1">##########################################################################</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Wavelet transform module.</span>
+<span class="sd">Wavelet transform base module.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># System import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
-<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># Package import</span>
 <span class="kn">import</span> <span class="nn">pisap</span>
-<span class="kn">from</span> <span class="nn">pisap.base.exceptions</span> <span class="kn">import</span> <span class="ne">Exception</span>
-<span class="kn">from</span> <span class="nn">pisap.base.nodes</span> <span class="kn">import</span> <span class="n">Node2D</span>
-<span class="kn">from</span> <span class="nn">pisap.base.nodes</span> <span class="kn">import</span> <span class="n">Node1D</span>
-<span class="kn">from</span> <span class="nn">.wavelet</span> <span class="kn">import</span> <span class="n">Wavelet</span>
 <span class="kn">from</span> <span class="nn">pisap.plotting</span> <span class="kn">import</span> <span class="n">plot_transform</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pysparse</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Sparse2d python bindings not found, use binaries.&quot;</span><span class="p">)</span>
+    <span class="n">pysparse</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="c1"># Third party import</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 
 
-<div class="viewcode-block" id="WaveletTransform"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransform">[docs]</a><span class="k">def</span> <span class="nf">WaveletTransform</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelet</span><span class="p">,</span> <span class="n">maxscale</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;symmetric&quot;</span><span class="p">,</span> <span class="n">use_isap</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Create a factory to select the proper node type automatically.</span>
-<span class="sd">    Currently support only 1D or 2D data.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data: nd-array</span>
-<span class="sd">        input data/signal.</span>
-<span class="sd">    wavelet: str</span>
-<span class="sd">        wavelet used in Discrete Wavelet Transform (DWT) decomposition</span>
-<span class="sd">        and reconstruction.</span>
-<span class="sd">    maxscale: int</span>
-<span class="sd">        the maximum scale of decomposition.</span>
-<span class="sd">    mode: str (optional, default &#39;symmetric&#39;)</span>
-<span class="sd">        signal extension mode for the &#39;dwt&#39; and &#39;idwt&#39; decomposition and</span>
-<span class="sd">        reconstruction functions.</span>
-<span class="sd">    use_isap: bool (optional, default False)</span>
-<span class="sd">        if True, use the C++ optimized ISAP library for the wavelet</span>
-<span class="sd">        decomposition/reconstruction.</span>
-<span class="sd">    kwargs: dict</span>
-<span class="sd">        the parameters used to construct the wavlet.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    transform: WaveletTransformBase</span>
-<span class="sd">        the desired transform.</span>
+<div class="viewcode-block" id="MetaRegister"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.MetaRegister">[docs]</a><span class="k">class</span> <span class="nc">MetaRegister</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Simple Python metaclass registry pattern.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check data dimension</span>
-    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">ndim</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span>
-        <span class="k">if</span> <span class="n">ndim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The WaveletTransform currently support only 1D &quot;</span>
-                            <span class="s2">&quot;or 2D signals.&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ndim</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">REGISTRY</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># Create object</span>
-    <span class="k">if</span> <span class="n">ndim</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;WaveletTransform1D&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">,</span> <span class="n">Node1D</span><span class="p">),</span>
-                   <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">})</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;WaveletTransform2D&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">,</span> <span class="n">Node2D</span><span class="p">),</span>
-                   <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;h&quot;</span><span class="p">})</span>
-    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelet</span><span class="p">,</span> <span class="n">maxscale</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">use_isap</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Allocation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str</span>
+<span class="sd">            the name of the class.</span>
+<span class="sd">        bases: tuple</span>
+<span class="sd">            the base classes.</span>
+<span class="sd">        attrs:</span>
+<span class="sd">            the attributes defined for the class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;{0}&#39; name already used in registry.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;WaveletTransformBase&quot;</span><span class="p">,</span> <span class="s2">&quot;ISAPWaveletTransformBase&quot;</span><span class="p">):</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_cls</span>
+        <span class="k">return</span> <span class="n">new_cls</span></div>
 
 
 <div class="viewcode-block" id="WaveletTransformBase"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Data structure representing wavelet decomposition of a signal.</span>
+    <span class="sd">&quot;&quot;&quot; Data structure representing a signal wavelet decomposition.</span>
+
+<span class="sd">    Available transforms are define in &#39;pisap.transform&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Define class parameters</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="vm">__metaclass__</span> <span class="o">=</span> <span class="n">MetaRegister</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">wavelet</span><span class="p">,</span> <span class="n">maxscale</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;symmetric&quot;</span><span class="p">,</span>
-                 <span class="n">use_isap</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the WaveletTransform class.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: nd-array</span>
-<span class="sd">            input data/signal.</span>
-<span class="sd">        wavelet: str</span>
-<span class="sd">            wavelet used in Discrete Wavelet Transform (DWT) decomposition</span>
-<span class="sd">            and reconstruction.</span>
-<span class="sd">        maxscale: int</span>
-<span class="sd">            the maximum scale of decomposition.</span>
-<span class="sd">        mode: str (optional, default &#39;symmetric&#39;)</span>
-<span class="sd">            signal extension mode for the &#39;dwt&#39; and &#39;idwt&#39; decomposition and</span>
-<span class="sd">            reconstruction functions.</span>
-<span class="sd">        use_isap: bool (optional, default False)</span>
-<span class="sd">            if True, use the C++ optimized ISAP library for the wavelet</span>
-<span class="sd">            decomposition/reconstruction.</span>
-<span class="sd">        kwargs: dict</span>
-<span class="sd">            the parameters used to construct the wavlet.</span>
+<span class="sd">        data: ndarray</span>
+<span class="sd">            the input data.</span>
+<span class="sd">        nb_scale: int</span>
+<span class="sd">            the number of scale of the decomposition that includes the</span>
+<span class="sd">            approximation scale.</span>
+<span class="sd">        verbose: int, default 0</span>
+<span class="sd">            control the verbosity level</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Get the maximum scale</span>
-        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_size</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="c1"># Wavelet transform parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span> <span class="o">=</span> <span class="n">nb_scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unflatten_fct</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span> <span class="o">=</span> <span class="n">pysparse</span> <span class="ow">is</span> <span class="bp">None</span>
+
+        <span class="c1"># Data that can be decalred afterward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_image_metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iso_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_buffer_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="c1"># Transformation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;type_of_multiresolution_transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__isap_transform_id__</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;number_of_scales&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="n">pysparse</span><span class="o">.</span><span class="n">MRTransform</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_size</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="bp">None</span>
 
-        <span class="c1"># Define class attributes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_isap</span> <span class="o">=</span> <span class="n">use_isap</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_maxscale</span> <span class="o">=</span> <span class="n">maxscale</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">isap_trf_header</span> <span class="o">=</span> <span class="bp">None</span>
-
-        <span class="c1"># Inheritance</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_isap</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
-                <span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">node_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">wavelet</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">walk</span><span class="p">()</span>     
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
-                <span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">node_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">wavelet</span> <span class="o">=</span> <span class="n">Wavelet</span><span class="p">(</span><span class="n">wavelet</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<div class="viewcode-block" id="WaveletTransformBase.get_scale"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.get_scale">[docs]</a>    <span class="k">def</span> <span class="nf">get_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;natural&quot;</span><span class="p">,</span> <span class="n">decompose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns all nodes from specified scale.</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Access the analysis designated scale/band coefficients.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        scale: int</span>
-<span class="sd">            decomposition scale from which the nodes will be collected.</span>
-<span class="sd">        order: str (optional, default &#39;natural&#39;)</span>
-<span class="sd">            if &#39;natural&#39; a flat list is returned,</span>
-<span class="sd">            else if &#39;freq&#39; a 2d structure with rows and cols sorted by</span>
-<span class="sd">            corresponding dimension frequency of 2d coefficient array</span>
-<span class="sd">            (adapted from 1d case).</span>
-<span class="sd">        decompose: bool (optional, default True)</span>
-<span class="sd">            if set then the method will try to decompose the data up</span>
-<span class="sd">            to the specified scale.</span>
+<span class="sd">        given: int, slice or tuple</span>
+<span class="sd">            the scale and band indices.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        nodes: list or list of list</span>
-<span class="sd">            the nodes with requested scale and ordering.</span>
+<span class="sd">        coeffs: ndarray or list of ndarray</span>
+<span class="sd">            the analysis coefficients.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Check input parameters</span>
-        <span class="k">if</span> <span class="n">order</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;natural&quot;</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognize order &#39;{0}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">scale</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxscale</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The desired scale &#39;{0}&#39; cannot be greater than the &quot;</span>
-                <span class="s2">&quot;maximum decomposition scale value &#39;{1}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxscale</span><span class="p">))</span>
+        <span class="c1"># Convert given index to generic scale/band index</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">given</span> <span class="o">=</span> <span class="p">(</span><span class="n">given</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
 
-        <span class="c1"># Get the node of desired scale</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="n">scale</span><span class="p">:</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">collect</span><span class="p">,</span> <span class="n">decompose</span><span class="o">=</span><span class="n">decompose</span><span class="p">)</span>
+        <span class="c1"># Check that we have a valid given index</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">given</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a scale/band int or 2-uplet index.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Sort the nodes based on the requested order</span>
-        <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="s2">&quot;freq&quot;</span><span class="p">:</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">row_path</span><span class="p">,</span> <span class="n">col_path</span><span class="p">),</span> <span class="n">node</span> <span class="ow">in</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]:</span>
-                <span class="n">nodes</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">row_path</span><span class="p">,</span> <span class="p">{})[</span><span class="n">col_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
-            <span class="n">graycode_order</span> <span class="o">=</span> <span class="n">get_graycode_order</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graycode_order</span> <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graycode_order</span> <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])</span>
+        <span class="c1"># Check some data are stored in the structure</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
+                             <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">result</span></div>
-
-<div class="viewcode-block" id="WaveletTransformBase.show"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Display the different bands on the requested scales.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scales: list  (optional, deafault None)</span>
-<span class="sd">            the desired scales, if None compute at all scales.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_isap</span><span class="p">:</span>
-            <span class="n">cube</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">to_cube</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">],</span>
-                               <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">isap_trf_header</span><span class="p">)</span>
-            <span class="n">cube</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c1"># Handle multi-dim slice object</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                      <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">[</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band_at</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">scales</span> <span class="o">=</span> <span class="n">scales</span> <span class="ow">or</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxscale</span><span class="p">)</span>
-            <span class="n">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scales</span><span class="p">)</span></div>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band_at</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
 
-<div class="viewcode-block" id="WaveletTransformBase.set_constant_values"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.set_constant_values">[docs]</a>    <span class="k">def</span> <span class="nf">set_constant_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set constant values on each scale.</span>
+        <span class="c1"># Format output</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">coeffs</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the analysis designated scale/band coefficients.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        values: list of float or float</span>
-<span class="sd">            the values to be associated to each scale.</span>
+<span class="sd">        given: tuple</span>
+<span class="sd">            the scale and band indices.</span>
+<span class="sd">        array: ndarray</span>
+<span class="sd">            the specific scale/band data as an array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxscale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">scale</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxscale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_scale</span><span class="p">(</span><span class="n">scale</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="n">node</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="mi">0</span>  
-                    <span class="n">node</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">values</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span></div>
+        <span class="c1"># Check that we have a valid given index</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">given</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a scale/band int or 2-uplet index.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check given index</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">slice</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a scale/band int index (no slice).&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check some data are stored in the structure</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
+                             <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Handle multidim slice object</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                      <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">[</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band_at</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band_at</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+        <span class="c1"># Format output</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">coeffs</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Properties</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the input data array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: nd-array or pisap.Image</span>
+<span class="sd">            input data/signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing input data array.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">e</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a square shape data.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a two-dim data array.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t decimate the data with the specified &quot;</span>
+                             <span class="s2">&quot;number of scales.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_image_metadata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iso_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_transformation_parameters</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_compute_transformation_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the input data array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data: nd-array</span>
+<span class="sd">            input data/signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="k">def</span> <span class="nf">_set_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the decomposition coefficients array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        analysis_data: nd-array</span>
+<span class="sd">            decomposition coefficients array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
+                  <span class="s2">&quot;array.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="o">.</span><span class="n">sum</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The wavelet coefficients do not correspond to &quot;</span>
+                             <span class="s2">&quot;the wavelet transform parameters.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="n">analysis_data</span>
+
+    <span class="k">def</span> <span class="nf">_get_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the decomposition coefficients array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        analysis_data: nd-array</span>
+<span class="sd">            decomposition coefficients array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span>
+
+    <span class="k">def</span> <span class="nf">_set_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the decomposition coefficients header.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        analysis_header: dict</span>
+<span class="sd">            decomposition coefficients array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
+                  <span class="s2">&quot;header.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="n">analysis_header</span>
+
+    <span class="k">def</span> <span class="nf">_get_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the decomposition coefficients header.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        analysis_header: dict</span>
+<span class="sd">            decomposition coefficients header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span>
+
+    <span class="k">def</span> <span class="nf">_get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the transformation information. This iformation is only</span>
+<span class="sd">        available when using the Python bindings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_data</span><span class="p">,</span> <span class="n">_set_data</span><span class="p">)</span>
+    <span class="n">analysis_data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_analysis_data</span><span class="p">,</span> <span class="n">_set_analysis_data</span><span class="p">)</span>
+    <span class="n">analysis_header</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_analysis_header</span><span class="p">,</span> <span class="n">_set_analysis_header</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_info</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Public members</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="WaveletTransformBase.bands_shapes"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.bands_shapes">[docs]</a>    <span class="k">def</span> <span class="nf">bands_shapes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bands_lengths</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the different bands associated shapes given there lengths.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
+<span class="sd">            array holding the length between two bands of the data</span>
+<span class="sd">            vector per scale.</span>
+<span class="sd">        ratio: ndarray, default None</span>
+<span class="sd">            a array containing ratios for eeach scale and each band.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
+<span class="sd">            structure holding the shape of each bands at each scale.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ratio</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">bands_lengths</span><span class="p">)</span>
+        <span class="n">bands_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">band_number</span><span class="p">,</span> <span class="n">scale_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bands_lengths</span><span class="p">):</span>
+            <span class="n">scale_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">scale_number</span><span class="p">,</span> <span class="n">scale_padd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scale_data</span><span class="p">):</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                        <span class="n">scale_padd</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">[</span><span class="n">band_number</span><span class="p">,</span> <span class="n">scale_number</span><span class="p">])),</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                        <span class="n">scale_padd</span> <span class="o">/</span> <span class="n">ratio</span><span class="p">[</span><span class="n">band_number</span><span class="p">,</span> <span class="n">scale_number</span><span class="p">])))</span>
+                <span class="n">scale_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">bands_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scale_shapes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bands_shapes</span></div>
+
+<div class="viewcode-block" id="WaveletTransformBase.show"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Display the different bands at the different decomposition scales.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WaveletTransformBase.analysis"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.analysis">[docs]</a>    <span class="k">def</span> <span class="nf">analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Decompose all the nodes.</span>
+        <span class="sd">&quot;&quot;&quot; Decompose a real or complex signal using ISAP.</span>
+
+<span class="sd">        Fill the instance &#39;analysis_data&#39; and &#39;analysis_header&#39; parameters.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -341,101 +490,318 @@
 <span class="sd">            the parameters that will be passed to</span>
 <span class="sd">            &#39;pisap.extensions.mr_tansform&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Check input parameters</span>
-        <span class="k">if</span> <span class="s2">&quot;number_of_scales&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;The &#39;number_of_scales&#39; mr_tansform parameter was set &quot;</span>
-                  <span class="s2">&quot;automatically to &#39;{0}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxscale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;number_of_scales&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxscale</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># Checks</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the input data.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Create nodes/decompose</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">walk</span><span class="p">()</span>
+        <span class="c1"># Update ISAP parameters</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;type_of_multiresolution_transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;number_of_scales&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
 
-        <span class="c1"># Insert the ISAP decomposition result</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_isap</span><span class="p">:</span>
-            <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
-            <span class="n">in_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;in.fits&quot;</span><span class="p">)</span>
-            <span class="n">out_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">in_image</span><span class="p">)</span>
-                <span class="n">pisap</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">mr_transform</span><span class="p">(</span><span class="n">in_image</span><span class="p">,</span> <span class="n">out_mr_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">image</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">out_mr_file</span><span class="p">)</span>
-                <span class="n">cube</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">isap_trf_header</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">metadata</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">raise</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">in_image</span><span class="p">,</span> <span class="n">out_mr_file</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">from_cube</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span></div>
+        <span class="c1"># Analysis</span>
+        <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">):</span>
+            <span class="n">analysis_data_real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">analysis_data_imag</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">analysis_data_real</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">analysis_data_real</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">analysis_data_imag</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">re</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">ima</span>
+                    <span class="k">for</span> <span class="n">re</span><span class="p">,</span> <span class="n">ima</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">analysis_data_real</span><span class="p">,</span> <span class="n">analysis_data_imag</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WaveletTransformBase.synthesis"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Reconstruct the image from all nodes.</span>
+        <span class="sd">&quot;&quot;&quot; Reconstruct a real or complex signal from the wavelet coefficients</span>
+<span class="sd">        using ISAP.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        image: pisap.Image</span>
-<span class="sd">            the reconsructed image.</span>
+<span class="sd">        data: pisap.Image</span>
+<span class="sd">            the reconstructed data/signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Initilize the output image</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c1"># Checks</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
+                             <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
+                             <span class="s2">&quot;coefficients header.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Use ISAP for the reconstruction</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_isap</span><span class="p">:</span>
-            <span class="n">cube</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">to_cube</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">],</span>
-                               <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">isap_trf_header</span><span class="p">)</span>
-            <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
-            <span class="n">in_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
-            <span class="n">out_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;out.fits&quot;</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">in_mr_file</span><span class="p">)</span>
-                <span class="n">pisap</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">mr_recons</span><span class="p">(</span><span class="n">in_mr_file</span><span class="p">,</span> <span class="n">out_image</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-                <span class="n">image</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">out_image</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">raise</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">in_mr_file</span><span class="p">,</span> <span class="n">out_image</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
+        <span class="c1"># Message</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Synthesis header:&quot;</span><span class="p">)</span>
+            <span class="n">pprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
 
-        <span class="c1"># Use the embedded python code otherwise</span>
+        <span class="c1"># Reorganize the coefficents with ISAP convention</span>
+        <span class="c1"># TODO: do not backup the list of bands</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="n">analysis_buffer</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_buffer_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">single</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">scale</span><span class="p">,</span> <span class="n">nb_bands</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_bands</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_set_linear_band</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_buffer</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">band_at</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">))</span>
+            <span class="n">_saved_analysis_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="n">analysis_buffer</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">unflatten_fct</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span>
+
+        <span class="c1"># Synthesis</span>
+        <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">data_real</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synthesis</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
+            <span class="n">data_imag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synthesis</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">imag</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data_real</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">data_imag</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">image</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">())</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synthesis</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">image</span></div></div>
+        <span class="c1"># TODO: remove this code asap</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="n">_saved_analysis_data</span>
 
+        <span class="k">return</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_metadata</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="get_graycode_order"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.get_graycode_order">[docs]</a><span class="k">def</span> <span class="nf">get_graycode_order</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Get the decomposition mosaic.</span>
+<div class="viewcode-block" id="WaveletTransformBase.band_at"><a class="viewcode-back" href="../../../generated/pisap.base.transform.html#pisap.base.transform.WaveletTransformBase.band_at">[docs]</a>    <span class="k">def</span> <span class="nf">band_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the band at a specific scale.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    scale: int</span>
-<span class="sd">        the decomposition scale.</span>
-<span class="sd">    x: str (optional, default &#39;a&#39;)</span>
-<span class="sd">        the x assocaited label.</span>
-<span class="sd">    y: str (optional, default &#39;b&#39;)</span>
-<span class="sd">        the x assocaited label.</span>
-<span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    graycode_order: list of str</span>
-<span class="sd">        the mosaic.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">graycode_order</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">scale</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">graycode_order</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">path</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graycode_order</span><span class="p">]</span> <span class="o">+</span><span class="p">[</span>
-                          <span class="n">y</span> <span class="o">+</span> <span class="n">path</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graycode_order</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-    <span class="k">return</span> <span class="n">graycode_order</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scale: int</span>
+<span class="sd">            index of the scale.</span>
+<span class="sd">        band: int</span>
+<span class="sd">            index of the band.</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        band_data: nd-arry</span>
+<span class="sd">            the requested band data array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Message</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Accessing scale &#39;{0}&#39; and band &#39;{1}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">))</span>
 
+        <span class="c1"># Get the band array</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">[:</span><span class="n">scale</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="n">band</span>
+        <span class="n">band_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">band_data</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Private members</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_get_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Access the desired band data from a 1D linear analysis buffer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scale: int</span>
+<span class="sd">            index of the scale.</span>
+<span class="sd">        band: int</span>
+<span class="sd">            index of the band.</span>
+<span class="sd">        analysis_data: nd-array (N, )</span>
+<span class="sd">            the analysis buffer.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        band_data: nd-arry (M, )</span>
+<span class="sd">            the requested band buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute selected scale/band start/stop indices</span>
+        <span class="n">start_scale_padd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span>
+        <span class="n">start_band_padd</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="p">:</span><span class="n">band</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">])</span>
+        <span class="n">start_padd</span> <span class="o">=</span> <span class="n">start_scale_padd</span> <span class="o">+</span> <span class="n">start_band_padd</span>
+        <span class="n">stop_padd</span> <span class="o">=</span> <span class="n">start_padd</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">]</span>
+
+        <span class="c1"># Get the band array</span>
+        <span class="n">band_data</span> <span class="o">=</span> <span class="n">analysis_data</span><span class="p">[</span><span class="n">start_padd</span><span class="p">:</span> <span class="n">stop_padd</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span><span class="p">[</span><span class="n">scale</span><span class="p">][</span><span class="n">band</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">band_data</span>
+
+    <span class="k">def</span> <span class="nf">_set_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">band_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the desired band data in a 1D linear analysis buffer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scale: int</span>
+<span class="sd">            index of the scale.</span>
+<span class="sd">        band: int</span>
+<span class="sd">            index of the band.</span>
+<span class="sd">        analysis_data: nd-array (N, )</span>
+<span class="sd">            the analysis buffer.</span>
+<span class="sd">        band_data: nd-array (M, M)</span>
+<span class="sd">            the band data to be added in the analysis buffer.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        analysis_data: nd-arry (N, )</span>
+<span class="sd">            the updated analysis buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute selected scale/band start/stop indices</span>
+        <span class="n">start_scale_padd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span>
+        <span class="n">start_band_padd</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="p">:</span><span class="n">band</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">])</span>
+        <span class="n">start_padd</span> <span class="o">=</span> <span class="n">start_scale_padd</span> <span class="o">+</span> <span class="n">start_band_padd</span>
+        <span class="n">stop_padd</span> <span class="o">=</span> <span class="n">start_padd</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">]</span>
+
+        <span class="c1"># Get the band array</span>
+        <span class="n">analysis_data</span><span class="p">[</span><span class="n">start_padd</span><span class="p">:</span> <span class="n">stop_padd</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">analysis_data</span>
+
+    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Define the transformation class parameters.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str</span>
+<span class="sd">            the name of the decomposition.</span>
+<span class="sd">        bands_names: list of str</span>
+<span class="sd">            the name of the different bands.</span>
+<span class="sd">        flatten_fct: callable</span>
+<span class="sd">            a function used to reorganize the ISAP decomposition coefficients,</span>
+<span class="sd">            see &#39;pisap/extensions/formating.py&#39; module for more details.</span>
+<span class="sd">        unflatten_fct: callable</span>
+<span class="sd">            a function used to reorganize the decomposition coefficients using</span>
+<span class="sd">            ISAP convention, see &#39;pisap/extensions/formating.py&#39; module for</span>
+<span class="sd">            more details.</span>
+<span class="sd">        is_decimated: bool</span>
+<span class="sd">            True if the decomposition include a decimation of the</span>
+<span class="sd">            band number of coefficients.</span>
+<span class="sd">        nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</span>
+<span class="sd">            vector of int holding the number of band per scale.</span>
+<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
+<span class="sd">            array holding the length between two bands of the data</span>
+<span class="sd">            vector per scale.</span>
+<span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
+<span class="sd">            structure holding the shape of each bands at each scale.</span>
+<span class="sd">        isap_transform_id: int</span>
+<span class="sd">            the label of the ISAP transformation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method should not be declared &quot;</span>
+                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_compute_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute information in order to split scale/band flatten data.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scales_lengths: ndarray (&lt;nb_scale&gt;, )</span>
+<span class="sd">            the length of each band.</span>
+<span class="sd">        scales_padds: ndarray (&lt;nb_scale&gt; + 1, )</span>
+<span class="sd">            the index of the data associated to each scale.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The transformation parameters have not been set.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Decompose a real signal using ISAP.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: nd-array</span>
+<span class="sd">            a real array to be decomposed.</span>
+<span class="sd">        kwargs: dict (optional)</span>
+<span class="sd">            the parameters that will be passed to</span>
+<span class="sd">            &#39;pisap.extensions.mr_tansform&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        analysis_data: nd_array</span>
+<span class="sd">            the decomposition coefficients.</span>
+<span class="sd">        analysis_header: dict</span>
+<span class="sd">            the decomposition associated information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Use subprocess to execute binaries</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">with</span> <span class="n">pisap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+                <span class="n">in_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;in.fits&quot;</span><span class="p">)</span>
+                <span class="n">out_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
+                <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">in_image</span><span class="p">)</span>
+                <span class="n">pisap</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">mr_transform</span><span class="p">(</span><span class="n">in_image</span><span class="p">,</span> <span class="n">out_mr_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">out_mr_file</span><span class="p">)</span>
+                <span class="n">analysis_data</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">analysis_header</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">metadata</span>
+
+            <span class="c1"># Reorganize the generated coefficents</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_shape</span> <span class="o">=</span> <span class="n">analysis_data</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">analysis_buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span><span class="p">(</span><span class="n">analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_buffer_shape</span> <span class="o">=</span> <span class="n">analysis_buffer</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">analysis_data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">scale</span><span class="p">,</span> <span class="n">nb_bands</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_bands</span><span class="p">):</span>
+                    <span class="n">analysis_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_linear_band</span><span class="p">(</span>
+                        <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_buffer</span><span class="p">))</span>
+
+        <span class="c1"># Use Python bindings</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">double</span><span class="p">),</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">analysis_header</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span>
+
+    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using ISAP.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        analysis_data: list of nd-array</span>
+<span class="sd">            the wavelet coefficients array.</span>
+<span class="sd">        analysis_header: dict</span>
+<span class="sd">            the wavelet decomposition parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data: nd-array</span>
+<span class="sd">            the reconstructed data array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Use subprocess to execute binaries</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
+
+            <span class="n">cube</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">analysis_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">metadata</span><span class="o">=</span><span class="n">analysis_header</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">pisap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+                <span class="n">in_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
+                <span class="n">out_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;out.fits&quot;</span><span class="p">)</span>
+                <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">in_mr_file</span><span class="p">)</span>
+                <span class="n">pisap</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">mr_recons</span><span class="p">(</span>
+                    <span class="n">in_mr_file</span><span class="p">,</span> <span class="n">out_image</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">out_image</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="c1"># Use Python bindings</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">analysis_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
 </pre></div>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -443,7 +809,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../index.html">
-        <img alt="Logo" src="../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,13 +128,17 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.data</h1><div class="highlight"><pre>
-<span class="c1">##########################################################################</span>
+<span></span><span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
 <span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
 <span class="c1"># for details.</span>
 <span class="c1">##########################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A module that privides the utility functions to download toy datasets.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># System import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
@@ -145,32 +159,32 @@
 <span class="c1"># Global parameters</span>
 <span class="n">SAMPLE_DATE_FILES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;mri-nifti&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://nsap.intra.cea.fr/datasets/t1_localizer.nii.gz&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/&quot;</span>
+                <span class="s2">&quot;t1_localizer.nii.gz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="s2">&quot;9617b36e5510a4783038c63241da21d4&quot;</span>
      <span class="p">},</span>
     <span class="s2">&quot;mri-slice-nifti&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;BrainPhantom512.nii.gz&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/&quot;</span>
+                <span class="s2">&quot;BrainPhantom512.nii.gz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="s2">&quot;19983e6003ae94487d03131f4bacae2e&quot;</span>
     <span class="p">},</span>
     <span class="s2">&quot;mri-mask&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;samples_cartesian_N512_R4.nii.gz&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/&quot;</span>
+                <span class="s2">&quot;mask_BrainPhantom512.nii.gz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="s2">&quot;078760d89e737e69b5578d47e368c42f&quot;</span>
     <span class="p">},</span>
     <span class="s2">&quot;astro-fits&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;astro&quot;</span><span class="p">,</span> <span class="s2">&quot;M31_128.fits&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/M31_128.fits&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="s2">&quot;1371f06a3b7fe5588ec4823dd9f2ccad&quot;</span>
     <span class="p">},</span>
     <span class="s2">&quot;astro-mask&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="s2">&quot;{PISAP:s}&quot;</span><span class="p">,</span> <span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;astro&quot;</span><span class="p">,</span> <span class="s2">&quot;mask25_sig40.fits&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/&quot;</span>
+                <span class="s2">&quot;mask25_sig40.fits&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;md5sum&quot;</span><span class="p">:</span> <span class="s2">&quot;8d7fd9b4d7c2aaf407fa1331860a130f&quot;</span>
     <span class="p">}</span>
 <span class="p">}</span>
 <span class="n">DATADIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.local&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;pisap&quot;</span><span class="p">)</span>
-<span class="n">PACKAGEDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">pisap</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+<span class="n">PACKAGEDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">pisap</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_sample_data"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.get_sample_data">[docs]</a><span class="k">def</span> <span class="nf">get_sample_data</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="n">DATADIR</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -189,8 +203,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    path: str</span>
-<span class="sd">        the path to the desired dataset.</span>
+<span class="sd">    image: Image</span>
+<span class="sd">        the loaded dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># First get the data url</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">SAMPLE_DATE_FILES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
@@ -214,7 +228,10 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File &#39;{0}&#39; checksum verification has &quot;</span>
                             <span class="s2">&quot;failed.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">path</span></div>
+    <span class="c1"># Load the dataset</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">pisap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">image</span></div>
 
 
 <div class="viewcode-block" id="md5_sum_file"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.md5_sum_file">[docs]</a><span class="k">def</span> <span class="nf">md5_sum_file</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
@@ -273,7 +290,7 @@
 <span class="sd">    This was adapted from:</span>
 <span class="sd">    http://code.activestate.com/recipes/83208-resuming-download-of-a-file/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="ResumeURLOpener.http_error_206"><a class="viewcode-back" href="../../generated/pisap.data.html#pisap.data.ResumeURLOpener.http_error_206">[docs]</a>    <span class="k">def</span> <span class="nf">http_error_206</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -469,6 +486,7 @@
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -476,7 +494,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

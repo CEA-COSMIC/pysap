@@ -38,7 +38,13 @@ Install the python package with *pip*
 Installing the current version
 ===============================
 
-Clone the project at https://github.com/neurospin/pisap.
+**Clone the project**
+
+>>> git clone https://github.com/neurospin/pisap
+
+**Install in the package directory created by the previous step**
+
+>>> python setup.py develop --user
 
 
 

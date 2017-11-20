@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../../index.html">
-        <img alt="Logo" src="../../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,59 +128,27 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.numerics.proximity</h1><div class="highlight"><pre>
-<span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">##########################################################################</span>
+<span></span><span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
 <span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
 <span class="c1"># for details.</span>
-<span class="c1">#</span>
-<span class="c1">#:Author: Samuel Farrens &lt;samuel.farrens@gmail.com&gt;</span>
-<span class="c1">#:Version: 1.1</span>
-<span class="c1">#:Date: 06/01/2017</span>
 <span class="c1">##########################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module contains classes of proximity operators for optimisation</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
 <span class="c1"># System import</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="kn">as</span> <span class="nn">pfft</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 <span class="c1"># Package import</span>
-<span class="kn">from</span> <span class="nn">.noise</span> <span class="kn">import</span> <span class="n">denoise</span>
+<span class="kn">from</span> <span class="nn">pisap.stats</span> <span class="kn">import</span> <span class="n">multiscale_sigma_mad</span>
+
+<span class="c1"># Third party import</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">sf_deconvolve.lib.noise</span> <span class="kn">import</span> <span class="n">denoise</span>
 
 
-<div class="viewcode-block" id="Positive"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.Positive">[docs]</a><span class="k">class</span> <span class="nc">Positive</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Positivity proximity operator</span>
-<span class="sd">    This class defines the positivity proximity operator</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
-<div class="viewcode-block" id="Positive.op"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.Positive.op">[docs]</a>    <span class="k">def</span> <span class="nf">op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; This method returns the location of positive coefficients in the</span>
-<span class="sd">        input data </span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        data : np.ndarray</span>
-<span class="sd">            Input data array</span>
-<span class="sd">        **kwargs</span>
-<span class="sd">            Arbitrary keyword arguments</span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        np.ndarray all positive elements from input data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">data</span> <span class="o">*</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div></div>
-
-
-<div class="viewcode-block" id="Threshold"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.Threshold">[docs]</a><span class="k">class</span> <span class="nc">Threshold</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Threshold proximity operator</span>
+<div class="viewcode-block" id="SoftThreshold2Dt"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.SoftThreshold2Dt">[docs]</a><span class="k">class</span> <span class="nc">SoftThreshold2Dt</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Threshold proximity operator</span>
 
 <span class="sd">    This class defines the threshold proximity operator</span>
 
@@ -179,10 +157,25 @@
 <span class="sd">    weights : np.ndarray</span>
 <span class="sd">        Input array of weights</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Threshold.update_weights"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.Threshold.update_weights">[docs]</a>    <span class="k">def</span> <span class="nf">update_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">grad_op</span><span class="p">,</span> <span class="n">linear_op</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the SoftThreshold2Dt class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grad_op: instance</span>
+<span class="sd">            Gradient operator.</span>
+<span class="sd">        linear_op: instance</span>
+<span class="sd">            Linear operator.</span>
+<span class="sd">        verbose: int, default 0</span>
+<span class="sd">            Control the verbosity level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grad_op</span> <span class="o">=</span> <span class="n">grad_op</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span> <span class="o">=</span> <span class="n">linear_op</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+<div class="viewcode-block" id="SoftThreshold2Dt.update_weights"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.SoftThreshold2Dt.update_weights">[docs]</a>    <span class="k">def</span> <span class="nf">update_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Update weights</span>
 
 <span class="sd">        This method update the values of the weights</span>
@@ -194,7 +187,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span></div>
 
-<div class="viewcode-block" id="Threshold.op"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.Threshold.op">[docs]</a>    <span class="k">def</span> <span class="nf">op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">extra_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="SoftThreshold2Dt.op"><a class="viewcode-back" href="../../../generated/pisap.numerics.proximity.html#pisap.numerics.proximity.SoftThreshold2Dt.op">[docs]</a>    <span class="k">def</span> <span class="nf">op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">extra_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Operator</span>
 
 <span class="sd">        This method returns the input data thresholded by the weights</span>
@@ -209,16 +202,36 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray thresholded data</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">*</span> <span class="n">extra_factor</span>
-        <span class="k">return</span> <span class="n">denoise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="s2">&quot;hard&quot;</span><span class="p">)</span></div></div>
-
+        <span class="n">std_est</span> <span class="o">=</span> <span class="n">multiscale_sigma_mad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Proximity variance estimate: {0}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">std_est</span><span class="p">))</span>
+        <span class="n">data_at_scale</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nb_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">nb_scale</span>
+        <span class="n">scale_last_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">nb_scale</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">std_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">scale_last_index</span><span class="p">,</span> <span class="p">))</span>
+        <span class="k">for</span> <span class="n">scale</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_scale</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">scale_indices</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">scale</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">scale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">std_data</span><span class="p">[</span><span class="n">scale_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">scale_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">std_est</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span>
+            <span class="c1"># TODO implement [:-1] on transform</span>
+            <span class="n">data_at_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">scale_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">scale_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">data_at_scale</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">data_at_scale</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[:</span><span class="n">scale_last_index</span><span class="p">]</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">std_data</span>
+        <span class="n">data_at_scale</span> <span class="o">=</span> <span class="n">denoise</span><span class="p">(</span><span class="n">data_at_scale</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="s2">&quot;soft&quot;</span><span class="p">)</span>
+        <span class="n">scale_indices</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">nb_scale</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="n">nb_scale</span><span class="p">])</span>
+        <span class="n">data_coarse_scale</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">scale_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">scale_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data_at_scale</span><span class="p">,</span> <span class="n">data_coarse_scale</span><span class="p">))</span></div></div>
 </pre></div>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -226,7 +239,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

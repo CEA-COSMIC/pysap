@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PISAP &mdash; piSAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="piSAP" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="pisap.html">Pisap</a></li>
+<li><a href="pisap.base.html">Pisap.base</a></li>
+<li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
+<li><a href="pisap.numerics.html">Pisap.numerics</a></li>
+<li><a href="pisap.extensions.html">Pisap.extensions</a></li>
+<li><a href="pisap.plotting.html">Pisap.plotting</a></li>
+<li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
+          </ul>
+        </li>-->
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pisap <strong>version 0.0.1</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pisap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      <ul class="simple">
+</ul>
+
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pisap.extensions.transform"></span><p>Wavelet transform module.</p>
+<p>Available transform from ISAP are:</p>
+<ul class="simple">
+<li>LinearWaveletTransformATrousAlgorithm</li>
+<li>BsplineWaveletTransformATrousAlgorithm</li>
+<li>WaveletTransformInFourierSpace</li>
+<li>MorphologicalMedianTransform</li>
+<li>MorphologicalMinmaxTransform</li>
+<li>PyramidalLinearWaveletTransform</li>
+<li>PyramidalBsplineWaveletTransform</li>
+<li>PyramidalWaveletTransformInFourierSpaceAlgo1</li>
+<li>MeyerWaveletsCompactInFourierSpace</li>
+<li>PyramidalMedianTransform</li>
+<li>PyramidalLaplacian</li>
+<li>MorphologicalPyramidalMinmaxTransform</li>
+<li>DecompositionOnScalingFunction</li>
+<li>MallatWaveletTransform79Filters</li>
+<li>FeauveauWaveletTransform</li>
+<li>FeauveauWaveletTransformWithoutUndersampling</li>
+<li>LineColumnWaveletTransform1D1D</li>
+<li>HaarWaveletTransform</li>
+<li>HalfPyramidalTransform</li>
+<li>MixedHalfPyramidalWTAndMedianMethod</li>
+<li>UndecimatedDiadicWaveletTransform</li>
+<li>MixedWTAndPMTMethod</li>
+<li>UndecimatedHaarTransformATrousAlgorithm</li>
+<li>UndecimatedBiOrthogonalTransform</li>
+<li>NonOrthogonalUndecimatedTransform</li>
+<li>IsotropicAndCompactSupportWaveletInFourierSpace</li>
+<li>PyramidalWaveletTransformInFourierSpaceAlgo2</li>
+<li>FastCurveletTransform</li>
+<li>WaveletTransformViaLiftingScheme</li>
+<li>OnLine53AndOnColumn44</li>
+<li>OnLine44AndOnColumn53</li>
+</ul>
+<dl class="class">
+<dt id="pisap.extensions.transform.BsplineWaveletTransformATrousAlgorithm">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">BsplineWaveletTransformATrousAlgorithm</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#BsplineWaveletTransformATrousAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.BsplineWaveletTransformATrousAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bspline wavelet transform: a trous algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.DecompositionOnScalingFunction">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">DecompositionOnScalingFunction</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#DecompositionOnScalingFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.DecompositionOnScalingFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decomposition on scaling function.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.FastCurveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">FastCurveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#FastCurveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.FastCurveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast Curvelet Transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.FeauveauWaveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">FeauveauWaveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#FeauveauWaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.FeauveauWaveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Feauveau&#8217;s wavelet transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">FeauveauWaveletTransformWithoutUndersampling</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#FeauveauWaveletTransformWithoutUndersampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Feauveau&#8217;s wavelet transform without undersampling.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.HaarWaveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">HaarWaveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#HaarWaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.HaarWaveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Haar&#8217;s wavelet transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.HalfPyramidalTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">HalfPyramidalTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#HalfPyramidalTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.HalfPyramidalTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Half-pyramidal transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.ISAPWaveletTransformBase">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">ISAPWaveletTransformBase</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#ISAPWaveletTransformBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.ISAPWaveletTransformBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the structure that will be used to store the ISAP results.</p>
+<dl class="classmethod">
+<dt id="pisap.extensions.transform.ISAPWaveletTransformBase.decimated">
+<em class="property">classmethod </em><code class="descname">decimated</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>iso_shape</em>, <em>nb_band</em>, <em>scale_shift=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#ISAPWaveletTransformBase.decimated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.ISAPWaveletTransformBase.decimated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute decimated transformation parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nb_scale: int</strong></p>
+<blockquote>
+<div><p>the number of scale of the decomposition that includes the
+approximation scale.</p>
+</div></blockquote>
+<p><strong>iso_shape: int</strong></p>
+<blockquote>
+<div><p>the data isotropic shape.</p>
+</div></blockquote>
+<p><strong>nb_band: int</strong></p>
+<blockquote>
+<div><p>the number of band.</p>
+</div></blockquote>
+<p><strong>scale_shift: int, default 0</strong></p>
+<blockquote>
+<div><p>decimate the image with a factor of 2**(scale + scale_shift).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">bands_names: list of str</p>
+<blockquote>
+<div><p>the name of the different bands.</p>
+</div></blockquote>
+<p>flatten_fct: int</p>
+<blockquote>
+<div><p>a function used to reorganize the ISAP decomposition coefficients,
+see &#8216;pisap/extensions/formating.py&#8217; module for more details.</p>
+</div></blockquote>
+<p>unflatten_fct: callable</p>
+<blockquote>
+<div><p>a function used to reorganize the decomposition coefficients using
+ISAP convention, see &#8216;pisap/extensions/formating.py&#8217; module for
+more details.</p>
+</div></blockquote>
+<p>is_decimated: bool</p>
+<blockquote>
+<div><p>True if the decomposition include a decimation of the
+band number of coefficients.</p>
+</div></blockquote>
+<p>nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</p>
+<blockquote>
+<div><p>vector of int holding the number of band per scale.</p>
+</div></blockquote>
+<p>bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</p>
+<blockquote>
+<div><p>array holding the length between two bands of the data
+vector per scale.</p>
+</div></blockquote>
+<p>bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</p>
+<blockquote class="last">
+<div><p>structure holding the shape of each bands at each scale.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pisap.extensions.transform.ISAPWaveletTransformBase.undecimated">
+<em class="property">classmethod </em><code class="descname">undecimated</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>iso_shape</em>, <em>nb_band</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#ISAPWaveletTransformBase.undecimated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.ISAPWaveletTransformBase.undecimated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute undecimated transformation parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nb_scale: int</strong></p>
+<blockquote>
+<div><p>the number of scale of the decomposition that includes the
+approximation scale.</p>
+</div></blockquote>
+<p><strong>iso_shape: int</strong></p>
+<blockquote>
+<div><p>the data isotropic shape.</p>
+</div></blockquote>
+<p><strong>nb_band: int</strong></p>
+<blockquote>
+<div><p>the number of band.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">bands_names: list of str</p>
+<blockquote>
+<div><p>the name of the different bands.</p>
+</div></blockquote>
+<p>flatten_fct: int</p>
+<blockquote>
+<div><p>a function used to reorganize the ISAP decomposition coefficients,
+see &#8216;pisap/extensions/formating.py&#8217; module for more details.</p>
+</div></blockquote>
+<p>unflatten_fct: callable</p>
+<blockquote>
+<div><p>a function used to reorganize the decomposition coefficients using
+ISAP convention, see &#8216;pisap/extensions/formating.py&#8217; module for
+more details.</p>
+</div></blockquote>
+<p>is_decimated: bool</p>
+<blockquote>
+<div><p>True if the decomposition include a decimation of the
+band number of coefficients.</p>
+</div></blockquote>
+<p>nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</p>
+<blockquote>
+<div><p>vector of int holding the number of band per scale.</p>
+</div></blockquote>
+<p>bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</p>
+<blockquote>
+<div><p>array holding the length between two bands of the data
+vector per scale.</p>
+</div></blockquote>
+<p>bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</p>
+<blockquote class="last">
+<div><p>structure holding the shape of each bands at each scale.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">IsotropicAndCompactSupportWaveletInFourierSpace</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#IsotropicAndCompactSupportWaveletInFourierSpace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Isotropic and compact support wavelet in Fourier space.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.LineColumnWaveletTransform1D1D">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">LineColumnWaveletTransform1D1D</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#LineColumnWaveletTransform1D1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.LineColumnWaveletTransform1D1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Line Column Wavelet Transform (1D+1D).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.LinearWaveletTransformATrousAlgorithm">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">LinearWaveletTransformATrousAlgorithm</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#LinearWaveletTransformATrousAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.LinearWaveletTransformATrousAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear wavelet transform: a trous algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MallatWaveletTransform79Filters">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MallatWaveletTransform79Filters</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MallatWaveletTransform79Filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MallatWaveletTransform79Filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mallat&#8217;s wavelet transform (7/9 filters).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MeyerWaveletsCompactInFourierSpace">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MeyerWaveletsCompactInFourierSpace</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MeyerWaveletsCompactInFourierSpace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MeyerWaveletsCompactInFourierSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Meyers wavelets (compact support in Fourier space).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MixedHalfPyramidalWTAndMedianMethod</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MixedHalfPyramidalWTAndMedianMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixed Half-pyramidal WT and Median method (WT-HPMT).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MixedWTAndPMTMethod">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MixedWTAndPMTMethod</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MixedWTAndPMTMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MixedWTAndPMTMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixed WT and PMT method (WT-PMT).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MorphologicalMedianTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MorphologicalMedianTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MorphologicalMedianTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MorphologicalMedianTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Morphological median transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MorphologicalMinmaxTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MorphologicalMinmaxTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MorphologicalMinmaxTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MorphologicalMinmaxTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Morphological minmax transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.MorphologicalPyramidalMinmaxTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">MorphologicalPyramidalMinmaxTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#MorphologicalPyramidalMinmaxTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.MorphologicalPyramidalMinmaxTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Morphological pyramidal minmax transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.NonOrthogonalUndecimatedTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">NonOrthogonalUndecimatedTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#NonOrthogonalUndecimatedTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.NonOrthogonalUndecimatedTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non orthogonal undecimated transform (three bands per scale).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.OnLine44AndOnColumn53">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">OnLine44AndOnColumn53</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#OnLine44AndOnColumn53"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.OnLine44AndOnColumn53" title="Permalink to this definition">¶</a></dt>
+<dd><p>4/4 on line and 5/3 on column.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.OnLine53AndOnColumn44">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">OnLine53AndOnColumn44</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#OnLine53AndOnColumn44"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.OnLine53AndOnColumn44" title="Permalink to this definition">¶</a></dt>
+<dd><p>5/3 on line and 4/4 on column.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalBsplineWaveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalBsplineWaveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalBsplineWaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalBsplineWaveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal bspline wavelet transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalLaplacian">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalLaplacian</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalLaplacian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal laplacian.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalLinearWaveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalLinearWaveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalLinearWaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalLinearWaveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal linear wavelet transform.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalMedianTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalMedianTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalMedianTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalMedianTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal median transform (PMT).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalWaveletTransformInFourierSpaceAlgo1</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalWaveletTransformInFourierSpaceAlgo1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal wavelet transform in Fourier space: algo 1
+(diff. between two resolutions).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">PyramidalWaveletTransformInFourierSpaceAlgo2</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#PyramidalWaveletTransformInFourierSpaceAlgo2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramidal wavelet transform in Fourier space: algo 2
+(diff. between the square of two resolutions).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.UndecimatedBiOrthogonalTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">UndecimatedBiOrthogonalTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#UndecimatedBiOrthogonalTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.UndecimatedBiOrthogonalTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undecimated (bi-) orthogonal transform (three bands per scale.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.UndecimatedDiadicWaveletTransform">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">UndecimatedDiadicWaveletTransform</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#UndecimatedDiadicWaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.UndecimatedDiadicWaveletTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undecimated diadic wavelet transform (two bands per scale).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">UndecimatedHaarTransformATrousAlgorithm</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#UndecimatedHaarTransformATrousAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undecimated Haar transform: a trous algorithm (one band per scale).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.WaveletTransformInFourierSpace">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">WaveletTransformInFourierSpace</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#WaveletTransformInFourierSpace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.WaveletTransformInFourierSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wavelet transform in Fourier space.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pisap.extensions.transform.WaveletTransformViaLiftingScheme">
+<em class="property">class </em><code class="descclassname">pisap.extensions.transform.</code><code class="descname">WaveletTransformViaLiftingScheme</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/extensions/transform.html#WaveletTransformViaLiftingScheme"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.extensions.transform.WaveletTransformViaLiftingScheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wavelet transform via lifting scheme.</p>
+</dd></dl>
+
+
+
+          </div>
+        </div>
+      </div>
+
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
+</div>
+  </body>
+</html>

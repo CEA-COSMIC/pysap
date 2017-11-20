@@ -2,8 +2,8 @@
 
 :orphan:
 
-Documentation of *pisap.base*
-==============================
+API documentation of *pisap.base*
+==================================
 
 
 This module defines common structures for astronomical and neuroimaging
@@ -35,18 +35,6 @@ datasets.
     </td>
     </tr>
     <tr class='row-even'>
-    <td><a class='reference internal' href='pisap.base.wavelet_tree.html'><em>pisap.base.wavelet_tree</em></a></td>
-    <td>
-    
-    </td>
-    </tr>
-    <tr class='row-odd'>
-    <td><a class='reference internal' href='pisap.base.nodes.html'><em>pisap.base.nodes</em></a></td>
-    <td>
-    
-    </td>
-    </tr>
-    <tr class='row-even'>
     <td><a class='reference internal' href='pisap.base.io.html'><em>pisap.base.io</em></a></td>
     <td>
     
@@ -55,25 +43,7 @@ datasets.
     <tr class='row-odd'>
     <td><a class='reference internal' href='pisap.base.transform.html'><em>pisap.base.transform</em></a></td>
     <td>
-        <p>Wavelet transform module.</p>
-    </td>
-    </tr>
-    <tr class='row-even'>
-    <td><a class='reference internal' href='pisap.base.wavelet.html'><em>pisap.base.wavelet</em></a></td>
-    <td>
-    
-    </td>
-    </tr>
-    <tr class='row-odd'>
-    <td><a class='reference internal' href='pisap.base.wtools.html'><em>pisap.base.wtools</em></a></td>
-    <td>
-    
-    </td>
-    </tr>
-    <tr class='row-even'>
-    <td><a class='reference internal' href='pisap.base.ndwt.html'><em>pisap.base.ndwt</em></a></td>
-    <td>
-        <p>2D and nD Discrete Wavelet Transforms and Inverse Discrete Wavelet Transforms.</p>
+        <p>Wavelet transform base module.</p>
     </td>
     </tr>
     </tbody>

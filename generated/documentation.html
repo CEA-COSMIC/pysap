@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="#">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="#">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -106,7 +116,7 @@
 
       <!-- toc tree -->
       <ul>
-<li><a class="reference internal" href="#">Documentation of PISAP</a></li>
+<li><a class="reference internal" href="#">API documentation of PISAP</a></li>
 </ul>
 
 
@@ -120,8 +130,23 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="documentation-of-pisap">
-<h1>Documentation of PISAP<a class="headerlink" href="#documentation-of-pisap" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="api-documentation-of-pisap">
+<h1>API documentation of PISAP<a class="headerlink" href="#api-documentation-of-pisap" title="Permalink to this headline">¶</a></h1>
+<p>This is the classes and functions reference in pisap. Please refer to the gallery for further details, as the class and function raw specifications may not be enough to give full guidelines on their uses.</p>
+<dl class="documentation-contents docutils">
+<dt><strong>Contents</strong>:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="pisap.html">pisap</a></li>
+<li><a class="reference external" href="pisap.base.html">pisap.base</a></li>
+<li><a class="reference external" href="pisap.stats.html">pisap.stats</a></li>
+<li><a class="reference external" href="pisap.apps.html">pisap.apps</a></li>
+<li><a class="reference external" href="pisap.numerics.html">pisap.numerics</a></li>
+<li><a class="reference external" href="pisap.extensions.html">pisap.extensions</a></li>
+<li><a class="reference external" href="pisap.plotting.html">pisap.plotting</a></li>
+<li><a class="reference external" href="pisap.base.loaders.html">pisap.base.loaders</a></li>
+</ul>
+</dd>
+</dl>
 <!-- Block section -->
 
 <div class='container-fluid'>
@@ -148,20 +173,20 @@ pisap.base
 datasets.</p>    </blockquote>
 </div>
 <div class='col-md-4'>
-<h3><a href='pisap.sparsity.html'>
-pisap.sparsity
-</a></h3>
-<blockquote>
-    <p>This module defines Python implementation of the ISAP C++ library.</p>    </blockquote>
-</div>
-
-</div>
-<div class='row'>    <div class='col-md-4'>
 <h3><a href='pisap.stats.html'>
 pisap.stats
 </a></h3>
 <blockquote>
     <p>This module defines common statistical functions or utility functions.</p>    </blockquote>
+</div>
+
+</div>
+<div class='row'>    <div class='col-md-4'>
+<h3><a href='pisap.apps.html'>
+pisap.apps
+</a></h3>
+<blockquote>
+    <p>Module that provides a graphical application to execute functions.</p>    </blockquote>
 </div>
 <div class='col-md-4'>
 <h3><a href='pisap.numerics.html'>
@@ -205,6 +230,7 @@ neuroimaging datasets.</p>    </blockquote>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -212,7 +238,11 @@ neuroimaging datasets.</p>    </blockquote>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

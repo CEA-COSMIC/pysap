@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,7 +128,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-pisap.data"></span><dl class="class">
+  <span class="target" id="module-pisap.data"></span><p>A module that privides the utility functions to download toy datasets.</p>
+<dl class="class">
 <dt id="pisap.data.ResumeURLOpener">
 <em class="property">class </em><code class="descclassname">pisap.data.</code><code class="descname">ResumeURLOpener</code><a class="reference internal" href="../_modules/pisap/data.html#ResumeURLOpener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.data.ResumeURLOpener" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create sub-class in order to overide error 206. This error means a
@@ -231,9 +242,9 @@ dictionary.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">path: str</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image: Image</p>
 <blockquote class="last">
-<div><p>the path to the desired dataset.</p>
+<div><p>the loaded dataset.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -300,6 +311,7 @@ dictionary.</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -307,7 +319,11 @@ dictionary.</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

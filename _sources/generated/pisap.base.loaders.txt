@@ -2,8 +2,8 @@
 
 :orphan:
 
-Documentation of *pisap.base.loaders*
-======================================
+API documentation of *pisap.base.loaders*
+==========================================
 
 
 This module defines common loaders to deal with astronomical and

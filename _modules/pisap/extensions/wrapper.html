@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../../index.html">
-        <img alt="Logo" src="../../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,7 +128,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.extensions.wrapper</h1><div class="highlight"><pre>
-<span class="c1">##########################################################################</span>
+<span></span><span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
@@ -127,6 +137,7 @@
 <span class="c1">##########################################################################</span>
 
 <span class="c1"># System import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -141,21 +152,24 @@
 <div class="viewcode-block" id="Sparse2dWrapper"><a class="viewcode-back" href="../../../generated/pisap.extensions.wrapper.html#pisap.extensions.wrapper.Sparse2dWrapper">[docs]</a><span class="k">class</span> <span class="nc">Sparse2dWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Parent class for the wrapping of Sparse2d commands.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initialize the Sparse2dWrapper class by setting properly the</span>
 <span class="sd">        environment.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        env: dict (optional, default None)</span>
-<span class="sd">            The current environment in which the Sparse2d command will be</span>
+<span class="sd">            the current environment in which the Sparse2d command will be</span>
 <span class="sd">            executed. Default None, the current environment.</span>
+<span class="sd">        verbose: bool, default False</span>
+<span class="sd">            control the verbosity level.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">environment</span> <span class="o">=</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">environment</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run the Sparse2d command.</span>
 
 <span class="sd">        Parameters</span>
@@ -175,6 +189,9 @@
 
         <span class="c1"># Command must contain only strings</span>
         <span class="n">_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Executing ISAP command: {0}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_cmd</span><span class="p">)))</span>
 
         <span class="c1"># Execute the command</span>
         <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">_cmd</span><span class="p">,</span>
@@ -186,12 +203,12 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitcode</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="s2">&quot;Error&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">Sparse2dRuntimeError</span><span class="p">(</span>
                 <span class="n">_cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">stderr</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span></div>
-
 </pre></div>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -199,7 +216,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

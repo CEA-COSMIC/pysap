@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../generated/pisap.html">Pisap</a></li>
 <li><a href="../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -123,35 +133,30 @@
 <li><a href="pisap/base/loaders/fits.html">pisap.base.loaders.fits</a></li>
 <li><a href="pisap/base/loaders/loader_base.html">pisap.base.loaders.loader_base</a></li>
 <li><a href="pisap/base/loaders/nifti.html">pisap.base.loaders.nifti</a></li>
-<li><a href="pisap/base/ndwt.html">pisap.base.ndwt</a></li>
-<li><a href="pisap/base/nodes.html">pisap.base.nodes</a></li>
 <li><a href="pisap/base/observable.html">pisap.base.observable</a></li>
 <li><a href="pisap/base/transform.html">pisap.base.transform</a></li>
-<li><a href="pisap/base/wavelet.html">pisap.base.wavelet</a></li>
-<li><a href="pisap/base/wavelet_tree.html">pisap.base.wavelet_tree</a></li>
-<li><a href="pisap/base/wtools.html">pisap.base.wtools</a></li>
+<li><a href="pisap/configure.html">pisap.configure</a></li>
 <li><a href="pisap/data.html">pisap.data</a></li>
+<li><a href="pisap/extensions/formating.html">pisap.extensions.formating</a></li>
 <li><a href="pisap/extensions/tools.html">pisap.extensions.tools</a></li>
+<li><a href="pisap/extensions/transform.html">pisap.extensions.transform</a></li>
 <li><a href="pisap/extensions/wrapper.html">pisap.extensions.wrapper</a></li>
-<li><a href="pisap/numerics/algorithms.html">pisap.numerics.algorithms</a></li>
-<li><a href="pisap/numerics/cost.html">pisap.numerics.cost</a></li>
 <li><a href="pisap/numerics/gradient.html">pisap.numerics.gradient</a></li>
 <li><a href="pisap/numerics/linear.html">pisap.numerics.linear</a></li>
-<li><a href="pisap/numerics/noise.html">pisap.numerics.noise</a></li>
-<li><a href="pisap/numerics/optimization.html">pisap.numerics.optimization</a></li>
 <li><a href="pisap/numerics/proximity.html">pisap.numerics.proximity</a></li>
 <li><a href="pisap/numerics/reconstruct.html">pisap.numerics.reconstruct</a></li>
 <li><a href="pisap/numerics/reweight.html">pisap.numerics.reweight</a></li>
 <li><a href="pisap/plotting/image.html">pisap.plotting.image</a></li>
-<li><a href="pisap/plotting/optimization.html">pisap.plotting.optimization</a></li>
 <li><a href="pisap/plotting/transform.html">pisap.plotting.transform</a></li>
-<li><a href="pisap/sparsity/wavelet2d.html">pisap.sparsity.wavelet2d</a></li>
+<li><a href="pisap/plotting/utils.html">pisap.plotting.utils</a></li>
 <li><a href="pisap/stats/noise.html">pisap.stats.noise</a></li>
+<li><a href="pisap/utils.html">pisap.utils</a></li>
 </ul>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -159,7 +164,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

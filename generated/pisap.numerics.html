@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="#">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -105,7 +115,7 @@
 
       <!-- toc tree -->
       <ul>
-<li><a class="reference internal" href="#">Documentation of <em>pisap.numerics</em></a></li>
+<li><a class="reference internal" href="#">API documentation of <em>pisap.numerics</em></a></li>
 </ul>
 
 
@@ -119,8 +129,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="documentation-of-pisap-numerics">
-<h1>Documentation of <em>pisap.numerics</em><a class="headerlink" href="#documentation-of-pisap-numerics" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="api-documentation-of-pisap-numerics">
+<h1>API documentation of <em>pisap.numerics</em><a class="headerlink" href="#api-documentation-of-pisap-numerics" title="Permalink to this headline">¶</a></h1>
 <p>This module defines common optimization strategies with predefined operators,
 gradients, costs, ...</p>
 <br/>    <!-- Block section -->
@@ -128,48 +138,10 @@ gradients, costs, ...</p>
 <colgroup><col width='25%'/><col width='75%'/></colgroup>
 <tbody valign='top'>
 <tr class='row-odd'>
-<td><a class='reference internal' href='pisap.numerics.cost.html'><em>pisap.numerics.cost</em></a></td>
-<td>
-    <p>This module contains classes of different cost functions for optimization.</p>
-</td>
-</tr>
-<tr class='row-even'>
 <td><a class='reference internal' href='pisap.numerics.gradient.html'><em>pisap.numerics.gradient</em></a></td>
 <td>
     <p>This module contains classses for defining algorithm operators and gradients.
 Based on work by Yinghao Ge and Fred Ngole.</p>
-</td>
-</tr>
-<tr class='row-odd'>
-<td><a class='reference internal' href='pisap.numerics.optimization.html'><em>pisap.numerics.optimization</em></a></td>
-<td>
-    <p>The Condat-Vu splitting method is a primal-dual proximal algorithm.</p>
-<p><strong>References</strong></p>
-<p>1) Condat, A Primal-Dual Splitting Method for Convex Optimization Involving
-Lipschitzian, Proximable and Linear Composite Terms, 2013, Journal of
-Optimization Theory and Applications, 158, 2, 460. (C2013)
-2) Bauschke et al., Fixed-Point Algorithms for Inverse Problems in Science
-and Engineering, 2011, Chapter 10. (B2010)
-3) Raguet et al., Generalized Forward-Backward Splitting, 2012, , (R2012)</p>
-<p><strong>Notes</strong></p>
-<ul class="simple">
-<li>x_old is used in place of x_{n}.</li>
-<li>x_new is used in place of x_{n+1}.</li>
-<li>x_prox is used in place of ~{x}_{n+1}.</li>
-<li>x_temp is used for intermediate operations.</li>
-</ul>
-</td>
-</tr>
-<tr class='row-even'>
-<td><a class='reference internal' href='pisap.numerics.algorithms.html'><em>pisap.numerics.algorithms</em></a></td>
-<td>
-    <p>This module contains classes for defining basic algorithms.</p>
-</td>
-</tr>
-<tr class='row-odd'>
-<td><a class='reference internal' href='pisap.numerics.noise.html'><em>pisap.numerics.noise</em></a></td>
-<td>
-    <p>This module contains methods for adding and removing noise from data.</p>
 </td>
 </tr>
 <tr class='row-even'>
@@ -181,23 +153,19 @@ and Engineering, 2011, Chapter 10. (B2010)
 <tr class='row-odd'>
 <td><a class='reference internal' href='pisap.numerics.proximity.html'><em>pisap.numerics.proximity</em></a></td>
 <td>
-    <p>This module contains classes of proximity operators for optimisation</p>
+
 </td>
 </tr>
 <tr class='row-even'>
 <td><a class='reference internal' href='pisap.numerics.reweight.html'><em>pisap.numerics.reweight</em></a></td>
 <td>
-    <p>This module contains classes for reweighting optimisation implementations</p>
-<p><strong>References</strong></p>
-<p>1) Candes, Wakin and Boyd, Enhancing Sparsity by Reweighting l1
-Minimization, 2007, Journal of Fourier Analysis and Applications,
-14(5):877-905. (CWB2007)</p>
+    <p>This module contains classes for reweighting optimisation implementations.</p>
 </td>
 </tr>
 <tr class='row-odd'>
 <td><a class='reference internal' href='pisap.numerics.linear.html'><em>pisap.numerics.linear</em></a></td>
 <td>
-    <p>This module contains linear operator classes.</p>
+    <p>This module contains linears operators classes.</p>
 </td>
 </tr>
 </tbody>
@@ -209,6 +177,7 @@ Minimization, 2007, Journal of Fourier Analysis and Applications,
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -216,7 +185,11 @@ Minimization, 2007, Journal of Fourier Analysis and Applications,
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

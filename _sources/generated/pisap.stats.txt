@@ -2,8 +2,8 @@
 
 :orphan:
 
-Documentation of *pisap.stats*
-===============================
+API documentation of *pisap.stats*
+===================================
 
 
 This module defines common statistical functions or utility functions.

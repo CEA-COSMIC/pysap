@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -120,7 +130,7 @@
             
   <span class="target" id="module-pisap.numerics.reconstruct"></span><dl class="function">
 <dt id="pisap.numerics.reconstruct.sparse_rec_condat_vu">
-<code class="descclassname">pisap.numerics.reconstruct.</code><code class="descname">sparse_rec_condat_vu</code><span class="sig-paren">(</span><em>data</em>, <em>gradient_cls</em>, <em>gradient_kwargs</em>, <em>linear_cls</em>, <em>linear_kwargs</em>, <em>std_est=None</em>, <em>std_est_method='image'</em>, <em>std_thr=2.0</em>, <em>tau=None</em>, <em>sigma=None</em>, <em>relaxation_factor=0.5</em>, <em>nb_of_reweights=1</em>, <em>max_nb_of_iter=150</em>, <em>add_positivity=True</em>, <em>atol=0.0001</em>, <em>verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/reconstruct.html#sparse_rec_condat_vu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.reconstruct.sparse_rec_condat_vu" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pisap.numerics.reconstruct.</code><code class="descname">sparse_rec_condat_vu</code><span class="sig-paren">(</span><em>data</em>, <em>gradient_cls</em>, <em>gradient_kwargs</em>, <em>linear_cls</em>, <em>linear_kwargs</em>, <em>std_est=None</em>, <em>std_est_method='image'</em>, <em>std_thr=2.0</em>, <em>tau=None</em>, <em>sigma=None</em>, <em>relaxation_factor=0.5</em>, <em>nb_of_reweights=1</em>, <em>max_nb_of_iter=150</em>, <em>add_positivity=True</em>, <em>atol=0.0001</em>, <em>outdir=None</em>, <em>verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/reconstruct.html#sparse_rec_condat_vu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.reconstruct.sparse_rec_condat_vu" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Condat-Vu sparse reconstruction with reweightings.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -192,6 +202,10 @@ positive.</p>
 <blockquote>
 <div><p>tolerance threshold for convergence.</p>
 </div></blockquote>
+<p><strong>outdir: str (optional, default None)</strong></p>
+<blockquote>
+<div><p>the destination folder.</p>
+</div></blockquote>
 <p><strong>verbose: int (optional, default 0)</strong></p>
 <blockquote>
 <div><p>the verbosity level.</p>
@@ -202,9 +216,75 @@ positive.</p>
 <blockquote>
 <div><p>the estimated Condat-Vu primal solution.</p>
 </div></blockquote>
-<p>y_final: WaveletTransform</p>
+<p>y_final: DictionaryBase</p>
 <blockquote class="last">
 <div><p>the estimated Condat-Vu dual solution.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pisap.numerics.reconstruct.sparse_rec_fista">
+<code class="descclassname">pisap.numerics.reconstruct.</code><code class="descname">sparse_rec_fista</code><span class="sig-paren">(</span><em>data</em>, <em>gradient_cls</em>, <em>gradient_kwargs</em>, <em>linear_cls</em>, <em>linear_kwargs</em>, <em>mu</em>, <em>lambda_init=1.0</em>, <em>max_nb_of_iter=300</em>, <em>atol=0.0001</em>, <em>outdir=None</em>, <em>verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/numerics/reconstruct.html#sparse_rec_fista"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.numerics.reconstruct.sparse_rec_fista" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Condat-Vu sparse reconstruction with reweightings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: ndarray</strong></p>
+<blockquote>
+<div><p>the data to reconstruct: observation are expected in Fourier space.</p>
+</div></blockquote>
+<p><strong>gradient_cls: class</strong></p>
+<blockquote>
+<div><p>a derived &#8216;GradBase&#8217; class.</p>
+</div></blockquote>
+<p><strong>gradient_kwargs: dict</strong></p>
+<blockquote>
+<div><p>the &#8216;gradient_cls&#8217; parameters, the first parameter is the data to
+be reconstructed.</p>
+</div></blockquote>
+<p><strong>linear_cls: class</strong></p>
+<blockquote>
+<div><p>a linear operator class.</p>
+</div></blockquote>
+<p><strong>linear_kwargs: dict</strong></p>
+<blockquote>
+<div><p>the &#8216;linear_cls&#8217; parameters.</p>
+</div></blockquote>
+<p><strong>mu: float</strong></p>
+<blockquote>
+<div><p>coefficient of regularization.</p>
+</div></blockquote>
+<p><strong>lambda_init: float, (default 1.0)</strong></p>
+<blockquote>
+<div><p>initial value for the FISTA step.</p>
+</div></blockquote>
+<p><strong>max_nb_of_iter: int (optional, default 300)</strong></p>
+<blockquote>
+<div><p>the maximum number of iterations in the Condat-Vu proximal-dual
+splitting algorithm.</p>
+</div></blockquote>
+<p><strong>atol: float (optional, default 1e-4)</strong></p>
+<blockquote>
+<div><p>tolerance threshold for convergence.</p>
+</div></blockquote>
+<p><strong>outdir: str (optional, default None)</strong></p>
+<blockquote>
+<div><p>the destination folder.</p>
+</div></blockquote>
+<p><strong>verbose: int (optional, default 0)</strong></p>
+<blockquote>
+<div><p>the verbosity level.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">x_final: Image</p>
+<blockquote class="last">
+<div><p>the estimated FISTA solution.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -217,6 +297,7 @@ positive.</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -224,7 +305,11 @@ positive.</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

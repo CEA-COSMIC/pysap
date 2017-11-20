@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,7 +52,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -61,41 +73,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../index.html">
-        <img alt="Logo" src="../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="pisap.html">Pisap</a></li>
 <li><a href="pisap.base.html">Pisap.base</a></li>
-<li><a href="pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="pisap.stats.html">Pisap.stats</a></li>
+<li><a href="pisap.apps.html">Pisap.apps</a></li>
 <li><a href="pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,63 +128,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-pisap.base.transform"></span><p>Wavelet transform module.</p>
-<dl class="function">
-<dt id="pisap.base.transform.WaveletTransform">
-<code class="descclassname">pisap.base.transform.</code><code class="descname">WaveletTransform</code><span class="sig-paren">(</span><em>data</em>, <em>wavelet</em>, <em>maxscale</em>, <em>mode='symmetric'</em>, <em>use_isap=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a factory to select the proper node type automatically.
-Currently support only 1D or 2D data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: nd-array</strong></p>
-<blockquote>
-<div><p>input data/signal.</p>
-</div></blockquote>
-<p><strong>wavelet: str</strong></p>
-<blockquote>
-<div><p>wavelet used in Discrete Wavelet Transform (DWT) decomposition
-and reconstruction.</p>
-</div></blockquote>
-<p><strong>maxscale: int</strong></p>
-<blockquote>
-<div><p>the maximum scale of decomposition.</p>
-</div></blockquote>
-<p><strong>mode: str (optional, default &#8216;symmetric&#8217;)</strong></p>
-<blockquote>
-<div><p>signal extension mode for the &#8216;dwt&#8217; and &#8216;idwt&#8217; decomposition and
-reconstruction functions.</p>
-</div></blockquote>
-<p><strong>use_isap: bool (optional, default False)</strong></p>
-<blockquote>
-<div><p>if True, use the C++ optimized ISAP library for the wavelet
-decomposition/reconstruction.</p>
-</div></blockquote>
-<p><strong>kwargs: dict</strong></p>
-<blockquote>
-<div><p>the parameters used to construct the wavlet.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">transform: WaveletTransformBase</p>
-<blockquote class="last">
-<div><p>the desired transform.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+  <span class="target" id="module-pisap.base.transform"></span><p>Wavelet transform base module.</p>
+<dl class="class">
+<dt id="pisap.base.transform.MetaRegister">
+<em class="property">class </em><code class="descclassname">pisap.base.transform.</code><code class="descname">MetaRegister</code><a class="reference internal" href="../_modules/pisap/base/transform.html#MetaRegister"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.MetaRegister" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple Python metaclass registry pattern.</p>
+<dl class="attribute">
+<dt id="pisap.base.transform.MetaRegister.REGISTRY">
+<code class="descname">REGISTRY</code><em class="property"> = {'PyramidalWaveletTransformInFourierSpaceAlgo1': &lt;class 'pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1'&gt;, 'DecompositionOnScalingFunction': &lt;class 'pisap.extensions.transform.DecompositionOnScalingFunction'&gt;, 'PyramidalWaveletTransformInFourierSpaceAlgo2': &lt;class 'pisap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2'&gt;, 'MallatWaveletTransform79Filters': &lt;class 'pisap.extensions.transform.MallatWaveletTransform79Filters'&gt;, 'OnLine44AndOnColumn53': &lt;class 'pisap.extensions.transform.OnLine44AndOnColumn53'&gt;, 'IsotropicAndCompactSupportWaveletInFourierSpace': &lt;class 'pisap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace'&gt;, 'PyramidalLinearWaveletTransform': &lt;class 'pisap.extensions.transform.PyramidalLinearWaveletTransform'&gt;, 'PyramidalBsplineWaveletTransform': &lt;class 'pisap.extensions.transform.PyramidalBsplineWaveletTransform'&gt;, 'UndecimatedDiadicWaveletTransform': &lt;class 'pisap.extensions.transform.UndecimatedDiadicWaveletTransform'&gt;, 'FeauveauWaveletTransform': &lt;class 'pisap.extensions.transform.FeauveauWaveletTransform'&gt;, 'PyramidalLaplacian': &lt;class 'pisap.extensions.transform.PyramidalLaplacian'&gt;, 'NonOrthogonalUndecimatedTransform': &lt;class 'pisap.extensions.transform.NonOrthogonalUndecimatedTransform'&gt;, 'UndecimatedBiOrthogonalTransform': &lt;class 'pisap.extensions.transform.UndecimatedBiOrthogonalTransform'&gt;, 'MorphologicalMedianTransform': &lt;class 'pisap.extensions.transform.MorphologicalMedianTransform'&gt;, 'PyramidalMedianTransform': &lt;class 'pisap.extensions.transform.PyramidalMedianTransform'&gt;, 'MixedHalfPyramidalWTAndMedianMethod': &lt;class 'pisap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod'&gt;, 'UndecimatedHaarTransformATrousAlgorithm': &lt;class 'pisap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm'&gt;, 'MorphologicalPyramidalMinmaxTransform': &lt;class 'pisap.extensions.transform.MorphologicalPyramidalMinmaxTransform'&gt;, 'FeauveauWaveletTransformWithoutUndersampling': &lt;class 'pisap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling'&gt;, 'LineColumnWaveletTransform1D1D': &lt;class 'pisap.extensions.transform.LineColumnWaveletTransform1D1D'&gt;, 'WaveletTransformInFourierSpace': &lt;class 'pisap.extensions.transform.WaveletTransformInFourierSpace'&gt;, 'OnLine53AndOnColumn44': &lt;class 'pisap.extensions.transform.OnLine53AndOnColumn44'&gt;, 'MixedWTAndPMTMethod': &lt;class 'pisap.extensions.transform.MixedWTAndPMTMethod'&gt;, 'BsplineWaveletTransformATrousAlgorithm': &lt;class 'pisap.extensions.transform.BsplineWaveletTransformATrousAlgorithm'&gt;, 'MeyerWaveletsCompactInFourierSpace': &lt;class 'pisap.extensions.transform.MeyerWaveletsCompactInFourierSpace'&gt;, 'MorphologicalMinmaxTransform': &lt;class 'pisap.extensions.transform.MorphologicalMinmaxTransform'&gt;, 'WaveletTransformViaLiftingScheme': &lt;class 'pisap.extensions.transform.WaveletTransformViaLiftingScheme'&gt;, 'LinearWaveletTransformATrousAlgorithm': &lt;class 'pisap.extensions.transform.LinearWaveletTransformATrousAlgorithm'&gt;, 'HalfPyramidalTransform': &lt;class 'pisap.extensions.transform.HalfPyramidalTransform'&gt;, 'HaarWaveletTransform': &lt;class 'pisap.extensions.transform.HaarWaveletTransform'&gt;, 'FastCurveletTransform': &lt;class 'pisap.extensions.transform.FastCurveletTransform'&gt;}</em><a class="headerlink" href="#pisap.base.transform.MetaRegister.REGISTRY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="pisap.base.transform.WaveletTransformBase">
-<em class="property">class </em><code class="descclassname">pisap.base.transform.</code><code class="descname">WaveletTransformBase</code><span class="sig-paren">(</span><em>data</em>, <em>wavelet</em>, <em>maxscale</em>, <em>mode='symmetric'</em>, <em>use_isap=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data structure representing wavelet decomposition of a signal.</p>
+<em class="property">class </em><code class="descclassname">pisap.base.transform.</code><code class="descname">WaveletTransformBase</code><span class="sig-paren">(</span><em>nb_scale</em>, <em>verbose=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data structure representing a signal wavelet decomposition.</p>
+<p>Available transforms are define in &#8216;pisap.transform&#8217;.</p>
 <dl class="method">
 <dt id="pisap.base.transform.WaveletTransformBase.analysis">
 <code class="descname">analysis</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.analysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decompose all the nodes.</p>
+<dd><p>Decompose a real or complex signal using ISAP.</p>
+<p>Fill the instance &#8216;analysis_data&#8217; and &#8216;analysis_header&#8217; parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -190,35 +165,63 @@ decomposition/reconstruction.</p>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="pisap.base.transform.WaveletTransformBase.analysis_data">
+<code class="descname">analysis_data</code><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.analysis_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the decomposition coefficients array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">analysis_data: nd-array</p>
+<blockquote class="last">
+<div><p>decomposition coefficients array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pisap.base.transform.WaveletTransformBase.analysis_header">
+<code class="descname">analysis_header</code><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.analysis_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the decomposition coefficients header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">analysis_header: dict</p>
+<blockquote class="last">
+<div><p>decomposition coefficients header.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
-<dt id="pisap.base.transform.WaveletTransformBase.get_scale">
-<code class="descname">get_scale</code><span class="sig-paren">(</span><em>scale</em>, <em>order='natural'</em>, <em>decompose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.get_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.get_scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns all nodes from specified scale.</p>
+<dt id="pisap.base.transform.WaveletTransformBase.band_at">
+<code class="descname">band_at</code><span class="sig-paren">(</span><em>scale</em>, <em>band</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.band_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.band_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the band at a specific scale.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scale: int</strong></p>
 <blockquote>
-<div><p>decomposition scale from which the nodes will be collected.</p>
+<div><p>index of the scale.</p>
 </div></blockquote>
-<p><strong>order: str (optional, default &#8216;natural&#8217;)</strong></p>
+<p><strong>band: int</strong></p>
 <blockquote>
-<div><p>if &#8216;natural&#8217; a flat list is returned,
-else if &#8216;freq&#8217; a 2d structure with rows and cols sorted by
-corresponding dimension frequency of 2d coefficient array
-(adapted from 1d case).</p>
-</div></blockquote>
-<p><strong>decompose: bool (optional, default True)</strong></p>
-<blockquote>
-<div><p>if set then the method will try to decompose the data up
-to the specified scale.</p>
+<div><p>index of the band.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">nodes: list or list of list</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">band_data: nd-arry</p>
 <blockquote class="last">
-<div><p>the nodes with requested scale and ordering.</p>
+<div><p>the requested band data array.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -226,53 +229,78 @@ to the specified scale.</p>
 </table>
 </dd></dl>
 
-<dl class="method">
-<dt id="pisap.base.transform.WaveletTransformBase.set_constant_values">
-<code class="descname">set_constant_values</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.set_constant_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.set_constant_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set constant values on each scale.</p>
+<dl class="classmethod">
+<dt id="pisap.base.transform.WaveletTransformBase.bands_shapes">
+<em class="property">classmethod </em><code class="descname">bands_shapes</code><span class="sig-paren">(</span><em>bands_lengths</em>, <em>ratio=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.bands_shapes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.bands_shapes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the different bands associated shapes given there lengths.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values: list of float or float</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</strong></p>
+<blockquote>
+<div><p>array holding the length between two bands of the data
+vector per scale.</p>
+</div></blockquote>
+<p><strong>ratio: ndarray, default None</strong></p>
+<blockquote>
+<div><p>a array containing ratios for eeach scale and each band.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</p>
 <blockquote class="last">
-<div><p>the values to be associated to each scale.</p>
+<div><p>structure holding the shape of each bands at each scale.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pisap.base.transform.WaveletTransformBase.data">
+<code class="descname">data</code><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the input data array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">data: nd-array</p>
+<blockquote class="last">
+<div><p>input data/signal.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pisap.base.transform.WaveletTransformBase.info">
+<code class="descname">info</code><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the transformation information. This iformation is only
+available when using the Python bindings.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pisap.base.transform.WaveletTransformBase.show">
-<code class="descname">show</code><span class="sig-paren">(</span><em>scales=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.show" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display the different bands on the requested scales.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scales: list  (optional, deafault None)</strong></p>
-<blockquote class="last">
-<div><p>the desired scales, if None compute at all scales.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<code class="descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the different bands at the different decomposition scales.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pisap.base.transform.WaveletTransformBase.synthesis">
 <code class="descname">synthesis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#WaveletTransformBase.synthesis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.synthesis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reconstruct the image from all nodes.</p>
+<dd><p>Reconstruct a real or complex signal from the wavelet coefficients
+using ISAP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image: pisap.Image</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">data: pisap.Image</p>
 <blockquote class="last">
-<div><p>the reconsructed image.</p>
+<div><p>the reconstructed data/signal.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -280,48 +308,6 @@ to the specified scale.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pisap.base.transform.WaveletTransformBase.x">
-<code class="descname">x</code><em class="property"> = None</em><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pisap.base.transform.WaveletTransformBase.y">
-<code class="descname">y</code><em class="property"> = None</em><a class="headerlink" href="#pisap.base.transform.WaveletTransformBase.y" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pisap.base.transform.get_graycode_order">
-<code class="descclassname">pisap.base.transform.</code><code class="descname">get_graycode_order</code><span class="sig-paren">(</span><em>scale</em>, <em>x='a'</em>, <em>y='d'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pisap/base/transform.html#get_graycode_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pisap.base.transform.get_graycode_order" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the decomposition mosaic.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scale: int</strong></p>
-<blockquote>
-<div><p>the decomposition scale.</p>
-</div></blockquote>
-<p><strong>x: str (optional, default &#8216;a&#8217;)</strong></p>
-<blockquote>
-<div><p>the x assocaited label.</p>
-</div></blockquote>
-<p><strong>y: str (optional, default &#8216;b&#8217;)</strong></p>
-<blockquote>
-<div><p>the x assocaited label.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graycode_order: list of str</p>
-<blockquote class="last">
-<div><p>the mosaic.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 
@@ -329,6 +315,7 @@ to the specified scale.</p>
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -336,7 +323,11 @@ to the specified scale.</p>
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

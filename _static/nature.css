@@ -116,7 +116,7 @@ hr {
 }
 
 div.body {
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 div.footer {
@@ -217,7 +217,7 @@ div.sphinxsidebar ul {
 }
 
 div.sphinxsidebar {
-    font-size: 100%;
+    font-size: 90%;
     line-height: 1.5em;
 }
 
@@ -236,6 +236,19 @@ div#sidebarbutton {
 
 /* -- body styles ----------------------------------------------------------- */
 
+
+.section {
+    overflow: hidden;
+}
+
+.sphx-glr-footer {
+    padding-left: 30%;
+}
+
+blockquote {
+    font-size: inherit !important;
+}
+
 a {
     color: #AD7E5C;
     text-decoration: none;
@@ -253,7 +266,8 @@ div.body h4,
 div.body h5,
 div.body h6 {
     font-family: Arial, sans-serif;
-    background-color: #9BEC97;
+    background-color: #F6F6F6;
+    border-radius: 10px 10px 10px 10px !important;
     font-weight: normal;
     color: #52AA16;
 }
@@ -280,19 +294,19 @@ div.bodywrapper {
 
 div.bodywrapper h1 {
     text-align: center;
-    background-color: #9ED939;
+    background-color: #B5B7C2;
     color: #FFFFFF;
     margin-bottom: 0.5em;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 190%;
-    border-radius: 0 1em 0 1em;
+    border-radius: 0 0 0 0;
     -moz-border-radius: 0 1em 0 1em;
 }
 
 div.body h3 {
     font-size: 120%;
-    background-color: #D4FFCD;
-    color: #7FD57A;
+    background-color: white;
+    color: #52AA16;
     padding: 0.5;
     border-radius: 1em;
 
@@ -487,13 +501,12 @@ div.warning-wrapper p {
 
 div.banner-container {
   width:100%;
-  background-color: #52AA16;
   height: auto;
 }
 
 div.banner-inner {
   width:90%;
-  margin-left: 5%;
+  margin-left: 10%;
   margin-right:auto;
   padding: 3em 0em;
 }
@@ -627,6 +640,21 @@ p.citing {
     text-align: center;
     border-radius: 4px;
     margin-right: 10px;
+}
+
+.summary-carousel {
+    background-color: #FFFBE8;
+    border: 1px solid #fbeed5;
+    color: #AF8A4B;
+    width: 80%;
+    margin-left: 10px;
+}
+
+.documentation-contents {
+    background-color: #FFFBE8;
+    border: 1px solid #fbeed5;
+    color: #AF8A4B;
+    width: 100%;
 }
 
 .field-odd, .field-even {

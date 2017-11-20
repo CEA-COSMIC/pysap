@@ -15,11 +15,12 @@
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -52,7 +53,18 @@
   </script>
 
   </head>
-  <body role="document"><nav class="navbar navbar-default navbar-static-top">
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../../_static/pisap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>Python Interactive Sparse Astronomical and MRI Data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,41 +74,39 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../../index.html">
-        <img alt="Logo" src="../../../_static/pisap.png">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
       <ul class="nav navbar-nav">
         <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
         <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">Documentation</a></li>
-        <li class="dropdown">
+        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
           <ul class="dropdown-menu">
 	        <li><a href="../../../generated/pisap.html">Pisap</a></li>
 <li><a href="../../../generated/pisap.base.html">Pisap.base</a></li>
-<li><a href="../../../generated/pisap.sparsity.html">Pisap.sparsity</a></li>
 <li><a href="../../../generated/pisap.stats.html">Pisap.stats</a></li>
+<li><a href="../../../generated/pisap.apps.html">Pisap.apps</a></li>
 <li><a href="../../../generated/pisap.numerics.html">Pisap.numerics</a></li>
 <li><a href="../../../generated/pisap.extensions.html">Pisap.extensions</a></li>
 <li><a href="../../../generated/pisap.plotting.html">Pisap.plotting</a></li>
 <li><a href="../../../generated/pisap.base.loaders.html">Pisap.base.loaders</a></li>
           </ul>
-        </li>
+        </li>-->
         <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="content-wrapper">
     <div class="sphinxsidebar">
       <div class="sphinxsidebarwrapper">
 
         <!-- info setup -->
           <p class="doc-version">
-           This documentation is for pisap <strong>version 0.0.0</strong>
+           This documentation is for pisap <strong>version 0.0.1</strong>
           </p>
         <p class="citing">
           If you use the software, please do not esitate to 
@@ -118,18 +128,15 @@
           <div class="body" role="main">
             
   <h1>Source code for pisap.numerics.gradient</h1><div class="highlight"><pre>
-<span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">##########################################################################</span>
 <span class="c1"># XXX - Copyright (C) XXX, 2017</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
 <span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
 <span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
 <span class="c1"># for details.</span>
-<span class="c1">#</span>
-<span class="c1">#:Author: Samuel Farrens &lt;samuel.farrens@gmail.com&gt;</span>
-<span class="c1">#:Version: 1.1</span>
-<span class="c1">#:Date: 04/01/2017</span>
 <span class="c1">##########################################################################</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module contains classses for defining algorithm operators and gradients.</span>
 <span class="sd">Based on work by Yinghao Ge and Fred Ngole.</span>
@@ -139,129 +146,154 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="kn">as</span> <span class="nn">pfft</span>
 
+<span class="c1"># Third party import</span>
+<span class="kn">from</span> <span class="nn">sf_deconvolve.lib.gradient</span> <span class="kn">import</span> <span class="n">GradBasic</span>
+<span class="kn">from</span> <span class="nn">sf_deconvolve.lib.algorithms</span> <span class="kn">import</span> <span class="n">PowerMethod</span>
 
-<span class="c1"># Package import</span>
-<span class="kn">from</span> <span class="nn">.algorithms</span> <span class="kn">import</span> <span class="n">PowerMethod</span>
 
+<div class="viewcode-block" id="Grad2DSynthese"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DSynthese">[docs]</a><span class="k">class</span> <span class="nc">Grad2DSynthese</span><span class="p">(</span><span class="n">GradBasic</span><span class="p">,</span> <span class="n">PowerMethod</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Standard 2D gradient.</span>
 
-<div class="viewcode-block" id="GradBase"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.GradBase">[docs]</a><span class="k">class</span> <span class="nc">GradBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Basic gradient class</span>
-
-<span class="sd">    This class defines the basic methods that will be inherited by specific</span>
-<span class="sd">    gradient classes</span>
+<span class="sd">    This class defines the operators for a 2D array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="GradBase.MtMX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.GradBase.MtMX">[docs]</a>    <span class="k">def</span> <span class="nf">MtMX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; M^T M X</span>
-
-<span class="sd">        This method calculates the action of the transpose of the matrix M on</span>
-<span class="sd">        the action of the matrix M on the data X</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initilize the Grad2DSynthese class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        x : np.ndarray</span>
-<span class="sd">            Input data array</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        np.ndarray result</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        Calculates  M^T (MX)</span>
+<span class="sd">        data: np.ndarray</span>
+<span class="sd">            Input data array, an array of 2D observed images (i.e. with noise)</span>
+<span class="sd">        mask:  np.ndarray</span>
+<span class="sd">            The subsampling mask.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MtX</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MX</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="GradBase.get_grad"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.GradBase.get_grad">[docs]</a>    <span class="k">def</span> <span class="nf">get_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the gradient step</span>
-
-<span class="sd">        This method calculates the gradient step from the input data</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        x : np.ndarray</span>
-<span class="sd">            Input data array</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        np.ndarray gradient value</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-
-<span class="sd">        Calculates M^T (MX - Y)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MtX</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MX</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div></div>
-
-
-<div class="viewcode-block" id="Grad2D"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2D">[docs]</a><span class="k">class</span> <span class="nc">Grad2D</span><span class="p">(</span><span class="n">GradBase</span><span class="p">,</span> <span class="n">PowerMethod</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Standard 2D gradient class</span>
-
-<span class="sd">    This class defines the operators for a 2D array</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data : np.ndarray</span>
-<span class="sd">        Input data array, an array of 2D observed images (i.e. with noise)</span>
-<span class="sd">    mask :  np.ndarray</span>
-<span class="sd">        The subsampling mask.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    The properties of `GradBase` and `PowerMethod` are inherited in this class</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initilize the Grad2D class.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Set class attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span>
         <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">PowerMethod</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MtMX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_spec_rad</span><span class="p">()</span>
 
-        <span class="c1"># Inheritance</span>
-        <span class="n">PowerMethod</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MtMX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="viewcode-block" id="Grad2DSynthese.set_initial_x"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DSynthese.set_initial_x">[docs]</a>    <span class="k">def</span> <span class="nf">set_initial_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set initial value of x.</span>
 
-<div class="viewcode-block" id="Grad2D.MX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2D.MX">[docs]</a>    <span class="k">def</span> <span class="nf">MX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; MX</span>
+<span class="sd">        This method sets the initial value of x to an arrray of random values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Grad2DSynthese.MX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DSynthese.MX">[docs]</a>    <span class="k">def</span> <span class="nf">MX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; MX.</span>
 
 <span class="sd">        This method calculates the action of the matrix M on the data X, in</span>
 <span class="sd">        this case fourier transform of the the input data</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        x : np.ndarray</span>
-<span class="sd">            Input data array, an array of recovered 2D images</span>
+<span class="sd">        x: np.ndarray</span>
+<span class="sd">            Input data array.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        np.ndarray result</span>
+<span class="sd">        coeffs: np.ndarray</span>
+<span class="sd">            Fourier transform coefficents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">*</span> <span class="n">pfft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Grad2D.MtX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2D.MtX">[docs]</a>    <span class="k">def</span> <span class="nf">MtX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; MtX</span>
+<div class="viewcode-block" id="Grad2DSynthese.MtX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DSynthese.MtX">[docs]</a>    <span class="k">def</span> <span class="nf">MtX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; MtX.</span>
 
 <span class="sd">        This method calculates the action of the transpose of the matrix M on</span>
 <span class="sd">        the data X, in this case inverse fourier transform of the input data</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        x : np.ndarray</span>
-<span class="sd">            Input data array, an array of recovered 2D images</span>
+<span class="sd">        coeffs: np.ndarray</span>
+<span class="sd">            Fourier transform coefficents.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        np.ndarray result</span>
+<span class="sd">        x: np.ndarray</span>
+<span class="sd">            Reconstructed data array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">pfft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="n">pfft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">*</span> <span class="n">coeffs</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="Grad2DAnalyse"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DAnalyse">[docs]</a><span class="k">class</span> <span class="nc">Grad2DAnalyse</span><span class="p">(</span><span class="n">GradBasic</span><span class="p">,</span> <span class="n">PowerMethod</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Analysis 2D gradient class.</span>
+
+<span class="sd">    This class defines the grad operators for |M*F*invL*alpha - data|**2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">linear_operator</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initilize the Grad2DAnalyse class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: np.ndarray</span>
+<span class="sd">            Input data array, an array of 2D observed images (i.e. with noise)</span>
+<span class="sd">        mask:  np.ndarray</span>
+<span class="sd">            The subsampling mask.</span>
+<span class="sd">        linear_operator: pisap.numeric.linear.Wavelet</span>
+<span class="sd">            A linear operator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_operator</span> <span class="o">=</span> <span class="n">linear_operator</span>
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">PowerMethod</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MtMX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_spec_rad</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Grad2DAnalyse.set_initial_x"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DAnalyse.set_initial_x">[docs]</a>    <span class="k">def</span> <span class="nf">set_initial_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set initial value of x.</span>
+
+<span class="sd">        This method sets the initial value of x to an arrray of random values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fake_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_operator</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coeffs</span></div>
+
+<div class="viewcode-block" id="Grad2DAnalyse.MX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DAnalyse.MX">[docs]</a>    <span class="k">def</span> <span class="nf">MX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; MX.</span>
+
+<span class="sd">        This method calculates the action of the matrix M on the data X, in</span>
+<span class="sd">        this case fourier transform of the the input data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x: nd-array</span>
+<span class="sd">            Input decomposisiton coefficients.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        coeffs: np.ndarray</span>
+<span class="sd">            Fourier transform coefficents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">*</span> <span class="n">pfft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear_operator</span><span class="o">.</span><span class="n">adj_op</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Grad2DAnalyse.MtX"><a class="viewcode-back" href="../../../generated/pisap.numerics.gradient.html#pisap.numerics.gradient.Grad2DAnalyse.MtX">[docs]</a>    <span class="k">def</span> <span class="nf">MtX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; MtX.</span>
+
+<span class="sd">        This method calculates the action of the transpose of the matrix M on</span>
+<span class="sd">        the data X, in this case inverse fourier transform of the input data in</span>
+<span class="sd">        the frequency domain.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x: np.ndarray</span>
+<span class="sd">            Input data array, an array of recovered 2D kspace</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        x: nd-array</span>
+<span class="sd">            Reconstructed data array decomposisiton coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_operator</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">pfft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">*</span> <span class="n">coeffs</span><span class="p">))</span></div></div>
 </pre></div>
 
           </div>
         </div>
       </div>
+
     <div class="clearer">
     </div>
   </div>
@@ -269,7 +301,11 @@
 </div>
 
 <div class="footer">
-    &copy; 2017, piSAP developers &lt;XXX&gt;.
+    &copy; 2017, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
 </div>
   </body>
 </html>

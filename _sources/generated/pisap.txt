@@ -2,8 +2,8 @@
 
 :orphan:
 
-Documentation of *pisap*
-=========================
+API documentation of *pisap*
+=============================
 
 
 piSAP is a Python package related to sparsity and its application in
@@ -18,9 +18,21 @@ that allows sparse decomposition, denoising and deconvolution.
     <colgroup><col width='25%'/><col width='75%'/></colgroup>
     <tbody valign='top'>
     <tr class='row-odd'>
+    <td><a class='reference internal' href='pisap.configure.html'><em>pisap.configure</em></a></td>
+    <td>
+        <p>This module checks that all the dependencies are installed properly.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pisap.utils.html'><em>pisap.utils</em></a></td>
+    <td>
+        <p>A module with common functions to list and load transformations.</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
     <td><a class='reference internal' href='pisap.data.html'><em>pisap.data</em></a></td>
     <td>
-    
+        <p>A module that privides the utility functions to download toy datasets.</p>
     </td>
     </tr>
     </tbody>
