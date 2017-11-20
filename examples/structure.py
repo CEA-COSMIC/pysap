@@ -32,7 +32,7 @@ print pisap.configure.info()
 #############################################################################
 # Import astronomical data
 # ------------------------
-# 
+#
 # The package provides a common interface to import and visualize astronomical
 # FITS dataset. It also embeds a set of toy dataset that will be used during
 # this tutorial:
@@ -50,7 +50,7 @@ image.show()
 #############################################################################
 # Import neuroimaging data
 # ------------------------
-# 
+#
 # The package provides a common interface to import and visualize neuroimaging
 # NIFTI dataset. It also embeds a set of toy dataset that will be used during
 # this tutorial:
@@ -69,7 +69,7 @@ image.show()
 #############################################################################
 # Decompose/recompose an image using a fast ISAP/C++ based transform
 # ------------------------------------------------------------------
-# 
+#
 # The package provides also a common interface to the ISAP C++ software
 # developped by the COSMOSTAT lab. The code is optimzed and give access to
 # many decompsition strategies. All the ISAP library decompositions have
