@@ -23,15 +23,22 @@ CLASSIFIERS = ["Development Status :: 1 - Planning",
 
 # Project descriptions
 description = """
-Python Interactive Sparse Astronomical Data Analysis Package
+Python Interactive Sparse Astronomical and MRI Data Analysis Package
+"""
+SUMMARY = """
+.. container:: summary-carousel
 
-* Offers a common API for  astronomical and neuroimaging datasets.
-* Offers a Python and fast C++ API.
+    PySphinxDoc is a Python module for **interactive sparse astronomical and
+    MRI data analysis** that offers:
+
+    * a common API for astronomical and neuroimaging datasets.
+    * an accces to 'sparse2d' using a wrapping or a binding strategy.
+    * a user graphical interface to play with the provided functions.
 """
 long_description = """
-=======
+=====
 piSAP
-=======
+=====
 
 piSAP is a Python package related to sparsity and its application in
 astronomical or mediacal data analysis.

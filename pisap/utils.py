@@ -23,6 +23,38 @@ from pisap.base.transform import WaveletTransformBase
 AVAILABLE_TRANSFORMS = sorted(WaveletTransformBase.REGISTRY.keys())
 
 
+def load_image(image_path):
+    """
+    Load an image.
+
+    Parameters
+    ----------
+    image_path: str
+        the image path.
+
+    Returns
+    -------
+    image: Image
+        the loaded image.
+    """
+    image = pisap.io.load(image_path)
+    return image
+
+
+def save_image(image, image_path):
+    """
+    Save an image.
+
+    Parameters
+    ----------
+    image: Image
+        the image to be saved.
+    image_path: str
+        the image path.
+    """
+    pisap.io.save(image, image_path)
+
+
 def load_transform(name):
     """ Load a transformation using his name.
 
