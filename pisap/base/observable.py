@@ -95,7 +95,7 @@ class Observable(object):
         setattr(signal_to_be_notified, "object", self)
         setattr(signal_to_be_notified, "signal", signal)
         for name, value in kwargs.items():
-            setattr(signal_info, name, value)
+            setattr(signal_to_be_notified, name, value)
 
         # Notify all the observers
         for observer in self._observers[signal]:
