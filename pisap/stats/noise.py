@@ -10,6 +10,9 @@
 # System import
 import numpy as np
 
+# Package import
+import pisap
+
 
 def mad(data):
     """ Function that returns the median absolute deviation (MAD) of an input
@@ -72,3 +75,33 @@ def multiscale_sigma_mad(grad_op, linear_op):
             scale_data = np.concatenate(scale_data)
         sigma.append(sigma_mad(scale_data))
     return sigma
+
+
+def histogram(image, nbins=256, lower_cut=0., cumulate=0):
+    """
+    Compute the histogram of an input dataset.
+
+    Parameters
+    ----------
+    image: Image
+        the image that contains the dataset to be analysed.
+    nbins: int, default 256
+        the histogram number of bins.
+    lower_cut: float, default 0
+        do not consider the intensities under this threshold.
+    cumulate: bool, default False
+        if set compute the cumulate histogram.
+
+    Returns
+    -------
+    hist_im: Image
+        the generated histogram.
+    """
+    hist, bins = np.histogram(image.data[image.data > lower_cut], nbins)
+    if cumulate:
+        cdf = hist.cumsum()
+        cdf_normalized = cdf * hist.max() / cdf.max()
+        hist_im = pisap.Image(data=cdf_normalized)
+    else:
+        hist_im = pisap.Image(data=hist)
+    return hist_im
