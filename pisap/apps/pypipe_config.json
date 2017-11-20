@@ -1,0 +1,27 @@
+{
+    "pisap": {
+        "load": [
+            "pisap.utils.load_image",
+            ["File"],
+            [["Objects", {"otype": "Image"}]]
+        ],
+        "save": [
+            "pisap.utils.save_image",
+            [["Objects", {"otype": "Image"}], "File"],
+            []
+        ],
+        "plotting": {
+            "histogram": [
+                "pisap.stats.noise.histogram",
+                [["Objects", {"otype": "Image"}], "Int", "Float", "Int"],
+                [["Objects", {"otype": "Image"}]]
+            ],
+            "scaling": [
+                "pisap.plotting.utils.scaling",
+                [["Objects", {"otype": "Image"}], ["Enum",
+                    {"choices": ["stretching", "equalization", "adaptive"]}]],
+                [["Objects", {"otype": "Image"}]]
+            ]
+        }
+    }
+}
