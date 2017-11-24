@@ -7,8 +7,8 @@ set(sparse2dSHA256 baa03d78b00b061c95987d805c187599189c38570f5d11d86387c81de8409
 
 ExternalProject_Add(sparse2d
     PREFIX sparse2d
-    URL  $ENV{HOME}/git/pisap/sparse2d/sparse2d-${sparse2dVersion}.tar.gz
-    URL_HASH  SHA256=${sparse2dSHA256}
+    GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
+    GIT_TAG v1.0.0
     DEPENDS cfitsio
     CONFIGURE_COMMAND cmake
         -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/extern
