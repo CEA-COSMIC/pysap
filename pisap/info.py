@@ -47,7 +47,7 @@ that allows sparse decomposition, denoising and deconvolution.
 """
 
 # Main setup parameters
-NAME = "piSAP"
+NAME = "pISAP"
 ORGANISATION = "CEA"
 MAINTAINER = "XXX"
 MAINTAINER_EMAIL = "XXX"
@@ -71,10 +71,9 @@ VERSION = __version__
 PROVIDES = ["pisap"]
 REQUIRES = [
     "numpy>=1.11.0",
-    "scipy>=0.18.0",
     "pyfits>=3.4",
     "nibabel>=2.1.0",
-    "pyqtgraph>=0.10.0",
+    "pyqtgraph>=0.10.0"
     # "pysparse>=0.0.1"
 ]
 EXTRA_REQUIRES = {}

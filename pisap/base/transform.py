@@ -19,6 +19,7 @@ import warnings
 
 # Package import
 import pisap
+from .utils import with_metaclass
 from pisap.plotting import plot_transform
 try:
     import pysparse
@@ -56,13 +57,11 @@ class MetaRegister(type):
         return new_cls
 
 
-class WaveletTransformBase(object):
+class WaveletTransformBase(with_metaclass(MetaRegister)):
     """ Data structure representing a signal wavelet decomposition.
 
     Available transforms are define in 'pisap.transform'.
     """
-    __metaclass__ = MetaRegister
-
     def __init__(self, nb_scale, verbose=0, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
@@ -629,8 +628,6 @@ class WaveletTransformBase(object):
             analysis_data, self.nb_band_per_scale = self.trf.transform(
                 data.astype(numpy.double), save=False)
             analysis_header = None
-            print(self.nb_scale)
-            print(self.nb_band_per_scale)
 
         return analysis_data, analysis_header
 

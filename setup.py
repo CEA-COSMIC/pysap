@@ -32,9 +32,14 @@ pkgdata = {
     "pisap": [os.path.join("test", "*.py"), os.path.join("test", "*.json"),
               os.path.join("apps", "*.json")]
 }
-scripts = [
-    os.path.join("pisap", "apps", "pisapview")
-]
+if sys.version_info >= (3, 0):
+    scripts = [
+        os.path.join("pisap", "apps", "pisapview3")
+    ]
+else:
+    scripts = [
+        os.path.join("pisap", "apps", "pisapview")
+    ]
 
 
 class CMakeExtension(Extension):
@@ -109,7 +114,7 @@ class CMakeBuild(build_ext):
 class HybridTestCommand(TestCommand):
     """ Define custom mix Python/C++ test runner.
 
-    We will execute both Python unittest tests and C++ UnitTest++ tests.
+    We will execute both Python unittest tests and C++ Catch tests.
     """
     def distutils_dir_name(self, dname):
         """ Returns the name of a distutils build directory.
@@ -127,7 +132,8 @@ class HybridTestCommand(TestCommand):
         print("\nPython tests complete, now running C++ tests...\n")
 
         # Run catch tests
-        test_dir = os.path.join("build", self.distutils_dir_name("temp"))
+        test_dir = os.path.join("build", self.distutils_dir_name("temp"),
+                                "sparse2d", "src", "sparse2d", "tests")
         print("\nExpect C++ test script in {0}.\n".format(test_dir))
         subprocess.call(["./*_test"], cwd=test_dir, shell=True)
 

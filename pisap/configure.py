@@ -35,7 +35,7 @@ def _check_python_versions():
         '?' means no package found.
     """
     versions = {}
-    for dependency in REQUIRES:
+    for dependency in REQUIRES + ["pysparse>=0.0.1"]:
         if ">=" not in dependency:
             raise ValueError("'{0}' dependency no formatted correctly.".format(
                 dependency))
