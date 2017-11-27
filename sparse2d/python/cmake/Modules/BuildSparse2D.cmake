@@ -2,20 +2,25 @@
 # Build the CfitsIO dependencies for the project         #
 #========================================================#
 
-set(sparse2dVersion 0.0.1)
-set(sparse2dSHA256 baa03d78b00b061c95987d805c187599189c38570f5d11d86387c81de8409eb3)
+set(sparse2dVersion 2.0.0)
 
 ExternalProject_Add(sparse2d
     PREFIX sparse2d
-    GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
-    GIT_TAG v1.0.0
+    #git GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
+    GIT_REPOSITORY https://github.com/AGrigis/Sparse2D.git
+    #GIT_TAG v1.0.0
+    GIT_TAG master
     DEPENDS cfitsio
-    CONFIGURE_COMMAND cmake
+    CONFIGURE_COMMAND cmake ../sparse2d
         -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/extern
+        -DCFITSIO_INCLUDE_DIRS=${cfitsio_INCLUDE_DIR}
+        -DCFITSIO_LIBRARY_DIRS=${cfitsio_LIBRARY_DIR}
+        -DCFITSIO_LIBRARIES=${cfitsio_LIBRARIES}
+        -DCMAKE_BUILD_TYPE=RELEASE
     BUILD_COMMAND make install
         -j8
     INSTALL_COMMAND ""
-    BUILD_IN_SOURCE 1
+    BUILD_IN_SOURCE 0
     )
 
 set(sparse2d_LIBRARY_DIR ${CMAKE_BINARY_DIR}/extern/lib/ )
