@@ -18,7 +18,7 @@ before_install:
         export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
-        export CPLUS_INCLUDE_PATH=/opt/python/3.5*/include/python3.5m;
+        export CPLUS_INCLUDE_PATH=/opt/python/3.5.3/include/python3.5m;
       fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
@@ -40,9 +40,10 @@ install:
     - pip install nibabel
     #- pip install git+https://github.com/AGrigis/sf_deconvolve.git
     - pip install .
+    - export PYTHONPATH=/home/travis/build/*/pisap:$PYTHONPATH
 
 script:
-    # - python setup.py nosetests
+    - python setup.py nosetests
     - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
     - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
 
