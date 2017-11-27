@@ -66,23 +66,24 @@ class TestWarpAndBinding(unittest.TestCase):
                     print("      bands = ", transform.nb_band_per_scale)
                     print("      synthesis = ", recim.shape)
 
-    def test_speed(self):
-        """ Test the bindings time advantages.
-        """
-        # With/without bindings
-        for strategy, name in ((True, "Without"), (False, "With")):
-            tic = time.time()
-            transform = pisap.load_transform(
-                "LinearWaveletTransformATrousAlgorithm")
-            transform = transform(nb_scale=4, verbose=0)
-            transform.use_wrapping = strategy
-            transform.data = self.images[0]
-            for i in range(self.nb_iter):
-                transform.analysis()
-                recim = transform.synthesis()
-            toc = time.time()
-            print("[result] {0} bindings execution time: {1}.".format(
-                name, toc - tic))
+    if 0:
+        def test_speed(self):
+            """ Test the bindings time advantages.
+            """
+            # With/without bindings
+            for strategy, name in ((True, "Without"), (False, "With")):
+                tic = time.time()
+                transform = pisap.load_transform(
+                    "LinearWaveletTransformATrousAlgorithm")
+                transform = transform(nb_scale=4, verbose=0)
+                transform.use_wrapping = strategy
+                transform.data = self.images[0]
+                for i in range(self.nb_iter):
+                    transform.analysis()
+                    recim = transform.synthesis()
+                toc = time.time()
+                print("[result] {0} bindings execution time: {1}.".format(
+                    name, toc - tic))
 
     def test_accessors(self):
         """ Test all the accessors.

@@ -17,8 +17,8 @@ import numpy as np
 import scipy.fftpack as pfft
 
 # Third party import
-from sf_deconvolve.lib.gradient import GradBasic
-from sf_deconvolve.lib.algorithms import PowerMethod
+# from sf_deconvolve.lib.gradient import GradBasic
+# from sf_deconvolve.lib.algorithms import PowerMethod
 
 
 class Grad2DSynthese(GradBasic, PowerMethod):

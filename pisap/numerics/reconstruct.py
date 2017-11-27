@@ -17,17 +17,17 @@ from scipy.linalg import norm
 import pisap
 from pisap.stats import sigma_mad
 from pisap.stats import multiscale_sigma_mad
-from .proximity import SoftThreshold2Dt
+# from .proximity import SoftThreshold2Dt
 from .reweight import mReweight
 
 # Third party import
-from sf_deconvolve.lib.optimisation import ForwardBackward
-from sf_deconvolve.lib.optimisation import Condat
-from sf_deconvolve.lib.reweight import cwbReweight
-from sf_deconvolve.lib.linear import Identity
-from sf_deconvolve.lib.proximity import Positive
-from sf_deconvolve.lib.proximity import Threshold as SoftThreshold
-from sf_deconvolve.lib.cost import costFunction
+# from sf_deconvolve.lib.optimisation import ForwardBackward
+# from sf_deconvolve.lib.optimisation import Condat
+# from sf_deconvolve.lib.reweight import cwbReweight
+# from sf_deconvolve.lib.linear import Identity
+# from sf_deconvolve.lib.proximity import Positive
+# from sf_deconvolve.lib.proximity import Threshold as SoftThreshold
+# from sf_deconvolve.lib.cost import costFunction
 
 
 def sparse_rec_condat_vu(
