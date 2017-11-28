@@ -1,5 +1,5 @@
 sudo: required
-dist: trusty
+dist: xenial
 language: python
 
 python:
@@ -38,12 +38,10 @@ install:
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
-    #- pip install git+https://github.com/AGrigis/sf_deconvolve.git
     - pip install .
-    - export PYTHONPATH=/home/travis/build/neurospin/pisap:$PYTHONPATH
 
 script:
-    - python setup.py nosetests
+    # - python setup.py nosetests
     - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
     - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
 
