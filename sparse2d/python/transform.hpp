@@ -10,10 +10,10 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <IM_Obj.h>
-#include <IM_IO.h>
-#include <MR_Obj.h>
-#include <IM_Prob.h>
+#include <sparse2d/IM_Obj.h>
+#include <sparse2d/IM_IO.h>
+#include <sparse2d/MR_Obj.h>
+#include <sparse2d/IM_Prob.h>
 #include "NumPyArrayData.h"
 
 

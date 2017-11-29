@@ -13,8 +13,8 @@
 #include <boost/python/numpy.hpp>
 #include <stdexcept>
 #include <sstream>
-#include <IM_Obj.h>
-#include <IM_IO.h>
+#include <sparse2d/IM_Obj.h>
+#include <sparse2d/IM_IO.h>
 
 
 namespace bp = boost::python;

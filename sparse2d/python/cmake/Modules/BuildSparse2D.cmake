@@ -6,10 +6,9 @@ set(sparse2dVersion 2.0.0)
 
 ExternalProject_Add(sparse2d
     PREFIX sparse2d
-    #git GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
-    GIT_REPOSITORY https://github.com/AGrigis/Sparse2D.git
-    #GIT_TAG v1.0.0
-    GIT_TAG master
+    GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
+    GIT_TAG v2.0.0
+    # GIT_TAG master
     DEPENDS cfitsio
     CONFIGURE_COMMAND cmake ../sparse2d
         -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/extern
