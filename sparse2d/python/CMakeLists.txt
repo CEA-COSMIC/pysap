@@ -20,29 +20,32 @@ project(pysparse)
   SET(Boost_USE_MULTITHREADED ON)
   SET(Boost_USE_STATIC_RUNTIME ON)
 
-  # Compilation flags
-  #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-  set(CMAKE_CXX_FLAGS "-std=c++03  -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
-
   # Find default python libraries and interpreter
   find_package(PythonInterp REQUIRED)
   find_package(PythonLibs REQUIRED)
   find_package(OpenMP REQUIRED)
-  include(BuildBoost) # Custom module
-  include(BuildCfitsIO) # Custom module
-  include(BuildSparse2D) # Custom module
+
+  # Compilation flags
+  #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+  set(CMAKE_CXX_FLAGS "-std=c++03  -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+
+  # Custom modules
+  include(BuildBoost)
+  include(BuildCfitsIO)
+  include(BuildSparse2D)
 
   # Includes
   include_directories(${Boost_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
   include_directories(${cfitsio_INCLUDE_DIR})
   include_directories(${sparse2d_INCLUDE_DIR})
+  include_directories(${OpenMP_INCLUDE_PATH})
   link_directories(${Boost_LIBRARY_DIR})
   link_directories(${cfitsio_LIBRARY_DIR})
   link_directories(${sparse2d_LIBRARY_DIR})
 
   # Build and link the pylib module
   add_library(pysparse SHARED pysparse.cpp)
-  target_link_libraries(pysparse ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+  target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
   add_dependencies(pysparse Boost)
   add_dependencies(pysparse cfitsio)
   add_dependencies(pysparse sparse2d)

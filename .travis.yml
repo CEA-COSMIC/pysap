@@ -9,6 +9,7 @@ python:
 
 before_install:
     - sudo apt-get update
+    - sudo updatedb
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       else
@@ -38,10 +39,22 @@ install:
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
-    - pip install .
+    - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
+    - ls $TRAVIS_BUILD_DIR/install
+    - ldd $TRAVIS_BUILD_DIR/lib/pysparse.so
+    - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
+    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-2.7/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.4/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
+      fi
 
 script:
-    # - python setup.py nosetests
+    - python setup.py nosetests
     - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
     - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
 
