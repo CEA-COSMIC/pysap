@@ -12,7 +12,7 @@
         ],
         "plotting": {
             "histogram": [
-                "pisap.stats.noise.histogram",
+                "pisap.plotting.utils.histogram",
                 [["Objects", {"otype": "Image"}], "Int", "Float", "Int"],
                 [["Objects", {"otype": "Image"}]]
             ],

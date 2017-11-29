@@ -41,7 +41,7 @@ install:
     - pip install nibabel
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
-    - ldd $TRAVIS_BUILD_DIR/lib/pysparse.so
+    - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-2.7/extern/bin;
