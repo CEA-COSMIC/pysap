@@ -4,3 +4,5 @@ include doc/Makefile
 recursive-include doc/source *
 recursive-exclude doc/source *.*~
 prune doc/source/*/generated
+# ISAP binding
+include sparse2d/python/build/pysparse.so

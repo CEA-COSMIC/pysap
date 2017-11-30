@@ -53,6 +53,8 @@ class Sparse2dWrapper(object):
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
         self.stdout, self.stderr = process.communicate()
+        self.stdout = self.stdout.decode("utf-8")
+        self.stderr = self.stderr.decode("utf-8")
         self.exitcode = process.returncode
         if self.exitcode != 0:
             raise Sparse2dConfigurationError(cmd[0])
@@ -69,6 +71,8 @@ class Sparse2dWrapper(object):
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
         self.stdout, self.stderr = process.communicate()
+        self.stdout = self.stdout.decode("utf-8")
+        self.stderr = self.stderr.decode("utf-8")
         self.exitcode = process.returncode
         if self.exitcode != 0 or self.stderr or "Error" in self.stdout:
             raise Sparse2dRuntimeError(

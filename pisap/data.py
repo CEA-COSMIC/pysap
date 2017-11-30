@@ -6,15 +6,30 @@
 # for details.
 ##########################################################################
 
+"""
+A module that privides the utility functions to download toy datasets.
+"""
+
 # System import
 from __future__ import print_function
 import os
+import sys
+if sys.version_info[:2] >= (3, 0):
+    from urllib.request import FancyURLopener
+    from urllib.request import urlopen
+    from urllib.request import urlparse
+    from urllib.request import HTTPError
+else:
+    from urllib import FancyURLopener
+    from urllib2 import urlopen
+    from urllib2 import urlparse
+    urlparse = urlparse.urlparse
+    from urllib2 import HTTPError
 import urllib
-import urllib2
 import time
 import shutil
 import numpy
-import sys
+
 import hashlib
 
 # Package import
@@ -69,8 +84,8 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
 
     Returns
     -------
-    path: str
-        the path to the desired dataset.
+    image: Image
+        the loaded dataset.
     """
     # First get the data url
     dataset = SAMPLE_DATE_FILES.get(dataset_name)
@@ -94,7 +109,10 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
             raise Exception("File '{0}' checksum verification has "
                             "failed.".format(path))
 
-    return path
+    # Load the dataset
+    image = pisap.io.load(path)
+
+    return image
 
 
 def md5_sum_file(fname):
@@ -143,7 +161,7 @@ def progress_bar(ratio, title, bar_length=20, maxsize=40):
     sys.stdout.flush()
 
 
-class ResumeURLOpener(object, urllib.FancyURLopener):
+class ResumeURLOpener(FancyURLopener):
     """Create sub-class in order to overide error 206. This error means a
     partial file is being sent, which is fine in this case.
     Do nothing with this error.
@@ -154,7 +172,7 @@ class ResumeURLOpener(object, urllib.FancyURLopener):
     http://code.activestate.com/recipes/83208-resuming-download-of-a-file/
     """
     def __init__(self):
-        pass
+        super(FancyURLopener, self).__init__()
 
     def http_error_206(self, url, fp, errcode, errmsg, headers, data=None):
         pass
@@ -191,7 +209,7 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
         os.makedirs(data_dir)
 
     # Determine filename using URL
-    parse = urllib2.urlparse.urlparse(url)
+    parse = urlparse(url)
     fname = os.path.basename(parse.path)
 
     # Generate the download file name
@@ -233,7 +251,7 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
             url_opener.addheader("Range", "bytes={0}-".format(local_file_size))
             try:
                 data = url_opener.open(url)
-            except urllib2.HTTPError:
+            except HTTPError:
                 # There is a problem that may be due to resuming
                 # Restart the downloading from scratch
                 return download_file(url, data_dir, resume=False,
@@ -242,13 +260,16 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
             bytes_so_far = local_file_size
         # Case 2: just download the file
         else:
-            data = urllib2.urlopen(url)
+            data = urlopen(url)
             local_file = open(temp_fname, "wb")
         # Get the total file size
         try:
-            total_size = data.info().getheader("Content-Length").strip()
+            if sys.version_info[:2] >= (3, 0):
+                total_size = data.info().get_all("Content-Length")[0].strip()
+            else:
+                total_size = data.info().getheader("Content-Length").strip()
             total_size = int(total_size) + bytes_so_far
-        except Exception, e:
+        except Exception as e:
             if verbose > 0:
                 print("Total size could not be determined.")
             total_size = "?"
@@ -283,7 +304,7 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
                         "seconds").format(int(numpy.floor(dt / 60)), dt % 60)
         if verbose > 0:
             print(exit_message)
-    except urllib2.HTTPError, e:
+    except HTTPError as e:
         raise Exception("{0}\nError while downloading file '{1}'. "
                         "Dataset download aborted.".format(e, fname))
     finally:

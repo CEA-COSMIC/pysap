@@ -9,20 +9,26 @@ python:
 
 before_install:
     - sudo apt-get update
-    - wget http://xxx/sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
-    - sudo dpkg -i sparse2d-2.0.0_Ubuntu_14.04_amd64.deb
-    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then 
-        wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh; 
+    - sudo updatedb
+    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       else
-        wget http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh -O miniconda.sh;
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;       
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
+        export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
+        export CPLUS_INCLUDE_PATH=/opt/python/3.5.3/include/python3.5m;
       fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
-    - export PATH=/home/travis/miniconda/bin:$PATH
+    - export PATH=$HOME/miniconda/bin:$PATH
     - hash -r
+    - conda update --yes conda
+    - conda info -a
 
 install:
-    - conda update --yes conda
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
     - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install mock; fi
@@ -33,12 +39,24 @@ install:
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
-    - pip install git+https://github.com/AGrigis/sf_deconvolve.git
-    - pip install .
+    - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
+    - ls $TRAVIS_BUILD_DIR/install
+    - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
+    - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
+    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-2.7/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.4/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
+      fi
 
 script:
     - python setup.py nosetests
-    - pep8 . --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
+    - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
+    - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
 
 after_success:
     - coveralls

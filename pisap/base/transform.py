@@ -13,14 +13,19 @@ Wavelet transform base module.
 # System import
 from __future__ import division, print_function, absolute_import
 from pprint import pprint
-import shutil
-import tempfile
 import uuid
 import os
+import warnings
 
 # Package import
 import pisap
+from .utils import with_metaclass
 from pisap.plotting import plot_transform
+try:
+    import pysparse
+except:
+    warnings.warn("Sparse2d python bindings not found, use binaries.")
+    pysparse = None
 
 # Third party import
 import numpy
@@ -52,14 +57,12 @@ class MetaRegister(type):
         return new_cls
 
 
-class WaveletTransformBase(object):
+class WaveletTransformBase(with_metaclass(MetaRegister)):
     """ Data structure representing a signal wavelet decomposition.
 
     Available transforms are define in 'pisap.transform'.
     """
-    __metaclass__ = MetaRegister
-
-    def __init__(self, nb_scale, verbose=0):
+    def __init__(self, nb_scale, verbose=0, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -85,6 +88,7 @@ class WaveletTransformBase(object):
         self.is_decimated = None
         self.scales_lengths = None
         self.scales_padds = None
+        self.use_wrapping = pysparse is None
 
         # Data that can be decalred afterward
         self._data = None
@@ -94,7 +98,17 @@ class WaveletTransformBase(object):
         self._analysis_data = None
         self._analysis_shape = None
         self._analysis_header = None
+        self._analysis_buffer_shape = None
         self.verbose = verbose
+
+        # Transformation
+        if not self.use_wrapping:
+            kwargs["type_of_multiresolution_transform"] = (
+                self.__isap_transform_id__)
+            kwargs["number_of_scales"] = self.nb_scale
+            self.trf = pysparse.MRTransform(**kwargs)
+        else:
+            self.trf = None
 
     def __getitem__(self, given):
         """ Access the analysis designated scale/band coefficients.
@@ -122,7 +136,7 @@ class WaveletTransformBase(object):
             raise ValueError("Please specify first the decomposition "
                              "coefficients array.")
 
-        # Handle multidim slice object
+        # Handle multi-dim slice object
         if isinstance(given[0], slice):
             start = given[0].start or 0
             stop = given[0].stop or self.nb_scale
@@ -218,8 +232,9 @@ class WaveletTransformBase(object):
         self._data_shape = self._data.shape
         self._iso_shape = self._data_shape[0]
 
-        self._set_transformation_parameters()
-        self._compute_transformation_parameters()
+        if self.use_wrapping:
+            self._set_transformation_parameters()
+            self._compute_transformation_parameters()
 
     def _get_data(self):
         """ Get the input data array.
@@ -280,9 +295,17 @@ class WaveletTransformBase(object):
         """
         return self._analysis_header
 
+    def _get_info(self):
+        """ Return the transformation information. This iformation is only
+        available when using the Python bindings.
+        """
+        if not self.use_wrapping:
+            self.trf.info()
+
     data = property(_get_data, _set_data)
     analysis_data = property(_get_analysis_data, _set_analysis_data)
     analysis_header = property(_get_analysis_header, _set_analysis_header)
+    info = property(_get_info)
 
     ##########################################################################
     # Public members
@@ -350,14 +373,16 @@ class WaveletTransformBase(object):
                 self._data.real, **kwargs)
             analysis_data_imag, _ = self._analysis(
                 self._data.imag, **kwargs)
-            self._analysis_data = analysis_data_real + 1.j * analysis_data_imag
+            if isinstance(analysis_data_real, numpy.ndarray):
+                self._analysis_data = (
+                    analysis_data_real + 1.j * analysis_data_imag)
+            else:
+                self._analysis_data = [
+                    re + 1.j * ima
+                    for re, ima in zip(analysis_data_real, analysis_data_imag)]
         else:
             self._analysis_data, self._analysis_header = self._analysis(
                 self._data, **kwargs)
-
-        # Reorganize the generated coefficents
-        self._analysis_shape = self._analysis_data.shape
-        self._analysis_data = self.flatten_fct(self._analysis_data, self)
 
     def synthesis(self):
         """ Reconstruct a real or complex signal from the wavelet coefficients
@@ -372,7 +397,7 @@ class WaveletTransformBase(object):
         if self._analysis_data is None:
             raise ValueError("Please specify first the decomposition "
                              "coefficients array.")
-        if self._analysis_header is None:
+        if self.use_wrapping and self._analysis_header is None:
             raise ValueError("Please specify first the decomposition "
                              "coefficients header.")
 
@@ -382,18 +407,34 @@ class WaveletTransformBase(object):
             pprint(self._analysis_header)
 
         # Reorganize the coefficents with ISAP convention
-        self._analysis_data = self.unflatten_fct(self)
+        # TODO: do not backup the list of bands
+        if self.use_wrapping:
+            analysis_buffer = numpy.zeros(
+                self._analysis_buffer_shape, dtype=numpy.single)
+            for scale, nb_bands in enumerate(self.nb_band_per_scale):
+                for band in range(nb_bands):
+                    self._set_linear_band(scale, band, analysis_buffer,
+                                          self.band_at(scale, band))
+            _saved_analysis_data = self._analysis_data
+            self._analysis_data = analysis_buffer
+            self._analysis_data = [self.unflatten_fct(self)]
 
         # Synthesis
-        if numpy.iscomplexobj(self._analysis_data):
+        if numpy.iscomplexobj(self._analysis_data[0]):
             data_real = self._synthesis(
-                self._analysis_data.real, self._analysis_header)
+                [arr.real for arr in self._analysis_data],
+                self._analysis_header)
             data_imag = self._synthesis(
-                self._analysis_data.imag, self._analysis_header)
+                [arr.imag for arr in self._analysis_data],
+                self._analysis_header)
             data = data_real + 1.j * data_imag
         else:
             data = self._synthesis(
                 self._analysis_data, self._analysis_header)
+
+        # TODO: remove this code asap
+        if self.use_wrapping:
+            self._analysis_data = _saved_analysis_data
 
         return pisap.Image(data=data, metadata=self._image_metadata)
 
@@ -417,6 +458,33 @@ class WaveletTransformBase(object):
             print("[info] Accessing scale '{0}' and band '{1}'...".format(
                 scale, band))
 
+        # Get the band array
+        index = numpy.sum(self.nb_band_per_scale[:scale]).astype(int) + band
+        band_data = self.analysis_data[index]
+
+        return band_data
+
+    ##########################################################################
+    # Private members
+    ##########################################################################
+
+    def _get_linear_band(self, scale, band, analysis_data):
+        """ Access the desired band data from a 1D linear analysis buffer.
+
+        Parameters
+        ----------
+        scale: int
+            index of the scale.
+        band: int
+            index of the band.
+        analysis_data: nd-array (N, )
+            the analysis buffer.
+
+        Returns
+        -------
+        band_data: nd-arry (M, )
+            the requested band buffer.
+        """
         # Compute selected scale/band start/stop indices
         start_scale_padd = self.scales_padds[scale]
         start_band_padd = (
@@ -426,14 +494,42 @@ class WaveletTransformBase(object):
         stop_padd = start_padd + self.bands_lengths[scale, band]
 
         # Get the band array
-        band_data = self.analysis_data[start_padd: stop_padd].reshape(
+        band_data = analysis_data[start_padd: stop_padd].reshape(
             self.bands_shapes[scale][band])
 
         return band_data
 
-    ##########################################################################
-    # Private members
-    ##########################################################################
+    def _set_linear_band(self, scale, band, analysis_data, band_data):
+        """ Set the desired band data in a 1D linear analysis buffer.
+
+        Parameters
+        ----------
+        scale: int
+            index of the scale.
+        band: int
+            index of the band.
+        analysis_data: nd-array (N, )
+            the analysis buffer.
+        band_data: nd-array (M, M)
+            the band data to be added in the analysis buffer.
+
+        Returns
+        -------
+        analysis_data: nd-arry (N, )
+            the updated analysis buffer.
+        """
+        # Compute selected scale/band start/stop indices
+        start_scale_padd = self.scales_padds[scale]
+        start_band_padd = (
+            self.bands_lengths[scale, :band + 1].sum() -
+            self.bands_lengths[scale, band])
+        start_padd = start_scale_padd + start_band_padd
+        stop_padd = start_padd + self.bands_lengths[scale, band]
+
+        # Get the band array
+        analysis_data[start_padd: stop_padd] = band_data.flatten()
+
+        return analysis_data
 
     def _set_transformation_parameters(self):
         """ Define the transformation class parameters.
@@ -484,7 +580,6 @@ class WaveletTransformBase(object):
         self.scales_padds = numpy.zeros((self.nb_scale + 1, ), dtype=int)
         self.scales_padds[1:] = self.scales_lengths.cumsum()
 
-    # TODO @classmethod
     def _analysis(self, data, **kwargs):
         """ Decompose a real signal using ISAP.
 
@@ -503,30 +598,45 @@ class WaveletTransformBase(object):
         analysis_header: dict
             the decomposition associated information.
         """
-        kwargs["verbose"] = self.verbose > 0
-        tmpdir = self._mkdtemp()
-        in_image = os.path.join(tmpdir, "in.fits")
-        out_mr_file = os.path.join(tmpdir, "cube.mr")
-        try:
-            pisap.io.save(data, in_image)
-            pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
-            image = pisap.io.load(out_mr_file)
-            analysis_data = image.data
-            analysis_header = image.metadata
-        except:
-            raise
-        finally:
-            shutil.rmtree(tmpdir)
+        # Use subprocess to execute binaries
+        if self.use_wrapping:
+            kwargs["verbose"] = self.verbose > 0
+            with pisap.TempDir(isap=True) as tmpdir:
+                in_image = os.path.join(tmpdir, "in.fits")
+                out_mr_file = os.path.join(tmpdir, "cube.mr")
+                pisap.io.save(data, in_image)
+                pisap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
+                image = pisap.io.load(out_mr_file)
+                analysis_data = image.data
+                analysis_header = image.metadata
+
+            # Reorganize the generated coefficents
+            self._analysis_shape = analysis_data.shape
+            analysis_buffer = self.flatten_fct(analysis_data, self)
+            self._analysis_buffer_shape = analysis_buffer.shape
+            if not isinstance(self.nb_band_per_scale, list):
+                self.nb_band_per_scale = (
+                    self.nb_band_per_scale.squeeze().tolist())
+            analysis_data = []
+            for scale, nb_bands in enumerate(self.nb_band_per_scale):
+                for band in range(nb_bands):
+                    analysis_data.append(self._get_linear_band(
+                        scale, band, analysis_buffer))
+
+        # Use Python bindings
+        else:
+            analysis_data, self.nb_band_per_scale = self.trf.transform(
+                data.astype(numpy.double), save=False)
+            analysis_header = None
 
         return analysis_data, analysis_header
 
-    # TODO @classmethod
     def _synthesis(self, analysis_data, analysis_header):
         """ Reconstruct a real signal from the wavelet coefficients using ISAP.
 
         Parameters
         ----------
-        analysis_data: nd-array
+        analysis_data: list of nd-array
             the wavelet coefficients array.
         analysis_header: dict
             the wavelet decomposition parameters.
@@ -536,41 +646,20 @@ class WaveletTransformBase(object):
         data: nd-array
             the reconstructed data array.
         """
-        cube = pisap.Image(data=analysis_data, metadata=analysis_header)
-        tmpdir = self._mkdtemp()
-        in_mr_file = os.path.join(tmpdir, "cube.mr")
-        out_image = os.path.join(tmpdir, "out.fits")
-        if 1: #self.__is_decimated__:
-            try:
+        # Use subprocess to execute binaries
+        if self.use_wrapping:
+
+            cube = pisap.Image(data=analysis_data[0], metadata=analysis_header)
+            with pisap.TempDir(isap=True) as tmpdir:
+                in_mr_file = os.path.join(tmpdir, "cube.mr")
+                out_image = os.path.join(tmpdir, "out.fits")
                 pisap.io.save(cube, in_mr_file)
                 pisap.extensions.mr_recons(
                     in_mr_file, out_image, verbose=(self.verbose > 0))
                 data = pisap.io.load(out_image).data
-            except:
-                raise
-            finally:
-                shutil.rmtree(tmpdir)
+
+        # Use Python bindings
         else:
-            pass
+            data = self.trf.reconstruct(analysis_data)
 
         return data
-
-    def _mkdtemp(self):
-        """ Method to generate a temporary folder compatible with the ISAP
-        implementation.
-
-        If 'jpg' or 'pgm' (with any case for each letter) are in the pathname,
-        it will corrupt the format detection in ISAP.
-
-        Returns
-        -------
-        tmpdir: str
-            the generated ISAP compliant temporary folder.
-        """
-        tmpdir = None
-        while (tmpdir is None or "pgm" in tmpdir.lower() or
-               "jpg" in tmpdir.lower()):
-            if tmpdir is not None and os.path.exists(tmpdir):
-                os.rmdir(tmpdir)
-            tmpdir = tempfile.mkdtemp()
-        return tmpdir

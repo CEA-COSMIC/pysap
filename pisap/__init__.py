@@ -12,7 +12,13 @@ astronomical data analysis. This package is based on the 'sparse2d' C++ library
 that allows sparse decomposition, denoising and deconvolution.
 """
 
+# import matplotlib
+# matplotlib.use("Agg")
+
 from .info import __version__
 from pisap.base import io
 from pisap.base.image import Image
 import pisap.extensions
+from pisap.utils import AVAILABLE_TRANSFORMS
+from pisap.utils import load_transform
+from pisap.utils import TempDir

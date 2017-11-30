@@ -58,7 +58,7 @@ def plot_transform(transform, scales=None, multiview=False):
             if not isinstance(scale_data, list):
                 scale_data = [scale_data]
 
-            for subband_data in scale_data:
+            for index, subband_data in enumerate(scale_data):
 
                 # Deal with complex data
                 if numpy.iscomplex(subband_data).any():
@@ -72,8 +72,10 @@ def plot_transform(transform, scales=None, multiview=False):
                     ax = window.addPlot()
                     ax.plot(subband_data, pen=pen)
                 elif subband_data.ndim == 2:
-                    box = window.addViewBox()
-                    box.setAspectLocked(True)
+                    row = index // 2
+                    col = index % 2
+                    box = window.addViewBox(row=row, col=col, border="00ff00",
+                                            lockAspect=True, enableMouse=False)
                     image = pyqtgraph.ImageItem(subband_data)
                     box.addItem(image)
                 else:

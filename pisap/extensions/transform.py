@@ -350,26 +350,28 @@ class MallatWaveletTransform79Filters(ISAPWaveletTransformBase):
     __isap_scale_shift__ = 1
 
 
-if 0:
-    class FeauveauWaveletTransform(ISAPWaveletTransformBase):
-        """ Feauveau's wavelet transform.
-        """
-        __isap_transform_id__ = 15
-        __isap_name__ = "Feauveau's wavelet transform"
-        __is_decimated__ = True
-        __isap_nb_bands__ = 2
-        __isap_scale_shift__ = 1
+class FeauveauWaveletTransform(ISAPWaveletTransformBase):
+    """ Feauveau's wavelet transform.
+    """
+    __isap_transform_id__ = 15
+    __isap_name__ = "Feauveau's wavelet transform"
+    __is_decimated__ = True
+    __isap_nb_bands__ = 2
+    __isap_scale_shift__ = 1
 
-        def _set_transformation_parameters(self):
-            self.name = "Feauveau's wavelet transform"
-            ratios = numpy.ones_like(bands_lengths, dtype=float)
-            ratios[:, 1] *= 2.0
-            params = decimated(self.nb_scale, self._iso_shape, 2,
-                               scale_shift=1)
-            (self.bands_names, self.flatten_fct, self.unflatten_fct,
-             self.is_decimated, self.nb_band_per_scale, self.bands_lengths,
-             self.bands_shapes) = params
-            self.isap_transform_id = 15
+    def _set_transformation_parameters(self):
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
+        self.name = "Feauveau's wavelet transform"
+        ratios = numpy.ones_like(bands_lengths, dtype=float)
+        ratios[:, 1] *= 2.0
+        params = decimated(self.nb_scale, self._iso_shape, 2,
+                           scale_shift=1)
+        (self.bands_names, self.flatten_fct, self.unflatten_fct,
+         self.is_decimated, self.nb_band_per_scale, self.bands_lengths,
+         self.bands_shapes) = params
+        self.isap_transform_id = 15
 
 
 class FeauveauWaveletTransformWithoutUndersampling(ISAPWaveletTransformBase):
@@ -381,31 +383,33 @@ class FeauveauWaveletTransformWithoutUndersampling(ISAPWaveletTransformBase):
     __isap_nb_bands__ = 1
 
 
-if 0:
-    class LineColumnWaveletTransform1D1D(ISAPWaveletTransformBase):
-        """ Line Column Wavelet Transform (1D+1D).
-        """
-        __isap_transform_id__ = 17
-        __isap_name__ = "Line Column Wavelet Transform (1D+1D)"
-        __is_decimated__ = False
-        __isap_nb_bands__ = 1
+class LineColumnWaveletTransform1D1D(ISAPWaveletTransformBase):
+    """ Line Column Wavelet Transform (1D+1D).
+    """
+    __isap_transform_id__ = 17
+    __isap_name__ = "Line Column Wavelet Transform (1D+1D)"
+    __is_decimated__ = False
+    __isap_nb_bands__ = 1
 
-        def _set_transformation_parameters(self):
-            _map = {128: 5, 512: 6}
-            self.nb_scale = _map[self._iso_shape]  # fixed for this wavelet
-            self.name = "Line Column Wavelet Transform (1D+1D)"
-            self.bands_names = ['d%d' % i
-                                for i in range(_map[self._iso_shape])]
-            self.nb_band_per_scale = numpy.array([
-                _map[self._iso_shape]] * nb_scale)
-            self.bands_lengths = (
-                (self._iso_shape * self._iso_shape) *
-                numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
-            self.bands_shapes = WaveletTransformBase.bands_shapes(
-                bands_lengths)
-            self.isap_transform_id = 17
-            self.flatten_fct = ISAP_FLATTEN[0]
-            self.is_decimated = False
+    def _set_transformation_parameters(self):
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
+        _map = {128: 5, 512: 6}
+        self.nb_scale = _map[self._iso_shape]  # fixed for this wavelet
+        self.name = "Line Column Wavelet Transform (1D+1D)"
+        self.bands_names = ['d%d' % i
+                            for i in range(_map[self._iso_shape])]
+        self.nb_band_per_scale = numpy.array([
+            _map[self._iso_shape]] * nb_scale)
+        self.bands_lengths = (
+            (self._iso_shape * self._iso_shape) *
+            numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
+        self.bands_shapes = WaveletTransformBase.bands_shapes(
+            bands_lengths)
+        self.isap_transform_id = 17
+        self.flatten_fct = ISAP_FLATTEN[0]
+        self.is_decimated = False
 
 
 class HaarWaveletTransform(ISAPWaveletTransformBase):
@@ -518,39 +522,41 @@ class PyramidalWaveletTransformInFourierSpaceAlgo2(ISAPWaveletTransformBase):
     __isap_nb_bands__ = 1
 
 
-if 0:
-    class FastCurveletTransform(ISAPWaveletTransformBase):
-        """ Fast Curvelet Transform.
-        """
-        __isap_transform_id__ = 28
-        __isap_name__ = "Fast Curvelet Transform"
-        __is_decimated__ = False
-        __isap_nb_bands__ = 1
+class FastCurveletTransform(ISAPWaveletTransformBase):
+    """ Fast Curvelet Transform.
+    """
+    __isap_transform_id__ = 28
+    __isap_name__ = "Fast Curvelet Transform"
+    __is_decimated__ = False
+    __isap_nb_bands__ = 1
 
-        def _set_transformation_parameters(self):
-            self.name = "Fast Curvelet Transform"
-            self.bands_names = ["d"] * 16
-            self.nb_band_per_scale = [16, 16, 8, 8, 8, 8, 8, 8, 8, 1]
-            self.nb_band_per_scale = numpy.array(
-                nb_band_per_scale[:self.nb_scale])
-            self.nb_band_per_scale[-1] = 1
-            self.bands_shapes = get_curvelet_bands_shapes(
-                self.data.shape, nb_scale, nb_band_per_scale)
-            if nb_scale == 2:
-                self.bands_shapes[-1] = [
-                    (bands_shapes[0][0][0], bands_shapes[0][0][0])]
-            else:
-                self.bands_shapes[-1] = [
-                    (bands_shapes[-1][0][0], bands_shapes[-1][0][0])]
-            self.bands_lengths = numpy.zeros(
-                (nb_scale, nb_band_per_scale.max()), dtype=int)
-            for ks in range(nb_scale):
-                for kb in range(nb_band_per_scale[ks]):
-                    self.bands_lengths[ks, kb] = (
-                        bands_shapes[ks][kb][0] * bands_shapes[ks][kb][1])
-            self.isap_transform_id = 28
-            self.flatten_fct = ISAP_FLATTEN[3]
-            self.is_decimated = False  # since it's a not an 2**i decimation...
+    def _set_transformation_parameters(self):
+        raise NotImplementedError(
+            "This transformation is not yet accessible from the wrapping, "
+            "please use the Python bindings.")
+        self.name = "Fast Curvelet Transform"
+        self.bands_names = ["d"] * 16
+        self.nb_band_per_scale = [16, 16, 8, 8, 8, 8, 8, 8, 8, 1]
+        self.nb_band_per_scale = numpy.array(
+            nb_band_per_scale[:self.nb_scale])
+        self.nb_band_per_scale[-1] = 1
+        self.bands_shapes = get_curvelet_bands_shapes(
+            self.data.shape, nb_scale, nb_band_per_scale)
+        if nb_scale == 2:
+            self.bands_shapes[-1] = [
+                (bands_shapes[0][0][0], bands_shapes[0][0][0])]
+        else:
+            self.bands_shapes[-1] = [
+                (bands_shapes[-1][0][0], bands_shapes[-1][0][0])]
+        self.bands_lengths = numpy.zeros(
+            (nb_scale, nb_band_per_scale.max()), dtype=int)
+        for ks in range(nb_scale):
+            for kb in range(nb_band_per_scale[ks]):
+                self.bands_lengths[ks, kb] = (
+                    bands_shapes[ks][kb][0] * bands_shapes[ks][kb][1])
+        self.isap_transform_id = 28
+        self.flatten_fct = ISAP_FLATTEN[3]
+        self.is_decimated = False  # since it's a not an 2**i decimation...
 
 
 class WaveletTransformViaLiftingScheme(ISAPWaveletTransformBase):
