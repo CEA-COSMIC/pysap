@@ -74,7 +74,7 @@ REQUIRES = [
     "pyfits>=3.4",
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",
-    "progressbar>=3.34.3"
+    "progressbar2>=3.34.3"
     # "pysparse>=0.0.1"
 ]
 EXTRA_REQUIRES = {}
