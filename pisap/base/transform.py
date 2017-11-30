@@ -251,13 +251,13 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        analysis_data: nd-array
+        analysis_data: lsit of nd-array
             decomposition coefficients array.
         """
         if self.verbose > 0 and self._analysis_data is not None:
             print("[info] Replacing existing decomposition coefficients "
                   "array.")
-        if len(analysis_data.flatten()) != self.bands_lengths.sum():
+        if len(analysis_data) != sum(self.nb_band_per_scale):
             raise ValueError("The wavelet coefficients do not correspond to "
                              "the wavelet transform parameters.")
         self._analysis_data = analysis_data
@@ -410,7 +410,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         # TODO: do not backup the list of bands
         if self.use_wrapping:
             analysis_buffer = numpy.zeros(
-                self._analysis_buffer_shape, dtype=numpy.single)
+                self._analysis_buffer_shape, dtype=self.analysis_data[0].dtype)
             for scale, nb_bands in enumerate(self.nb_band_per_scale):
                 for band in range(nb_bands):
                     self._set_linear_band(scale, band, analysis_buffer,

@@ -16,9 +16,47 @@ that allows sparse decomposition, denoising and deconvolution.
 # matplotlib.use("Agg")
 
 from .info import __version__
-from pisap.base import io
-from pisap.base.image import Image
 import pisap.extensions
-from pisap.utils import AVAILABLE_TRANSFORMS
-from pisap.utils import load_transform
+from pisap.base import io
 from pisap.utils import TempDir
+from pisap.base.image import Image
+from pisap.utils import load_transform
+from pisap.base.utils import monkeypatch
+from pisap.utils import AVAILABLE_TRANSFORMS
+
+
+# Apply some monkeypatchs to the optimization package
+import progressbar
+from sf_tools.signal.optimisation import Condat
+from sf_tools.signal.optimisation import ForwardBackward
+
+
+@monkeypatch(ForwardBackward)
+def iterate(self, max_iter=150):
+    """ Monkey patch the optimizer iterate method to have a progressbar.
+    """
+    with progressbar.ProgressBar(redirect_stdout=True,
+                                 max_value=max_iter) as bar:
+        for idx in range(max_iter):
+            self.update()
+            if self.converge:
+                print(' - Converged!')
+                break
+            bar.update(idx)
+    self.x_final = self.z_new
+
+
+@monkeypatch(Condat)
+def iterate(self, max_iter=150):
+    """ Monkey patch the optimizer iterate method to have a progressbar.
+    """
+    with progressbar.ProgressBar(redirect_stdout=True,
+                                 max_value=max_iter) as bar:
+        for idx in range(max_iter):
+            self.update()
+            if self.converge:
+                print(' - Converged!')
+                break
+            bar.update(idx)
+    self.x_final = self.x_new
+    self.y_final = self.y_new
