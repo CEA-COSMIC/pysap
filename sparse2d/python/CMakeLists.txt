@@ -22,12 +22,25 @@ project(pysparse)
 
   # Find default python libraries and interpreter
   find_package(PythonInterp REQUIRED)
-  find_package(PythonLibs REQUIRED)
+  if(NOT DEFINED PYTHON_LIBRARIES OR NOT DEFINED PYTHON_INCLUDE_DIRS)
+    find_package(PythonLibs REQUIRED)
+  else()
+    message(STATUS "Using Python Lib: ${PYTHON_LIBRARIES}")
+    message(STATUS "Using Python Inc: ${PYTHON_INCLUDE_DIRS}")
+  endif()
   find_package(OpenMP REQUIRED)
+
+  # Flags for MAC OSX
+  if(APPLE)
+    set(CMAKE_MACOSX_RPATH 1)
+    set(APPLE_FLAGS "-DMACOS")
+  else(APPLE)
+    set(APPLE_FLAGS "")
+  endif(APPLE)
 
   # Compilation flags
   #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-  set(CMAKE_CXX_FLAGS "-std=c++03  -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+  set(CMAKE_CXX_FLAGS "-std=c++03 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
 
   # Custom modules
   include(BuildBoost)
