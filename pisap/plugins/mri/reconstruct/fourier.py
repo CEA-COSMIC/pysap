@@ -16,7 +16,7 @@ Fourier operators for cartesian and non-cartesian space.
 from .utils import convert_locations_to_mask
 
 # Third party import
-# import pynfft
+import pynfft
 import numpy as np
 import scipy.fftpack as pfft
 
@@ -123,7 +123,7 @@ class NFFT2(FourierBase):
         shape of the image (not necessarly a square matrix).
     """
 
-    def __init__(self, samples_locations, img_shape):
+    def __init__(self, samples, shape):
         """ Initilize the 'NFFT2' class.
 
         Parameters
@@ -158,12 +158,12 @@ class NFFT2(FourierBase):
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
-        transform of a 2-D image.
+        transform of a 1-D coefficients array.
 
         Parameters
         ----------
         x: np.ndarray
-            masked non-cartesian Fourier transform data.
+            masked non-cartesian Fourier transform 1D data.
 
         Returns
         -------

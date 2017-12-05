@@ -1,10 +1,10 @@
 """
-Neuroimaging cartesian reconstruction
-=====================================
+Neuroimaging non-cartesian reconstruction
+=========================================
 
 Credit: A Grigis, L Elgueddari, H Carrie
 
-In this tutorial we will reconstruct an MRI image from the sparse kspace
+In this tutorial we will reconstruct an MRI image from non-cartesian kspace
 measurments.
 
 Import neuroimaging data
@@ -18,6 +18,7 @@ We also add some gaussian noise in the image space.
 # Package import
 import pisap
 from pisap.data import get_sample_data
+from pisap.plugins.mri.reconstruct.fourier import NFFT2
 from pisap.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
 from pisap.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
 from pisap.plugins.mri.reconstruct.utils import convert_mask_to_locations
@@ -43,16 +44,14 @@ mask.show()
 # measurments, the observed kspace.
 # We then reconstruct the zero order solution.
 
-
-# Generate the subsampled kspace
-kspace_mask = pfft.ifftshift(mask.data)
-kspace_data = pfft.fft2(image.data) * kspace_mask
-
-# Get the locations of the kspace samples
-kspace_loc = convert_mask_to_locations(kspace_mask)
+# Get the locations of the kspace samples and the associated observations
+kspace_loc = convert_mask_to_locations(mask.data)
+fourier_op = NFFT2(samples=kspace_loc, shape=image.shape)
+kspace_obs = fourier_op.op(image.data)
 
 # Zero order solution
-image_rec0 = pisap.Image(data=pfft.ifft2(kspace_data), metadata=image.metadata)
+image_rec0 = pisap.Image(data=fourier_op.adj_op(kspace_obs),
+                         metadata=image.metadata)
 image_rec0.show()
 
 
@@ -67,7 +66,7 @@ image_rec0.show()
 # Start the FISTA reconstruction
 max_iter = 20
 x_final, transform = sparse_rec_fista(
-    data=kspace_data,
+    data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
     mu=1e-9,
@@ -75,6 +74,8 @@ x_final, transform = sparse_rec_fista(
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
+    non_cartesian=True,
+    uniform_data_shape=image.shape,
     verbose=1)
 image_rec = pisap.Image(data=np.abs(x_final))
 image_rec.show()
@@ -92,7 +93,7 @@ image_rec.show()
 # Start the CONDAT-VU reconstruction
 max_iter = 20
 x_final, transform = sparse_rec_condatvu(
-    data=kspace_data,
+    data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
     nb_scales=4,
@@ -107,6 +108,8 @@ x_final, transform = sparse_rec_condatvu(
     max_nb_of_iter=max_iter,
     add_positivity=False,
     atol=1e-4,
+    non_cartesian=True,
+    uniform_data_shape=image.shape,
     verbose=1)
 image_rec = pisap.Image(data=np.abs(x_final))
 image_rec.show()

@@ -18,6 +18,7 @@ import time
 
 # Package import
 from pisap.plugins.mri.reconstruct.fourier import FFT2
+from pisap.plugins.mri.reconstruct.fourier import NFFT2
 from pisap.plugins.mri.reconstruct.linear import Wavelet2
 from pisap.plugins.mri.reconstruct.utils import unflatten
 from pisap.plugins.mri.reconstruct.utils import fista_logo
@@ -40,7 +41,7 @@ from sf_tools.signal.optimisation import ForwardBackward
 
 def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
                      lambda_init=1.0, max_nb_of_iter=300, atol=1e-4,
-                     verbose=0):
+                     non_cartesian=False, uniform_data_shape=None, verbose=0):
     """ The FISTA sparse reconstruction without reweightings.
 
     .. note:: At the moment, supports only 2D data.
@@ -65,6 +66,11 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         splitting algorithm.
     atol: float (optional, default 1e-4)
         tolerance threshold for convergence.
+    non_cartesian: bool (optional, default False)
+        if set, use the nfftw rather than the fftw. Expect an 1D input dataset.
+    uniform_data_shape: uplet (optional, default None)
+        the shape of the matrix containing the uniform data. Only required
+        for non-cartesian reconstructions.
     verbose: int (optional, default 0)
         the verbosity level.
 
@@ -77,7 +83,12 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     """
     # Check inputs
     start = time.clock()
-    if data.ndim != 2:
+    if non_cartesian and data.ndim != 1:
+        raise ValueError("Expect 1D data with the non-cartesian option.")
+    elif non_cartesian and uniform_data_shape is None:
+        raise ValueError("Need to set the 'uniform_data_shape' parameter with "
+                         "the non-cartesian option.")
+    elif not non_cartesian and data.ndim != 2:
         raise ValueError("At the moment, this functuion only supports 2D "
                          "data.")
 
@@ -85,9 +96,14 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     linear_op = Wavelet2(
         nb_scale=nb_scales,
         wavelet_name=wavelet_name)
-    fourier_op = FFT2(
-        samples=samples,
-        shape=data.shape)
+    if non_cartesian:
+        fourier_op = NFFT2(
+            samples=samples,
+            shape=uniform_data_shape)
+    else:
+        fourier_op = FFT2(
+            samples=samples,
+            shape=data.shape)
     gradient_op = GradSynthesis2(
         data=data,
         linear_op=linear_op,
@@ -149,7 +165,8 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
                         std_est=None, std_est_method=None, std_thr=2.,
                         mu=1e-6, tau=None, sigma=None, relaxation_factor=1.0,
                         nb_of_reweights=1, max_nb_of_iter=150,
-                        add_positivity=False, atol=1e-4, verbose=0):
+                        add_positivity=False, atol=1e-4, non_cartesian=False,
+                        uniform_data_shape=None, verbose=0):
     """ The Condat-Vu sparse reconstruction with reweightings.
 
     .. note:: At the moment, supports only 2D data.
@@ -192,6 +209,11 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
         positive.
     atol: float, default 1e-4
         tolerance threshold for convergence.
+    non_cartesian: bool (optional, default False)
+        if set, use the nfftw rather than the fftw. Expect an 1D input dataset.
+    uniform_data_shape: uplet (optional, default None)
+        the shape of the matrix containing the uniform data. Only required
+        for non-cartesian reconstructions.
     verbose: int, default 0
         the verbosity level.
 
@@ -204,7 +226,12 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     """
     # Check inputs
     start = time.clock()
-    if data.ndim != 2:
+    if non_cartesian and data.ndim != 1:
+        raise ValueError("Expect 1D data with the non-cartesian option.")
+    elif non_cartesian and uniform_data_shape is None:
+        raise ValueError("Need to set the 'uniform_data_shape' parameter with "
+                         "the non-cartesian option.")
+    elif not non_cartesian and data.ndim != 2:
         raise ValueError("At the moment, this functuion only supports 2D "
                          "data.")
     if std_est_method not in (None, "primal", "dual"):
@@ -215,9 +242,16 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     linear_op = Wavelet2(
         nb_scale=nb_scales,
         wavelet_name=wavelet_name)
-    fourier_op = FFT2(
-        samples=samples,
-        shape=data.shape)
+    if non_cartesian:
+        data_shape = uniform_data_shape
+        fourier_op = NFFT2(
+            samples=samples,
+            shape=uniform_data_shape)
+    else:
+        data_shape = data.shape
+        fourier_op = FFT2(
+            samples=samples,
+            shape=data.shape)
     gradient_op = GradAnalysis2(
         data=data,
         fourier_op=fourier_op)
@@ -255,7 +289,7 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     # Define the Condat Vu optimizer: define the tau and sigma in the
     # Condat-Vu proximal-dual splitting algorithm if not already provided.
     # Check also that the combination of values will lead to convergence.
-    norm = linear_op.l2norm(data.shape)
+    norm = linear_op.l2norm(data_shape)
     lipschitz_cst = gradient_op.spec_rad
     if sigma is None:
         sigma = 0.5
@@ -268,7 +302,7 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
         1.0 / tau - sigma * norm ** 2 >= lipschitz_cst / 2.0)
 
     # Define initial primal and dual solutions
-    primal = np.zeros(data.shape, dtype=np.complex)
+    primal = np.zeros(data_shape, dtype=np.complex)
     dual = linear_op.op(primal)
     dual[...] = 0.0
 
