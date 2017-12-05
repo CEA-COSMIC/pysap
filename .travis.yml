@@ -36,7 +36,7 @@ install:
       fi
     - conda install --yes numpy scipy matplotlib
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        pip install builtins;
+        pip install future;
       fi
     - pip install nose
     - pip install nose-exclude
