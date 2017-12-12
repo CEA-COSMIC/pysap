@@ -46,3 +46,46 @@ def with_metaclass(meta, *bases):
                 return type.__new__(cls, name, (), d)
             return meta(name, bases, d)
     return metaclass("temporary_class", None, {})
+
+
+def monkeypatch(klass, methodname=None):
+    """ Decorator extending class with the decorated callable.
+
+    >>> class A:
+    ...     pass
+    >>> @monkeypatch(A)
+    ... def meth(self):
+    ...     return 12
+    ...
+    >>> a = A()
+    >>> a.meth()
+    12
+    >>> @monkeypatch(A, 'foo')
+    ... def meth(self):
+    ...     return 12
+    ...
+    >>> a.foo()
+    12
+
+    Parameters
+    ----------
+    klass: class object
+        the class to be decorated.
+    methodname: str, default None
+        the name of the decorated method. If None, use the function name.
+
+    Returns
+    -------
+    decorator: callable
+        the decorator.
+    """
+    def decorator(func):
+        try:
+            name = methodname or func.__name__
+        except AttributeError:
+            raise AttributeError(
+                "{0} has no __name__ attribute: you should provide an "
+                "explicit 'methodname'".format(func))
+        setattr(klass, name, func)
+        return func
+    return decorator

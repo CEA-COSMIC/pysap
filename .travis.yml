@@ -31,14 +31,22 @@ before_install:
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
-    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install mock; fi
+    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then
+        pip install mock;
+      fi
     - conda install --yes numpy scipy matplotlib
+    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
+        pip install future;
+      fi
     - pip install nose
     - pip install nose-exclude
     - pip install coverage
     - pip install coveralls
     - pip install pep8
     - pip install nibabel
+    - pip install progressbar2
+    - pip install astropy
+    - pip install git+https://github.com/sfarrens/sf_tools.git
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
