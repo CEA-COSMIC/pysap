@@ -33,6 +33,7 @@ from pisap.plugins.mri.parallel_mri.extract_sensitivity_maps import get_Smaps
 import numpy as np
 import scipy.fftpack as pfft
 from scipy.io import loadmat
+import matplotlib.pyplot as plt
 
 # Loading input data
 image_name = '/home/loubnaelgueddari/Data/meas_MID41_CSGRE_ref_OS1_FID14687.mat'
@@ -81,13 +82,10 @@ gradient_op = Grad2D_pMRI(data=kspace_data,
                           linear_op=linear_op,
                           S=Smaps)
 
-from ipdb import set_trace
-set_trace()
-
 x_final, transform, cost = sparse_rec_fista(
     gradient_op=gradient_op,
     linear_op=linear_op,
-    mu=0,
+    mu=1e-9,
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
@@ -95,7 +93,7 @@ x_final, transform, cost = sparse_rec_fista(
     get_cost=True)
 image_rec = pisap.Image(data=np.abs(x_final))
 image_rec.show()
-import matplotlib.pyplot as plt
+
 plt.figure()
 plt.plot(cost)
 plt.show()

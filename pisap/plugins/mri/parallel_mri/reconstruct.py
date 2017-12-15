@@ -317,7 +317,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
     if verbose > 0:
         print("Starting optimization...")
 
-    for i in range(max_iter=max_nb_of_iter):
+    for i in range(max_nb_of_iter):
             opt.update()
 
     opt.x_final = opt.x_new
