@@ -102,7 +102,7 @@ dico_imag = learn_dictionary(flat_patches_subjects=flat_patches_imag,
 # -------------------
 #
 # Visualize the learnt atoms.
-# Let's note that you should adapt the way you dislay the atoms if you don't
+# Let's note that you should adapt the way you dislay the atoms if you don't
 # choose a perfect square number for n_components.
 
 atoms = np.abs(dico_real.components_ + 1j * dico_imag.components_)
