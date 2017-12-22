@@ -41,7 +41,7 @@ class TestOptimizer(unittest.TestCase):
             [i.data.shape for i in self.images]))
         self.mask = get_sample_data("mri-mask").data
         self.names = ['BsplineWaveletTransformATrousAlgorithm']
-        print("[info] Found {0} transformations.".format(len(self.transforms)))
+        print("[info] Found {0} transformations.".format(len(self.names)))
         self.nb_scales = [4]  # [2, 3, 4]
         self.nb_iter = 300
 
