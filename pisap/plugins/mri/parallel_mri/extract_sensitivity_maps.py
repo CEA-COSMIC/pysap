@@ -106,8 +106,8 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
     Returns:
     -------
     Smaps: np.ndarray
-        the estimated sensitivity maps of shape (img_shape, L) with L the number
-        of channels
+        the estimated sensitivity maps of shape (img_shape, L) with L the
+        number of channels
     ISOS: np.ndarray
         The sum of Squarre used to extract the sensitivity maps
     """
@@ -120,7 +120,8 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
     if mode == 'FFT':
         if not M == img_shape[0]*img_shape[1]:
             raise ValueError(['The number of samples in the k-space must be',
-                              'equal to the (image size, the number of coils)'])
+                              'equal to the (image size, the number of coils)'
+                              ])
         k_space = k_space.reshape(Smaps_shape)
         for l in range(Smaps_shape[2]):
             Smaps[:, :, l] = pfft.ifftshift(pfft.ifft2(k_space[:, :, l]))
@@ -132,11 +133,12 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
         gridx, gridy = np.meshgrid(xi, yi)
         for l in range(L):
             Smaps[:, :, l] = pfft.ifftshift(
-                                            pfft.ifft2(griddata(samples,
-                                                                k_space[:, l],
-                                                                (gridx, gridy),
-                                                                method='linear',
-                                                                fill_value=0)))
+                                            pfft.ifft2(griddata(
+                                                samples,
+                                                k_space[:, l],
+                                                (gridx, gridy),
+                                                method='linear',
+                                                fill_value=0)))
 
     SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=2))
     for r in range(L):

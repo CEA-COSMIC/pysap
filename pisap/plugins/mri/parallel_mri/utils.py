@@ -89,8 +89,8 @@ def check_lipschitz_cst(f, x_shape, lipschitz_cst, max_nb_of_iter=10):
     Return:
     -------
     bool
-        If is True than the lipschitz_cst given in argument seems to be an upper
-        bound of the real lipschitz constant for the function f
+        If is True than the lipschitz_cst given in argument seems to be an
+        upper bound of the real lipschitz constant for the function f
     """
     is_lips_cst = True
     n = 0
