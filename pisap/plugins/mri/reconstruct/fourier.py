@@ -16,7 +16,7 @@ Fourier operators for cartesian and non-cartesian space.
 from .utils import convert_locations_to_mask
 
 # Third party import
-import pynfft
+# import pynfft
 import numpy as np
 import scipy.fftpack as pfft
 
