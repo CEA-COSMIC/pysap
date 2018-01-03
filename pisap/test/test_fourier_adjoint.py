@@ -53,10 +53,10 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             fourier_op_adj = FFT2(samples=_samples, shape=(self.N, self.N))
             Img = numpy.random.randn(self.N, self.N)
             f = numpy.random.randn(self.N, self.N)
-            f_p = fourier_op_dir.op(Img)
+            f_p = fourier_op_dir.op(Img) / (self.N ** 2)
             I_p = fourier_op_adj.adj_op(f)
-            x_d = numpy.dot(I_p.flatten(), numpy.conj(Img.flatten()))
-            x_ad = numpy.dot(f, numpy.conj(f_p))/len(_samples)
+            x_d = numpy.dot(Img.flatten(), numpy.conj(I_p).flatten())
+            x_ad = numpy.dot(f_p.flatten(), numpy.conj(f).flatten())
             mismatch = (1. - numpy.mean(
                 numpy.isclose(x_d, x_ad,
                               rtol=1e-3)))
