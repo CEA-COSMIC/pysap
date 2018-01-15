@@ -47,9 +47,9 @@ class Threshold(object):
 
         """
         threshold = self.weights * extra_factor
-        data *= np.maximum(1 - threshold / np.maximum(np.finfo(np.float32).eps,
-                           np.abs(np.copy(data))), 0)
-        return data
+        return data * np.maximum(1 - threshold / np.maximum(
+                                                np.finfo(np.float32).eps,
+                                                np.abs(np.copy(data))), 0)
 
     def get_cost(self, x):
         """Cost function
