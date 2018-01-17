@@ -16,13 +16,10 @@ This module contains classses for defining algorithm operators and gradients.
 import copy
 
 # Package import
-import pisap
-from .utils import flatten
 
 # Third party import
 from sf_tools.signal.gradient import GradBasic
 import numpy as np
-import scipy.fftpack as pfft
 
 
 class GradBase(GradBasic):
@@ -73,6 +70,25 @@ class GradBase(GradBasic):
             the operation result.
         """
         raise NotImplementedError("'MtX' is an abstract method.")
+
+    def get_cost(self, x):
+        """ 0.5*||MX-y||^2_2 operation.
+
+        This method calculates the action of the transpose of the matrix M on
+        the data X, in this case inverse fourier transform of the input data
+
+        Parameters
+        ----------
+        x : np.ndarray
+            input data array (the recovered image).
+
+        Returns
+        -------
+        result: np.ndarray
+            the operation result.
+        """
+        return 0.5 * np.real(np.dot((self.MX(x) - self.y).flatten().T,
+                             np.conj((self.MX(x) - self.y).flatten())))
 
     def get_spec_rad(self, tolerance=1e-4, max_iter=20, coef_mul=1.1):
         """ Get the spectral radius.
