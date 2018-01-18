@@ -109,7 +109,6 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         auto_iterate=False)
 
     # Perform the reconstruction
-    end = time.clock()
     if verbose > 0:
         print("Starting optimization...")
 
@@ -128,6 +127,8 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
             break
 
     opt.x_final = opt.x_new
+
+    end = time.clock()
 
     if verbose > 0:
         # cost_op.plot_cost()
