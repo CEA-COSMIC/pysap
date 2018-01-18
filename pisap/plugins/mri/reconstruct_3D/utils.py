@@ -336,3 +336,50 @@ def gridding_3d(points, values, img_shape, method='linear'):
                     (grid_x, grid_y, grid_z),
                     method=method,
                     fill_value=0)
+
+
+def prod_over_maps(S, X):
+    """
+    Computes the element-wise product of the two inputs over the first two
+    direction
+    Parameters:
+    -----------
+    S: np.ndarray
+        The sensitivity maps of size [N,M,P,L]
+    X: np.ndarray
+        An image of size [N,M,P]
+    Return:
+    -------
+    Sl = np.ndarray
+        The product of every L element of S times X
+    """
+    Sl = np.copy(S)
+    if Sl.shape == X.shape:
+        for i in range(S.shape[3]):
+            Sl[:, :, :, i] *= X[:, :, :, i]
+    else:
+        for i in range(S.shape[3]):
+            Sl[:, :, :, i] *= X
+    return Sl
+
+
+def function_over_maps(f, x):
+    """
+    This methods computes the callable function over the third direction
+    Parameters:
+    -----------
+    f: callable
+        This function will be applyed n times where n is the last element in
+        the shape of x
+    x: np.ndarray
+        Input data
+    Return:
+    -------
+    np.list
+        the results of the function as a list where the length of the list is
+        equal to n
+    """
+    yl = []
+    for i in range(x.T.shape[0]):
+        yl.append(f((x.T[i]).T))
+    return np.stack(yl, axis=len(yl[0].shape))
