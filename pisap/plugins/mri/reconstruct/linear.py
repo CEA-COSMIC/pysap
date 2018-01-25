@@ -12,6 +12,7 @@ This module contains linears operators classes.
 
 
 # Package import
+from builtins import zip
 import pisap
 from .utils import flatten
 from .utils import unflatten
@@ -107,7 +108,7 @@ class Wavelet2(object):
         shape = numpy.asarray(shape)
         shape += shape % 2
         fake_data = numpy.zeros(shape)
-        fake_data[zip(shape / 2)] = 1
+        fake_data[list(zip(shape // 2))] = 1
 
         # Call mr_transform
         data = self.op(fake_data)
