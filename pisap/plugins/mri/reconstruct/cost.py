@@ -14,7 +14,7 @@ Different cost functions for the optimization.
 
 # Third party import
 import numpy
-from sf_tools.signal.cost import costObj
+from modopt.opt.cost import costObj
 
 
 class DualGapCost(costObj):
@@ -46,12 +46,13 @@ class DualGapCost(costObj):
         """
         self.linear_op = linear_op
         super(DualGapCost, self).__init__(
-            costFunc=self, initial_cost=initial_cost, tolerance=tolerance,
+            operators=None, initial_cost=initial_cost,
+            tolerance=tolerance,
             cost_interval=cost_interval, test_range=test_range,
             verbose=verbose, plot_output=plot_output)
         self._iteration = 0
 
-    def calc_cost(self, x_new, y_new):
+    def _calc_cost(self, x_new, y_new, *args, **kwargs):
         """ Return the dual-gap cost.
 
         Parameters

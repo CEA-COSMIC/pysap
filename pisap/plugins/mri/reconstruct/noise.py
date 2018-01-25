@@ -15,7 +15,7 @@ Noise estimation strategies.
 from .utils import flatten
 
 # Third party import
-from sf_tools.math.stats import sigma_mad
+from modopt.math.stats import sigma_mad
 
 
 def sigma_mad_sparse(grad_op, linear_op):
