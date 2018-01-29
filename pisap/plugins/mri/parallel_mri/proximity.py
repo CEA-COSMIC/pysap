@@ -7,7 +7,7 @@
 ##########################################################################
 
 """
-Overload the proximity class from sf_tools.
+Overload the proximity class from modopt.
 """
 
 import numpy as np
