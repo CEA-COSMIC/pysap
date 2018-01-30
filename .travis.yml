@@ -46,7 +46,7 @@ install:
     - pip install nibabel
     - pip install progressbar2
     - pip install astropy
-    - pip install git+https://github.com/sfarrens/modopt.git
+    - pip install git+https://github.com/CosmoStat/ModOpt
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
