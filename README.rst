@@ -23,8 +23,7 @@
 COSPY
 ======
 
-Python Interactive Sparse Astronomical & Magnetic Resonance Data Analysis
-Package.
+COmpress Sensing in PYthon for astronomical & magnetic resonance data analysis.
 
 It levarages the `iSAP <http://www.cosmostat.org/software/isap>`_ IDL toolbox
 for sparsity with applications in astrophysics or MRI.

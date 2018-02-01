@@ -23,7 +23,7 @@ CLASSIFIERS = ["Development Status :: 1 - Planning",
 
 # Project descriptions
 description = """
-Python Interactive Sparse Astronomical and MRI Data Analysis Package
+COmpress Sensing in PYthon.
 """
 SUMMARY = """
 .. container:: summary-carousel
