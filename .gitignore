@@ -15,6 +15,6 @@
 ###########
 build/
 dist/
-pISAP.egg-info/
+COSPY.egg-info/
 __pycache__/
 .eggs/
