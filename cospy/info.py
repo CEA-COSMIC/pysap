@@ -61,6 +61,7 @@ LICENSE = "CeCILL-B"
 CLASSIFIERS = CLASSIFIERS
 AUTHOR = """
 Antoine Grigis <antoine.grigis@cea.fr>
+Samuel Farrens <samuel.farrens@gmail.com>
 Jean-Luc Starck <jl.stark@cea.fr>
 Philippe Ciuciu <philippe.ciuciu@cea.fr>
 """

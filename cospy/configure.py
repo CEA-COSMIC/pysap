@@ -59,10 +59,10 @@ def info():
     dependencies = "Dependencies: \n\n"
     dependencies_info = _check_python_versions()
     for name, (min_version, install_version) in dependencies_info.items():
-        dependencies += "{0:10s}: {1:9s} - required | {2:9s} installed".format(
+        dependencies += "{0:15s}: {1:9s} - required | {2:9s} installed".format(
             name, min_version, install_version)
         dependencies += "\n"
-    version = "Package version: \n\n{0}\n\n".format(__version__)
-    license = "License: \n\n{0}\n\n".format(LICENSE)
+    version = "Package version: {0}\n\n".format(__version__)
+    license = "License: {0}\n\n".format(LICENSE)
     authors = "Authors: \n{0}\n".format(AUTHOR)
     return logo() + "\n\n" + version + license + authors + dependencies

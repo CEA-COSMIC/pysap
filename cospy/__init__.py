@@ -15,10 +15,12 @@ that allows sparse decomposition, denoising and deconvolution.
 # import matplotlib
 # matplotlib.use("Agg")
 
+from __future__ import print_function
 from .info import __version__
 import cospy.extensions
 from cospy.base import io
 from cospy.utils import TempDir
+from cospy.configure import info
 from cospy.base.image import Image
 from cospy.utils import load_transform
 from cospy.base.utils import monkeypatch
@@ -29,6 +31,10 @@ from cospy.utils import AVAILABLE_TRANSFORMS
 import progressbar
 from modopt.opt.algorithms import Condat
 from modopt.opt.algorithms import ForwardBackward
+
+
+# Display a welcome message
+print(info())
 
 
 @monkeypatch(ForwardBackward)
