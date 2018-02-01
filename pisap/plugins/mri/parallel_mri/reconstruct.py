@@ -26,12 +26,11 @@ from pisap.plugins.mri.parallel_mri.proximity import Threshold
 
 # Third party import
 import numpy as np
-from sf_tools.math.stats import sigma_mad
-from sf_tools.signal.linear import Identity
-from sf_tools.signal.proximity import Positive
-from sf_tools.signal.optimisation import Condat
-from sf_tools.signal.reweight import cwbReweight
-from sf_tools.signal.optimisation import ForwardBackward
+from modopt.math.stats import sigma_mad
+from modopt.opt.linear import Identity
+from modopt.opt.proximity import Positivity
+from modopt.opt.algorithms import Condat, ForwardBackward
+from modopt.opt.reweight import cwbReweight
 
 
 def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
@@ -84,7 +83,7 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         print(fista_logo())
         print(" - mu: ", mu)
         print(" - lipschitz constant: ", gradient_op.spec_rad)
-        print(" - data: ", gradient_op.y.shape)
+        print(" - data: ", gradient_op.obs_data.shape)
 # print(" - wavelet: ", linear_op.wavelet_name, "-", linear_op.nb_scales)
         print(" - max iterations: ", max_nb_of_iter)
         print(" - image variable shape: ", x_init.shape)
@@ -103,13 +102,10 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        lambda_init=1.,
-        lambda_update=None,
-        use_fista=True,
         auto_iterate=False)
 
     # Perform the reconstruction
-    
+
     if verbose > 0:
         print("Starting optimization...")
 
@@ -117,17 +113,17 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         cost = np.zeros(max_nb_of_iter)
 
     for i in range(max_nb_of_iter):
-        opt.update()
+        opt._update()
         if get_cost:
-            cost[i] = gradient_op.get_cost(opt.x_new) + \
-                      prox_op.get_cost(opt.x_new)
+            cost[i] = gradient_op.get_cost(opt._x_new) + \
+                      prox_op.get_cost(opt._x_new)
         if opt.converge:
             print(' - Converged!')
             if get_cost:
                 cost = cost[0:i]
             break
 
-    opt.x_final = opt.x_new
+    opt.x_final = opt._x_new
     end = time.clock()
     if verbose > 0:
         # cost_op.plot_cost()
@@ -273,7 +269,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
         print(" - rho: ", relaxation_factor)
         print(" - std: ", std_est)
         print(" - 1/tau - sigma||L||^2 >= beta/2: ", convergence_test)
-        print(" - data: ", gradient_op.y.shape)
+        print(" - data: ", gradient_op.obs_data.shape)
         print(" - max iterations: ", max_nb_of_iter)
         print(" - number of reweights: ", nb_of_reweights)
         print(" - primal variable shape: ", primal.shape)
@@ -282,7 +278,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
 
     # Define the proximity operator
     if add_positivity:
-        prox_op = Positive()
+        prox_op = Positivity()
     else:
         prox_op = Identity()
 
@@ -318,19 +314,19 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
         print("Starting optimization...")
 
     for i in range(max_nb_of_iter):
-            opt.update()
+            opt._update()
 
-    opt.x_final = opt.x_new
-    opt.y_final = opt.y_new
+    opt.x_final = opt._x_new
+    opt.y_final = opt._y_new
 
     # Loop through the number of reweightings
     for reweight_index in range(nb_of_reweights):
 
         # Generate the new weights following reweighting prescription
         if std_est_method == "primal":
-            reweight_op.reweight(linear_op.op(opt.x_new))
+            reweight_op.reweight(linear_op.op(opt._x_new))
         else:
-            std_est = reweight_op.reweight(opt.x_new)
+            std_est = reweight_op.reweight(opt._x_new)
 
         # Welcome message
         if verbose > 0:

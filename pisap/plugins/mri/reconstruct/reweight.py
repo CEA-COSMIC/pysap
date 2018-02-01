@@ -16,7 +16,7 @@ from .utils import flatten
 
 # Third party import
 import numpy as np
-from sf_tools.math.stats import sigma_mad
+from modopt.math.stats import sigma_mad
 
 
 class mReweight(object):

@@ -27,8 +27,8 @@ from pisap.utils import AVAILABLE_TRANSFORMS
 
 # Apply some monkeypatchs to the optimization package
 import progressbar
-from sf_tools.signal.optimisation import Condat
-from sf_tools.signal.optimisation import ForwardBackward
+from modopt.opt.algorithms import Condat
+from modopt.opt.algorithms import ForwardBackward
 
 
 @monkeypatch(ForwardBackward)
@@ -38,12 +38,12 @@ def iterate(self, max_iter=150):
     with progressbar.ProgressBar(redirect_stdout=True,
                                  max_value=max_iter) as bar:
         for idx in range(max_iter):
-            self.update()
+            self._update()
             if self.converge:
                 print(' - Converged!')
                 break
             bar.update(idx)
-    self.x_final = self.z_new
+    self.x_final = self._z_new
 
 
 @monkeypatch(Condat)
@@ -53,10 +53,10 @@ def iterate(self, max_iter=150):
     with progressbar.ProgressBar(redirect_stdout=True,
                                  max_value=max_iter) as bar:
         for idx in range(max_iter):
-            self.update()
+            self._update()
             if self.converge:
                 print(' - Converged!')
                 break
             bar.update(idx)
-    self.x_final = self.x_new
-    self.y_final = self.y_new
+    self.x_final = self._x_new
+    self.y_final = self._y_new

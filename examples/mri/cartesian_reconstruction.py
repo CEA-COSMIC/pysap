@@ -26,7 +26,6 @@ from pisap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 import numpy as np
 import scipy.fftpack as pfft
 
-
 # Loading input data
 image = get_sample_data("mri-slice-nifti")
 image.data += np.random.randn(*image.shape) * 20.
@@ -78,7 +77,6 @@ x_final, transform = sparse_rec_fista(
     verbose=1)
 image_rec = pisap.Image(data=np.abs(x_final))
 image_rec.show()
-
 
 #############################################################################
 # Condata-Vu optimization

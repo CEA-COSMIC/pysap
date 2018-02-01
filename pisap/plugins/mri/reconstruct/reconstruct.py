@@ -30,13 +30,12 @@ from pisap.plugins.mri.reconstruct.gradient import GradSynthesis2
 
 # Third party import
 import numpy as np
-from sf_tools.math.stats import sigma_mad
-from sf_tools.signal.linear import Identity
-from sf_tools.signal.proximity import Positive
-from sf_tools.signal.proximity import Threshold
-from sf_tools.signal.optimisation import Condat
-from sf_tools.signal.reweight import cwbReweight
-from sf_tools.signal.optimisation import ForwardBackward
+from modopt.math.stats import sigma_mad
+from modopt.opt.linear import Identity
+from modopt.opt.proximity import Positivity
+from modopt.opt.proximity import SparseThreshold
+from modopt.opt.algorithms import Condat, ForwardBackward
+from modopt.opt.reweight import cwbReweight
 
 
 def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
@@ -129,7 +128,7 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     # Define the proximity dual operator
     weights = copy.deepcopy(alpha)
     weights[...] = mu
-    prox_op = Threshold(weights, thresh_type="soft")
+    prox_op = SparseThreshold(linear_op, weights, thresh_type="soft")
 
     # Define the optimizer
     cost_op = None
@@ -138,9 +137,6 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        lambda_init=None,
-        lambda_update=None,
-        use_fista=True,
         auto_iterate=False)
 
     # Perform the reconstruction
@@ -269,7 +265,8 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
             std_est = sigma_mad(gradient_op.MtX(data))
         weights[...] = std_thr * std_est
         reweight_op = cwbReweight(weights)
-        prox_dual_op = Threshold(reweight_op.weights, thresh_type="soft")
+        prox_dual_op = SparseThreshold(linear_op, reweight_op.weights,
+                                       thresh_type="soft")
 
     # Case2: estimate the noise std in the sparse wavelet domain
     elif std_est_method == "dual":
@@ -277,13 +274,14 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
             std_est = 0.0
         weights[...] = std_thr * std_est
         reweight_op = mReweight(weights, linear_op, thresh_factor=std_thr)
-        prox_dual_op = Threshold(reweight_op.weights, thresh_type="soft")
+        prox_dual_op = SparseThreshold(linear_op, weights=reweight_op.weights,
+                                       thresh_type="soft")
 
     # Case3: manual regularization mode, no reweighting
     else:
         weights[...] = mu
         reweight_op = None
-        prox_dual_op = Threshold(weights, thresh_type="soft")
+        prox_dual_op = SparseThreshold(linear_op, weights, thresh_type="soft")
         nb_of_reweights = 0
 
     # Define the Condat Vu optimizer: define the tau and sigma in the
@@ -367,9 +365,9 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
 
         # Generate the new weights following reweighting prescription
         if std_est_method == "primal":
-            reweight_op.reweight(linear_op.op(opt.x_new))
+            reweight_op.reweight(linear_op.op(opt._x_new))
         else:
-            std_est = reweight_op.reweight(opt.x_new)
+            std_est = reweight_op.reweight(opt._x_new)
 
         # Welcome message
         if verbose > 0:
