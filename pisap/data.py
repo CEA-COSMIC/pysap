@@ -62,6 +62,16 @@ SAMPLE_DATE_FILES = {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
                 "mask25_sig40.fits"),
         "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
+    },
+    "astro-galaxy": {
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "example_galaxy_image.npy"),
+        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
+    },
+    "astro-psf": {
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
+                "example_psf_image.npy"),
+        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pisap")

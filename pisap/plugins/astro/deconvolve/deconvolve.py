@@ -10,6 +10,8 @@
 CONDA-VU Galaxy Image Deconvolution
 """
 
+from __future__ import print_function
+from builtins import range, zip
 import numpy as np
 import pisap
 from pisap.plugins.astro.deconvolve.linear import WaveletConvolve2
@@ -81,7 +83,7 @@ def get_weights(data, psf, filters, wave_thresh_factor=np.array([3, 3, 4])):
     return noise_est * filter_norm
 
 
-def sparse_deconv_condatvu(data, psf, n_iter=300):
+def sparse_deconv_condatvu(data, psf, n_iter=300, n_reweights=1):
     """Sparse Deconvolution with Condat-Vu
 
     Parameters
@@ -92,6 +94,8 @@ def sparse_deconv_condatvu(data, psf, n_iter=300):
         Input PSF, 2D image
     n_iter : int, optional
         Maximum number of iterations
+    n_reweights : int, optional
+        Number of reweightings
 
     Returns
     -------
@@ -125,7 +129,7 @@ def sparse_deconv_condatvu(data, psf, n_iter=300):
     prox_dual_op = SparseThreshold(linear_op, reweight.weights)
 
     # Set the cost function
-    cost_op = costObj([grad_op, prox_op, prox_dual_op], tolerance=0.0003,
+    cost_op = costObj([grad_op, prox_op, prox_dual_op], tolerance=1e-6,
                       cost_interval=1, plot_output=True, verbose=False)
 
     # Set the optimisation algorithm
@@ -134,6 +138,12 @@ def sparse_deconv_condatvu(data, psf, n_iter=300):
 
     # Run the algorithm
     alg.iterate(max_iter=n_iter)
+
+    # Implement reweigting
+    for rw_num in range(n_reweights):
+        print(' - Reweighting: {}'.format(rw_num + 1))
+        reweight.reweight(linear_op.op(alg.x_final))
+        alg.iterate(max_iter=n_iter)
 
     # Return the final result
     return alg.x_final
