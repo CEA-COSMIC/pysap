@@ -10,18 +10,18 @@ measurments.
 Import neuroimaging data
 ------------------------
 
-We use the toy datasets available in pISAP, more specifically a 2D brain slice
+We use the toy datasets available in COSPY, more specifically a 2D brain slice
 and the acquistion cartesian scheme.
 We also add some gaussian noise in the image space.
 """
 
 # Package import
-import pisap
-from pisap.data import get_sample_data
-from pisap.plugins.mri.reconstruct.fourier import NFFT2
-from pisap.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
-from pisap.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
-from pisap.plugins.mri.reconstruct.utils import convert_mask_to_locations
+import cospy
+from cospy.data import get_sample_data
+from cospy.plugins.mri.reconstruct.fourier import NFFT2
+from cospy.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
+from cospy.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
+from cospy.plugins.mri.reconstruct.utils import convert_mask_to_locations
 
 # Third party import
 import numpy as np
@@ -50,7 +50,7 @@ fourier_op = NFFT2(samples=kspace_loc, shape=image.shape)
 kspace_obs = fourier_op.op(image.data)
 
 # Zero order solution
-image_rec0 = pisap.Image(data=fourier_op.adj_op(kspace_obs),
+image_rec0 = cospy.Image(data=fourier_op.adj_op(kspace_obs),
                          metadata=image.metadata)
 image_rec0.show()
 
@@ -77,7 +77,7 @@ x_final, transform = sparse_rec_fista(
     non_cartesian=True,
     uniform_data_shape=image.shape,
     verbose=1)
-image_rec = pisap.Image(data=np.abs(x_final))
+image_rec = cospy.Image(data=np.abs(x_final))
 image_rec.show()
 
 
@@ -111,5 +111,5 @@ x_final, transform = sparse_rec_condatvu(
     non_cartesian=True,
     uniform_data_shape=image.shape,
     verbose=1)
-image_rec = pisap.Image(data=np.abs(x_final))
+image_rec = cospy.Image(data=np.abs(x_final))
 image_rec.show()

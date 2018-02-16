@@ -1,30 +1,29 @@
 
 |Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |PyPi|_ 
 
-.. |Travis| image:: https://travis-ci.org/neurospin/pisap.svg?branch=master
-.. _Travis: https://travis-ci.org/neurospin/pisap
+.. |Travis| image:: https://travis-ci.org/neurospin/cospy.svg?branch=master
+.. _Travis: https://travis-ci.org/neurospin/cospy
 
-.. |Coveralls| image:: https://coveralls.io/repos/neurospin/pisap/badge.svg?branch=master&service=github
-.. _Coveralls: https://coveralls.io/github/neurospin/pisap
+.. |Coveralls| image:: https://coveralls.io/repos/neurospin/cospy/badge.svg?branch=master&service=github
+.. _Coveralls: https://coveralls.io/github/neurospin/cospy
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/pisap
+.. _Python27: https://badge.fury.io/py/cospy
 
 .. |Python34| image:: https://img.shields.io/badge/python-3.4-blue.svg
-.. _Python34: https://badge.fury.io/py/pisap
+.. _Python34: https://badge.fury.io/py/cospy
 
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://badge.fury.io/py/pisap
+.. _Python35: https://badge.fury.io/py/cospy
 
-.. |PyPi| image:: https://badge.fury.io/py/pisap.svg
-.. _PyPi: https://badge.fury.io/py/pisap
+.. |PyPi| image:: https://badge.fury.io/py/cospy.svg
+.. _PyPi: https://badge.fury.io/py/cospy
 
 
-pISAP
+COSPY
 ======
 
-Python Interactive Sparse Astronomical & Magnetic Resonance Data Analysis
-Package.
+COmpress Sensing in PYthon for astronomical & magnetic resonance data analysis.
 
 It levarages the `iSAP <http://www.cosmostat.org/software/isap>`_ IDL toolbox
 for sparsity with applications in astrophysics or MRI.
@@ -37,8 +36,8 @@ J.-L. Starck, P. Ciuciu, and S. Farrens.
 Important links
 ===============
 
-- Official source code repo: https://github.com/neurospin/pisap
-- HTML documentation (last stable release): http://neurospin.github.io/pisap
+- Official source code repo: https://github.com/neurospin/cospy
+- HTML documentation (last stable release): http://neurospin.github.io/cospy
 
 
 Dependencies
@@ -57,7 +56,7 @@ Install
 
 First make sure you have installed all the dependencies listed above.
 Further instructions are available at
-https://neurospin.github.io/pisap/generated/installation.html
+https://neurospin.github.io/cospy/generated/installation.html
 
 
 

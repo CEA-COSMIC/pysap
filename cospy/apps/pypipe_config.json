@@ -1,0 +1,27 @@
+{
+    "cospy": {
+        "load": [
+            "cospy.utils.load_image",
+            ["File"],
+            [["Objects", {"otype": "Image"}]]
+        ],
+        "save": [
+            "cospy.utils.save_image",
+            [["Objects", {"otype": "Image"}], "File"],
+            []
+        ],
+        "plotting": {
+            "histogram": [
+                "cospy.plotting.utils.histogram",
+                [["Objects", {"otype": "Image"}], "Int", "Float", "Int"],
+                [["Objects", {"otype": "Image"}]]
+            ],
+            "scaling": [
+                "cospy.plotting.utils.scaling",
+                [["Objects", {"otype": "Image"}], ["Enum",
+                    {"choices": ["stretching", "equalization", "adaptive"]}]],
+                [["Objects", {"otype": "Image"}]]
+            ]
+        }
+    }
+}

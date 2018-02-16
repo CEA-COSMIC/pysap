@@ -46,7 +46,7 @@ install:
     - pip install nibabel
     - pip install progressbar2
     - pip install astropy
-    - pip install git+https://github.com/CosmoStat/ModOpt@master
+    - pip install --no-cache-dir --ignore-installed git+https://github.com/CosmoStat/ModOpt.git
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
@@ -63,7 +63,7 @@ install:
 
 script:
     - python setup.py nosetests
-    - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
+    - pep8 cospy --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
     - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
 
 after_success:
