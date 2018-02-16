@@ -48,8 +48,9 @@ The required dependencies to use the software are:
 
 * numpy
 * nibabel
-* pyfits
+* astropy
 * pyqtgraph
+* modopt
 
 
 Install
