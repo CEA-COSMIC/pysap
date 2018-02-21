@@ -7,7 +7,7 @@
 ##########################################################################
 
 # System import
-import pyfits
+import astropy.io.fits as pyfits
 import numpy
 
 # Package import
