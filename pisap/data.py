@@ -66,12 +66,12 @@ SAMPLE_DATE_FILES = {
     "astro-galaxy": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
                 "example_galaxy_image.npy"),
-        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
+        "md5sum": None
     },
     "astro-psf": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pisap/datasets/"
                 "example_psf_image.npy"),
-        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
+        "md5sum": None
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pisap")
