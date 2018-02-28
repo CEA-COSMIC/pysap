@@ -7,10 +7,5 @@
 ##########################################################################
 
 """
-This module defines common loaders to deal with astronomical and
-neuroimaging datasets.
+This module defines all the Astro deconvolution plugins.
 """
-
-from .nifti import NIFTI
-from .fits import FITS
-from .numpy_binary import npBinary

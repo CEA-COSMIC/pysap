@@ -14,10 +14,11 @@ import pisap
 from pisap.base.exceptions import Exception
 from pisap.base.loaders import FITS
 from pisap.base.loaders import NIFTI
+from pisap.base.loaders import npBinary
 
 # Global parameters
 # > define all the available loaders
-LOADERS = [FITS, NIFTI]
+LOADERS = [FITS, NIFTI, npBinary]
 
 
 def load(path, dtype=numpy.single):
