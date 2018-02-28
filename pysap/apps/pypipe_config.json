@@ -1,0 +1,27 @@
+{
+    "pysap": {
+        "load": [
+            "pysap.utils.load_image",
+            ["File"],
+            [["Objects", {"otype": "Image"}]]
+        ],
+        "save": [
+            "pysap.utils.save_image",
+            [["Objects", {"otype": "Image"}], "File"],
+            []
+        ],
+        "plotting": {
+            "histogram": [
+                "pysap.plotting.utils.histogram",
+                [["Objects", {"otype": "Image"}], "Int", "Float", "Int"],
+                [["Objects", {"otype": "Image"}]]
+            ],
+            "scaling": [
+                "pysap.plotting.utils.scaling",
+                [["Objects", {"otype": "Image"}], ["Enum",
+                    {"choices": ["stretching", "equalization", "adaptive"]}]],
+                [["Objects", {"otype": "Image"}]]
+            ]
+        }
+    }
+}
