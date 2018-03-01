@@ -46,7 +46,7 @@ that allows sparse decomposition, denoising and deconvolution.
 """
 
 # Main setup parameters
-NAME = "pySAP"
+NAME = "python-pySAP"
 ORGANISATION = "CEA"
 MAINTAINER = "XXX"
 MAINTAINER_EMAIL = "XXX"

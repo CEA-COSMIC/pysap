@@ -15,6 +15,6 @@
 ###########
 build/
 dist/
-pySAP.egg-info/
+python_pySAP.egg-info/
 __pycache__/
 .eggs/
