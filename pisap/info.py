@@ -71,10 +71,12 @@ VERSION = __version__
 PROVIDES = ["pisap"]
 REQUIRES = [
     "numpy>=1.11.0",
-    "astropy>=2.0.4",
+    "matplotlib>=2.1.2",
+    "future>=0.16.0",
+    "astropy==2.0.4",
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",
-    "progressbar2>=3.34.3"
-    # "pysparse>=0.0.1"
+    "progressbar2>=3.34.3",
+    "modopt>=1.1.4"
 ]
 EXTRA_REQUIRES = {}
