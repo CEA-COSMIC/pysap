@@ -6,6 +6,7 @@ python:
     - "2.7"
     - "3.4"
     - "3.5"
+    - "3.6"
 
 before_install:
     - sudo apt-get update
@@ -19,7 +20,10 @@ before_install:
         export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
-        export CPLUS_INCLUDE_PATH=/opt/python/3.5.3/include/python3.5m;
+        export CPLUS_INCLUDE_PATH=/opt/python/3.5.5/include/python3.5m;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
+        export CPLUS_INCLUDE_PATH=/opt/python/3.6.3/include/python3.6m;
       fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
@@ -41,6 +45,7 @@ install:
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         sudo apt-get install python3-dev;
       fi
+    - locate pyconfig.h
     - pip install nose
     - pip install nose-exclude
     - pip install coverage
