@@ -35,7 +35,7 @@ image_obs = Image(data=np.abs(obs_data))
 image_obs.show()
 
 # Deconvolve the observed image
-deconv_data = sparse_deconv_condatvu(obs_data, psf.data)
+deconv_data = sparse_deconv_condatvu(obs_data, psf.data, n_iter=3000)
 image_rec = Image(data=np.abs(deconv_data))
 image_rec.show()
 
