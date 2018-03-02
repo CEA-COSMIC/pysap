@@ -80,7 +80,7 @@ Linux
 -----
 
 Please refer to the |link-to-pyqt| for issues regarding the installation of
-`pyqtgraph`. 
+``pyqtgraph``. 
 
 .. |link-to-pyqt| raw:: html
 
