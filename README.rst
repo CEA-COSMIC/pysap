@@ -75,3 +75,14 @@ Mac OS
 Help with installation on Mac OS is available `here`_.
 
 .. _here: ./doc/macos_install.rst
+
+Linux
+-----
+
+Please refer to the |link-to-pyqt| for issues regarding the installation of
+`pyqtgraph`. 
+
+.. |link-to-pyqt| raw:: html
+
+  <a href="http://www.pyqtgraph.org/"
+  target="_blank">PyQtGraph homepage</a>
