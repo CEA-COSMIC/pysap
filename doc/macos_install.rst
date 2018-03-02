@@ -53,7 +53,7 @@ installing PySAP you should export the environment variables ``CC`` and ``CXX``.
 .. code-block:: bash
 
   $ export CC="/usr/local/bin/gcc-7"
-   $ export CXX="/usr/local/bin/g++-7"
+  $ export CXX="/usr/local/bin/g++-7"
 
 Troubleshooting
 ===============
@@ -68,7 +68,7 @@ easiest solution to this problem is to install the package using |link-to-conda|
 
 .. |link-to-conda| raw:: html
 
-  <a href="https://brew.sh/"
+  <a href="https://conda.io/docs/"
   target="_blank">Anaconda</a>
 
 .. code-block:: bash
