@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |PyPi|_ 
+|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_ 
 
 .. |Travis| image:: https://travis-ci.org/neurospin/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/neurospin/pysap
@@ -8,16 +8,19 @@
 .. _Coveralls: https://coveralls.io/github/neurospin/pysap
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/pysap
+.. _Python27: https://badge.fury.io/py/python-pySAP
 
 .. |Python34| image:: https://img.shields.io/badge/python-3.4-blue.svg
-.. _Python34: https://badge.fury.io/py/pysap
+.. _Python34: https://badge.fury.io/py/python-pySAP
 
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://badge.fury.io/py/pysap
+.. _Python35: https://badge.fury.io/py/python-pySAP
 
-.. |PyPi| image:: https://badge.fury.io/py/pysap.svg
-.. _PyPi: https://badge.fury.io/py/pysap
+.. |Python36| image:: https://img.shields.io/badge/python-3.6-blue.svg
+.. _Python36: https://badge.fury.io/py/python-pySAP
+
+.. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
+.. _PyPi: https://badge.fury.io/py/python-pySAP
 
 
 pySAP
@@ -47,17 +50,21 @@ The required dependencies to use the software are:
 
 * scipy
 * numpy
-* nibabel
+* matplotlib
+* future
 * astropy
+* nibabel
 * pyqtgraph
-* progressbar
+* progressbar2
 * modopt
+
+This package will generate the pysparse ISAP binding module.
 
 
 Install
 =======
 
-First make sure you have installed all the dependencies listed above.
+Make sure you have installed all the dependencies listed above properly.
 Further instructions are available at
 https://neurospin.github.io/pysap/generated/installation.html
 

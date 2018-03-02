@@ -65,6 +65,9 @@ install:
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
       fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.6/extern/bin;
+      fi
 
 script:
     - python setup.py nosetests
