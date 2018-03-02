@@ -2,10 +2,10 @@
 |Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_ 
 
 .. |Travis| image:: https://travis-ci.org/neurospin/pysap.svg?branch=master
-.. _Travis: https://travis-ci.org/neurospin/pysap
+.. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
 
-.. |Coveralls| image:: https://coveralls.io/repos/neurospin/pysap/badge.svg?branch=master&service=github
-.. _Coveralls: https://coveralls.io/github/neurospin/pysap
+.. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
+.. _Coveralls: https://coveralls.io/github/CEA-COSMIC/pysap
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
 .. _Python27: https://badge.fury.io/py/python-pySAP
