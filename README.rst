@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_ 
+|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_
 
 .. |Travis| image:: https://travis-ci.org/neurospin/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
@@ -69,8 +69,9 @@ Further instructions are available at
 https://neurospin.github.io/pysap/generated/installation.html
 
 
+Mac OS
+------
 
+Help with installation on Mac OS is available `here`_.
 
-
-
-
+.. _here: ./doc/macos_install.rst
