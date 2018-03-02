@@ -42,9 +42,6 @@ install:
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
         pip install future;
       fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
-        sudo apt-get install python3-dev;
-      fi
     - locate pyconfig.h
     - pip install nose
     - pip install nose-exclude
