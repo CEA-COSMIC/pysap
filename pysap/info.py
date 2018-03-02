@@ -81,4 +81,9 @@ REQUIRES = [
     "modopt>=1.1.1",
     # "pysparse>=0.0.1"
 ]
-EXTRA_REQUIRES = {}
+EXTRA_REQUIRES = {
+    "gui": {
+        "PySide>=1.2.2",
+        "pypipe>=0.0.1"
+    }
+}
