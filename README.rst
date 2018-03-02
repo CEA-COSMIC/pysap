@@ -66,7 +66,7 @@ Install
 
 Make sure you have installed all the dependencies listed above properly.
 Further instructions are available at
-https://neurospin.github.io/pysap/generated/installation.html
+https://cea-cosmic.github.io/pysap/generated/installation.html
 
 
 Mac OS
@@ -80,7 +80,7 @@ Linux
 -----
 
 Please refer to the |link-to-pyqt| for issues regarding the installation of
-``pyqtgraph``. 
+``pyqtgraph``.
 
 .. |link-to-pyqt| raw:: html
 
