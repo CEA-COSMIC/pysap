@@ -1,7 +1,7 @@
 
 |Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_
 
-.. |Travis| image:: https://travis-ci.org/neurospin/pysap.svg?branch=master
+.. |Travis| image:: https://travis-ci.org/cea-cosmic/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
 
 .. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
@@ -39,8 +39,8 @@ J.-L. Starck, P. Ciuciu, and S. Farrens.
 Important links
 ===============
 
-- Official source code repo: https://github.com/neurospin/pysap
-- HTML documentation (last stable release): http://neurospin.github.io/pysap
+- Official source code repo: https://github.com/cea-cosmic/pysap
+- HTML documentation (last stable release): http://cea-cosmic.github.io/pysap
 
 
 Dependencies
