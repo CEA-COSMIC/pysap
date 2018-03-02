@@ -25,20 +25,20 @@ from setuptools.command.test import test as TestCommand
 # Package information
 release_info = {}
 infopath = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "pisap", "info.py"))
+    os.path.join(os.path.dirname(__file__), "pysap", "info.py"))
 with open(infopath) as open_file:
     exec(open_file.read(), release_info)
 pkgdata = {
-    "pisap": [os.path.join("test", "*.py"), os.path.join("test", "*.json"),
+    "pysap": [os.path.join("test", "*.py"), os.path.join("test", "*.json"),
               os.path.join("apps", "*.json")]
 }
 if sys.version_info >= (3, 0):
     scripts = [
-        os.path.join("pisap", "apps", "pisapview3")
+        os.path.join("pysap", "apps", "pysapview3")
     ]
 else:
     scripts = [
-        os.path.join("pisap", "apps", "pisapview")
+        os.path.join("pysap", "apps", "pysapview")
     ]
 
 
