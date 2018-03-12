@@ -1,7 +1,7 @@
 
-|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_ 
+|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_
 
-.. |Travis| image:: https://travis-ci.org/neurospin/pysap.svg?branch=master
+.. |Travis| image:: https://travis-ci.org/cea-cosmic/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
 
 .. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
@@ -39,8 +39,8 @@ J.-L. Starck, P. Ciuciu, and S. Farrens.
 Important links
 ===============
 
-- Official source code repo: https://github.com/neurospin/pysap
-- HTML documentation (last stable release): http://neurospin.github.io/pysap
+- Official source code repo: https://github.com/cea-cosmic/pysap
+- HTML documentation (last stable release): http://cea-cosmic.github.io/pysap
 
 
 Dependencies
@@ -66,11 +66,23 @@ Install
 
 Make sure you have installed all the dependencies listed above properly.
 Further instructions are available at
-https://neurospin.github.io/pysap/generated/installation.html
+https://cea-cosmic.github.io/pysap/generated/installation.html
 
 
+Mac OS
+------
 
+Help with installation on Mac OS is available `here`_.
 
+.. _here: ./doc/macos_install.rst
 
+Linux
+-----
 
+Please refer to the |link-to-pyqt| for issues regarding the installation of
+``pyqtgraph``.
 
+.. |link-to-pyqt| raw:: html
+
+  <a href="http://www.pyqtgraph.org/"
+  target="_blank">PyQtGraph homepage</a>
