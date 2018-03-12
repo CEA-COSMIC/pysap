@@ -28,7 +28,7 @@ def extract_k_space_center(samples, samples_locations,
     the threshold if any is provided using the density of the sampling scheme
     and the resolution.
 
-    Parameters:
+    Parameters
     ----------
     samples: np.ndarray
         The value of the samples
@@ -39,7 +39,7 @@ def extract_k_space_center(samples, samples_locations,
     img_shape: tuple
         The image shape to estimate the cartesian density
 
-    Returns:
+    Returns
     -------
     The extracted center of the k-space
     """
@@ -58,8 +58,8 @@ def gridding_2d(points, values, img_shape, method='linear'):
     """
     Interpolate non-Cartesian data into a cartesian grid
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     points: np.ndarray
         The 2D k_space locations of size [M, 2]
     values: np.ndarray
@@ -70,7 +70,7 @@ def gridding_2d(points, values, img_shape, method='linear'):
         Method of interpolation for more details see scipy.interpolate.griddata
         documentation
 
-    Return:
+    Returns
     -------
     np.ndarray
         The gridded solution of shape [N_x, N_y]
@@ -97,13 +97,14 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
     acquisition and for variable density sampling scheme where teh k-space
     center had been heavily sampled.
 
-    Parameters:
+    Parameters
     ----------
     k_space: np.ndarray
         The acquired kspace of shape (M,L), where M is the number of samples
         acquired and L is the number of coils used
     samples: np.ndarray
-    Returns:
+
+    Returns
     -------
     Smaps: np.ndarray
         the estimated sensitivity maps of shape (img_shape, L) with L the

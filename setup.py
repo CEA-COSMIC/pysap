@@ -29,8 +29,10 @@ infopath = os.path.abspath(
 with open(infopath) as open_file:
     exec(open_file.read(), release_info)
 pkgdata = {
-    "pysap": [os.path.join("test", "*.py"), os.path.join("test", "*.json"),
-              os.path.join("apps", "*.json")]
+    "pysap": [
+        os.path.join("test", "*.py"),
+        os.path.join("test", "*.json"),
+        os.path.join("apps", "*.json")]
 }
 if sys.version_info >= (3, 0):
     scripts = [
@@ -38,6 +40,14 @@ if sys.version_info >= (3, 0):
     ]
 else:
     scripts = [
+        os.path.join("pysap", "apps", "pysapview")
+    ]
+
+# Workaround
+if "--release" in sys.argv:
+    sys.argv.remove("--release")
+    scripts = [
+        os.path.join("pysap", "apps", "pysapview3"),
         os.path.join("pysap", "apps", "pysapview")
     ]
 

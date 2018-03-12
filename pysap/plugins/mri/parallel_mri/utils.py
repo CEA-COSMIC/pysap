@@ -25,16 +25,16 @@ def prod_over_maps(S, X):
     Computes the element-wise product of the two inputs over the first two
     direction
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     S: np.ndarray
         The sensitivity maps of size [N,M,L]
     X: np.ndarray
         An image of size [N,M]
 
-    Return:
+    Returns
     -------
-    Sl = np.ndarray
+    Sl: np.ndarray
         The product of every L element of S times X
     """
     Sl = np.copy(S)
@@ -51,16 +51,17 @@ def function_over_maps(f, x):
     """
     This methods computes the callable function over the third direction
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     f: callable
         This function will be applyed n times where n is the last element in
         the shape of x
     x: np.ndarray
         Input data
-    Return:
+
+    Returns
     -------
-    np.list
+    out: np.list
         the results of the function as a list where the length of the list is
         equal to n
     """
@@ -74,10 +75,11 @@ def check_lipschitz_cst(f, x_shape, lipschitz_cst, max_nb_of_iter=10):
     """
     This methods check that for random entrees the lipschitz constraint are
     statisfied:
-                    ||f(x)-f(y)|| < lipschitz_cst ||x-y||
 
-    Parameters:
-    -----------
+    * ||f(x)-f(y)|| < lipschitz_cst ||x-y||
+
+    Parameters
+    ----------
     f: callable
         This lipschitzien function
     x_shape: tuple
@@ -86,9 +88,10 @@ def check_lipschitz_cst(f, x_shape, lipschitz_cst, max_nb_of_iter=10):
         The Lischitz constant for the function f
     max_nb_of_iter: int
         The number of time the constraint must be satisfied
-    Return:
+
+    Returns
     -------
-    bool
+    out: bool
         If is True than the lipschitz_cst given in argument seems to be an
         upper bound of the real lipschitz constant for the function f
     """

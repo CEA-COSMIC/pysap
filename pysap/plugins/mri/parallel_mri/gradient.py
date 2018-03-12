@@ -104,8 +104,8 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
         a Fourier operator instance.
     linear_op: object
         a linear operator instance.
-    S: np.ndarray
-        The sensitivity maps of size [image_shape, L]
+    S: np.ndarray  (image_shape, L)
+        The sensitivity maps of size.
     """
     def __init__(self, data, fourier_op, linear_op, S):
         """ Initilize the 'GradSynthesis2' class.
@@ -177,8 +177,9 @@ class Grad2D_pMRI(Grad2D_pMRI_analysis, Grad2D_pMRI_synthesis):
     derived gradient classes:
     It computes the gradient of the following equation for the analysis and
     synthesis cases respectively:
-            (1/2) * sum(||Ft Sl x - yl||^2_2,l)
-            (1/2) * sum(||Ft Sl L* alpha - yl||^2_2,l)
+
+    * (1/2) * sum(||Ft Sl x - yl||^2_2,l)
+    * (1/2) * sum(||Ft Sl L* alpha - yl||^2_2,l)
     """
     def __init__(self, data, fourier_op, S, linear_op=None, check_lips=False):
         """ Initilize the 'Grad2D_pMRI' class.

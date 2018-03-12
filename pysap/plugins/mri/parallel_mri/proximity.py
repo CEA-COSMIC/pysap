@@ -24,7 +24,6 @@ class Threshold(object):
         Input array of weights
     thresh_type : str {'hard', 'soft'}, optional
         Threshold type (default is 'soft')
-
     """
     def __init__(self, weights):
         self.weights = weights
@@ -55,12 +54,13 @@ class Threshold(object):
         """Cost function
         This method calculate the cost function of the proximable part.
 
-        Parameters:
+        Parameters
         ----------
         x: np.ndarray
             Input array of the sparse code.
-        Return:
-        ------
+
+        Returns
+        -------
         The cost of this sparse code
         """
         return np.sum(np.abs(self.weights * x))

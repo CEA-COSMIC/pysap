@@ -7,7 +7,7 @@
 ##########################################################################
 
 """
- is a Python package related to sparsity and its application in
+pySap is a Python package related to sparsity and its application in
 astronomical data analysis. This package is based on the 'sparse2d' C++ library
 that allows sparse decomposition, denoising and deconvolution.
 """
