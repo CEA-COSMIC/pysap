@@ -1,0 +1,6 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+.. automodule:: pysap.plugins.mri.parallel_mri.proximity
+

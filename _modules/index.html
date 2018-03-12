@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PYSAP &mdash; python-pySAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-pySAP" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pysap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>PYthon Sparse data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="../generated/installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="../generated/pysap.html">Pysap</a></li>
+<li><a href="../generated/pysap.base.html">Pysap.base</a></li>
+<li><a href="../generated/pysap.plugins.html">Pysap.plugins</a></li>
+<li><a href="../generated/pysap.apps.html">Pysap.apps</a></li>
+<li><a href="../generated/pysap.extensions.html">Pysap.extensions</a></li>
+<li><a href="../generated/pysap.plotting.html">Pysap.plotting</a></li>
+<li><a href="../generated/pysap.base.loaders.html">Pysap.base.loaders</a></li>
+<li><a href="../generated/pysap.plugins.astro.html">Pysap.plugins.astro</a></li>
+<li><a href="../generated/pysap.plugins.mri.html">Pysap.plugins.mri</a></li>
+<li><a href="../generated/pysap.plugins.astro.deconvolve.html">Pysap.plugins.astro.deconvolve</a></li>
+<li><a href="../generated/pysap.plugins.mri.parallel_mri.html">Pysap.plugins.mri.parallel mri</a></li>
+<li><a href="../generated/pysap.plugins.mri.reconstruct.html">Pysap.plugins.mri.reconstruct</a></li>
+          </ul>
+        </li>-->
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pysap <strong>version 0.0.2</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pysap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>All modules for which code is available</h1>
+<ul><li><a href="pysap/base/exceptions.html">pysap.base.exceptions</a></li>
+<li><a href="pysap/base/image.html">pysap.base.image</a></li>
+<li><a href="pysap/base/io.html">pysap.base.io</a></li>
+<li><a href="pysap/base/loaders/fits.html">pysap.base.loaders.fits</a></li>
+<li><a href="pysap/base/loaders/loader_base.html">pysap.base.loaders.loader_base</a></li>
+<li><a href="pysap/base/loaders/nifti.html">pysap.base.loaders.nifti</a></li>
+<li><a href="pysap/base/loaders/numpy_binary.html">pysap.base.loaders.numpy_binary</a></li>
+<li><a href="pysap/base/observable.html">pysap.base.observable</a></li>
+<li><a href="pysap/base/transform.html">pysap.base.transform</a></li>
+<li><a href="pysap/base/utils.html">pysap.base.utils</a></li>
+<li><a href="pysap/configure.html">pysap.configure</a></li>
+<li><a href="pysap/data.html">pysap.data</a></li>
+<li><a href="pysap/extensions/formating.html">pysap.extensions.formating</a></li>
+<li><a href="pysap/extensions/tools.html">pysap.extensions.tools</a></li>
+<li><a href="pysap/extensions/transform.html">pysap.extensions.transform</a></li>
+<li><a href="pysap/extensions/wrapper.html">pysap.extensions.wrapper</a></li>
+<li><a href="pysap/plotting/image.html">pysap.plotting.image</a></li>
+<li><a href="pysap/plotting/transform.html">pysap.plotting.transform</a></li>
+<li><a href="pysap/plotting/utils.html">pysap.plotting.utils</a></li>
+<li><a href="pysap/plugins/astro/deconvolve/deconvolve.html">pysap.plugins.astro.deconvolve.deconvolve</a></li>
+<li><a href="pysap/plugins/astro/deconvolve/linear.html">pysap.plugins.astro.deconvolve.linear</a></li>
+<li><a href="pysap/plugins/astro/deconvolve/wavelet_filters.html">pysap.plugins.astro.deconvolve.wavelet_filters</a></li>
+<li><a href="pysap/plugins/mri/parallel_mri/extract_sensitivity_maps.html">pysap.plugins.mri.parallel_mri.extract_sensitivity_maps</a></li>
+<li><a href="pysap/plugins/mri/parallel_mri/gradient.html">pysap.plugins.mri.parallel_mri.gradient</a></li>
+<li><a href="pysap/plugins/mri/parallel_mri/proximity.html">pysap.plugins.mri.parallel_mri.proximity</a></li>
+<li><a href="pysap/plugins/mri/parallel_mri/reconstruct.html">pysap.plugins.mri.parallel_mri.reconstruct</a></li>
+<li><a href="pysap/plugins/mri/parallel_mri/utils.html">pysap.plugins.mri.parallel_mri.utils</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/cost.html">pysap.plugins.mri.reconstruct.cost</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/fourier.html">pysap.plugins.mri.reconstruct.fourier</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/gradient.html">pysap.plugins.mri.reconstruct.gradient</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/linear.html">pysap.plugins.mri.reconstruct.linear</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/noise.html">pysap.plugins.mri.reconstruct.noise</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/reconstruct.html">pysap.plugins.mri.reconstruct.reconstruct</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/reweight.html">pysap.plugins.mri.reconstruct.reweight</a></li>
+<li><a href="pysap/plugins/mri/reconstruct/utils.html">pysap.plugins.mri.reconstruct.utils</a></li>
+<li><a href="pysap/utils.html">pysap.utils</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2018, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Samuel Farrens &lt;samuel.farrens@gmail.com&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
+</div>
+  </body>
+</html>

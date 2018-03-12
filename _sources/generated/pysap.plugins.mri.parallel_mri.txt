@@ -1,0 +1,52 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+API documentation of *pysap.plugins.mri.parallel_mri*
+======================================================
+
+
+This module defines all the MRI reconstruction plugin.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plugins.mri.parallel_mri.gradient.html'><em>pysap.plugins.mri.parallel_mri.gradient</em></a></td>
+    <td>
+        <p>This module contains classses for defining algorithm operators and gradients.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.plugins.mri.parallel_mri.reconstruct.html'><em>pysap.plugins.mri.parallel_mri.reconstruct</em></a></td>
+    <td>
+        <p>FISTA or CONDAT-VU MRI reconstruction.</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plugins.mri.parallel_mri.proximity.html'><em>pysap.plugins.mri.parallel_mri.proximity</em></a></td>
+    <td>
+        <p>Overload the proximity class from modopt.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.plugins.mri.parallel_mri.extract_sensitivity_maps.html'><em>pysap.plugins.mri.parallel_mri.extract_sensitivity_maps</em></a></td>
+    <td>
+        <p>This module contains tools to extract sensitivity maps from undersampled MR
+    acquisition with high density in the k space center.</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plugins.mri.parallel_mri.utils.html'><em>pysap.plugins.mri.parallel_mri.utils</em></a></td>
+    <td>
+        <p>This module contains all the utils tools needed in the p_MRI reconstruction.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

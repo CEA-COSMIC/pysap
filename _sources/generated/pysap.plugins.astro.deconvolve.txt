@@ -1,0 +1,39 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+API documentation of *pysap.plugins.astro.deconvolve*
+======================================================
+
+
+This module defines all the Astro deconvolution plugins.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plugins.astro.deconvolve.wavelet_filters.html'><em>pysap.plugins.astro.deconvolve.wavelet_filters</em></a></td>
+    <td>
+        <p>This module contains methods for getting wavelet transform filters.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.plugins.astro.deconvolve.deconvolve.html'><em>pysap.plugins.astro.deconvolve.deconvolve</em></a></td>
+    <td>
+        <p>CONDA-VU Galaxy Image Deconvolution</p>
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plugins.astro.deconvolve.linear.html'><em>pysap.plugins.astro.deconvolve.linear</em></a></td>
+    <td>
+        <p>This module contains linears operators classes.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

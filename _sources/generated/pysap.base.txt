@@ -1,0 +1,58 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+API documentation of *pysap.base*
+==================================
+
+
+This module defines common structures for astronomical and neuroimaging
+datasets.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.base.exceptions.html'><em>pysap.base.exceptions</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.base.image.html'><em>pysap.base.image</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.base.observable.html'><em>pysap.base.observable</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.base.io.html'><em>pysap.base.io</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.base.transform.html'><em>pysap.base.transform</em></a></td>
+    <td>
+        <p>Wavelet transform base module.</p>
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.base.utils.html'><em>pysap.base.utils</em></a></td>
+    <td>
+        <p>Modules that defines usefull tools.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

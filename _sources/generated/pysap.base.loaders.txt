@@ -1,0 +1,46 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+API documentation of *pysap.base.loaders*
+==========================================
+
+
+This module defines common loaders to deal with astronomical and
+neuroimaging datasets.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.base.loaders.fits.html'><em>pysap.base.loaders.fits</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.base.loaders.nifti.html'><em>pysap.base.loaders.nifti</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.base.loaders.numpy_binary.html'><em>pysap.base.loaders.numpy_binary</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.base.loaders.loader_base.html'><em>pysap.base.loaders.loader_base</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

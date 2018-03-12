@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PYSAP &mdash; python-pySAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-pySAP" href="../index.html" />
+  
+   
+       <script type="text/javascript" src="../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../_static/pysap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>PYthon Sparse data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('gallery') }"><a href="../auto_gallery/gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="pysap.html">Pysap</a></li>
+<li><a href="pysap.base.html">Pysap.base</a></li>
+<li><a href="pysap.plugins.html">Pysap.plugins</a></li>
+<li><a href="pysap.apps.html">Pysap.apps</a></li>
+<li><a href="pysap.extensions.html">Pysap.extensions</a></li>
+<li><a href="pysap.plotting.html">Pysap.plotting</a></li>
+<li><a href="pysap.base.loaders.html">Pysap.base.loaders</a></li>
+<li><a href="pysap.plugins.astro.html">Pysap.plugins.astro</a></li>
+<li><a href="pysap.plugins.mri.html">Pysap.plugins.mri</a></li>
+<li><a href="pysap.plugins.astro.deconvolve.html">Pysap.plugins.astro.deconvolve</a></li>
+<li><a href="pysap.plugins.mri.parallel_mri.html">Pysap.plugins.mri.parallel mri</a></li>
+<li><a href="pysap.plugins.mri.reconstruct.html">Pysap.plugins.mri.reconstruct</a></li>
+          </ul>
+        </li>-->
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pysap <strong>version 0.0.2</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not esitate to 
+          <a &mdash; <a href="https://github.com/neurospin/pysap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      <ul class="simple">
+</ul>
+
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pysap.base.loaders.nifti"></span><dl class="class">
+<dt id="pysap.base.loaders.nifti.NIFTI">
+<em class="property">class </em><code class="descclassname">pysap.base.loaders.nifti.</code><code class="descname">NIFTI</code><a class="reference internal" href="../_modules/pysap/base/loaders/nifti.html#NIFTI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysap.base.loaders.nifti.NIFTI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the Nifti loader.</p>
+<dl class="attribute">
+<dt id="pysap.base.loaders.nifti.NIFTI.allowed_extensions">
+<code class="descname">allowed_extensions</code><em class="property"> = ['.nii', '.nii.gz']</em><a class="headerlink" href="#pysap.base.loaders.nifti.NIFTI.allowed_extensions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysap.base.loaders.nifti.NIFTI.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pysap/base/loaders/nifti.html#NIFTI.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysap.base.loaders.nifti.NIFTI.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method that load the image data and associated metadata.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path: str</strong></p>
+<blockquote class="last">
+<div><p>the path to the image to be loaded.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysap.base.loaders.nifti.NIFTI.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>image</em>, <em>outpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pysap/base/loaders/nifti.html#NIFTI.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysap.base.loaders.nifti.NIFTI.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method that save the image data and associated metadata.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: Image</strong></p>
+<blockquote>
+<div><p>the image to be saved.</p>
+</div></blockquote>
+<p><strong>outpath: str</strong></p>
+<blockquote class="last">
+<div><p>the path where the the image will be saved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+
+
+          </div>
+        </div>
+      </div>
+
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2018, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Samuel Farrens &lt;samuel.farrens@gmail.com&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;XXX&gt;.
+</div>
+  </body>
+</html>
