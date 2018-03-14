@@ -5,20 +5,21 @@ Defines linear operators for fMRI
 #Package imports
 from builtins import zip
 import pysap
-from pysap.plugins.mri.reconstruct.utils import flatten
-from pysap.plugins.mri.reconstruct.utils import unflatten
-from pysap.plugins.mri.reconstruct.linear import Wavelet2
+from .transform import FTransform
 
 # Third party import
 import numpy as np
 
 
-class Wavelet2T(Wavelet2):
+class Wavelet2T(object):
     """
     Wavelet transform for 2D+T data
     """
-    def __init__(self, wavelet_name, nb_scale=4, verbose=0):
-        super(Wavelet2T, self).__init__(wavelet_name, nb_scale, verbose)
+    def __init__(self, wavelet_name, nb_scale=4, verbose=0, **kwargs):
+        self.nb_scale = nb_scale
+        self.nb_scale_T = None
+        self.transform = FTransform(wavelet_name, nb_scale, verbose, **kwargs)
+        self.coeffs_shape = None
 
     def op(self, data):
         """ Define the wavelet operator.
@@ -36,15 +37,7 @@ class Wavelet2T(Wavelet2):
         coeffs: ndarray
             the wavelet coefficients.
         """
-        if isinstance(data, np.ndarray):
-            data = pysap.Image(data=data)
-        coeffs = []
-        for t in range(data.shape[-1]):
-            self.transform.data = data[:, :, t]
-            self.transform.analysis()
-            coeffs_, self.coeffs_shape = flatten(self.transform.analysis_data)
-            coeffs.append(coeffs_)
-        coeffs = np.reshape(coeffs, (coeffs_.shape[0], data.shape[-1]))
+        coeffs, self.coeffs_shape = self.transform.analysis(data)
         return coeffs
 
     def adj_op(self, coeffs, dtype="array"):
@@ -66,11 +59,11 @@ class Wavelet2T(Wavelet2):
             the reconstructed data.
         """
         image = []
-        for i in range(coeffs.shape[-1]):
-            self.transform.analysis_data = unflatten(coeffs[:, i], self.coeffs_shape)
-            image.append(self.transform.synthesis())
-        if dtype == "array":
-            image = np.moveaxis([image_.data for image_ in image], 0, -1)
+        # for i in range(coeffs.shape[-1]):
+        #     self.transform.analysis_data = unflatten(coeffs[:, i], self.coeffs_shape)
+        #     image.append(self.transform.synthesis())
+        # if dtype == "array":
+        #     image = np.moveaxis([image_.data for image_ in image], 0, -1)
         return image
 
     def l2norm(self, shape):
