@@ -39,30 +39,22 @@ class Wavelet2T(object):
         coeffs, self.coeffs_shape = self.transform.analysis(data)
         return coeffs
 
-    def adj_op(self, coeffs, dtype="array"):
+    def adj_op(self, coeffs):
         """ Define the wavelet adjoint operator.
 
-        This method returns the reconsructed image.
+        This method returns the reconstructed image.
 
         Parameters
         ----------
         coeffs: ndarray
             the wavelet coefficients.
-        dtype: str, default 'array'
-            if 'array' return the data as a ndarray, otherwise return a
-            pisap.Image.
 
         Returns
         -------
         data: ndarray
             the reconstructed data.
         """
-        image = []
-        # for i in range(coeffs.shape[-1]):
-        #     self.transform.analysis_data = unflatten(coeffs[:, i], self.coeffs_shape)
-        #     image.append(self.transform.synthesis())
-        # if dtype == "array":
-        #     image = np.moveaxis([image_.data for image_ in image], 0, -1)
+        image = self.transform.synthesis(coeffs)
         return image
 
     def l2norm(self, shape):

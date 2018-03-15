@@ -1,7 +1,7 @@
 from .transform import PyWTransform
 
 
-def load_transform(wavelet_name, nb_scale, verbose):
+def load_transform(wavelet_name, nb_scale):
     """
     Load a transform using its name
     :param wavelet_name: str
@@ -12,4 +12,4 @@ def load_transform(wavelet_name, nb_scale, verbose):
         WaveletTransform1D instance
 
     """
-    return PyWTransform(wavelet_name, nb_scale, verbose)
+    return PyWTransform(wavelet_name, nb_scale)

@@ -2,10 +2,10 @@ import pywt
 
 
 class OneDWaveletTransformBase:
-    def __init__(self, wavelet_name, nb_scale, verbose=0):
+    def __init__(self, wavelet_name, nb_scale):
         self.nb_scale = nb_scale
         self.name = wavelet_name
-        self.filter_bank = None
+        # self.filter_bank = None
         self.use_pywt = None
 
         self._data = None
