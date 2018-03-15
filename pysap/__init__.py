@@ -34,7 +34,7 @@ from modopt.opt.algorithms import ForwardBackward
 
 
 # Display a welcome message
-print(info())
+# print(info())
 
 
 @monkeypatch(ForwardBackward)
