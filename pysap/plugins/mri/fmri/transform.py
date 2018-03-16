@@ -5,7 +5,7 @@ from pysap.plugins.mri.reconstruct.utils import flatten, unflatten
 import numpy as np
 
 
-class FTransform(object):
+class TransformT(object):
     def __init__(self, wavelet_name, nb_scale, wavelet_name_t=None, nb_scale_t=1, verbose=0):
         if wavelet_name not in pysap.AVAILABLE_TRANSFORMS:
             raise ValueError(
@@ -20,9 +20,14 @@ class FTransform(object):
             self.transform_t = None
         self.coeffs_shape_s = None
         self.coeffs_shape_t = None
+        self.data_shape = None
+        self._data_shape = None
 
     def analysis(self, data):
+        self.data_shape = data.shape
+        self._data_shape = (int(np.sqrt(data.shape[0])), int(np.sqrt(data.shape[0])), data.shape[1])
         coeffs = []
+        data = np.reshape(data, self._data_shape)
         for t in range(data.shape[-1]):
             self.transform_s.data = data[:, :, t]
             self.transform_s.analysis()
@@ -50,6 +55,6 @@ class FTransform(object):
             data_ = self.transform_s.synthesis()
             data.append(data_.data)
         data = np.moveaxis(np.asarray(data), 0, -1)
-        data = np.reshape(data, (-1, data.shape[-1]))
+        data = np.reshape(data, self.data_shape)
         return data
 
