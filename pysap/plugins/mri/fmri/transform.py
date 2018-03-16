@@ -22,10 +22,7 @@ class FTransform(object):
         self.coeffs_shape_t = None
 
     def analysis(self, data):
-        # if isinstance(data, np.ndarray):
-        #     data = pysap.Image(data=data)
         coeffs = []
-        coeffs_shape = None
         for t in range(data.shape[-1]):
             self.transform_s.data = data[:, :, t]
             self.transform_s.analysis()
@@ -33,33 +30,23 @@ class FTransform(object):
             coeffs.append(coeffs_)
         coeffs = np.asarray(coeffs)
         if self.transform_t is not None:
-            coeffs_t = []
-            for i in range(len(coeffs[1])):
-                self.transform_t.data = coeffs[:, i]
-                self.transform_t.analysis()
-                coeffs_t_ = self.transform_t.analysis_data
-                coeffs_t.append(coeffs_t_)
-            coeffs_t = np.asarray(coeffs_t)
-            coeffs_shape_t = coeffs_t.shape
-            self.coeffs_shape_t = coeffs_t_.shape
+            self.transform_t.data = coeffs
+            self.transform_t.analysis()
+            coeffs_t = self.transform_t.analysis_data
         else:
             coeffs_t = coeffs
-            coeffs_shape_t = coeffs_shape
-        return coeffs_t, coeffs_shape_t
+        return coeffs_t, coeffs_t.shape
 
     def synthesis(self, coeffs):
         if self.transform_t is not None:
-            data_t = []
-            for i in range(coeffs.shape[0]):
-                self.transform_t.analysis_data = coeffs[i, :]
-                data_t.append(self.transform_t.synthesis())
-            data_t = np.asarray(data_t)
+            self.transform_t.analysis_data = coeffs
+            data_t = self.transform_t.synthesis()
         else:
             data_t = coeffs
 
         data = []
-        for t in range(data_t.shape[1]):
-            self.transform_s.analysis_data = unflatten(data_t[:, t], self.coeffs_shape_s)
+        for t in range(data_t.shape[0]):
+            self.transform_s.analysis_data = unflatten(data_t[t, :], self.coeffs_shape_s)
             data_ = self.transform_s.synthesis()
             data.append(data_.data)
         data = np.moveaxis(np.asarray(data), 0, -1)

@@ -65,12 +65,12 @@ class PyWTransform(OneDWaveletTransformBase):
     __use_pywt__ = 1
 
     def _analysis(self, data):
-        coeffs = pywt.wavedec(data, wavelet=self.name, level=self.nb_scale)
-        analysis_data, analysis_header = pywt.coeffs_to_array(coeffs)
+        coeffs = pywt.wavedecn(data, wavelet=self.name, level=self.nb_scale, axes=0)
+        analysis_data, analysis_header = pywt.coeffs_to_array(coeffs, axes=[0])
         return analysis_data, analysis_header
 
     def _synthesis(self, analysis_data, analysis_header):
-        coeffs = pywt.array_to_coeffs(analysis_data, analysis_header, output_format='wavedec')
-        data = pywt.waverec(coeffs, wavelet=self.name)
+        coeffs = pywt.array_to_coeffs(analysis_data, analysis_header)
+        data = pywt.waverecn(coeffs, wavelet=self.name, axes=[0])
         return data
 
