@@ -26,28 +26,29 @@ from pysap.plugins.mri.reconstruct.fourier import FourierBase
 
 
 class FFT2T(FourierBase):
-    """ Standard 2D Fast Fourrier Transform class.
+    """ Standard 2D Fast Fourier Transform class.
 
     Attributes
     ----------
     samples: np.ndarray
         the mask samples in the Fourier domain.
     shape: tuple of int
-        shape of the image (not necessarly a square matrix).
+        shape of the image (not necessarily a square matrix).
     """
     def __init__(self, samples, shape):
-        """ Initilize the 'FFT2' class.
+        """ Initialize the 'FFT2' class.
 
         Parameters
         ----------
         samples: np.ndarray
             the mask samples in the Fourier domain.
         shape: tuple of int
-            shape of the image (not necessarly a square matrix).
+            shape of the image (not necessarily a square matrix).
         """
         self.samples = samples
         self.shape = shape
-        self._mask = convert_locations_to_mask(self.samples, self.shape)
+        self._shape = (int(np.sqrt(shape[0])), int(np.sqrt(shape[0])), shape[1])
+        self._mask = convert_locations_to_mask(self.samples, self._shape)
 
     def op(self, img):
         """ This method calculates the masked Fourier transform of a 2-D image.
@@ -62,7 +63,7 @@ class FFT2T(FourierBase):
         x: np.ndarray
             masked Fourier transform of the input image.
         """
-        return self._mask * pfft.fft2(img)
+        return np.reshape(self._mask * pfft.fft2(np.reshape(img, self._shape), axes=(0, 1)), self.shape)
 
     def adj_op(self, x):
         """ This method calculates inverse masked Fourier transform of a 2-D
@@ -78,66 +79,68 @@ class FFT2T(FourierBase):
         img: np.ndarray
             inverse 2D discrete Fourier transform of the input coefficients.
         """
-        return pfft.ifft2(self._mask * x)
+        return np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask, axes=(0, 1)), self.shape)
 
 
-class NFFT2(FourierBase):
-    """ Standard 2D non catesian Fast Fourrier Transform class
+# class NFFT2(FourierBase):
+#     """ Standard 2D non catesian Fast Fourrier Transform class
+#
+#     Attributes
+#     ----------
+#     samples: np.ndarray
+#         the mask samples in the Fourier domain.
+#     shape: tuple of int
+#         shape of the image (not necessarly a square matrix).
+#     """
+#
+#     def __init__(self, samples, shape):
+#         """ Initilize the 'NFFT2' class.
+#
+#         Parameters
+#         ----------
+#         samples: np.ndarray
+#             the mask samples in the Fourier domain.
+#         shape: tuple of int
+#             shape of the image (not necessarly a square matrix).
+#         """
+#         self.plan = pynfft.NFFT(N=shape, M=len(samples))
+#         self.shape = shape
+#         self.samples = samples
+#         self.plan.x = self.samples
+#         self.plan.precompute()
+#
+#     def op(self, img):
+#         """ This method calculates the masked non-cartesian Fourier transform
+#         of a 2-D image.
+#
+#         Parameters
+#         ----------
+#         img: np.ndarray
+#             input 2D array with the same shape as the mask.
+#
+#         Returns
+#         -------
+#         x: np.ndarray
+#             masked Fourier transform of the input image.
+#         """
+#         self.plan.f_hat = img
+#         return self.plan.trafo()
+#
+#     def adj_op(self, x):
+#         """ This method calculates inverse masked non-cartesian Fourier
+#         transform of a 1-D coefficients array.
+#
+#         Parameters
+#         ----------
+#         x: np.ndarray
+#             masked non-cartesian Fourier transform 1D data.
+#
+#         Returns
+#         -------
+#         img: np.ndarray
+#             inverse 2D discrete Fourier transform of the input coefficients.
+#         """
+#         self.plan.f = x
+#         return (1.0 / self.plan.M) * self.plan.adjoint()
 
-    Attributes
-    ----------
-    samples: np.ndarray
-        the mask samples in the Fourier domain.
-    shape: tuple of int
-        shape of the image (not necessarly a square matrix).
-    """
 
-    def __init__(self, samples, shape):
-        """ Initilize the 'NFFT2' class.
-
-        Parameters
-        ----------
-        samples: np.ndarray
-            the mask samples in the Fourier domain.
-        shape: tuple of int
-            shape of the image (not necessarly a square matrix).
-        """
-        self.plan = pynfft.NFFT(N=shape, M=len(samples))
-        self.shape = shape
-        self.samples = samples
-        self.plan.x = self.samples
-        self.plan.precompute()
-
-    def op(self, img):
-        """ This method calculates the masked non-cartesian Fourier transform
-        of a 2-D image.
-
-        Parameters
-        ----------
-        img: np.ndarray
-            input 2D array with the same shape as the mask.
-
-        Returns
-        -------
-        x: np.ndarray
-            masked Fourier transform of the input image.
-        """
-        self.plan.f_hat = img
-        return self.plan.trafo()
-
-    def adj_op(self, x):
-        """ This method calculates inverse masked non-cartesian Fourier
-        transform of a 1-D coefficients array.
-
-        Parameters
-        ----------
-        x: np.ndarray
-            masked non-cartesian Fourier transform 1D data.
-
-        Returns
-        -------
-        img: np.ndarray
-            inverse 2D discrete Fourier transform of the input coefficients.
-        """
-        self.plan.f = x
-        return (1.0 / self.plan.M) * self.plan.adjoint()
