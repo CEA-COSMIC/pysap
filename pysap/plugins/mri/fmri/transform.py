@@ -28,7 +28,7 @@ class FTransform(object):
             self.transform_s.analysis()
             coeffs_, self.coeffs_shape_s = flatten(self.transform_s.analysis_data)
             coeffs.append(coeffs_)
-        coeffs = np.asarray(coeffs)
+        coeffs = np.asarray(coeffs).T
         if self.transform_t is not None:
             self.transform_t.data = coeffs
             self.transform_t.analysis()
@@ -45,10 +45,11 @@ class FTransform(object):
             data_t = coeffs
 
         data = []
-        for t in range(data_t.shape[0]):
-            self.transform_s.analysis_data = unflatten(data_t[t, :], self.coeffs_shape_s)
+        for t in range(data_t.shape[1]):
+            self.transform_s.analysis_data = unflatten(data_t[:, t], self.coeffs_shape_s)
             data_ = self.transform_s.synthesis()
             data.append(data_.data)
         data = np.moveaxis(np.asarray(data), 0, -1)
+        data = np.reshape(data, (-1, data.shape[-1]))
         return data
 
