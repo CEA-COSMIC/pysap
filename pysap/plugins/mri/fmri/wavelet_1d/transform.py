@@ -2,6 +2,9 @@ import pywt
 
 
 class OneDWaveletTransformBase:
+    """
+    One dimensional wavelet transform base class
+    """
     def __init__(self, wavelet_name, nb_scale):
         self.nb_scale = nb_scale
         self.name = wavelet_name
@@ -62,6 +65,9 @@ class OneDWaveletTransformBase:
 
 
 class PyWTransform(OneDWaveletTransformBase):
+    """
+    One dimensional wavelet class using pywt
+    """
     __use_pywt__ = 1
 
     def _analysis(self, data):

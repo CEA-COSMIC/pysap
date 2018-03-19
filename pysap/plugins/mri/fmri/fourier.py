@@ -83,7 +83,7 @@ class FFT2T(FourierBase):
 
 
 # class NFFT2(FourierBase):
-#     """ Standard 2D non catesian Fast Fourrier Transform class
+#     """ Standard 2D non cartesian Fast Fourrier Transform class
 #
 #     Attributes
 #     ----------
@@ -94,7 +94,7 @@ class FFT2T(FourierBase):
 #     """
 #
 #     def __init__(self, samples, shape):
-#         """ Initilize the 'NFFT2' class.
+#         """ Initialize the 'NFFT2' class.
 #
 #         Parameters
 #         ----------

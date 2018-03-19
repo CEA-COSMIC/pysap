@@ -6,6 +6,11 @@ import numpy as np
 
 
 class TransformT(object):
+    """
+    The 2D+T wavelet transform operator.
+    It is composed of a 2D wavelet transform performed with sparse2d and a one dimensional
+    Wavelet transform performed with pywt
+    """
     def __init__(self, wavelet_name, nb_scale, wavelet_name_t=None, nb_scale_t=1, verbose=0):
         if wavelet_name not in pysap.AVAILABLE_TRANSFORMS:
             raise ValueError(
@@ -19,11 +24,21 @@ class TransformT(object):
                 print("Linear operator does not have a temporal dimension")
             self.transform_t = None
         self.coeffs_shape_s = None
-        self.coeffs_shape_t = None
+        # self.coeffs_shape = None
         self.data_shape = None
         self._data_shape = None
 
     def analysis(self, data):
+        """
+        Perform the analysis transform of the wavelet operator.
+        :param data: np.ndarray
+        The shape of data is to be [n^2, T] where T is the number of frames and n is the one dimensional
+        size of each frame
+        :return: coeffs_t : np.ndarray
+        the decomposition of the list of frames in the Wavelet2D+T domain.
+        :return: coeffs_t_shape :
+        The shape of the wavelet coefficients
+        """
         self.data_shape = data.shape
         self._data_shape = (int(np.sqrt(data.shape[0])), int(np.sqrt(data.shape[0])), data.shape[1])
         coeffs = []
@@ -43,6 +58,13 @@ class TransformT(object):
         return coeffs_t, coeffs_t.shape
 
     def synthesis(self, coeffs):
+        """
+        Perform the synthesis transform of the wavelet operator
+        :param coeffs: np.ndarray
+        Coefficients from the Wavelet2D+T decomposition
+        :return: data: np.ndarray
+        Array of shape np.data_shape which is [n^2, T]
+        """
         if self.transform_t is not None:
             self.transform_t.analysis_data = coeffs
             data_t = self.transform_t.synthesis()

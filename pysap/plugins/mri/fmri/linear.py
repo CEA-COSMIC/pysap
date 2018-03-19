@@ -12,7 +12,7 @@ import numpy as np
 
 class Wavelet2T(object):
     """
-    Wavelet transform for 2D+T data
+    Wavelet transform class for 2D+T data
     """
     def __init__(self, wavelet_name, nb_scale=4, wavelet_name_t=None, nb_scale_t=1, verbose=0):
         self.nb_scale = nb_scale
@@ -57,29 +57,29 @@ class Wavelet2T(object):
         image = self.transform.synthesis(coeffs)
         return image
 
-    def l2norm(self, shape):
-        """ Compute the L2 norm.
-
-        Parameters
-        ----------
-        shape: uplet
-            the data shape.
-
-        Returns
-        -------
-        norm: float
-            the L2 norm.
-        """
-        # Create fake data
-        shape = np.asarray(shape)
-        shape += shape % 2
-        fake_data = np.zeros(shape)
-        fake_data[list(zip(shape // 2))] = 1
-
-        # Call mr_transform
-        data = self.op(fake_data)
-
-        # Compute the L2 norm
-        return np.linalg.norm(data)
+    # def l2norm(self, shape):
+    #     """ Compute the L2 norm.
+    #
+    #     Parameters
+    #     ----------
+    #     shape: uplet
+    #         the data shape.
+    #
+    #     Returns
+    #     -------
+    #     norm: float
+    #         the L2 norm.
+    #     """
+    #     # Create fake data
+    #     shape = np.asarray(shape)
+    #     shape += shape % 2
+    #     fake_data = np.zeros(shape)
+    #     fake_data[list(zip(shape // 2))] = 1
+    #
+    #     # Call mr_transform
+    #     data = self.op(fake_data)
+    #
+    #     # Compute the L2 norm
+    #     return np.linalg.norm(data)
 
 
