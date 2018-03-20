@@ -26,7 +26,7 @@ from pysap.plugins.mri.reconstruct.fourier import FourierBase
 
 
 class FFT2T(FourierBase):
-    """ Standard 2D Fast Fourier Transform class.
+    """ Standard 2D+T Fast Fourier Transform class.
 
     Attributes
     ----------
@@ -66,7 +66,7 @@ class FFT2T(FourierBase):
         return np.reshape(self._mask * pfft.fft2(np.reshape(img, self._shape), axes=(0, 1)), self.shape)
 
     def adj_op(self, x):
-        """ This method calculates inverse masked Fourier transform of a 2-D
+        """ This method calculates inverse masked Fourier transform of a 2-D + T
         image.
 
         Parameters
@@ -82,4 +82,18 @@ class FFT2T(FourierBase):
         return np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask, axes=(0, 1)), self.shape)
 
 
-
+# class FFT2TMultiScale(FourierBase):
+#     def __init__(self, samples, shape, multi_scale_factor=1):
+#         self.samples = samples
+#         self.shape = shape
+#         self.msf = multi_scale_factor
+#         self._shape = (int(np.sqrt(self.shape[0])), int(np.sqrt(self.shape[0])), self.shape[1], self.msf)
+#         self._mask = convert_locations_to_mask(self.samples, self._shape)
+#
+#     def op(self, img):
+#         return np.reshape(self._mask * pfft.fft2(np.reshape(np.sum(img, axis=-1),
+#                                                             self._shape), axes=(0, 1)), self.shape)
+#
+#     def adj_op(self, x):
+#         res = np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask, axes=(0, 1)), self.shape)
+#         return np.repeat(res[:, :, np.newaxis], self.msf, axis=2)

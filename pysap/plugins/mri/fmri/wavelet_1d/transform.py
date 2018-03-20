@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+##########################################################################
+# XXX - Copyright (C) XXX, 2017
+# Distributed under the terms of the CeCILL-B license, as published by
+# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
+# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+# for details.
+##########################################################################
+
 import pywt
 
 
@@ -6,9 +15,15 @@ class OneDWaveletTransformBase:
     One dimensional wavelet transform base class
     """
     def __init__(self, wavelet_name, nb_scale):
+        """
+        Initialization method
+        :param wavelet_name: str
+            1D Wavelet name
+        :param nb_scale: int
+            Number of decomposition scales
+        """
         self.nb_scale = nb_scale
         self.name = wavelet_name
-        # self.filter_bank = None
         self.use_pywt = None
 
         self._data = None

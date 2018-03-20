@@ -4,7 +4,7 @@ from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations as c_m
 
 def convert_mask_to_locations(mask):
     """
-
+    Converts a mask of booleans into a list of samples
     :param mask: np.ndarray
          The mask for the Fourier points.
          If ony one mask is given, it is repeated through the sequence
