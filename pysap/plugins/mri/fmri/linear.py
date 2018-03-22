@@ -91,5 +91,3 @@ class Wavelet2T(object):
 
         # Compute the L2 norm
         return np.linalg.norm(data)
-
-

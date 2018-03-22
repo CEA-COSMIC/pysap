@@ -95,4 +95,3 @@ class PyWTransform(OneDWaveletTransformBase):
         coeffs = pywt.array_to_coeffs(analysis_data, analysis_header)
         data = pywt.waverecn(coeffs, wavelet=self.name, axes=[1])
         return data
-

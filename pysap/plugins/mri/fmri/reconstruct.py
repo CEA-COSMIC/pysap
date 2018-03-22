@@ -30,7 +30,7 @@ from modopt.opt.algorithms import ForwardBackward
 
 
 def sparse_rec_fista(data, wavelet_name, samples, mu, wavelet_name_t=None,
-                     nb_scales=4,nb_scale_t=3, lambda_init=1.0,
+                     nb_scales=4, nb_scale_t=3, lambda_init=1.0,
                      max_nb_of_iter=300, cost='l1',
                      non_cartesian=False, verbose=0):
     """ The FISTA sparse reconstruction without reweightings.
@@ -145,6 +145,3 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, wavelet_name_t=None,
     x_final = linear_op.adj_op(opt.x_final)
 
     return x_final, linear_op.transform
-
-
-

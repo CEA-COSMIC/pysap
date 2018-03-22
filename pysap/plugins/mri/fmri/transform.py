@@ -106,4 +106,3 @@ class TransformT(object):
         data = np.moveaxis(np.asarray(data), 0, -1)
         data = np.reshape(data, self.data_shape)
         return data
-
