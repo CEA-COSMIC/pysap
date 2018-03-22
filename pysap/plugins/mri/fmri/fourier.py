@@ -47,7 +47,8 @@ class FFT2T(FourierBase):
         """
         self.samples = samples
         self.shape = shape
-        self._shape = (int(np.sqrt(shape[0])), int(np.sqrt(shape[0])), shape[1])
+        self._shape = (int(np.sqrt(shape[0])), int(np.sqrt(shape[0])),
+                       shape[1])
         self._mask = convert_locations_to_mask(self.samples, self._shape)
 
     def op(self, img):
@@ -63,7 +64,8 @@ class FFT2T(FourierBase):
         x: np.ndarray
             masked Fourier transform of the input image.
         """
-        return np.reshape(self._mask * pfft.fft2(np.reshape(img, self._shape), axes=(0, 1)), self.shape)
+        return np.reshape(self._mask * pfft.fft2(np.reshape(img, self._shape),
+                                                 axes=(0, 1)), self.shape)
 
     def adj_op(self, x):
         """ This method calculates inverse masked Fourier transform of a 2-D + T
@@ -79,7 +81,8 @@ class FFT2T(FourierBase):
         img: np.ndarray
             inverse 2D discrete Fourier transform of the input coefficients.
         """
-        return np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask, axes=(0, 1)), self.shape)
+        return np.reshape(pfft.ifft2(np.reshape(x, self._shape) *
+                                     self._mask, axes=(0, 1)), self.shape)
 
 
 # class FFT2TMultiScale(FourierBase):
@@ -87,13 +90,17 @@ class FFT2T(FourierBase):
 #         self.samples = samples
 #         self.shape = shape
 #         self.msf = multi_scale_factor
-#         self._shape = (int(np.sqrt(self.shape[0])), int(np.sqrt(self.shape[0])), self.shape[1], self.msf)
+#         self._shape = (int(np.sqrt(self.shape[0])),
+#                        int(np.sqrt(self.shape[0])), self.shape[1], self.msf)
 #         self._mask = convert_locations_to_mask(self.samples, self._shape)
 #
 #     def op(self, img):
-#         return np.reshape(self._mask * pfft.fft2(np.reshape(np.sum(img, axis=-1),
-#                                                             self._shape), axes=(0, 1)), self.shape)
+#         return np.reshape(self._mask * pfft.fft2(np.reshape(np.sum(img,
+#                                                                    axis=-1),
+#                                                             self._shape),
+#                                                  axes=(0, 1)), self.shape)
 #
 #     def adj_op(self, x):
-#         res = np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask, axes=(0, 1)), self.shape)
+#         res = np.reshape(pfft.ifft2(np.reshape(x, self._shape) * self._mask,
+#                                     axes=(0, 1)), self.shape)
 #         return np.repeat(res[:, :, np.newaxis], self.msf, axis=2)

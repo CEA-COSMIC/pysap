@@ -86,7 +86,8 @@ class PyWTransform(OneDWaveletTransformBase):
     __use_pywt__ = 1
 
     def _analysis(self, data):
-        coeffs = pywt.wavedecn(data, wavelet=self.name, level=self.nb_scale, axes=1)
+        coeffs = pywt.wavedecn(data, wavelet=self.name,
+                               level=self.nb_scale, axes=1)
         analysis_data, analysis_header = pywt.coeffs_to_array(coeffs, axes=[1])
         return analysis_data, analysis_header
 

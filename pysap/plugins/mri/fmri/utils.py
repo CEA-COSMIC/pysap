@@ -1,5 +1,6 @@
 import numpy as np
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations as c_m_l
+from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations as \
+    c_m_l
 
 
 def convert_mask_to_locations(mask):
@@ -12,7 +13,7 @@ def convert_mask_to_locations(mask):
         samples_locations: np.ndarray
             list of the samples between [-0.5, 0.5[.
     """
-    if len(mask.shape) == 2 and mask.shape[0] == mask.shape[1]:  # Just one frame
+    if len(mask.shape) == 2 and mask.shape[0] == mask.shape[1]:  # Single frame
         return c_m_l(mask)
     else:
         loc = []

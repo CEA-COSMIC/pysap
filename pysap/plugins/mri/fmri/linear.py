@@ -24,7 +24,8 @@ class Wavelet2T(object):
     """
     Wavelet transform class for 2D+T data
     """
-    def __init__(self, wavelet_name, nb_scale=4, wavelet_name_t=None, nb_scale_t=1, verbose=0):
+    def __init__(self, wavelet_name, nb_scale=4, wavelet_name_t=None,
+                 nb_scale_t=1, verbose=0):
         """
         Class initialization
         :param wavelet_name: str
@@ -40,7 +41,8 @@ class Wavelet2T(object):
         """
         self.nb_scale = nb_scale
         self.nb_scale_t = nb_scale_t
-        self.transform = TransformT(wavelet_name, nb_scale, wavelet_name_t, nb_scale_t, verbose)
+        self.transform = TransformT(wavelet_name, nb_scale,
+                                    wavelet_name_t, nb_scale_t, verbose)
         self.coeffs_shape = None
 
     def op(self, data):
