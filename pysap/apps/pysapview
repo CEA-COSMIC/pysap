@@ -1,0 +1,39 @@
+#! /usr/bin/env python
+##########################################################################
+# XXX - Copyright (C) XXX, 2017
+# Distributed under the terms of the CeCILL-B license, as published by
+# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
+# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+# for details.
+##########################################################################
+
+# System import
+import sys
+import os
+
+# Third party import 
+from PySide import QtCore
+
+
+# Create the application
+try:
+    import pysap
+    from pypipe.apps.pypipe_viewer_app import PyPipeViewerApp
+    default_config = os.path.join(
+        os.path.dirname(pysap.__file__), "apps", "pypipe_config.json")
+    cmds = [
+        (["-c"], {"dest": "config",
+                  "help": "The function menu configuration.",
+                  "default": default_config})]
+    app = PyPipeViewerApp(extra_options=cmds)
+
+# Print an error message if an error occured
+except:
+    raise
+
+# Start the qt interaction loop
+else:
+    QtCore.QObject.connect(app, QtCore.SIGNAL("lastWindowClosed()"), 
+                           app, QtCore.SLOT("quit()"))
+    sys.exit(app.exec_())
+

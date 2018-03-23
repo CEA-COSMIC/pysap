@@ -1,8 +1,9 @@
 include AUTHOR LICENSE MANIFEST.in setup.py README.rst
 # documentation
-include doc/Makefile 
 recursive-include doc/source *
 recursive-exclude doc/source *.*~
 prune doc/source/*/generated
 # ISAP binding
-include sparse2d/python/build/pysparse.so
+recursive-include sparse2d/python *
+recursive-exclude sparse2d/python *.*~
+prune sparse2d/python/test

@@ -1,4 +1,4 @@
-Pisap usage examples
+pySAP usage examples
 ====================
 
 .. contents:: **Contents**
@@ -8,4 +8,4 @@ Pisap usage examples
 Structure use cases
 -------------------
 
-Introductory examples that teach how to use the Pisap structure.
+Introductory examples that teach how to use the pysap structure.

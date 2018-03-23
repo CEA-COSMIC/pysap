@@ -6,6 +6,7 @@ python:
     - "2.7"
     - "3.4"
     - "3.5"
+    - "3.6"
 
 before_install:
     - sudo apt-get update
@@ -13,13 +14,16 @@ before_install:
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       else
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;       
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
         export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
-        export CPLUS_INCLUDE_PATH=/opt/python/3.5.3/include/python3.5m;
+        export CPLUS_INCLUDE_PATH=/opt/python/3.5.5/include/python3.5m;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
+        export CPLUS_INCLUDE_PATH=/opt/python/3.6.3/include/python3.6m;
       fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
@@ -38,15 +42,16 @@ install:
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
         pip install future;
       fi
+    - locate pyconfig.h
     - pip install nose
     - pip install nose-exclude
     - pip install coverage
     - pip install coveralls
-    - pip install pep8
+    - pip install pycodestyle
     - pip install nibabel
     - pip install progressbar2
     - pip install astropy
-    - pip install git+https://github.com/sfarrens/sf_tools.git
+    - pip install git+https://github.com/CEA-COSMIC/ModOpt@master
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
@@ -60,11 +65,14 @@ install:
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
       fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.6/extern/bin;
+      fi
 
 script:
     - python setup.py nosetests
-    - pep8 pisap --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
-    - pep8 examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731"
+    - pycodestyle pysap --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E722,E741"
+    - pycodestyle examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E741"
 
 after_success:
     - coveralls
