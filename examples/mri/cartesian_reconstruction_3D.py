@@ -78,16 +78,16 @@ gradient_op = Grad2D_pMRI(data=kspace_data,
                           fourier_op=fourier_op,
                           linear_op=linear_op)
 
-# x_final, transform, cost = sparse_rec_fista(
-#     gradient_op=gradient_op,
-#     linear_op=linear_op,
-#     mu=5e-2,
-#     lambda_init=1.0,
-#     max_nb_of_iter=max_iter,
-#     atol=1e-4,
-#     verbose=1,
-#     get_cost=True)
-# imshow3D(np.abs(x_final), display=True)
+x_final, transform, cost = sparse_rec_fista(
+    gradient_op=gradient_op,
+    linear_op=linear_op,
+    mu=5e-2,
+    lambda_init=1.0,
+    max_nb_of_iter=max_iter,
+    atol=1e-4,
+    verbose=1,
+    get_cost=True)
+imshow3D(np.abs(x_final), display=True)
 
 gradient_op_cd = Grad2D_pMRI(data=kspace_data,
                              fourier_op=fourier_op)
