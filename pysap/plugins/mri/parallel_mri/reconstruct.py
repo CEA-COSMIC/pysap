@@ -15,6 +15,7 @@ FISTA or CONDAT-VU MRI reconstruction.
 from __future__ import print_function
 import copy
 import time
+import progressbar
 
 # Package import
 from pysap.plugins.mri.reconstruct.utils import fista_logo
@@ -110,17 +111,19 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
 
     if get_cost:
         cost = np.zeros(max_nb_of_iter)
-
-    for i in range(max_nb_of_iter):
-        opt._update()
-        if get_cost:
-            cost[i] = gradient_op.get_cost(opt._x_new) + \
-                      prox_op.get_cost(opt._x_new)
-        if opt.converge:
-            print(' - Converged!')
+    with progressbar.ProgressBar(redirect_stdout=True,
+                                 max_value=max_nb_of_iter) as bar:
+        for i in range(max_nb_of_iter):
+            opt._update()
             if get_cost:
-                cost = cost[0:i]
-            break
+                cost[i] = gradient_op.get_cost(opt._x_new) + \
+                          prox_op.get_cost(opt._x_new)
+            if opt.converge:
+                print(' - Converged!')
+                if get_cost:
+                    cost = cost[0:i]
+                break
+            bar.update(i)
 
     opt.x_final = opt._x_new
     end = time.clock()
@@ -311,9 +314,12 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
     # Perform the first reconstruction
     if verbose > 0:
         print("Starting optimization...")
-
-    for i in range(max_nb_of_iter):
+    with progressbar.ProgressBar(redirect_stdout=True,
+                                 max_value=max_nb_of_iter) as bar:
+        for i in range(max_nb_of_iter):
             opt._update()
+            bar.update(i)
+
 
     opt.x_final = opt._x_new
     opt.y_final = opt._y_new
