@@ -151,11 +151,10 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result (the recovered kspace).
         """
-        rsl = np.zeros(self.obs_data.shape).astype('complex128')
+        axis = len(self.obs_data.shape)-1
         img = self.linear_op.adj_op(x)
         if self.p_MRI:
-            for l in range(self.S.shape[2]):
-                rsl[:, :, l] = self.fourier_op.op(self.S[:, :, l] * img)
+            rsl = np.stack([self.fourier_op.op(self.S[:, :, l] * img) for l in range(self.S.shape[2])], axis=axis)
         else:
             rsl = self.fourier_op.op(img)
         return rsl
@@ -179,10 +178,9 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
 
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
         if self.p_MRI:
-            for l in range(self.S.shape[2]):
-                tmp = self.fourier_op.adj_op(x[:, :, l])
-                rsl += self.linear_op.op(tmp *
-                                         np.conj(self.S[:, :, l]))
+            list_x = list(np.moveaxis(x, -1, 0))
+            tmp = [self.fourier_op.adj_op(list_x[l]) for l in range(self.S.shape[2])]
+            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.S[:, :, l])) for l in range(self.S.shape[2])], axis=0)
         else:
             rsl = self.linear_op.op(self.fourier_op.adj_op(x))
         return rsl
