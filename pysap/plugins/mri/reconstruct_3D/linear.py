@@ -47,6 +47,8 @@ class pyWavelet3(object):
         self.transform = pywt.Wavelet(wavelet_name)
         self.nb_scale = nb_scale-1
         self.undecimated = undecimated
+        self.unflatten = unflatten_swtn if undecimated else unflatten_wave
+        self.flatten = flatten_swtn if undecimated else flatten_wave
         self.coeffs_shape = None
 
     def op(self, data):

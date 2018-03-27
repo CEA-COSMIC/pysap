@@ -37,6 +37,8 @@ class Wavelet2(object):
             the verbosity level.
         """
         self.nb_scale = nb_scale
+        self.flatten = flatten
+        self.unflatten = unflatten
         if wavelet_name not in pysap.AVAILABLE_TRANSFORMS:
             raise ValueError(
                 "Unknown transformation '{0}'.".format(wavelet_name))

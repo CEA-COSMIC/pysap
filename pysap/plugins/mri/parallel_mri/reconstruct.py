@@ -17,7 +17,6 @@ import copy
 import time
 
 # Package import
-from pysap.plugins.mri.reconstruct.utils import unflatten
 from pysap.plugins.mri.reconstruct.utils import fista_logo
 from pysap.plugins.mri.reconstruct.cost import DualGapCost
 from pysap.plugins.mri.reconstruct.reweight import mReweight
@@ -351,7 +350,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
 
     # Get the final solution
     x_final = opt.x_final
-    linear_op.transform.analysis_data = unflatten(
+    linear_op.transform.analysis_data = linear_op.unflatten(
         opt.y_final, linear_op.coeffs_shape)
 
     return x_final, linear_op.transform
