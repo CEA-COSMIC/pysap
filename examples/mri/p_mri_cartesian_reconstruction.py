@@ -36,8 +36,8 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Loading input data
-image_name = '/home/loubnaelgueddari/Data'\
-            '/meas_MID41_CSGRE_ref_OS1_FID14687.mat'
+image_name = '/volatile/data/2017-05-30_32ch/'\
+             'meas_MID41_CSGRE_ref_OS1_FID14687.mat'
 k_space_ref = loadmat(image_name)['ref']
 k_space_ref /= np.linalg.norm(k_space_ref)
 Smaps, SOS = get_Smaps(k_space_ref, (512, 512), mode='FFT')
