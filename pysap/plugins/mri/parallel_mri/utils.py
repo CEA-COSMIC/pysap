@@ -37,14 +37,11 @@ def prod_over_maps(S, X):
     Sl: np.ndarray
         The product of every L element of S times X
     """
-    Sl = np.copy(S)
-    if Sl.shape == X.shape:
-        for i in range(S.shape[2]):
-            Sl[:, :, i] *= X[:, :, i]
+    if S.shape == X.shape:
+        Sl = [S[l] * X[l] for l in range(len(S))]
     else:
-        for i in range(S.shape[2]):
-            Sl[:, :, i] *= X
-    return Sl
+        Sl = [S_coil * X for S_coil in S]
+    return np.asarray(Sl)
 
 
 def function_over_maps(f, x):
@@ -65,10 +62,7 @@ def function_over_maps(f, x):
         the results of the function as a list where the length of the list is
         equal to n
     """
-    yl = []
-    for i in range(x.T.shape[0]):
-        yl.append(f((x.T[i]).T))
-    return np.stack(yl, axis=len(yl[0].shape))
+    return np.asarray([f(xl) for xl in x])
 
 
 def check_lipschitz_cst(f, x_shape, lipschitz_cst, max_nb_of_iter=10):

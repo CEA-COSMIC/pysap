@@ -125,6 +125,7 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
             samples,
             k_coil,
             img_shape))) for k_coil in k_space]
-    SOS = np.sqrt(np.sum(np.abs(Smaps)**2), axis=0)
+    SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=0))
     Smaps = [Smaps_l / SOS for Smaps_l in Smaps]
+    Smaps = np.asarray(Smaps)
     return Smaps, SOS

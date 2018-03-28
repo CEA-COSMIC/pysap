@@ -2,17 +2,11 @@
 Neuroimaging cartesian reconstruction
 =====================================
 
-Credit: L Elgueddari
+Credit: L Elgueddari, S.Lannuzel
 
 In this tutorial we will reconstruct an MRI image from the sparse kspace
 measurments.
 
-Import neuroimaging data
-------------------------
-
-We use the toy datasets available in pysap, more specifically a 2D brain slice
-and the acquistion cartesian scheme.
-We also add some gaussian noise in the image space.
 """
 
 # Package import
@@ -25,7 +19,7 @@ from pysap.plugins.mri.parallel_mri.utils import function_over_maps
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
-from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
+from pysap.plugins.mri.parallel_mri.gradient import Grad_pMRI
 # from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI_synthesis
 from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import get_Smaps
 
@@ -73,15 +67,13 @@ kspace_loc = convert_mask_to_locations(mask.data)
 
 # Start the FISTA reconstruction
 max_iter = 10
-
 linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
-
 fourier_op = FFT2(samples=kspace_loc, shape=(512, 512))
-gradient_op = Grad2D_pMRI(data=kspace_data,
-                          fourier_op=fourier_op,
-                          linear_op=linear_op,
-                          S=Smaps)
+gradient_op = Grad_pMRI(data=kspace_data,
+                        fourier_op=fourier_op,
+                        linear_op=linear_op,
+                        S=Smaps)
 
 x_final, transform, cost = sparse_rec_fista(
     gradient_op=gradient_op,
@@ -109,9 +101,9 @@ plt.show()
 
 # Start the CONDAT-VU reconstruction
 max_iter = 1
-gradient_op_cd = Grad2D_pMRI(data=kspace_data,
-                             fourier_op=fourier_op,
-                             S=Smaps)
+gradient_op_cd = Grad_pMRI(data=kspace_data,
+                           fourier_op=fourier_op,
+                           S=Smaps)
 x_final, transform = sparse_rec_condatvu(
     gradient_op=gradient_op_cd,
     linear_op=linear_op,
