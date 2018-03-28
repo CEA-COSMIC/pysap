@@ -9,6 +9,8 @@ python:
     - "3.6"
 
 before_install:
+    - mkdir -p $HOME/.local/share/pysap
+    - wget -r -l 0 -t 20 ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/* -nH --cut-dirs=5 -P $HOME/.local/share/pysap
     - sudo apt-get update
     - sudo updatedb
     - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
