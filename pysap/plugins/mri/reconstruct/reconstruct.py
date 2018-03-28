@@ -147,7 +147,7 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     for _ in range(max_nb_of_iter):
         opt._update()
         cost = np.linalg.norm(fourier_op.op(linear_op.adj_op(opt._x_new))
-                              - data, 'fro') + \
+                              - data) + \
                mu*np.linalg.norm(opt._x_new, 1)
         print(cost)
 
