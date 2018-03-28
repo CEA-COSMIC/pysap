@@ -143,7 +143,15 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     end = time.clock()
     if verbose > 0:
         print("Starting optimization...")
-    opt.iterate(max_iter=max_nb_of_iter)
+    # opt.iterate(max_iter=max_nb_of_iter)
+    for _ in range(max_nb_of_iter):
+        opt._update()
+        cost = np.linalg.norm(fourier_op.op(linear_op.adj_op(opt._x_new))
+                              - data, 'fro') + \
+               mu*np.linalg.norm(opt._x_new, 1)
+        print(cost)
+
+    opt.x_final = opt._x_new
     if verbose > 0:
         # cost_op.plot_cost()
         # print(" - final iteration number: ", cost_op._iteration)
