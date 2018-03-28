@@ -49,7 +49,7 @@ def extract_k_space_center(samples, samples_locations,
         samples_thresholded = np.copy(samples)
         samples_thresholded *= (samples_locations[:, 0] <= thr)
         samples_thresholded *= (samples_locations[:, 1] <= thr)
-        samples_thresholded *= (samples_locations[:, 1] <= thr)
+        samples_thresholded *= (samples_locations[:, 2] <= thr)
     return samples_thresholded
 
 

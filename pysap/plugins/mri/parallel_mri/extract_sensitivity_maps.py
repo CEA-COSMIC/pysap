@@ -49,21 +49,21 @@ def extract_k_space_center(samples, samples_locations,
         raise NotImplementedError
     else:
         samples_thresholded = np.copy(samples)
-        samples_thresholded *= (samples_locations[:, 0] <= thr)
-        samples_thresholded *= (samples_locations[:, 1] <= thr)
+        for l in range(len(samples.shape[1])):
+            samples_thresholded *= (samples_locations[:, l] <= thr)
     return samples_thresholded
 
 
-def gridding_2d(points, values, img_shape, method='linear'):
+def gridding_nd(points, values, img_shape, method='linear'):
     """
     Interpolate non-Cartesian data into a cartesian grid
 
     Parameters
     ----------
     points: np.ndarray
-        The 2D k_space locations of size [M, 2]
+        The nD k_space locations of size [M, 3]
     values: np.ndarray
-        An image of size [N_x, N_y]
+        An nD image
     img_shape: tuple
         The final output ndarray
     method: {'linear', 'nearest', 'cubic'}, optional
@@ -73,20 +73,14 @@ def gridding_2d(points, values, img_shape, method='linear'):
     Returns
     -------
     np.ndarray
-        The gridded solution of shape [N_x, N_y]
+        The gridded solution of shape img_shape
     """
-    xi = np.linspace(np.min(points),
-                     np.max(points),
-                     img_shape[0],
-                     endpoint=False)
-    yi = np.linspace(np.min(points),
-                     np.max(points),
-                     img_shape[1],
-                     endpoint=False)
-    grid_x, grid_y = np.meshgrid(xi, yi)
+    X = [np.linespace(np.min(points), np.max(points), img_shape[l],
+                      endpoint=False) for l in range(points.shape[1])]
+    grid = np.meshgrid(*X)
     return griddata(points,
                     values,
-                    (grid_x, grid_y),
+                    grid,
                     method=method,
                     fill_value=0)
 
@@ -116,32 +110,21 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
         mode = 'FFT'
 
     M, L = k_space.shape
-    Smaps_shape = (img_shape[0], img_shape[1], L)
-    Smaps = np.zeros(Smaps_shape).astype('complex128')
+    k_space = [k_space[:, l] for l in range(L)]
     if mode == 'FFT':
         if not M == img_shape[0]*img_shape[1]:
             raise ValueError(['The number of samples in the k-space must be',
                               'equal to the (image size, the number of coils)'
                               ])
-        k_space = k_space.reshape(Smaps_shape)
-        for l in range(Smaps_shape[2]):
-            Smaps[:, :, l] = pfft.ifftshift(pfft.ifft2(k_space[:, :, l]))
+        Smaps = [pfft.ifftshift(pfft.ifft2(k_coil.reshape(img_shape)))
+                 for k_coil in k_space]
     elif mode == 'NFFT':
         raise ValueError('NotImplemented yet')
     else:
-        xi = np.linspace(0, img_shape[0], endpoint=False)
-        yi = np.linspace(0, img_shape[1], endpoint=False)
-        gridx, gridy = np.meshgrid(xi, yi)
-        for l in range(L):
-            Smaps[:, :, l] = pfft.ifftshift(
-                                            pfft.ifft2(griddata(
-                                                samples,
-                                                k_space[:, l],
-                                                (gridx, gridy),
-                                                method='linear',
-                                                fill_value=0)))
-
-    SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=2))
-    for r in range(L):
-        Smaps[:, :, r] /= SOS
+        Smaps = [pfft.ifftshift(pfft.ifftn(gridding_nd(
+            samples,
+            k_coil,
+            img_shape))) for k_coil in k_space]
+    SOS = np.sqrt(np.sum(np.abs(Smaps)**2), axis=0)
+    Smaps = [Smaps_l / SOS for Smaps_l in Smaps]
     return Smaps, SOS

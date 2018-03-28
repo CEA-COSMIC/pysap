@@ -21,8 +21,6 @@ from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
 from pysap.plugins.mri.reconstruct_3D.utils import convert_locations_to_mask
 from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
 from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
-# from pysap.plugins.mri.reconstruct_3D.gradient import GradSynthesis3
-# from pysap.plugins.mri.reconstruct_3D.gradient import GradAnalysis3
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
 from pysap.plugins.mri.reconstruct_3D.fourier import FFT3
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
