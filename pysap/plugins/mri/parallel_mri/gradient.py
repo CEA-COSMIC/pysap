@@ -154,7 +154,8 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
         axis = len(self.obs_data.shape)-1
         img = self.linear_op.adj_op(x)
         if self.p_MRI:
-            rsl = np.stack([self.fourier_op.op(self.S[:, :, l] * img) for l in range(self.S.shape[2])], axis=axis)
+            rsl = np.stack([self.fourier_op.op(self.S[:, :, l] * img) for l
+                            in range(self.S.shape[2])], axis=axis)
         else:
             rsl = self.fourier_op.op(img)
         return rsl
@@ -179,8 +180,10 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
         if self.p_MRI:
             list_x = list(np.moveaxis(x, -1, 0))
-            tmp = [self.fourier_op.adj_op(list_x[l]) for l in range(self.S.shape[2])]
-            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.S[:, :, l])) for l in range(self.S.shape[2])], axis=0)
+            tmp = [self.fourier_op.adj_op(list_x[l]) for l in
+                   range(self.S.shape[2])]
+            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.S[:, :, l]))
+                          for l in range(self.S.shape[2])], axis=0)
         else:
             rsl = self.linear_op.op(self.fourier_op.adj_op(x))
         return rsl
@@ -197,7 +200,8 @@ class Grad2D_pMRI(Grad2D_pMRI_analysis, Grad2D_pMRI_synthesis):
     * (1/2) * sum(||Ft Sl x - yl||^2_2,l)
     * (1/2) * sum(||Ft Sl L* alpha - yl||^2_2,l)
     """
-    def __init__(self, data, fourier_op, S=None, linear_op=None, check_lips=False):
+    def __init__(self, data, fourier_op, S=None, linear_op=None,
+                 check_lips=False):
         """ Initilize the 'Grad2D_pMRI' class.
 
         Parameters
