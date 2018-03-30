@@ -18,6 +18,7 @@ from pysap.plugins.mri.reconstruct.fourier import FourierBase
 
 # Third party import
 import pynfft
+import numpy as np
 import scipy.fftpack as pfft
 
 
@@ -119,7 +120,7 @@ class NFFT3(FourierBase):
             masked Fourier transform of the input image.
         """
         self.plan.f_hat = img
-        return self.plan.trafo()
+        return (1.0 / np.sqrt(self.plan.M)) * self.plan.trafo()
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
@@ -136,4 +137,4 @@ class NFFT3(FourierBase):
             inverse 3D discrete Fourier transform of the input coefficients.
         """
         self.plan.f = x
-        return (1.0 / self.plan.M) * self.plan.adjoint()
+        return (1.0 / np.sqrt(self.plan.M)) * self.plan.adjoint()
