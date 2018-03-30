@@ -137,7 +137,9 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        auto_iterate=False)
+        auto_iterate=False,
+        beta_param=gradient_op.inv_spec_rad,
+        lambda_update=None)
 
     # Perform the reconstruction
     end = time.clock()
@@ -324,7 +326,7 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
 
     # Define the proximity operator
     if add_positivity:
-        prox_op = Positive()
+        prox_op = Positivity()
     else:
         prox_op = Identity()
 
