@@ -51,6 +51,12 @@ class pyWavelet3(object):
         self.flatten = flatten_swtn if undecimated else flatten_wave
         self.coeffs_shape = None
 
+    def get_coeff(self):
+        return self.coeffs
+
+    def set_coeff(self, coeffs):
+        self.coeffs = coeffs
+
     def op(self, data):
         """ Define the wavelet operator.
 
@@ -76,8 +82,8 @@ class pyWavelet3(object):
             coeffs_dict = pywt.wavedecn(data,
                                         self.transform,
                                         level=self.nb_scale)
-            coeffs, self.coeffs_shape = flatten_wave(coeffs_dict)
-            return coeffs
+            self.coeffs, self.coeffs_shape = flatten_wave(coeffs_dict)
+            return self.coeffs
 
     def adj_op(self, coeffs, dtype="array"):
         """ Define the wavelet adjoint operator.
@@ -97,6 +103,7 @@ class pyWavelet3(object):
         data: ndarray
             the reconstructed data.
         """
+        self.coeffs = coeffs
         if self.undecimated:
             coeffs_dict = unflatten_swtn(coeffs, self.coeffs_shape)
             data = pywt.iswtn(coeffs_dict,
