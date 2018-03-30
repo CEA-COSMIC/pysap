@@ -102,7 +102,8 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        auto_iterate=False)
+        auto_iterate=False,
+        beta_param=gradient_op.inv_spec_rad)
 
     # Perform the reconstruction
 
@@ -116,8 +117,9 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         for i in range(max_nb_of_iter):
             opt._update()
             if get_cost:
-                cost[i] = gradient_op.get_cost(opt._x_new) + \
-                          prox_op.get_cost(opt._x_new)
+                cost[i] = gradient_op.get_cost(opt._z_new) + \
+                          prox_op.get_cost(opt._z_new)
+
             if opt.converge:
                 print(' - Converged!')
                 if get_cost:
@@ -356,7 +358,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
 
     # Get the final solution
     x_final = opt.x_final
-    linear_op.transform.analysis_data = linear_op.unflatten(
-        opt.y_final, linear_op.coeffs_shape)
+    linear_op.set_coeff(linear_op.unflatten(
+                        opt.y_final, linear_op.coeffs_shape))
 
     return x_final, linear_op.transform
