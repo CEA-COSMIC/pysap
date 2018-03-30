@@ -45,7 +45,8 @@ image.show()
 # -------------------
 
 # Get the locations of the kspace samples and the associated observations
-kspace_loc = convert_mask_to_locations(np.ones_like(mask.data))
+kspace_loc = convert_mask_to_locations(mask.data)
+
 fourier_op_c = NFFT2(samples=kspace_loc, shape=image.shape)
 
 # Generate the subsampled kspace
@@ -61,7 +62,7 @@ kspace_data = function_over_maps(fourier_op_c.op, Sl)
 # maximum number of iterations. Fill free to play with this parameter.
 
 # Start the FISTA reconstruction
-max_iter = 5
+max_iter = 20
 
 linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
@@ -75,7 +76,7 @@ gradient_op = Grad_pMRI(data=kspace_data,
 x_final, transform, cost = sparse_rec_fista(
     gradient_op=gradient_op,
     linear_op=linear_op,
-    mu=0,
+    mu=1e-9,
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
@@ -106,7 +107,7 @@ x_final, transform = sparse_rec_condatvu(
     gradient_op=gradient_op_cd,
     linear_op=linear_op,
     std_est=None,
-    std_est_method="dual",
+    std_est_method=None,
     std_thr=2.,
     mu=0,
     tau=None,
