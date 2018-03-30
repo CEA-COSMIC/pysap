@@ -47,6 +47,12 @@ class Wavelet2(object):
             nb_scale=self.nb_scale, verbose=verbose)
         self.coeffs_shape = None
 
+    def get_coeff(self):
+        return self.transform.analysis_data
+
+    def set_coeff(self, coeffs):
+        self.transform.analysis_data = coeffs
+
     def op(self, data):
         """ Define the wavelet operator.
 
