@@ -86,6 +86,9 @@ x_final, transform, cost = sparse_rec_fista(
     verbose=1,
     get_cost=True)
 imshow3D(np.abs(x_final), display=True)
+plt.figure()
+plt.plot(cost)
+plt.show()
 
 gradient_op_cd = Grad_pMRI(data=kspace_data,
                            fourier_op=fourier_op)
@@ -106,6 +109,3 @@ x_final, transform = sparse_rec_condatvu(
     verbose=1)
 
 imshow3D(np.abs(x_final), display=True)
-plt.figure()
-plt.plot(cost)
-plt.show()
