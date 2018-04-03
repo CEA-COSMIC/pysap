@@ -52,17 +52,60 @@ def iterate(self, max_iter=150):
     self.x_final = self._z_new
 
 
+# @monkeypatch(Condat)
+# def iterate(self, max_iter=150):
+#     """ Monkey patch the optimizer iterate method to have a progressbar.
+#     """
+#     with progressbar.ProgressBar(redirect_stdout=True,
+#                                  max_value=max_iter) as bar:
+#         for idx in range(max_iter):
+#             self._update()
+#             if self.converge:
+#                 print(' - Converged!')
+#                 break
+#             bar.update(idx)
+#     self.x_final = self._x_new
+#     self.y_final = self._y_new
+
+
+# Monkey patch with alternative version of Modopt
+
 @monkeypatch(Condat)
 def iterate(self, max_iter=150):
-    """ Monkey patch the optimizer iterate method to have a progressbar.
+    r"""Iterate
+
+    This method calls update until either convergence criteria is met or
+    the maximum number of iterations is reached
+
+    Parameters
+    ----------
+    max_iter : int, optional
+        Maximum number of iterations (default is ``150``)
+
     """
+
     with progressbar.ProgressBar(redirect_stdout=True,
                                  max_value=max_iter) as bar:
-        for idx in range(max_iter):
+
+        for i in range(max_iter):
             self._update()
+            self.idx = i
+
             if self.converge:
                 print(' - Converged!')
                 break
-            bar.update(idx)
+            # metric computation and early-stopping check
+            if self.idx % self.metric_call_period == 0:
+                kwargs = self.get_notify_observers_kwargs()
+                self.notify_observers('cv_metrics', **kwargs)
+                if self.any_convergence_flag():
+                    if self.verbose:
+                        print("\n-----> early-stopping done")
+                    break
+            bar.update(self.idx)
+
+    # retrieve metrics results
+    self.retrieve_outputs()
+    # rename outputs as attributes
     self.x_final = self._x_new
     self.y_final = self._y_new
