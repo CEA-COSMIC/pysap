@@ -10,7 +10,7 @@
 # Module current version
 version_major = 0
 version_minor = 0
-version_micro = 2
+version_micro = 3
 
 # Expected by setup.py: string of form "X.Y.Z"
 __version__ = "{0}.{1}.{2}".format(version_major, version_minor, version_micro)
@@ -49,8 +49,8 @@ that allows sparse decomposition, denoising and deconvolution.
 # Main setup parameters
 NAME = "python-pySAP"
 ORGANISATION = "CEA"
-MAINTAINER = "XXX"
-MAINTAINER_EMAIL = "XXX"
+MAINTAINER = "Antoine Grigis"
+MAINTAINER_EMAIL = "antoine.grigis@cea.fr"
 DESCRIPTION = description
 LONG_DESCRIPTION = long_description
 EXTRANAME = "COSMIC webPage"
@@ -65,8 +65,8 @@ Samuel Farrens <samuel.farrens@gmail.com>
 Jean-Luc Starck <jl.stark@cea.fr>
 Philippe Ciuciu <philippe.ciuciu@cea.fr>
 """
-AUTHOR_EMAIL = "XXX"
-PLATFORMS = "OS Independent"
+AUTHOR_EMAIL = "antoine.grigis@cea.fr"
+PLATFORMS = "Linux,OSX"
 ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
