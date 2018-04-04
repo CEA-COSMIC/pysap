@@ -31,6 +31,7 @@ from pysap.base.gridsearch import grid_search
 
 from pysap import info
 from reconstruct_gridsearch import sparse_rec_condatvu as sparse_reconstruct_condat_vu
+from reconstruct_gridsearch import sparse_rec_fista as sparse_reconstruct_fista
 
 from pysap.plugins.mri.reconstruct.gradient import GradAnalysis2 as Grad2DAnalysis
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
@@ -143,6 +144,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 	# 			"BsplineWaveletTransformATrousAlgorithm",
 	# 			"FastCurveletTransform",
 	# 			]
+
 	# params tests
 	mu_list = list(np.logspace(-8, -1, 5))
 	nb_scales = [3, 4]
@@ -160,21 +162,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 		ft_cls_kwargs = {ft_cls: {"samples_locations": loc,
 								  "img_size": ref.shape[0]}
 						}
-		### declare final params grid #Old version
-		# params = {
-		# 	'data': kspace,
-		# 	'gradient_cls': Grad2DAnalysis,
-		# 	'gradient_kwargs': {"ft_cls": ft_cls_kwargs},
-		# 	'linear_cls': Wavelet,
-		# 	'linear_kwargs': wt_list,
-		# 	'max_nb_of_iter': max_nb_of_iter,
-		# 	'mu': mu_list,
-		# 	'sigma': 0.1,
-		# 	'metrics': metrics,
-		# 	'timeout': timeout,
-		# 	'verbose': verbose_reconstruction,
-		# }
-
+		# Params Condat
 		params = {
 			'data': kspace,
 			'wavelet_name': wt,
@@ -189,8 +177,25 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 
 		# launcher the gridsearch
 		list_kwargs, results = grid_search(sparse_reconstruct_condat_vu,
-										   params, n_jobs=n_jobs,
-										   verbose=verbose_gridsearch)
+		params, n_jobs=n_jobs,
+		verbose=verbose_gridsearch)
+		#
+		# #Params FISTA
+		# params = {
+		# 	'data': kspace,
+		# 	'wavelet_name': wt,
+		# 	'samples': loc,
+		# 	'nb_scales': nb_scales,
+		# 	'mu': mu_list,
+		# 	'max_nb_of_iter': max_nb_of_iter,
+		# 	'metrics': metrics,
+		# 	'verbose': verbose_reconstruction,
+		# }
+		#
+		# # launcher the gridsearch
+		# list_kwargs, results = grid_search(sparse_reconstruct_fista,
+		# 								   params, n_jobs=n_jobs,
+		# 								   verbose=verbose_gridsearch)
 
 		# gather the best result per metric
 		best_results = {'ssim': _gather_result(metric='ssim',

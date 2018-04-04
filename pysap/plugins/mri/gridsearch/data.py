@@ -23,7 +23,9 @@ from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations, conve
 
 _dirname_ = osp.dirname(osp.abspath(__file__))
 _data_dirname_ = osp.join(_dirname_, "data")
+DATADIR = osp.join(osp.expanduser("~"), ".local", "share", "pysap")
 
+_data_dirname_ = DATADIR
 
 def _l2_normalize(x):
     """ Normalize x by its l2 norm.
