@@ -64,7 +64,7 @@ image_rec0.show()
 # maximum number of iterations. Fill free to play with this parameter.
 
 # Start the FISTA reconstruction
-max_iter = 200
+max_iter = 20
 x_final, transform = sparse_rec_fista(
     data=kspace_data,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
