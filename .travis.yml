@@ -43,6 +43,11 @@ install:
         pip install future;
       fi
     - locate pyconfig.h
+    - mkdir -p $HOME/.local/share/pysap
+    - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
+    - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
+    - rm $HOME/.local/share/pysap/__init__.py
+    - ls -l $HOME/.local/share/pysap
     - pip install nose
     - pip install nose-exclude
     - pip install coverage

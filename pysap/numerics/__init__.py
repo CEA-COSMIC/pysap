@@ -7,6 +7,5 @@
 # for details.
 ##########################################################################
 
-"""
-This module defines all the MRI related plugins.
+""" This module defines shortcuts to common tools.
 """

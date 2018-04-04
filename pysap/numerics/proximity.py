@@ -8,5 +8,8 @@
 ##########################################################################
 
 """
-This module defines all the MRI related plugins.
+This module contains shortcuts to reweight classes.
 """
+
+# Package import
+from pysap.plugins.mri.parallel_mri.proximity import Threshold
