@@ -36,7 +36,7 @@ class FourierBase(object):
 
         Parameters
         ----------
-        img: np.ndarray of dim 2
+        img: np.ndarray
             input image as array.
 
         Returns

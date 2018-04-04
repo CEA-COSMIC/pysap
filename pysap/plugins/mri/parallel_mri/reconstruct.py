@@ -18,12 +18,12 @@ import copy
 import time
 
 # Package import
-from pysap.plugins.mri.reconstruct.utils import unflatten
-from pysap.plugins.mri.reconstruct.utils import fista_logo
-from pysap.plugins.mri.reconstruct.cost import DualGapCost
-from pysap.plugins.mri.reconstruct.reweight import mReweight
-from pysap.plugins.mri.reconstruct.utils import condatvu_logo
-from pysap.plugins.mri.parallel_mri.proximity import Threshold
+from pysap.base.utils import unflatten
+from pysap.utils import fista_logo
+from pysap.utils import condatvu_logo
+from pysap.numerics.cost import DualGapCost
+from pysap.numerics.reweight import mReweight
+from pysap.numerics.proximity import Threshold
 
 # Third party import
 import numpy as np
@@ -85,7 +85,6 @@ def sparse_rec_fista(gradient_op, linear_op, mu, lambda_init=1.0,
         print(" - mu: ", mu)
         print(" - lipschitz constant: ", gradient_op.spec_rad)
         print(" - data: ", gradient_op.obs_data.shape)
-# print(" - wavelet: ", linear_op.wavelet_name, "-", linear_op.nb_scales)
         print(" - max iterations: ", max_nb_of_iter)
         print(" - image variable shape: ", x_init.shape)
         print(" - alpha variable shape: ", alpha.shape)

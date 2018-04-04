@@ -8,23 +8,14 @@
 ##########################################################################
 
 """
-This module contains classses for defining algorithm operators and gradients.
+This module contains classes for defining algorithm operators and gradients.
 """
 
 
-# System import
-import copy
-from builtins import range
-
-# Package import
-import pysap
-from .utils import flatten
-
 # Third party import
+import numpy as np
 from modopt.math.matrix import PowerMethod
 from modopt.opt.gradient import GradBasic
-import numpy as np
-import scipy.fftpack as pfft
 
 
 class GradAnalysis2(GradBasic, PowerMethod):

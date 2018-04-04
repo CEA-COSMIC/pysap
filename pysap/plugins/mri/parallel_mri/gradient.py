@@ -8,11 +8,8 @@
 ##########################################################################
 
 """
-This module contains classses for defining algorithm operators and gradients.
+This module contains classes for defining algorithm operators and gradients.
 """
-
-
-# System import
 
 # Package import
 from .utils import prod_over_maps

@@ -13,10 +13,9 @@ This module contains linears operators classes.
 
 
 # Package import
-from builtins import zip
 import pysap
-from .utils import flatten
-from .utils import unflatten
+from pysap.base.utils import flatten
+from pysap.base.utils import unflatten
 
 # Third party import
 import numpy
