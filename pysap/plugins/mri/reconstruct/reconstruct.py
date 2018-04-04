@@ -138,7 +138,8 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        auto_iterate=False)
+        auto_iterate=False,
+        beta_param=gradient_op.inv_spec_rad)
 
     # Perform the reconstruction
     end = time.clock()
