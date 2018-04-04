@@ -8,5 +8,10 @@
 ##########################################################################
 
 """
-This module defines all the MRI related plugins.
+This module contains shortcuts to fourier classes.
 """
+
+# Package import
+from pysap.plugins.mri.reconstruct.fourier import FFT2
+from pysap.plugins.mri.reconstruct.fourier import NFFT2
+from pysap.plugins.mri.reconstruct.fourier import FourierBase

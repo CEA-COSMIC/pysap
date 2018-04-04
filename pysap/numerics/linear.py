@@ -8,5 +8,9 @@
 ##########################################################################
 
 """
-This module defines all the MRI related plugins.
+This module contains shortcuts to linear classes.
 """
+
+# Package import
+from pysap.plugins.mri.reconstruct.linear import Wavelet2
+from pysap.plugins.astro.deconvolve.linear import WaveletConvolve2

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
-# XXX - Copyright (C) XXX, 2017
+# pySAP - Copyright (C) CEA, 2017 - 2018
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -8,23 +8,14 @@
 ##########################################################################
 
 """
-This module contains classses for defining algorithm operators and gradients.
+This module contains classes for defining algorithm operators and gradients.
 """
 
 
-# System import
-import copy
-from builtins import range
-
-# Package import
-import pysap
-from .utils import flatten
-
 # Third party import
+import numpy as np
 from modopt.math.matrix import PowerMethod
 from modopt.opt.gradient import GradBasic
-import numpy as np
-import scipy.fftpack as pfft
 
 
 class GradAnalysis2(GradBasic, PowerMethod):
