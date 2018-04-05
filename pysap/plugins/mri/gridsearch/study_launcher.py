@@ -179,7 +179,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 		list_kwargs, results = grid_search(sparse_reconstruct_condat_vu,
 		params, n_jobs=n_jobs,
 		verbose=verbose_gridsearch)
-		#
+
 		# #Params FISTA
 		# params = {
 		# 	'data': kspace,
@@ -191,7 +191,6 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 		# 	'metrics': metrics,
 		# 	'verbose': verbose_reconstruction,
 		# }
-		#
 		# # launcher the gridsearch
 		# list_kwargs, results = grid_search(sparse_reconstruct_fista,
 		# 								   params, n_jobs=n_jobs,
