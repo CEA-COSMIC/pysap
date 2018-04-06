@@ -23,13 +23,14 @@ import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 from sklearn.cluster import k_means
 
-# Third party import
-from pisap.numerics.linear import Wavelet
-from pisap.numerics.cost import ssim
-from pisap.utils import convert_locations_to_mask, convert_mask_to_locations
-
 # Local import
-from data import load_exbaboon_512_retrospection
+from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
+from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
+from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations, convert_locations_to_mask
+
+sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
+print(sys.path)
+from modopt.opt.metrics import ssim, snr, psnr,nrmse
 
 try:
     from itertools import izip as zip
@@ -177,6 +178,7 @@ def _main(dirname, output_dir, verbose=False):
 def _f_atom_generator_from_loc(loc, p_size):
     """ Yield the Fourier's atom present in the sampling scheme loc.
     """
+    print(p_size)
     mask = convert_locations_to_mask(loc, p_size)
     x, y = np.where(mask != 0)
     for coord in zip(x, y):
@@ -337,93 +339,93 @@ def _save_ref(output_dir):
     plt.savefig(os.path.join(output_dir, "reference.png"))
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=''.join(__doc__))
-    parser.add_argument('root_dirname', type=str, metavar='INPUT',
-                        help='root directoy of the results')
-    parser.add_argument('output_dirname', type=str, nargs='?',
-                        metavar='OUTPUT', help='root directory for the plots')
-    parser.add_argument("-v", "--verbose", help="increase output verbosity",
-                        action="store_true")
-    args = parser.parse_args()
-
-    if args.verbose:
-        logging.info(__doc__)
-
-    # metric plots generation
-    _main(args.root_dirname, args.output_dirname, args.verbose)
-
-    # save ref
-    _save_ref(args.output_dirname)
-
-    # coherence computation
-    _, loc, _, _, _ = load_exbaboon_512_retrospection()
-    level = 5 # don't change
-    wts_list = ["UndecimatedBiOrthogonalTransform",
-                "FastCurveletTransform",
-                "BsplineWaveletTransformATrousAlgorithm",
-                "MallatWaveletTransform79Filters",
-                "MeyerWaveletsCompactInFourierSpace",
-                ]
-    coherence_list = []
-    for wt_name in wts_list:
-        coherence_list.append(_coherence(Wavelet(wt_name, level), loc))
-    coherence_disp = ["{0}: {1}\n".format(wt, round(coh, 4))
-                          for coh, wt in sorted(zip(coherence_list, wts_list))]
-    coherence_disp.insert(0, "Coherences:\n")
-    coherence_file = os.path.join(args.output_dirname, "coherences.txt")
-    with open(coherence_file, 'w') as pfile:
-        pfile.writelines(coherence_disp)
-
-    # resulting images selection and display
-    mask_type = "radial-sparkling"
-    wts_type = "*"
-    acc_factor = "8"
-    sigma = "0.0"
-    output_path = os.path.join(args.output_dirname, "image_illustration", "all_wts")
-    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-
-    mask_type = "radial-sparkling"
-    wts_type = "UndecimatedBiOrthogonalTransform"
-    acc_factor = "*"
-    sigma = "0.0"
-    output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-    mask_type = "radial"
-    wts_type = "UndecimatedBiOrthogonalTransform"
-    acc_factor = "*"
-    sigma = "0.0"
-    output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-    mask_type = "cartesianR4"
-    wts_type = "UndecimatedBiOrthogonalTransform"
-    acc_factor = "None"
-    sigma = "0.0"
-    output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-    mask_type = "cartesianR4"
-    wts_type = "UndecimatedBiOrthogonalTransform"
-    acc_factor = "None"
-    sigma = "0.8"
-    output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-
-    # sparsity computation
-    thresholding_method_list = ["manual_l2_based_threshold",
-                                "manual_threshold",
-                                "histogram_threshold",
-                                ]
-
-    for thresholding_method in thresholding_method_list:
-        _save_sparsity_images(thresholding_method, args.output_dirname)
-
-    # runtime time computation
-    nb_op = 10
-    wt_names = ["UndecimatedBiOrthogonalTransform",
-                "FastCurveletTransform"]
-    timings = _wavelets_runtimes(wt_names, nb_op=nb_op)
-    timings_repr = ["{0}: {1} s\n".format(wt, t) for t, wt in sorted(zip(timings, wt_names))]
-    timings_repr.insert(0, "CPU runtimes average on {0} decomposition and recomposition:\n".format(nb_op))
-    timing_file = os.path.join(args.output_dirname, "runtimes.txt")
-    with open(timing_file, 'w') as pfile:
-        pfile.writelines(timings_repr)
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser(description=''.join(__doc__))
+#     parser.add_argument('root_dirname', type=str, metavar='INPUT',
+#                         help='root directoy of the results')
+#     parser.add_argument('output_dirname', type=str, nargs='?',
+#                         metavar='OUTPUT', help='root directory for the plots')
+#     parser.add_argument("-v", "--verbose", help="increase output verbosity",
+#                         action="store_true")
+#     args = parser.parse_args()
+#
+#     if args.verbose:
+#         logging.info(__doc__)
+#
+#     # metric plots generation
+#     _main(args.root_dirname, args.output_dirname, args.verbose)
+#
+#     # save ref
+#     _save_ref(args.output_dirname)
+#
+#     # coherence computation
+#     _, loc, _, _, _ = load_exbaboon_512_retrospection()
+#     level = 5 # don't change
+#     wts_list = ["UndecimatedBiOrthogonalTransform",
+#                 "FastCurveletTransform",
+#                 "BsplineWaveletTransformATrousAlgorithm",
+#                 "MallatWaveletTransform79Filters",
+#                 "MeyerWaveletsCompactInFourierSpace",
+#                 ]
+#     coherence_list = []
+#     for wt_name in wts_list:
+#         coherence_list.append(_coherence(Wavelet(wt_name, level), loc))
+#     coherence_disp = ["{0}: {1}\n".format(wt, round(coh, 4))
+#                           for coh, wt in sorted(zip(coherence_list, wts_list))]
+#     coherence_disp.insert(0, "Coherences:\n")
+#     coherence_file = os.path.join(args.output_dirname, "coherences.txt")
+#     with open(coherence_file, 'w') as pfile:
+#         pfile.writelines(coherence_disp)
+#
+#     # resulting images selection and display
+#     mask_type = "radial-sparkling"
+#     wts_type = "*"
+#     acc_factor = "8"
+#     sigma = "0.0"
+#     output_path = os.path.join(args.output_dirname, "image_illustration", "all_wts")
+#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
+#
+#     mask_type = "radial-sparkling"
+#     wts_type = "UndecimatedBiOrthogonalTransform"
+#     acc_factor = "*"
+#     sigma = "0.0"
+#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
+#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
+#     mask_type = "radial"
+#     wts_type = "UndecimatedBiOrthogonalTransform"
+#     acc_factor = "*"
+#     sigma = "0.0"
+#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
+#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
+#     mask_type = "cartesianR4"
+#     wts_type = "UndecimatedBiOrthogonalTransform"
+#     acc_factor = "None"
+#     sigma = "0.0"
+#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
+#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
+#     mask_type = "cartesianR4"
+#     wts_type = "UndecimatedBiOrthogonalTransform"
+#     acc_factor = "None"
+#     sigma = "0.8"
+#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
+#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
+#
+#     # sparsity computation
+#     thresholding_method_list = ["manual_l2_based_threshold",
+#                                 "manual_threshold",
+#                                 "histogram_threshold",
+#                                 ]
+#
+#     for thresholding_method in thresholding_method_list:
+#         _save_sparsity_images(thresholding_method, args.output_dirname)
+#
+#     # runtime time computation
+#     nb_op = 10
+#     wt_names = ["UndecimatedBiOrthogonalTransform",
+#                 "FastCurveletTransform"]
+#     timings = _wavelets_runtimes(wt_names, nb_op=nb_op)
+#     timings_repr = ["{0}: {1} s\n".format(wt, t) for t, wt in sorted(zip(timings, wt_names))]
+#     timings_repr.insert(0, "CPU runtimes average on {0} decomposition and recomposition:\n".format(nb_op))
+#     timing_file = os.path.join(args.output_dirname, "runtimes.txt")
+#     with open(timing_file, 'w') as pfile:
+#         pfile.writelines(timings_repr)

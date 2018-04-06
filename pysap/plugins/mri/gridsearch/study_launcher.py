@@ -30,8 +30,8 @@ import pprint
 from pysap.base.gridsearch import grid_search
 
 from pysap import info
-from reconstruct_gridsearch import sparse_rec_condatvu as sparse_reconstruct_condat_vu
-from reconstruct_gridsearch import sparse_rec_fista as sparse_reconstruct_fista
+from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import sparse_rec_condatvu
+from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import sparse_rec_fista
 
 from pysap.plugins.mri.reconstruct.gradient import GradAnalysis2 as Grad2DAnalysis
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
@@ -41,7 +41,7 @@ from pysap.plugins.mri.reconstruct.fourier import NFFT2 as NFFT
 from modopt.opt.metrics import ssim, snr, psnr,nrmse
 
 # local import
-from data import load_exbaboon_512_retrospection
+from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
 
 if sys.version_info[0] < 3:
 	import ConfigParser
@@ -176,7 +176,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 		}
 
 		# launcher the gridsearch
-		list_kwargs, results = grid_search(sparse_reconstruct_condat_vu,
+		list_kwargs, results = grid_search(sparse_rec_condatvu,
 		params, n_jobs=n_jobs,
 		verbose=verbose_gridsearch)
 
@@ -192,7 +192,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 		# 	'verbose': verbose_reconstruction,
 		# }
 		# # launcher the gridsearch
-		# list_kwargs, results = grid_search(sparse_reconstruct_fista,
+		# list_kwargs, results = grid_search(sparse_rec_fista,
 		# 								   params, n_jobs=n_jobs,
 		# 								   verbose=verbose_gridsearch)
 
@@ -226,61 +226,61 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 			pickle.dump(best_results, pfile)
 
 
-if __name__ == '__main__':
-
-	parser = argparse.ArgumentParser(description=''.join(__doc__))
-	parser.add_argument('-o', '--output-dir', dest='root_dirname',
-						action ='store_const',
-						const  ='results',
-						default='results',
-						help   ='root directoy of the results')
-	parser.add_argument("-v", "--verbose", help="increase output verbosity",
-						action="store_true")
-	parser.add_argument("--do-email-report", help="send a report email",
-						dest='emailreport', action="store_true")
-	parser.add_argument('--email-dest', dest='emaildest',
-						action='store_const',
-						const=DEFAULT_EMAIL,
-						default=DEFAULT_EMAIL,
-						help='set the email destination')
-	args = parser.parse_args()
-
-	if args.verbose:
-		logging.info(info())
-
-	if not os.path.exists(args.root_dirname):
-		os.makedirs(args.root_dirname)
-
-	config = ConfigParser.RawConfigParser()
-	config.read('config.ini')
-
-	# gathe the global params for the study
-	global_params = dict(config.items('Global'))
-	global_params['n_jobs'] = int(global_params['n_jobs'])
-	global_params['timeout'] = int(global_params['timeout'])
-	global_params['verbose_reconstruction'] = bool(global_params['verbose_reconstruction'])
-	global_params['verbose_gridsearch'] = bool(global_params['verbose_gridsearch'])
-	global_params['max_nb_of_iter'] = int(global_params['max_nb_of_iter'])
-
-	global_params['verbose_reconstruction'] = True
-	global_params['verbose_gridsearch'] = True
-
-	# gather the run specific params and launch the run
-	for section in config.sections():
-		if "Run" in section:
-			params = dict(config.items(section))
-			params.update(global_params)
-			try:
-				params['acc_factor'] = float(params['acc_factor'])
-			except ValueError:
-				params['acc_factor'] = None
-			sigma_list = params['sigma'].split('[')[1].split(']')[0].split(',')
-			sigma_list = [float(value) for value in sigma_list]
-			params['dirname'] = os.path.join(args.root_dirname,
-											 params['mask_type'])
-			if not os.path.exists(params['dirname']):
-				os.makedirs(params['dirname'])
-
-			for sigma in sigma_list:
-				params['sigma'] = sigma
-				_launch(**params)
+# if __name__ == '__main__':
+#
+# 	parser = argparse.ArgumentParser(description=''.join(__doc__))
+# 	parser.add_argument('-o', '--output-dir', dest='root_dirname',
+# 						action ='store_const',
+# 						const  ='results',
+# 						default='results',
+# 						help   ='root directoy of the results')
+# 	parser.add_argument("-v", "--verbose", help="increase output verbosity",
+# 						action="store_true")
+# 	parser.add_argument("--do-email-report", help="send a report email",
+# 						dest='emailreport', action="store_true")
+# 	parser.add_argument('--email-dest', dest='emaildest',
+# 						action='store_const',
+# 						const=DEFAULT_EMAIL,
+# 						default=DEFAULT_EMAIL,
+# 						help='set the email destination')
+# 	args = parser.parse_args()
+#
+# 	if args.verbose:
+# 		logging.info(info())
+#
+# 	if not os.path.exists(args.root_dirname):
+# 		os.makedirs(args.root_dirname)
+#
+# 	config = ConfigParser.RawConfigParser()
+# 	config.read('config.ini')
+#
+# 	# gathe the global params for the study
+# 	global_params = dict(config.items('Global'))
+# 	global_params['n_jobs'] = int(global_params['n_jobs'])
+# 	global_params['timeout'] = int(global_params['timeout'])
+# 	global_params['verbose_reconstruction'] = bool(global_params['verbose_reconstruction'])
+# 	global_params['verbose_gridsearch'] = bool(global_params['verbose_gridsearch'])
+# 	global_params['max_nb_of_iter'] = int(global_params['max_nb_of_iter'])
+#
+# 	global_params['verbose_reconstruction'] = True
+# 	global_params['verbose_gridsearch'] = True
+#
+# 	# gather the run specific params and launch the run
+# 	for section in config.sections():
+# 		if "Run" in section:
+# 			params = dict(config.items(section))
+# 			params.update(global_params)
+# 			try:
+# 				params['acc_factor'] = float(params['acc_factor'])
+# 			except ValueError:
+# 				params['acc_factor'] = None
+# 			sigma_list = params['sigma'].split('[')[1].split(']')[0].split(',')
+# 			sigma_list = [float(value) for value in sigma_list]
+# 			params['dirname'] = os.path.join(args.root_dirname,
+# 											 params['mask_type'])
+# 			if not os.path.exists(params['dirname']):
+# 				os.makedirs(params['dirname'])
+#
+# 			for sigma in sigma_list:
+# 				params['sigma'] = sigma
+# 				_launch(**params)

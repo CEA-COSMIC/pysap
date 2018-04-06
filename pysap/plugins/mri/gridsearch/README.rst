@@ -7,6 +7,8 @@ Authors
 
 Hamza Cherkaoui
 
+Benoit Sarthou
+
 Philippe Ciuciu
 
 
@@ -20,7 +22,7 @@ This repository is dedicated to reproduce the results in the
 Dependencies
 ------------
 
-* alt-pisap  
+* pysap
 
 
 Instructions
@@ -43,4 +45,3 @@ Produce the plots:
 .. code-block:: bash
 
     ./post_processing.py -v output_results/ output_analysis/
-

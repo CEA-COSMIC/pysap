@@ -4,8 +4,6 @@ import copy
 import time
 import sys
 
-import pysap
-
 # Package import
 from pysap.plugins.mri.reconstruct.fourier import FFT2
 from pysap.plugins.mri.reconstruct.fourier import NFFT2
@@ -98,7 +96,6 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     transform: a WaveletTransformBase derived instance
         the wavelet transformation instance.
     """
-    print('condat loc:', samples.shape)
     # Check inputs
     start = time.clock()
     if non_cartesian and data.ndim != 1:
@@ -277,9 +274,6 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     linear_op.transform.analysis_data = unflatten(
         opt.y_final, linear_op.coeffs_shape)
 
-    image_rec = pysap.Image(data=np.abs(x_final))
-    image_rec.show()
-
     return x_final, linear_op.transform, opt.metrics
 
 
@@ -405,8 +399,5 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         print("Execution time: ", end - start, " seconds")
         print("-" * 40)
     x_final = linear_op.adj_op(opt.x_final)
-
-    image_rec = pysap.Image(data=np.abs(x_final))
-    image_rec.show()
 
     return x_final, linear_op.transform, opt.metrics

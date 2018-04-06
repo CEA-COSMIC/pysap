@@ -19,6 +19,7 @@ import scipy.fftpack as pfft
 
 # Specific import
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations, convert_locations_to_mask
+from pysap.data import get_sample_data
 
 
 _dirname_ = osp.dirname(osp.abspath(__file__))
@@ -85,6 +86,18 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
         usefull information on the characteristic of acquisition.
     """
     # ref
+    # get_sample_data('mri-babouin512')
+    # get_sample_data('mri-babouin512-mask')
+    # get_sample_data('mri-babouin512-ref')
+    # get_sample_data('mri-samples_radialx8')
+    # get_sample_data('mri-samples_radialx15')
+    # get_sample_data('mri-values_radialx8')
+    # get_sample_data('mri-values_radialx15')
+    # get_sample_data('mri-samples_sparklingx8')
+    # get_sample_data('mri-samples_sparklingx15')
+    # get_sample_data('mri-values_sparklingx8')
+    # get_sample_data('mri-values_sparklingx15')
+
     imfile = "Ref_babouin_NEX32.mat"
     impath =  osp.join(_data_dirname_, imfile)
     ref = _l2_normalize(loadmat(impath)['im_ref'])
