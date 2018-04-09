@@ -18,6 +18,8 @@ import tempfile
 import pickle
 from glob import glob
 
+sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
+
 import numpy as np
 import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
@@ -26,10 +28,8 @@ from sklearn.cluster import k_means
 # Local import
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
 from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations, convert_locations_to_mask
 
-sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
-print(sys.path)
+
 from modopt.opt.metrics import ssim, snr, psnr,nrmse
 
 try:
@@ -174,6 +174,25 @@ def _main(dirname, output_dir, verbose=False):
     metrics = _get_metrics(dirname, verbose)
     _plot_metrics(metrics, output_dir, verbose)
 
+def convert_locations_to_mask(samples_locations, img_size):
+    """ Return the converted the sampling locations as Cartesian mask.
+
+    Parameters:
+    -----------
+        samples_locations: np.ndarray,
+        img_size: int, size of the desired square mask
+    Returns:
+    -------
+        mask: np.ndarray, {0,1} 2D matrix
+    """
+    samples_locations = samples_locations.astype('float')
+    samples_locations += 0.5
+    samples_locations *= img_size
+    samples_locations = samples_locations.astype('int')
+    mask = np.zeros((img_size, img_size))
+    mask[samples_locations[:,0], samples_locations[:,1]] = 1
+    return mask
+
 
 def _f_atom_generator_from_loc(loc, p_size):
     """ Yield the Fourier's atom present in the sampling scheme loc.
@@ -249,7 +268,7 @@ def _wavelets_runtimes(wt_list, nb_scale=3, nb_op=10):
     ref, _, _, _, _ = load_exbaboon_512_retrospection()
     timings = []
     for wt_name in wt_list:
-        wt = Wavelet(nb_scale=nb_scale, wavelet=wt_name)
+        wt = Wavelet(nb_scale=nb_scale, wavelet_name=wt_name)
         time_s = 0.0
         for i in range(nb_op):
             t0 = time.clock()
@@ -288,7 +307,7 @@ def _save_sparsity_images(thresholding_method, output_dirname):
         for idx, wt_name in enumerate(wts_list):
 
             # compute the wavelet coefficients
-            wt = Wavelet(nb_scale=nb_scale, wavelet=wt_name)
+            wt = Wavelet(nb_scale=nb_scale, wavelet_name=wt_name)
             coef = wt.op(ref)
 
             fake_data = np.zeros(wt.transform._data_shape, dtype=np.double)

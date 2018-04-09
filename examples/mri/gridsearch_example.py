@@ -3,9 +3,16 @@ EX grid_search
 ====
 
 Module that provide helper to load specific image.
+Scripts are extracted from study_launcher.py and post_processing.py
+in the gridsearch plugin.
+It parses the config.ini file to get lists of parameters to test on a specific
+reconstruction algorithm and store results (numerics and statistics with the
+post-processing part) in results/ dir.
+The scripts are explained better in the plugin README. 
 
 Credit: B Sarthou
 """
+
 
 
 # Sys import
@@ -45,62 +52,62 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 if __name__ == '__main__':
     with TempDir(isap='results') as tmpd:
-        # parser = argparse.ArgumentParser(description=''.join(__doc__))
-        # parser.add_argument('-o', '--output-dir', dest='root_dirname',
-        #                     action ='store_const',
-        #                     const  ='results',
-        #                     default='results',
-        #                     help   ='root directoy of the results')
-        # parser.add_argument("-v", "--verbose", help="increase output verbosity",
-        #                     action="store_true")
-        # parser.add_argument("--do-email-report", help="send a report email",
-        #                     dest='emailreport', action="store_true")
-        # parser.add_argument('--email-dest', dest='emaildest',
-        #                     action='store_const',
-        #                     const=DEFAULT_EMAIL,
-        #                     default=DEFAULT_EMAIL,
-        #                     help='set the email destination')
-        # args = parser.parse_args()
-		#
-        # if args.verbose:
-        #     logging.info(info())
-		#
-        # if not os.path.exists(args.root_dirname):
-        #     os.makedirs(args.root_dirname)
-		#
-        # config = ConfigParser.RawConfigParser()
-        # config.read('config.ini')
-		#
-        # # gathe the global params for the study
-        # global_params = dict(config.items('Global'))
-        # global_params['n_jobs'] = int(global_params['n_jobs'])
-        # global_params['timeout'] = int(global_params['timeout'])
-        # global_params['verbose_reconstruction'] = bool(global_params['verbose_reconstruction'])
-        # global_params['verbose_gridsearch'] = bool(global_params['verbose_gridsearch'])
-        # global_params['max_nb_of_iter'] = int(global_params['max_nb_of_iter'])
-		#
-        # global_params['verbose_reconstruction'] = True
-        # global_params['verbose_gridsearch'] = True
-		#
-        # # gather the run specific params and launch the run
-        # for section in config.sections():
-        #     if "Run" in section:
-        #         params = dict(config.items(section))
-        #         params.update(global_params)
-        #         try:
-        #             params['acc_factor'] = float(params['acc_factor'])
-        #         except ValueError:
-        #             params['acc_factor'] = None
-        #         sigma_list = params['sigma'].split('[')[1].split(']')[0].split(',')
-        #         sigma_list = [float(value) for value in sigma_list]
-        #         params['dirname'] = os.path.join(args.root_dirname,
-        #                                          params['mask_type'])
-        #         if not os.path.exists(params['dirname']):
-        #             os.makedirs(params['dirname'])
-		#
-        #         for sigma in sigma_list:
-        #             params['sigma'] = sigma
-        #             _launch(**params)
+        parser = argparse.ArgumentParser(description=''.join(__doc__))
+        parser.add_argument('-o', '--output-dir', dest='root_dirname',
+                            action ='store_const',
+                            const  ='results',
+                            default='results',
+                            help   ='root directoy of the results')
+        parser.add_argument("-v", "--verbose", help="increase output verbosity",
+                            action="store_true")
+        parser.add_argument("--do-email-report", help="send a report email",
+                            dest='emailreport', action="store_true")
+        parser.add_argument('--email-dest', dest='emaildest',
+                            action='store_const',
+                            const=DEFAULT_EMAIL,
+                            default=DEFAULT_EMAIL,
+                            help='set the email destination')
+        args = parser.parse_args()
+
+        if args.verbose:
+            logging.info(info())
+
+        if not os.path.exists(args.root_dirname):
+            os.makedirs(args.root_dirname)
+
+        config = ConfigParser.RawConfigParser()
+        config.read('config.ini')
+
+        # gathe the global params for the study
+        global_params = dict(config.items('Global'))
+        global_params['n_jobs'] = int(global_params['n_jobs'])
+        global_params['timeout'] = int(global_params['timeout'])
+        global_params['verbose_reconstruction'] = bool(global_params['verbose_reconstruction'])
+        global_params['verbose_gridsearch'] = bool(global_params['verbose_gridsearch'])
+        global_params['max_nb_of_iter'] = int(global_params['max_nb_of_iter'])
+
+        global_params['verbose_reconstruction'] = True
+        global_params['verbose_gridsearch'] = True
+
+        # gather the run specific params and launch the run
+        for section in config.sections():
+            if "Run" in section:
+                params = dict(config.items(section))
+                params.update(global_params)
+                try:
+                    params['acc_factor'] = float(params['acc_factor'])
+                except ValueError:
+                    params['acc_factor'] = None
+                sigma_list = params['sigma'].split('[')[1].split(']')[0].split(',')
+                sigma_list = [float(value) for value in sigma_list]
+                params['dirname'] = os.path.join(args.root_dirname,
+                                                 params['mask_type'])
+                if not os.path.exists(params['dirname']):
+                    os.makedirs(params['dirname'])
+
+                for sigma in sigma_list:
+                    params['sigma'] = sigma
+                    _launch(**params)
 
         # Post- processing of results
         ROOT_DIR = 'results/cartesianR4'
