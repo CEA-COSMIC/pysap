@@ -8,7 +8,7 @@ in the gridsearch plugin.
 It parses the config.ini file to get lists of parameters to test on a specific
 reconstruction algorithm and store results (numerics and statistics with the
 post-processing part) in results/ dir.
-The scripts are explained better in the plugin README. 
+The scripts are explained better in the plugin README.
 
 Credit: B Sarthou
 """
@@ -20,8 +20,6 @@ import sys
 import os
 import logging
 import argparse
-
-sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
 
 from pysap import info
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet

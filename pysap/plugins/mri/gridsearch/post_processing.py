@@ -18,8 +18,6 @@ import tempfile
 import pickle
 from glob import glob
 
-sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
-
 import numpy as np
 import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
