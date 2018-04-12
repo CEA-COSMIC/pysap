@@ -72,7 +72,7 @@ def _get_metrics(dirname, verbose=False):
                     M[mask] = {}
                 if acc_factor not in M[mask]:
                     M[mask][acc_factor] = {}
-                with open(noise_levels_file, 'r') as pfile:
+                with open(noise_levels_file, 'rb') as pfile:
                     report = pickle.load(pfile)
 
                 for metric_name, metric in report.items():
@@ -132,7 +132,7 @@ def _plot_metrics(M, output_dir, verbose=False):
                         xx = range(len(y_values))
                         ax.bar(xx, y_values)
                         ax.set_xticks(xx)
-                        ax.set_xticklabels(metric.iterkeys(), rotation=45)
+                        ax.set_xticklabels(metric.keys(), rotation=45)
                     else:
                         ax.plot(x_values, y_values, line_type[idx],
                                 linewidth=2.0, markersize=10.0, label=wt_name)
