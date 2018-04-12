@@ -33,7 +33,9 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
                         mu=1e-6, tau=None, sigma=None, relaxation_factor=1.0,
                         nb_of_reweights=1, max_nb_of_iter=150,
                         add_positivity=False, atol=1e-4, non_cartesian=False,
-                        uniform_data_shape=None, metric_call_period=5, metrics={},
+                        uniform_data_shape=None,
+                        metric_call_period=5,
+                        metrics={},
                         verbose=0):
     """ The Condat-Vu sparse reconstruction with reweightings.
 
@@ -383,7 +385,8 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         cost=cost_op,
         auto_iterate=False,
         metric_call_period=metric_call_period,
-        metrics=metrics)
+        metrics=metrics,
+        linear=linear_op)
 
     # Perform the reconstruction
     end = time.clock()

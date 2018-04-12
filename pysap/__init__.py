@@ -26,9 +26,9 @@ from pysap.utils import load_transform
 from pysap.base.utils import monkeypatch
 from pysap.utils import AVAILABLE_TRANSFORMS
 
-# import sys
-# # sys.path.remove('/home/bs255482/.local/lib/python3.5/site-packages/modopt-1.1.4-py3.5.egg')
-# sys.path.insert(0,'/home/bs255482/src/Modopt/ModOpt/')
+# sys.path.remove('/home/bs255482/.local/lib/python3.5/site-packages/modopt-1.1.4-py3.5.egg')
+import sys
+sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
 
 # Apply some monkeypatchs to the optimization package
 import progressbar
@@ -40,6 +40,7 @@ from modopt.opt.algorithms import ForwardBackward
 print(info())
 
 # Monkey patch with alternative version of Modopt
+
 
 @monkeypatch(ForwardBackward)
 def iterate(self, max_iter=150):
@@ -57,19 +58,17 @@ def iterate(self, max_iter=150):
     with progressbar.ProgressBar(redirect_stdout=True,
                                  max_value=max_iter) as bar:
         for i in range(max_iter):
-            self._update()
             self.idx = i
+            self._update()
+            # Calling metrics every metric_call_period cycle
+            if self.idx % self.metric_call_period == 0:
+                self._compute_metrics()
+
+            # Check of metrics convergence will be done in _update()
             if self.converge:
                 print(' - Converged!')
                 break
-            # metric computation and early-stopping check
-            if self.idx % self.metric_call_period == 0:
-                kwargs = self.get_notify_observers_kwargs()
-                self.notify_observers('cv_metrics', **kwargs)
-                if self.any_convergence_flag():
-                    if self.verbose:
-                        print("\n-----> early-stopping done")
-                    break
+
             bar.update(self.idx)
     # retrieve metrics results
     self.retrieve_outputs()
@@ -95,20 +94,17 @@ def iterate(self, max_iter=150):
                                  max_value=max_iter) as bar:
 
         for i in range(max_iter):
-            self._update()
             self.idx = i
+            self._update()
+            # Calling metrics every metric_call_period cycle
+            if self.idx % self.metric_call_period == 0:
+                self._compute_metrics()
 
+            # Check of metrics convergence will be done in _update()
             if self.converge:
                 print(' - Converged!')
                 break
-            # metric computation and early-stopping check
-            if self.idx % self.metric_call_period == 0:
-                kwargs = self.get_notify_observers_kwargs()
-                self.notify_observers('cv_metrics', **kwargs)
-                if self.any_convergence_flag():
-                    if self.verbose:
-                        print("\n-----> early-stopping done")
-                    break
+
             bar.update(self.idx)
 
     # retrieve metrics results

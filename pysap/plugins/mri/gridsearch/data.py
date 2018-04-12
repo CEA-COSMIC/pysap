@@ -10,6 +10,9 @@ Credit: H Cherkaoui
 # Sys improt
 import os.path as osp
 
+import sys
+sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
+
 # Third party import
 from scipy.io import loadmat
 from scipy import misc
@@ -18,7 +21,8 @@ import numpy as np
 import scipy.fftpack as pfft
 
 # Specific import
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations, convert_locations_to_mask
+from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
+from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
 from pysap.data import get_sample_data
 
 
@@ -27,6 +31,7 @@ _data_dirname_ = osp.join(_dirname_, "data")
 DATADIR = osp.join(osp.expanduser("~"), ".local", "share", "pysap")
 
 _data_dirname_ = DATADIR
+
 
 def _l2_normalize(x):
     """ Normalize x by its l2 norm.
@@ -49,10 +54,10 @@ def _normalize_localisations(loc):
     Kmax = loc.max()
     Kmin = loc.min()
     if Kmax < np.abs(Kmin):
-        return loc / (2 * np.abs(Kmin) )
+        return loc / (2 * np.abs(Kmin))
     else:
         loc[loc == Kmax] = -Kmax
-        return loc / (2 * np.abs(Kmax) )
+        return loc / (2 * np.abs(Kmax))
 
 
 def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
@@ -99,7 +104,7 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
     # get_sample_data('mri-values_sparklingx15')
 
     imfile = "Ref_babouin_NEX32.mat"
-    impath =  osp.join(_data_dirname_, imfile)
+    impath = osp.join(_data_dirname_, imfile)
     ref = _l2_normalize(loadmat(impath)['im_ref'])
 
     # loc, kspace
@@ -112,7 +117,7 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
         maskpath = osp.join(_data_dirname_, maskfile)
         mask = pfft.ifftshift(loadmat(maskpath)['mask'])
         loc = convert_mask_to_locations(mask)
-        kspace =  mask * pfft.fft2(ref)
+        kspace = mask * pfft.fft2(ref)
 
     elif mask_type == "radial":
         if acc_factor == 8:
@@ -166,7 +171,7 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
     # save the noise level
     info = {'sigma': sigma}
     info['snr'] = 20.0 * np.log(np.linalg.norm(kspace) / np.linalg.norm(noise))
-    info['psnr'] = 20.0 * np.log(np.max(np.abs(kspace)) / np.linalg.norm(noise))
+    info['psnr'] = 20.0*np.log(np.max(np.abs(kspace)) / np.linalg.norm(noise))
 
     # add noise
     kspace = kspace + noise
@@ -174,15 +179,18 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
     # binary mask
     binarymaskfile = "Ref_N512_NEX32_mask.png"
     binarymaskpath = osp.join(_data_dirname_, binarymaskfile)
-    binary_mask = ~misc.imread(binarymaskpath)[:,:,0]
+    binary_mask = ~misc.imread(binarymaskpath)[:, :, 0]
     binary_mask[binary_mask != 0] = 1
 
     # info
-    info.update({'N':512, 'FOV(mm)':200, 'TE(ms)': 30, 'TR(ms)':550,
-                 'Tobs(ms)':30.72, 'Angle(degree)':25, 'Slice-thickness(mm)':3,
-                 'Contrast':'T2*w'})
+    info.update({'N': 512, 'FOV(mm)': 200, 'TE(ms)': 30, 'TR(ms)': 550,
+                 'Tobs(ms)': 30.72, 'Angle(degree)': 25,
+                 'Slice-thickness(mm)': 3,
+                 'Contrast': 'T2*w'})
     info['mask_type'] = mask_type
     info['acc_factor'] = acc_factor
 
-    return ref.astype("complex128"), loc.astype("double"), \
-           kspace.astype("complex128"), np.rot90(np.fliplr(binary_mask)), info
+    return ref.astype("complex128"),\
+        loc.astype("double"),\
+        kspace.astype("complex128"),\
+        np.rot90(np.fliplr(binary_mask)), info

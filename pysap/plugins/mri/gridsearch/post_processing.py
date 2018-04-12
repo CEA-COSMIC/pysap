@@ -23,16 +23,18 @@ import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 from sklearn.cluster import k_means
 
+sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
+
 # Local import
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
 from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
 
 
-from modopt.opt.metrics import ssim, snr, psnr,nrmse
+from modopt.math.metrics import ssim, snr, psnr, nrmse
 
 try:
     from itertools import izip as zip
-except ImportError: # will be 3.x series
+except ImportError:  # will be 3.x series
     pass
 
 
@@ -60,8 +62,8 @@ def _get_metrics(dirname, verbose=False):
                 sigma = float(sigma)
                 try:
                     acc_factor = float(acc_factor)
-                except ValueError: # case acc_factor = 'None'
-                    acc_factor =  None
+                except ValueError:  # case acc_factor = 'None'
+                    acc_factor = None
 
                 mask = os.path.basename(mask_type_subdir)
 
@@ -111,7 +113,7 @@ def _plot_metrics(M, output_dir, verbose=False):
                     x_values = x_values[order]
                     new_x_values = []
                     for x in x_values:
-                        data = load_exbaboon_512_retrospection(sigma= x,
+                        data = load_exbaboon_512_retrospection(sigma=x,
                                                                mask_type=mask_name,
                                                                acc_factor=acc_factor_name)
                         _, _, _, _, info = data
@@ -142,11 +144,11 @@ def _plot_metrics(M, output_dir, verbose=False):
                            fancybox=True, ncol=3, fontsize=16)
                 acc_factor_type = acc_factor_name
                 if acc_factor_type is None:
-                    acc_factor_type = 4 # cartesian case
+                    acc_factor_type = 4  # cartesian case
                 plt.title(("Mask type: {0}, "
                            "acc. factor = {1}").format(mask_name,
                                                        acc_factor_type),
-                           fontsize=35)
+                          fontsize=35)
 
                 plot_type = "bars" if do_barplot else "plots"
                 filename = "{0}_{1}_{2}_{3}.png".format(mask_name,
@@ -157,7 +159,8 @@ def _plot_metrics(M, output_dir, verbose=False):
                 if not os.path.isdir(plots_dir):
                         os.makedirs(plots_dir)
                 if verbose:
-                    logging.info("plots will be saved at '{0}'".format(plots_dir))
+                    logging.info("plots will be saved at '{0}'".format(
+                                    plots_dir))
 
                 filepath = os.path.join(plots_dir, filename)
                 fig.savefig(filepath)
@@ -171,6 +174,7 @@ def _main(dirname, output_dir, verbose=False):
         logging.info("Mikado run on directory '{}'".format(dirname))
     metrics = _get_metrics(dirname, verbose)
     _plot_metrics(metrics, output_dir, verbose)
+
 
 def convert_locations_to_mask(samples_locations, img_size):
     """ Return the converted the sampling locations as Cartesian mask.
@@ -188,7 +192,7 @@ def convert_locations_to_mask(samples_locations, img_size):
     samples_locations *= img_size
     samples_locations = samples_locations.astype('int')
     mask = np.zeros((img_size, img_size))
-    mask[samples_locations[:,0], samples_locations[:,1]] = 1
+    mask[samples_locations[:, 0], samples_locations[:, 1]] = 1
     return mask
 
 
@@ -217,7 +221,8 @@ def _coherence(wt, loc, p_size=10):
     return max_coh
 
 
-def _get_filename(mask_type, wts_type, acc_factor, sigma="*", root_dir="output_results"):
+def _get_filename(mask_type, wts_type, acc_factor, sigma="*",
+                  root_dir="output_results"):
     """
     """
     try:
@@ -237,16 +242,19 @@ def _save_best_image(imgs_filename_list, output_dir):
     for filename in imgs_filename_list:
         with open(filename, "r") as pfile:
             report = pickle.load(pfile)
-            img = np.abs(report['ssim']['best_result'][0].data)[140:350,100:325]
+            img = np.abs(report['ssim']['best_result'][0].data)[140:350,
+                                                                100:325]
             ssim = round(report['ssim']['best_value'], 2)
             plt.matshow(img, cmap='gray')
             base_filename = os.path.basename(filename)
             wt_name = base_filename.split('_')[-1].split('.')[0]
             plt.title("{0}\nssim: {1}".format(wt_name, ssim))
-            plt.savefig(os.path.join(output_dir, "{0}_SSIM_{1}.png".format(base_filename, ssim)))
+            plt.savefig(os.path.join(output_dir, "{0}_SSIM_{1}.png".format(
+                                                        base_filename, ssim)))
 
 
-def _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma="*", output_path="."):
+def _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma="*",
+                             output_path="."):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     filename_list = _get_filename(mask_type, wts_type, acc_factor, sigma)
@@ -336,113 +344,124 @@ def _save_sparsity_images(thresholding_method, output_dirname):
             # disp
             img = wt.adj_op(coef)
             ax = fig.add_subplot(2, 3, idx+1)
-            ax.matshow(np.abs(img)[140:350,100:325], cmap='gray')
-            ax.set_title("{0}\nr = {1}/{2} = {3}%\nssim = {4}".format(wt_name, nb_no_zeros,
-                                                          nb_coef, 100.*ratio, ssim(img, ref, binary_mask)))
+            ax.matshow(np.abs(img)[140:350, 100:325], cmap='gray')
+            ax.set_title("{0}\nr = {1}/{2} = {3}%\nssim = {4}"
+                         .format(wt_name, nb_no_zeros, nb_coef, 100.*ratio,
+                                 ssim(img, ref, binary_mask)))
 
         ax = fig.add_subplot(2, 3, 6)
-        ax.matshow(np.abs(ref)[140:350,100:325], cmap='gray')
+        ax.matshow(np.abs(ref)[140:350, 100:325], cmap='gray')
         ax.set_title("Reference")
-        plt.savefig(os.path.join(plots_dir, "sparsity_{0}_.png".format(nb_scale)))
+        plt.savefig(os.path.join(plots_dir,
+                                 "sparsity_{0}_.png".format(nb_scale)))
 
 
 def _save_ref(output_dir):
     """
     """
     ref, _, _, _, _ = load_exbaboon_512_retrospection()
-    img = np.abs(ref)[140:350,100:325]
+    img = np.abs(ref)[140:350, 100:325]
     plt.matshow(img, cmap='gray')
     plt.title("Reference")
     plt.savefig(os.path.join(output_dir, "reference.png"))
 
 
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser(description=''.join(__doc__))
-#     parser.add_argument('root_dirname', type=str, metavar='INPUT',
-#                         help='root directoy of the results')
-#     parser.add_argument('output_dirname', type=str, nargs='?',
-#                         metavar='OUTPUT', help='root directory for the plots')
-#     parser.add_argument("-v", "--verbose", help="increase output verbosity",
-#                         action="store_true")
-#     args = parser.parse_args()
-#
-#     if args.verbose:
-#         logging.info(__doc__)
-#
-#     # metric plots generation
-#     _main(args.root_dirname, args.output_dirname, args.verbose)
-#
-#     # save ref
-#     _save_ref(args.output_dirname)
-#
-#     # coherence computation
-#     _, loc, _, _, _ = load_exbaboon_512_retrospection()
-#     level = 5 # don't change
-#     wts_list = ["UndecimatedBiOrthogonalTransform",
-#                 "FastCurveletTransform",
-#                 "BsplineWaveletTransformATrousAlgorithm",
-#                 "MallatWaveletTransform79Filters",
-#                 "MeyerWaveletsCompactInFourierSpace",
-#                 ]
-#     coherence_list = []
-#     for wt_name in wts_list:
-#         coherence_list.append(_coherence(Wavelet(wt_name, level), loc))
-#     coherence_disp = ["{0}: {1}\n".format(wt, round(coh, 4))
-#                           for coh, wt in sorted(zip(coherence_list, wts_list))]
-#     coherence_disp.insert(0, "Coherences:\n")
-#     coherence_file = os.path.join(args.output_dirname, "coherences.txt")
-#     with open(coherence_file, 'w') as pfile:
-#         pfile.writelines(coherence_disp)
-#
-#     # resulting images selection and display
-#     mask_type = "radial-sparkling"
-#     wts_type = "*"
-#     acc_factor = "8"
-#     sigma = "0.0"
-#     output_path = os.path.join(args.output_dirname, "image_illustration", "all_wts")
-#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-#
-#     mask_type = "radial-sparkling"
-#     wts_type = "UndecimatedBiOrthogonalTransform"
-#     acc_factor = "*"
-#     sigma = "0.0"
-#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-#     mask_type = "radial"
-#     wts_type = "UndecimatedBiOrthogonalTransform"
-#     acc_factor = "*"
-#     sigma = "0.0"
-#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-#     mask_type = "cartesianR4"
-#     wts_type = "UndecimatedBiOrthogonalTransform"
-#     acc_factor = "None"
-#     sigma = "0.0"
-#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-#     mask_type = "cartesianR4"
-#     wts_type = "UndecimatedBiOrthogonalTransform"
-#     acc_factor = "None"
-#     sigma = "0.8"
-#     output_path = os.path.join(args.output_dirname, "image_illustration", "UndeBiOrtho")
-#     _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma, output_path)
-#
-#     # sparsity computation
-#     thresholding_method_list = ["manual_l2_based_threshold",
-#                                 "manual_threshold",
-#                                 "histogram_threshold",
-#                                 ]
-#
-#     for thresholding_method in thresholding_method_list:
-#         _save_sparsity_images(thresholding_method, args.output_dirname)
-#
-#     # runtime time computation
-#     nb_op = 10
-#     wt_names = ["UndecimatedBiOrthogonalTransform",
-#                 "FastCurveletTransform"]
-#     timings = _wavelets_runtimes(wt_names, nb_op=nb_op)
-#     timings_repr = ["{0}: {1} s\n".format(wt, t) for t, wt in sorted(zip(timings, wt_names))]
-#     timings_repr.insert(0, "CPU runtimes average on {0} decomposition and recomposition:\n".format(nb_op))
-#     timing_file = os.path.join(args.output_dirname, "runtimes.txt")
-#     with open(timing_file, 'w') as pfile:
-#         pfile.writelines(timings_repr)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=''.join(__doc__))
+    parser.add_argument('root_dirname', type=str, metavar='INPUT',
+                        help='root directoy of the results')
+    parser.add_argument('output_dirname', type=str, nargs='?',
+                        metavar='OUTPUT', help='root directory for the plots')
+    parser.add_argument("-v", "--verbose", help="increase output verbosity",
+                        action="store_true")
+    args = parser.parse_args()
+
+    if args.verbose:
+        logging.info(__doc__)
+
+    print('GOGO MAIN')
+    # metric plots generation
+    _main(args.root_dirname, args.output_dirname, args.verbose)
+
+    # save ref
+    _save_ref(args.output_dirname)
+
+    # coherence computation
+    _, loc, _, _, _ = load_exbaboon_512_retrospection()
+    level = 5  # don't change
+    wts_list = ["UndecimatedBiOrthogonalTransform",
+                "FastCurveletTransform",
+                "BsplineWaveletTransformATrousAlgorithm",
+                "MallatWaveletTransform79Filters",
+                "MeyerWaveletsCompactInFourierSpace",
+                ]
+    coherence_list = []
+    for wt_name in wts_list:
+        coherence_list.append(_coherence(Wavelet(wt_name, level), loc))
+    coherence_disp = ["{0}: {1}\n".format(wt, round(coh, 4))
+                      for coh, wt in sorted(zip(coherence_list, wts_list))]
+    coherence_disp.insert(0, "Coherences:\n")
+    coherence_file = os.path.join(args.output_dirname, "coherences.txt")
+    with open(coherence_file, 'w') as pfile:
+        pfile.writelines(coherence_disp)
+
+    OUT_DR = args.output_dirname
+    # resulting images selection and display
+    mask_type = "radial-sparkling"
+    wts_type = "*"
+    acc_factor = "8"
+    sigma = "0.0"
+    output_path = os.path.join(OUT_DR, "image_illustration", "all_wts")
+    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
+                             output_path)
+
+    mask_type = "radial-sparkling"
+    wts_type = "UndecimatedBiOrthogonalTransform"
+    acc_factor = "*"
+    sigma = "0.0"
+    output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
+    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
+                             output_path)
+    mask_type = "radial"
+    wts_type = "UndecimatedBiOrthogonalTransform"
+    acc_factor = "*"
+    sigma = "0.0"
+    output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
+    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
+                             output_path)
+    mask_type = "cartesianR4"
+    wts_type = "UndecimatedBiOrthogonalTransform"
+    acc_factor = "None"
+    sigma = "0.0"
+    output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
+    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
+                             output_path)
+    mask_type = "cartesianR4"
+    wts_type = "UndecimatedBiOrthogonalTransform"
+    acc_factor = "None"
+    sigma = "0.8"
+    output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
+    _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
+                             output_path)
+
+    # sparsity computation
+    thresholding_method_list = ["manual_l2_based_threshold",
+                                "manual_threshold",
+                                "histogram_threshold",
+                                ]
+
+    for thresholding_method in thresholding_method_list:
+        _save_sparsity_images(thresholding_method, OUT_DR)
+
+    # runtime time computation
+    nb_op = 10
+    wt_names = ["UndecimatedBiOrthogonalTransform",
+                "FastCurveletTransform"]
+    timings = _wavelets_runtimes(wt_names, nb_op=nb_op)
+    timings_repr = ["{0}: {1} s\n".format(wt, t) for t, wt in sorted(zip(
+                                                        timings, wt_names))]
+    timings_repr.insert(0, "CPU runtimes average on {0} decomposition and\
+                        recomposition:\n".format(nb_op))
+    timing_file = os.path.join(OUT_DR, "runtimes.txt")
+    with open(timing_file, 'w') as pfile:
+        pfile.writelines(timings_repr)
