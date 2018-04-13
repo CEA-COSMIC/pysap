@@ -69,9 +69,10 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         """ Declare transformation parameters.
         """
         # Check transformation has been defined
-        if (self.__isap_transform_id__ is None or self.__isap_name__ is None or
-                self.__is_decimated__ is None or
-                self.__isap_nb_bands__ is None):
+        if (self.__isap_transform_id__ is None or self.__isap_name__ is None
+                or self.__is_decimated__ is None
+                or self.__isap_nb_bands__ is None):
+
             raise ValueError("ISAPWaveletTransform is not defined properly.")
         self.name = self.__isap_name__
 
@@ -146,8 +147,8 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         nb_band_per_scale = numpy.ones((nb_scale, 1), dtype=int)
         nb_band_per_scale[:-1] = nb_band
         bands_lengths = (
-            (iso_shape * iso_shape) *
-            numpy.ones((nb_scale, nb_band), dtype=int))
+            (iso_shape * iso_shape)
+            * numpy.ones((nb_scale, nb_band), dtype=int))
         bands_shapes = WaveletTransformBase.bands_shapes(bands_lengths)
 
         return (bands_names, flatten_fct, unflatten_fct, is_decimated,
@@ -403,8 +404,8 @@ class LineColumnWaveletTransform1D1D(ISAPWaveletTransformBase):
         self.nb_band_per_scale = numpy.array([
             _map[self._iso_shape]] * nb_scale)
         self.bands_lengths = (
-            (self._iso_shape * self._iso_shape) *
-            numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
+            (self._iso_shape * self._iso_shape)
+            * numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
         self.bands_shapes = WaveletTransformBase.bands_shapes(
             bands_lengths)
         self.isap_transform_id = 17

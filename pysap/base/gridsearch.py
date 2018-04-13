@@ -41,7 +41,7 @@ def _get_final_size(param_grid):
     size: int,
         the number of bytes of the extended carthesian grid a parameters.
     """
-    tmp = {} # same pattern than param_grid but store the size
+    tmp = {}  # same pattern than param_grid but store the size
     for idx, key in enumerate(param_grid.iterkeys()):
         if isinstance(param_grid[key], list):
             tmp[idx] = [sys.getsizeof(value) for value in param_grid[key]]

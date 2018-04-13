@@ -117,8 +117,8 @@ class TempDir(object):
             the generated ISAP compliant temporary folder.
         """
         tmpdir = None
-        while (tmpdir is None or "pgm" in tmpdir.lower() or
-               "jpg" in tmpdir.lower()):
+        while (tmpdir is None or "pgm" in tmpdir.lower()
+                or "jpg" in tmpdir.lower()):
             if tmpdir is not None and os.path.exists(tmpdir):
                 os.rmdir(tmpdir)
             tmpdir = tempfile.mkdtemp()

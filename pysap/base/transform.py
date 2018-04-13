@@ -23,7 +23,7 @@ from .utils import with_metaclass
 from pysap.plotting import plot_transform
 try:
     import pysparse
-except:
+except ImportError:
     warnings.warn("Sparse2d python bindings not found, use binaries.")
     pysparse = None
 
@@ -122,7 +122,6 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             instance.
         """
         return (self.__class__, (self.nb_scale, self.verbose))
-
 
     def __getitem__(self, given):
         """ Access the analysis designated scale/band coefficients.
@@ -502,8 +501,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         # Compute selected scale/band start/stop indices
         start_scale_padd = self.scales_padds[scale]
         start_band_padd = (
-            self.bands_lengths[scale, :band + 1].sum() -
-            self.bands_lengths[scale, band])
+            self.bands_lengths[scale, :band + 1].sum()
+            - self.bands_lengths[scale, band])
         start_padd = start_scale_padd + start_band_padd
         stop_padd = start_padd + self.bands_lengths[scale, band]
 
@@ -535,8 +534,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         # Compute selected scale/band start/stop indices
         start_scale_padd = self.scales_padds[scale]
         start_band_padd = (
-            self.bands_lengths[scale, :band + 1].sum() -
-            self.bands_lengths[scale, band])
+            self.bands_lengths[scale, :band + 1].sum()
+            - self.bands_lengths[scale, band])
         start_padd = start_scale_padd + start_band_padd
         stop_padd = start_padd + self.bands_lengths[scale, band]
 
