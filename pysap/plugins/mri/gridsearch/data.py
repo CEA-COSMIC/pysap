@@ -7,11 +7,10 @@ Module that provide helper to load specific image.
 Credit: H Cherkaoui
 """
 
-# Sys improt
+# Sys import
 import os.path as osp
 
 import sys
-sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
 
 # Third party import
 from scipy.io import loadmat

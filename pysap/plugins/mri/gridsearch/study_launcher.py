@@ -24,19 +24,10 @@ import matplotlib.pylab as plt
 import pickle
 import pprint
 
-sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
-
 from pysap.base.gridsearch import grid_search
 
 from pysap import info
-from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import sparse_rec_condatvu
-from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import sparse_rec_fista
-
-from pysap.plugins.mri.reconstruct.gradient import GradAnalysis2 as Grad2DAnalysis
-from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
-from pysap.plugins.mri.reconstruct.fourier import FFT2 as FFT
-from pysap.plugins.mri.reconstruct.fourier import NFFT2 as NFFT
-
+from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import *
 from modopt.math.metrics import ssim, snr, psnr, nrmse
 
 # local import
@@ -155,30 +146,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
 
         logging.info("Using wavelet {0}".format(wt))
 
-        wt_list = [{'nb_scale': nb_reso, 'wavelet': wt} for nb_reso in nb_scales]
-        ft_cls = NFFT if mask_type in ['radial-sparkling', 'radial'] else FFT
-        ft_cls_kwargs = {ft_cls: {"samples_locations": loc,
-                                  "img_size": ref.shape[0]}
-                         }
-        # # Params Condat
-        # params = {
-        #     'data': kspace,
-        #     'wavelet_name': wt,
-        #     'samples': loc,
-        #     'nb_scales': nb_scales,
-        #     'mu': mu_list,
-        #     'max_nb_of_iter': max_nb_of_iter,
-        #     'sigma': 0.1,
-        #     'metrics': metrics,
-        #     'verbose': verbose_reconstruction,
-        # }
-        #
-        # # launcher the gridsearch
-        # list_kwargs, results = grid_search(sparse_rec_condatvu,
-        #                                    params, n_jobs=n_jobs,
-        #                                    verbose=verbose_gridsearch)
-
-        # Params FISTA
+        # Params Condat
         params = {
             'data': kspace,
             'wavelet_name': wt,
@@ -186,13 +154,31 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
             'nb_scales': nb_scales,
             'mu': mu_list,
             'max_nb_of_iter': max_nb_of_iter,
+            'sigma': 0.1,
             'metrics': metrics,
             'verbose': verbose_reconstruction,
         }
+
         # launcher the gridsearch
-        list_kwargs, results = grid_search(sparse_rec_fista,
+        list_kwargs, results = grid_search(sparse_rec_condatvu,
                                            params, n_jobs=n_jobs,
                                            verbose=verbose_gridsearch)
+
+        # # Params FISTA
+        # params = {
+        #     'data': kspace,
+        #     'wavelet_name': wt,
+        #     'samples': loc,
+        #     'nb_scales': nb_scales,
+        #     'mu': mu_list,
+        #     'max_nb_of_iter': max_nb_of_iter,
+        #     'metrics': metrics,
+        #     'verbose': verbose_reconstruction,
+        # }
+        # # launcher the gridsearch
+        # list_kwargs, results = grid_search(sparse_rec_fista,
+        #                                    params, n_jobs=n_jobs,
+        #                                    verbose=verbose_gridsearch)
 
         # gather the best result per metric
         best_results = {'ssim': _gather_result(metric='ssim',
@@ -245,8 +231,6 @@ if __name__ == '__main__':
 
     if args.verbose:
         logging.info(info())
-
-    print('GOGO MAIN')
 
     if not os.path.exists(args.root_dirname):
         os.makedirs(args.root_dirname)

@@ -23,11 +23,10 @@ import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 from sklearn.cluster import k_means
 
-sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
-
 # Local import
 from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
-from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
+from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection \
+    as load_data_baboon
 
 
 from modopt.math.metrics import ssim, snr, psnr, nrmse
@@ -113,9 +112,9 @@ def _plot_metrics(M, output_dir, verbose=False):
                     x_values = x_values[order]
                     new_x_values = []
                     for x in x_values:
-                        data = load_exbaboon_512_retrospection(sigma=x,
-                                                               mask_type=mask_name,
-                                                               acc_factor=acc_factor_name)
+                        data = load_data_baboon(sigma=x,
+                                                mask_type=mask_name,
+                                                acc_factor=acc_factor_name)
                         _, _, _, _, info = data
                         new_x_values.append(info['snr'])
                     x_values = np.array(new_x_values)
@@ -271,7 +270,7 @@ def _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma="*",
 def _wavelets_runtimes(wt_list, nb_scale=3, nb_op=10):
     """
     """
-    ref, _, _, _, _ = load_exbaboon_512_retrospection()
+    ref, _, _, _, _ = load_data_baboon()
     timings = []
     for wt_name in wt_list:
         wt = Wavelet(nb_scale=nb_scale, wavelet_name=wt_name)
@@ -289,7 +288,7 @@ def _save_sparsity_images(thresholding_method, output_dirname):
     """
     """
     nb_scales = range(2, 6)
-    ref, _, _, binary_mask, _ = load_exbaboon_512_retrospection()
+    ref, _, _, binary_mask, _ = load_data_baboon()
     wts_list = ["UndecimatedBiOrthogonalTransform",
                 "FastCurveletTransform",
                 "BsplineWaveletTransformATrousAlgorithm",
@@ -359,7 +358,7 @@ def _save_sparsity_images(thresholding_method, output_dirname):
 def _save_ref(output_dir):
     """
     """
-    ref, _, _, _, _ = load_exbaboon_512_retrospection()
+    ref, _, _, _, _ = load_data_baboon()
     img = np.abs(ref)[140:350, 100:325]
     plt.matshow(img, cmap='gray')
     plt.title("Reference")
@@ -379,7 +378,6 @@ if __name__ == '__main__':
     if args.verbose:
         logging.info(__doc__)
 
-    print('GOGO MAIN')
     # metric plots generation
     _main(args.root_dirname, args.output_dirname, args.verbose)
 
@@ -387,7 +385,7 @@ if __name__ == '__main__':
     _save_ref(args.output_dirname)
 
     # coherence computation
-    _, loc, _, _, _ = load_exbaboon_512_retrospection()
+    _, loc, _, _, _ = load_data_baboon()
     level = 5  # don't change
     wts_list = ["UndecimatedBiOrthogonalTransform",
                 "FastCurveletTransform",

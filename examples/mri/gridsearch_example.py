@@ -2,183 +2,232 @@
 EX grid_search
 ====
 
-Module that provide helper to load specific image.
-Scripts are extracted from study_launcher.py and post_processing.py
-in the gridsearch plugin.
-It parses the config.ini file to get lists of parameters to test on a specific
-reconstruction algorithm and store results (numerics and statistics with the
-post-processing part) in results/ dir.
-The scripts are explained better in the plugin README.
+This example is a simplified version of the arg parser in the gridsearch module
+It shows how to pass a reconstruction algorithm with a list of arguments in the
+grid_search function, to multi-thread reconstructions and find best params for
+each metric.
+
+WARNING: A gridsearch can be quite long. If you have huge test dimension,
+better use the combo study_launcher/post_processing tool in the plugin, which
+stores results and allows you to process it afterward (read README in plugin
+folder for more info)
 
 Credit: B Sarthou
 """
 
 # Sys import
 import sys
-import os
-import logging
-import argparse
 
-sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
+import pprint as pp
+import numpy as np
+import matplotlib.pyplot as plt
 
-from pysap import info
-from pysap.plugins.mri.reconstruct.linear import Wavelet2 as Wavelet
 from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
-from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
+from pysap.plugins.mri.gridsearch.study_launcher import _gather_result
+from pysap.base.gridsearch import grid_search
+from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import *
 
-from pysap.plugins.mri.gridsearch.study_launcher import _launch
-from pysap.plugins.mri.gridsearch.post_processing import _main, _save_ref
-from pysap.plugins.mri.gridsearch.post_processing import _coherence
-from pysap.plugins.mri.gridsearch.post_processing import _get_and_save_best_image
+from modopt.math.metrics import ssim, snr, psnr, nrmse
 
-from pysap.plugins.mri.gridsearch.post_processing import _save_sparsity_images
-from pysap.plugins.mri.gridsearch.post_processing import _wavelets_runtimes
-
-from pysap.utils import TempDir
-
-if sys.version_info[0] < 3:
-    import ConfigParser
-else:
-    import configparser as ConfigParser
-
-try:
-    from itertools import izip as zip
-except ImportError:  # will be 3.x series
-    pass
-
-DEFAULT_EMAIL = 'bsarthou@hotmail.fr'
-
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+#############################################################################
+# Choose global parameters and data loading
+# -------------------
+#
+# The first parameters are linked to the data (type of sampling scheme, noise
+# added to the data, etc...). The others are for the reconstructions
+# Then data is loaded according to those parameters: the 2D image reference,
+# the sampling locations, the k-space supposedly mesured by MRI, and a mask for
+# acceleration
 
 
-if __name__ == '__main__':
-    with TempDir(isap='results') as tmpd:
-        ROOT_DIR = 'results/cartesianR4'
+# Be careful: the name of the kspace sampling trajectory should be one of the
+# available in the data module: cartesianR4, sparkling or radial.
+mask_type = 'cartesianR4'
 
-        if not os.path.exists(ROOT_DIR):
-            os.makedirs(ROOT_DIR)
+# the available acceleration factor dependent of the choice of the mask type,
+# if there is no need for that option write None. (options: None, 8, 15)
+acc_factor = None
 
-        config = ConfigParser.RawConfigParser()
-        config.read('config.ini')
+# the sigma correspond to the standard deviation of the centered gaussian
+# noise added to the kspace.
+sigma = 0.1
 
-        # gathe the global params for the study
-        global_params = dict(config.items('Global'))
-        global_params['n_jobs'] = int(global_params['n_jobs'])
-        global_params['timeout'] = int(global_params['timeout'])
-        global_params['verbose_reconstruction'] = bool(global_params[
-                                                    'verbose_reconstruction'])
-        global_params['verbose_gridsearch'] = bool(global_params[
-                                                    'verbose_gridsearch'])
-        global_params['max_nb_of_iter'] = int(global_params['max_nb_of_iter'])
+# Boolean to know which reconstruction algorithm you want to try
+CONDAT = True
+FISTA = False
+# Max number of iterations before stopping
+max_nb_of_iter = 200
+# Numbers of threads created on mCPU (if -1, all, if -2 all but one)
+n_jobs = 16
+# Verbose parameters, activated if >1
+verbose_reconstruction = 11
+verbose_gridsearch = 11
 
-        global_params['verbose_reconstruction'] = True
-        global_params['verbose_gridsearch'] = True
+# data loading
+res = load_exbaboon_512_retrospection(sigma, mask_type, acc_factor)
+ref, loc, kspace, binmask, info = res[0], res[1], res[2], res[3], res[4]
 
-        # gather the run specific params and launch the run
-        for section in config.sections():
-            if "Run" in section:
-                params = dict(config.items(section))
-                params.update(global_params)
-                try:
-                    params['acc_factor'] = float(params['acc_factor'])
-                except ValueError:
-                    params['acc_factor'] = None
-                sigma_list = params['sigma'].split('[')[1].split(']')[0]\
-                                                          .split(',')
-                sigma_list = [float(value) for value in sigma_list]
-                params['dirname'] = os.path.join(ROOT_DIR,
-                                                 params['mask_type'])
-                if not os.path.exists(params['dirname']):
-                    os.makedirs(params['dirname'])
+#############################################################################
+# Declaration of metrics
+# -------------------
+#
+# We declare in a dictionnary which metric to compute during gridsearch, along
+# differents parameters associated to it, especially if we want to check early
+# stopping on it
 
-                for sigma in sigma_list:
-                    params['sigma'] = sigma
-                    _launch(**params)
 
-        # Post- processing of results
-        ROOT_DIR = 'results/cartesianR4'
-        OUT_DR = 'results/cartesianR4'
-        VERBOSE = True
+metrics = {'ssim': {'metric': ssim,
+                    'mapping': {'x_new': 'test', 'y_new': None},
+                    'cst_kwargs': {'ref': ref, 'mask': binmask},
+                    'early_stopping': True,
+                    },
+           'psnr': {'metric': psnr,
+                    'mapping': {'x_new': 'test', 'y_new': None},
+                    'cst_kwargs': {'ref': ref, 'mask': binmask},
+                    'early_stopping': False,
+                    },
+           'snr': {'metric': snr,
+                   'mapping': {'x_new': 'test', 'y_new': None},
+                   'cst_kwargs': {'ref': ref, 'mask': binmask},
+                   'early_stopping': False,
+                   },
+           'nrmse': {'metric': nrmse,
+                     'mapping': {'x_new': 'test', 'y_new': None},
+                     'cst_kwargs': {'ref': ref, 'mask': binmask},
+                     'early_stopping': False,
+                     },
+           }
 
-        # metric plots generation
-        _main(ROOT_DIR, OUT_DR, VERBOSE)
+#############################################################################
+# Declaration of parameters to gridsearch
+# -------------------
+#
+# We declare lists of parameters to be gridsearch (every one except the data
+# and the wavelets can be gridsearched)
 
-        # save ref
-        _save_ref(OUT_DR)
+mu_list = list(np.logspace(-8, -1, 5))
+nb_scales = [3, 4]
+list_wts = ["MallatWaveletTransform79Filters",
+            "UndecimatedBiOrthogonalTransform",
+            ]
 
-        # coherence computation
-        _, loc, _, _, _ = load_exbaboon_512_retrospection()
-        level = 5  # don't change
-        wts_list = ["UndecimatedBiOrthogonalTransform",
-                    "MallatWaveletTransform79Filters",
-                    ]
-        coherence_list = []
-        for wt_name in wts_list:
-            coherence_list.append(_coherence(Wavelet(wt_name, level), loc))
-        coherence_disp = ["{0}: {1}\n".format(wt, round(coh, 4))
-                          for coh, wt in sorted(zip(coherence_list, wts_list))]
-        coherence_disp.insert(0, "Coherences:\n")
-        coherence_file = os.path.join(OUT_DR, "coherences.txt")
-        with open(coherence_file, 'w') as pfile:
-            pfile.writelines(coherence_disp)
+#############################################################################
+# Gridsearch
+# -------------------
+#
+# For each wavelet and each reconstruction algorithm, we call the gridsearch
+# which will execute each reconstruction on each set of parameters
+# (multi-threaded, to take advantage of mCPU configuration) and then return the
+# resulted best fit according to each metric
 
-        # resulting images selection and display
-        mask_type = "radial-sparkling"
-        wts_type = "*"
-        acc_factor = "8"
-        sigma = "0.0"
-        output_path = os.path.join(OUT_DR, "image_illustration", "all_wts")
-        _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
-                                 output_path)
 
-        mask_type = "radial-sparkling"
-        wts_type = "UndecimatedBiOrthogonalTransform"
-        acc_factor = "*"
-        sigma = "0.0"
-        output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
-        _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
-                                 output_path)
-        mask_type = "radial"
-        wts_type = "UndecimatedBiOrthogonalTransform"
-        acc_factor = "*"
-        sigma = "0.0"
-        output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
-        _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
-                                 output_path)
-        mask_type = "cartesianR4"
-        wts_type = "UndecimatedBiOrthogonalTransform"
-        acc_factor = "None"
-        sigma = "0.0"
-        output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
-        _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
-                                 output_path)
-        mask_type = "cartesianR4"
-        wts_type = "UndecimatedBiOrthogonalTransform"
-        acc_factor = "None"
-        sigma = "0.8"
-        output_path = os.path.join(OUT_DR, "image_illustration", "UndeBiOrtho")
-        _get_and_save_best_image(mask_type, wts_type, acc_factor, sigma,
-                                 output_path)
+for wt in list_wts:
 
-        # sparsity computation
-        thresholding_method_list = ["manual_l2_based_threshold",
-                                    "manual_threshold",
-                                    "histogram_threshold",
-                                    ]
+    print("Using wavelet {0}".format(wt))
 
-        for thresholding_method in thresholding_method_list:
-            _save_sparsity_images(thresholding_method, OUT_DR)
+    if CONDAT:
+        # Params Condat
+        params = {
+            'data': kspace,
+            'wavelet_name': wt,
+            'samples': loc,
+            'nb_scales': nb_scales,
+            'mu': mu_list,
+            'max_nb_of_iter': max_nb_of_iter,
+            'sigma': 0.1,
+            'metrics': metrics,
+            'verbose': verbose_reconstruction,
+        }
 
-        # runtime time computation
-        nb_op = 10
-        wt_names = ["UndecimatedBiOrthogonalTransform",
-                    "FastCurveletTransform"]
-        timings = _wavelets_runtimes(wt_names, nb_op=nb_op)
-        timings_repr = ["{0}: {1} s\n".format(wt, t) for t, wt in sorted(zip(
-                                                        timings, wt_names))]
-        timings_repr.insert(0, "CPU runtimes average on {0} decomposition and\
-         recomposition:\n".format(nb_op))
-        timing_file = os.path.join(OUT_DR, "runtimes.txt")
-        with open(timing_file, 'w') as pfile:
-            pfile.writelines(timings_repr)
+        # launch the gridsearch
+        list_kwargs, results = grid_search(sparse_rec_condatvu,
+                                           params, n_jobs=n_jobs,
+                                           verbose=verbose_gridsearch)
+
+        # gather the best result per metric
+        best_res_condat = {'ssim': _gather_result(metric='ssim',
+                                                  metric_direction=True,
+                                                  list_kwargs=list_kwargs,
+                                                  results=results),
+                           'snr': _gather_result(metric='snr',
+                                                 metric_direction=True,
+                                                 list_kwargs=list_kwargs,
+                                                 results=results),
+                           'psnr': _gather_result(metric='psnr',
+                                                  metric_direction=True,
+                                                  list_kwargs=list_kwargs,
+                                                  results=results),
+                           'nrmse': _gather_result(metric='nrmse',
+                                                   metric_direction=False,
+                                                   list_kwargs=list_kwargs,
+                                                   results=results),
+                           }
+
+    elif FISTA:
+        # Params FISTA
+        params = {
+            'data': kspace,
+            'wavelet_name': wt,
+            'samples': loc,
+            'nb_scales': nb_scales,
+            'mu': mu_list,
+            'max_nb_of_iter': max_nb_of_iter,
+            'metrics': metrics,
+            'verbose': verbose_reconstruction,
+        }
+        # launcher the gridsearch
+        list_kwargs, results = grid_search(sparse_rec_fista,
+                                           params, n_jobs=n_jobs,
+                                           verbose=verbose_gridsearch)
+
+        # gather the best result per metric
+        best_res_fista = {'ssim': _gather_result(metric='ssim',
+                                                 metric_direction=True,
+                                                 list_kwargs=list_kwargs,
+                                                 results=results),
+                          'snr': _gather_result(metric='snr',
+                                                metric_direction=True,
+                                                list_kwargs=list_kwargs,
+                                                results=results),
+                          'psnr': _gather_result(metric='psnr',
+                                                 metric_direction=True,
+                                                 list_kwargs=list_kwargs,
+                                                 results=results),
+                          'nrmse': _gather_result(metric='nrmse',
+                                                  metric_direction=False,
+                                                  list_kwargs=list_kwargs,
+                                                  results=results),
+                          }
+    else:
+        print('No reconstruction called')
+
+#############################################################################
+# Results
+# -------------------
+#
+# We have a dictionnary for each reconstruction algorithm. In each, is stored a
+# a key for each metric,in which there is a dictionnary storing the best value
+# for the metric, the best set of parameters according to the metric and the
+# reconstruction data associated with those parameters. See the pretty print
+# below to see the dict structure.
+
+
+pp.pprint(best_res_condat)
+print('Best set of parameters for Condat algorithm, for SSIM metric:\n',
+      'best params:', best_res_condat['ssim']['best_params'], '\n',
+      'best_transform:', best_res_condat['ssim']['best_result'][1])
+
+coef = best_res_condat['ssim']['best_result'][0]
+img = np.abs(coef)
+fig = plt.figure(figsize=(18, 13))
+fig.suptitle('Best result for SSIM')
+
+ax = fig.add_subplot(1, 2, 1)
+ax.matshow(np.abs(img)[140:350, 100:325], cmap='gray')
+ax.set_title("ssim = {0}".format(ssim(img, ref, binmask)))
+
+ax = fig.add_subplot(1, 2, 2)
+ax.matshow(np.abs(ref)[140:350, 100:325], cmap='gray')
+ax.set_title('Reference')
+
+plt.show()
