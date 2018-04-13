@@ -26,10 +26,6 @@ from pysap.utils import load_transform
 from pysap.base.utils import monkeypatch
 from pysap.utils import AVAILABLE_TRANSFORMS
 
-# sys.path.remove('/home/bs255482/.local/lib/python3.5/site-packages/modopt-1.1.4-py3.5.egg')
-import sys
-sys.path.insert(0, '/home/bs255482/src/Modopt/ModOpt/')
-
 # Apply some monkeypatchs to the optimization package
 import progressbar
 from modopt.opt.algorithms import Condat
