@@ -18,7 +18,7 @@ We also add some gaussian noise in the image space.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
+from pysap.plugins.mri.opt import rec_ista_2d, rec_condat_vu_2d
 from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 
@@ -65,16 +65,18 @@ image_rec0.show()
 
 # Start the FISTA reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_fista(
+x_final = rec_ista_2d(
     data=kspace_data,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
-    mu=1e-9,
+    mu=1e-2,
     nb_scales=4,
-    lambda_init=1.0,
-    max_nb_of_iter=max_iter,
-    atol=1e-4,
-    verbose=1)
+    max_iter=max_iter,
+    tol=1e-4,
+    cartesian_sampling=True,
+    acceleration=True,
+    cost='auto',
+    verbose=0)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
 
@@ -89,22 +91,16 @@ image_rec.show()
 
 # Start the CONDAT-VU reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_condatvu(
-    data=kspace_data,
-    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
-    samples=kspace_loc,
-    nb_scales=4,
-    std_est=None,
-    std_est_method="dual",
-    std_thr=2.,
-    mu=1e-9,
-    tau=None,
-    sigma=None,
-    relaxation_factor=1.0,
-    nb_of_reweights=2,
-    max_nb_of_iter=max_iter,
-    add_positivity=False,
-    atol=1e-4,
-    verbose=1)
+
+x_final, y_final = rec_condat_vu_2d(data=kspace_data,
+                                    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
+                                    samples=kspace_loc,
+                                    nb_scale=4,
+                                    mu=1e-9,
+                                    tol=1e-5,
+                                    max_iter=max_iter,
+                                    cost='auto',
+                                    verbose=0)
+
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
