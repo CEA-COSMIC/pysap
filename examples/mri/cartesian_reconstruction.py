@@ -92,15 +92,16 @@ image_rec.show()
 # Start the CONDAT-VU reconstruction
 max_iter = 20
 
-x_final, y_final = rec_condat_vu_2d(data=kspace_data,
-                                    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
-                                    samples=kspace_loc,
-                                    nb_scale=4,
-                                    mu=1e-9,
-                                    tol=1e-5,
-                                    max_iter=max_iter,
-                                    cost='auto',
-                                    verbose=0)
+x_final, y_final = rec_condat_vu_2d(
+    data=kspace_data,
+    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
+    samples=kspace_loc,
+    nb_scale=4,
+    mu=1e-9,
+    tol=1e-5,
+    max_iter=max_iter,
+    cost='auto',
+    verbose=0)
 
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
