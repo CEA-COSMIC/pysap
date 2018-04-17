@@ -24,8 +24,6 @@ def opt_fb(gradient_op, prox_op, **kwargs):
         print(" - iterate variable shape: ", x_init.shape)
         print("-" * 40)
 
-    start = time.clock()
-
     opt = ForwardBackward(
         x=x_init,
         grad=gradient_op,
@@ -36,8 +34,11 @@ def opt_fb(gradient_op, prox_op, **kwargs):
         beta_update=beta_update,
         lambda_update=lambda_update,
         auto_iterate=False)
+
+    start = time.clock()
     opt.iterate(max_iter)
     end = time.clock()
+
     if verbose:
         # print(" - final iteration number: ", opt._iteration)
         print("Execution time: ", end - start, " seconds")
@@ -68,8 +69,6 @@ def opt_cv(gradient_op, prox_op_g, prox_op_h, **kwargs):
         print(" - dual variable shape: ", dual_init.shape)
         print("-" * 40)
 
-    start = time.clock()
-
     opt = Condat(
         x=primal_init,
         y=dual_init,
@@ -85,8 +84,9 @@ def opt_cv(gradient_op, prox_op_g, prox_op_h, **kwargs):
         sigma_update=sigma_update,
         tau_update=tau_update,
         auto_iterate=False)
-    opt.iterate(max_iter)
 
+    start = time.clock()
+    opt.iterate(max_iter)
     end = time.clock()
     if verbose:
         # print(" - final iteration number: ", opt._iteration)
