@@ -69,14 +69,14 @@ x_final = rec_ista_2d(
     data=kspace_data,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
-    mu=1e-2,
+    mu=1e-7,
     nb_scales=4,
     max_iter=max_iter,
     tol=1e-4,
     cartesian_sampling=True,
-    acceleration=True,
+    use_acceleration=False,
     cost='auto',
-    verbose=0)
+    verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
 

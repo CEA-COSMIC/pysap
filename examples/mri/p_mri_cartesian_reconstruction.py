@@ -84,7 +84,7 @@ x_final = rec_ista_2d_p(
     max_iter=max_iter,
     tol=1e-4,
     cartesian_sampling=True,
-    acceleration=True,
+    use_acceleration=True,
     cost=None,
     verbose=0)
 linear_op = Wavelet2(wavelet_name="BsplineWaveletTransformATrousAlgorithm",

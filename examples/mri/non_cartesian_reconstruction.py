@@ -73,7 +73,7 @@ x_final = rec_ista_2d(
     max_iter=max_iter,
     tol=1e-4,
     cartesian_sampling=False,
-    uniform_data_shape=image.shape,
+    image_shape=image.shape,
     acceleration=True,
     cost='auto',
     verbose=1)
@@ -101,7 +101,7 @@ x_final, transform = rec_condat_vu_2d(
     tol=1e-4,
     max_iter=max_iter,
     cartesian_sampling=False,
-    uniform_data_shape=image.shape,
+    image_shape=image.shape,
     cost='auto',
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
