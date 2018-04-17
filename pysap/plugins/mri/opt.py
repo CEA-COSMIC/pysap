@@ -11,8 +11,8 @@ import numpy as np
 
 
 def rec_ista_2d(data, wavelet_name, samples, mu, nb_scale=4, max_iter=150,
-                tol=1e-4, cartesian_sampling=True, uniform_data_shape=None,
-                acceleration=True, cost=None, **kwargs):
+                tol=1e-4, cartesian_sampling=True, image_shape=None,
+                use_acceleration=True, cost=None, **kwargs):
     """
     solve the synthesis problem :
     min 0.5||F Psi* alpha - y||^2 + mu||alpha||_1
@@ -34,9 +34,9 @@ def rec_ista_2d(data, wavelet_name, samples, mu, nb_scale=4, max_iter=150,
     tolerance of convergence, used if cost is auto
     :param cartesian_sampling: bool
     Specify if sampling is cartesian or not
-    :param uniform_data_shape: tuple
+    :param image_shape: tuple
     image shape, needed if sampling is not cartesian
-    :param acceleration: bool, default True
+    :param use_acceleration: bool, default True
     Use Nesterov's acceleration in fb algorithm
     :param cost: cost method
     either None, 'auto' or a CostObj instance
@@ -53,11 +53,11 @@ def rec_ista_2d(data, wavelet_name, samples, mu, nb_scale=4, max_iter=150,
     # Definition of Fourier operator
     if cartesian_sampling:
         fourier_op = FFT2(samples=samples, shape=data.shape)
-    elif uniform_data_shape is None:
-        raise AttributeError('If using the NUFFT, the uniform_data_shape '
+    elif image_shape is None:
+        raise AttributeError('If using the NUFFT, the image_shape '
                              'argument should be provided')
     else:
-        fourier_op = NFFT2(samples=samples, shape=uniform_data_shape)
+        fourier_op = NFFT2(samples=samples, shape=image_shape)
 
     # gradient operator
     gradient_op = GradSynthesis2(data=data,
@@ -82,8 +82,8 @@ def rec_ista_2d(data, wavelet_name, samples, mu, nb_scale=4, max_iter=150,
                        verbose=verbose)
 
     # Use or not Nesterov's acceleration in ISTA algorithm
-    if not acceleration:
-        def lambda_update(lambda_param_old): return 1.0
+    if not use_acceleration:
+        lambda_update = None
     else:
         lambda_update = 'fista'
 
@@ -94,15 +94,15 @@ def rec_ista_2d(data, wavelet_name, samples, mu, nb_scale=4, max_iter=150,
                          lambda_update=lambda_update,
                          max_iter=max_iter,
                          cost=cost,
-                         **kwargs
-                         )
+                         **kwargs)
+
     x_final = linear_op.adj_op(alpha_final)
     return x_final
 
 
 def rec_condat_vu_2d(data, wavelet_name, samples, mu, nb_scale=4,
                      max_iter=150, tol=1e-4, cartesian_sampling=True,
-                     uniform_data_shape=None, cost=None, **kwargs):
+                     image_shape=None, cost=None, **kwargs):
     """
     Solve the analysis problem :
     min 0.5 ||Fx - y||^2 + lambda * ||Psi x||_1
@@ -123,7 +123,7 @@ def rec_condat_vu_2d(data, wavelet_name, samples, mu, nb_scale=4,
     tolerance of convergence, used if cost is auto
     :param cartesian_sampling: bool
     Specify if sampling is cartesian or not
-    :param uniform_data_shape: tuple
+    :param image_shape: tuple
     image shape, needed if sampling is not cartesian
     :param cost: cost method
     either None, 'auto' or a CostObj instance
@@ -138,14 +138,12 @@ def rec_condat_vu_2d(data, wavelet_name, samples, mu, nb_scale=4,
     linear_op = Wavelet2(wavelet_name=wavelet_name,
                          nb_scale=nb_scale)
     if cartesian_sampling:
-        data_shape = data.shape
-        fourier_op = FFT2(samples=samples, shape=data_shape)
-    elif uniform_data_shape is None:
-        raise AttributeError('If using the NUFFT, the uniform_data_shape '
+        fourier_op = FFT2(samples=samples, shape=data.shape)
+    elif image_shape is None:
+        raise AttributeError('If using the NUFFT, the image_shape '
                              'argument should be provided')
     else:
-        data_shape = uniform_data_shape
-        fourier_op = NFFT2(samples=samples, shape=data_shape)
+        fourier_op = NFFT2(samples=samples, shape=image_shape)
 
     gradient_op = GradAnalysis2(data=data, fourier_op=fourier_op)
 
@@ -167,11 +165,12 @@ def rec_condat_vu_2d(data, wavelet_name, samples, mu, nb_scale=4,
     sigma = kwargs.get('sigma', 0.5)
     if 'tau' not in kwargs.keys():
         tau = 1.0 / (gradient_op.spec_rad / 2.0 + sigma *
-                     linear_op.l2norm(data_shape)**2 + 1e-8)
+                     linear_op.l2norm(fourier_op.shape)**2 + 1e-8)
     else:
         tau = kwargs.get('tau')
 
-    if 1/tau-sigma*linear_op.l2norm(data_shape)**2 < gradient_op.spec_rad/2.0:
+    if 1/tau-sigma*linear_op.l2norm(fourier_op.shape)**2 <\
+            gradient_op.spec_rad/2.0:
         print("WARNING, the parameters tau and sigma do not respect "
               "inequality condition")
 
@@ -192,12 +191,13 @@ def rec_condat_vu_2d(data, wavelet_name, samples, mu, nb_scale=4,
                                   tau=tau,
                                   sigma=sigma,
                                   **kwargs)
+
     return x_final, alpha_final
 
 
 def rec_ista_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
                   max_iter=150, tol=1e-4, cartesian_sampling=True,
-                  uniform_data_shape=None, acceleration=True, cost=None,
+                  image_shape=None, use_acceleration=True, cost=None,
                   **kwargs):
     """
     solve the synthesis problem :
@@ -222,9 +222,9 @@ def rec_ista_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
     tolerance of convergence, used if cost is auto
     :param cartesian_sampling: bool
     Specify if sampling is cartesian or not
-    :param uniform_data_shape: tuple
+    :param image_shape: tuple
     image shape, needed if sampling is not cartesian
-    :param acceleration: bool, default True
+    :param use_acceleration: bool, default True
     Use Nesterov's acceleration in fb algorithm
     :param cost: cost method
     either None, 'auto', 'dual' or a CostObj instance
@@ -241,11 +241,11 @@ def rec_ista_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
     # Definition of Fourier operator
     if cartesian_sampling:
         fourier_op = FFT2(samples=samples, shape=data.shape[0:2])
-    elif uniform_data_shape is None:
-        raise AttributeError('If using the NUFFT, the uniform_data_shape '
+    elif image_shape is None:
+        raise AttributeError('If using the NUFFT, the image_shape '
                              'argument should be provided')
     else:
-        fourier_op = NFFT2(samples=samples, shape=uniform_data_shape)
+        fourier_op = NFFT2(samples=samples, shape=image_shape)
 
     # gradient operator
     gradient_op = Grad2D_pMRI(data=data, linear_op=linear_op,
@@ -267,8 +267,8 @@ def rec_ista_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
         cost = costObj([gradient_op, prox_op], tolerance=tol, verbose=verbose)
 
     # Use or not Nesterov's acceleration in ISTA algorithm
-    if not acceleration:
-        def lambda_update(lambda_param_old): return 1.0
+    if not use_acceleration:
+        lambda_update = None
     else:
         lambda_update = 'fista'
 
@@ -288,7 +288,7 @@ def rec_ista_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
 
 def rec_condat_vu_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
                        max_iter=150, tol=1e-4, cartesian_sampling=True,
-                       uniform_data_shape=None, cost=None, **kwargs):
+                       image_shape=None, cost=None, **kwargs):
     """
     Solve the analysis problem :
     min 0.5 ||Fx - y||^2 + lambda * ||Psi x||_1
@@ -312,7 +312,7 @@ def rec_condat_vu_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
     tolerance of convergence, used if cost is auto
     :param cartesian_sampling: bool
     Specify if sampling is cartesian or not
-    :param uniform_data_shape: tuple
+    :param image_shape: tuple
     image shape, needed if sampling is not cartesian
     :param cost: cost method
     either None, 'auto' or a CostObj instance
@@ -328,18 +328,14 @@ def rec_condat_vu_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
     linear_op = Wavelet2(wavelet_name=wavelet_name,
                          nb_scale=nb_scale)
     if cartesian_sampling:
-        data_shape = data.shape[0:2]
-        fourier_op = FFT2(samples=samples, shape=data_shape)
-    elif uniform_data_shape is None:
-        raise AttributeError('If using the NUFFT, the uniform_data_shape '
+        fourier_op = FFT2(samples=samples, shape=data.shape[0:2])
+    elif image_shape is None:
+        raise AttributeError('If using the NUFFT, the image_shape '
                              'argument should be provided')
     else:
-        data_shape = uniform_data_shape
-        fourier_op = NFFT2(samples=samples, shape=data_shape)
+        fourier_op = NFFT2(samples=samples, shape=image_shape)
 
     gradient_op = Grad2D_pMRI(data=data, fourier_op=fourier_op, S=s_maps)
-    gradient_op.spec_rad = 1.1
-    gradient_op.inv_spec_rad = 1.0/1.1
 
     x_init = kwargs.get('x_init', np.zeros(fourier_op.shape, dtype=np.complex))
     alpha_init = linear_op.op(x_init)
@@ -359,11 +355,12 @@ def rec_condat_vu_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
     sigma = kwargs.get('sigma', 0.5)
     if 'tau' not in kwargs.keys():
         tau = 1.0 / (gradient_op.spec_rad / 2.0 + sigma *
-                     linear_op.l2norm(data_shape)**2 + 1e-8)
+                     linear_op.l2norm(fourier_op.shape)**2 + 1e-8)
     else:
         tau = kwargs.get('tau')
 
-    if 1/tau-sigma*linear_op.l2norm(data_shape)**2 < gradient_op.spec_rad/2.0:
+    if 1/tau-sigma*linear_op.l2norm(fourier_op.shape)**2 < \
+            gradient_op.spec_rad/2.0:
         print("WARNING, the parameters tau and sigma do not respect "
               "inequality condition")
     rho = kwargs.get('rho', 1.0)
@@ -386,4 +383,5 @@ def rec_condat_vu_2d_p(data, wavelet_name, samples, mu, s_maps, nb_scale=4,
                                   sigma=sigma,
                                   rho=rho,
                                   **kwargs)
+
     return x_final, alpha_final
