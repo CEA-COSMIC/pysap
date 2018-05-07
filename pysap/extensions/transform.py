@@ -212,8 +212,10 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         bands_lengths = (
             iso_shape * numpy.ones((nb_scale, nb_band), dtype=int))
         bands_lengths[-1, 1:] = 0
+        print('before:', bands_lengths)
         for i, scale in enumerate(bands_lengths):
-            scale /= 2**(i + scale_shift)
+            bands_lengths[i] = scale / 2**(i + scale_shift)
+        print('after:', bands_lengths)
         bands_lengths[-1, :] *= 2
         bands_lengths = (bands_lengths**2).astype(int)
         bands_shapes = WaveletTransformBase.bands_shapes(bands_lengths)

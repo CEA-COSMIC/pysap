@@ -108,6 +108,9 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         linear_op=linear_op,
         fourier_op=fourier_op)
 
+    if linear_op.transform.__is_decimated__:
+        print('WARNING: decimated wavelets shouldnt be used with FISTA:\
+              non inversible')
     # Define the initial primal and dual solutions
     x_init = np.zeros(fourier_op.shape, dtype=np.complex)
     alpha = linear_op.op(x_init)

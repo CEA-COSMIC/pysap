@@ -64,4 +64,4 @@ class FITS(LoaderBase):
             header = pyfits.Header(image.metadata.items())
         hdu = pyfits.PrimaryHDU(image.data, header=header)
         hdulist = pyfits.HDUList([hdu])
-        hdulist.writeto(outpath, clobber=clobber)
+        hdulist.writeto(outpath, overwrite=clobber)
