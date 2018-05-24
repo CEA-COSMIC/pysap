@@ -135,7 +135,11 @@ class pyWavelet3(object):
         shape = numpy.asarray(shape)
         shape += shape % 2
         fake_data = numpy.zeros(shape)
-        fake_data[zip(shape / 2)] = 1
+        # WARNING: this line is overly complicated, but it basically does this:
+        # fake_data[zip(shape / 2)] = 1
+        # It is written as such to help Python2.x/3.x compatibility
+
+        fake_data[[(int(i[0]),) for i in list(zip(shape/2))]] = 1
 
         # Call mr_transform
         data = self.op(fake_data)

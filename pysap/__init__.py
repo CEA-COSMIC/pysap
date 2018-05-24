@@ -37,32 +37,32 @@ from modopt.opt.algorithms import ForwardBackward
 print(info())
 
 
-@monkeypatch(ForwardBackward)
-def iterate(self, max_iter=150):
-    """ Monkey patch the optimizer iterate method to have a progressbar.
-    """
-    with progressbar.ProgressBar(redirect_stdout=True,
-                                 max_value=max_iter) as bar:
-        for idx in range(max_iter):
-            self._update()
-            if self.converge:
-                print(' - Converged!')
-                break
-            bar.update(idx)
-    self.x_final = self._z_new
-
-
-@monkeypatch(Condat)
-def iterate(self, max_iter=150):
-    """ Monkey patch the optimizer iterate method to have a progressbar.
-    """
-    with progressbar.ProgressBar(redirect_stdout=True,
-                                 max_value=max_iter) as bar:
-        for idx in range(max_iter):
-            self._update()
-            if self.converge:
-                print(' - Converged!')
-                break
-            bar.update(idx)
-    self.x_final = self._x_new
-    self.y_final = self._y_new
+# @monkeypatch(ForwardBackward)
+# def iterate(self, max_iter=150):
+#     """ Monkey patch the optimizer iterate method to have a progressbar.
+#     """
+#     with progressbar.ProgressBar(redirect_stdout=True,
+#                                  max_value=max_iter) as bar:
+#         for idx in range(max_iter):
+#             self._update()
+#             if self.converge:
+#                 print(' - Converged!')
+#                 break
+#             bar.update(idx)
+#     self.x_final = self._z_new
+#
+#
+# @monkeypatch(Condat)
+# def iterate(self, max_iter=150):
+#     """ Monkey patch the optimizer iterate method to have a progressbar.
+#     """
+#     with progressbar.ProgressBar(redirect_stdout=True,
+#                                  max_value=max_iter) as bar:
+#         for idx in range(max_iter):
+#             self._update()
+#             if self.converge:
+#                 print(' - Converged!')
+#                 break
+#             bar.update(idx)
+#     self.x_final = self._x_new
+#     self.y_final = self._y_new
