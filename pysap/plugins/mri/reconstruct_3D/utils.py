@@ -192,9 +192,9 @@ def flatten_wave(x):
     y = x[0].flatten()
     shape_dict = [x[0].shape]
     for x_i in x[1:]:
-        dict_lvl = {}
+        dict_lvl = []
         for key in x_i.keys():
-            dict_lvl[key] = x_i[key].shape
+            dict_lvl.append((key, x_i[key].shape))
             y = np.concatenate((y, x_i[key].flatten()))
         shape_dict.append(dict_lvl)
 
@@ -223,11 +223,11 @@ def unflatten_wave(y, shape):
     offset = stop
     for shape_i in shape[1:]:
         sublevel = {}
-        for key in shape_i.keys():
+        for key, value in shape_i:
             start = offset
-            stop = offset + np.prod(shape_i[key])
+            stop = offset + np.prod(value)
             offset = stop
-            sublevel[key] = y[start: stop].reshape(shape_i[key])
+            sublevel[key] = y[start: stop].reshape(value)
         x.append(sublevel)
     return x
 
