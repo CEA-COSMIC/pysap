@@ -23,6 +23,7 @@ from pysap.plugins.mri.reconstruct_3D.utils import convert_locations_to_mask_3D
 # Third party import
 import numpy as np
 from scipy.io import loadmat
+import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 
 # Loading input data
@@ -43,6 +44,7 @@ samples = normalize_samples(samples)
 cartesian_samples = convert_locations_to_mask_3D(samples, Iref.shape)
 imshow3D(cartesian_samples, display=True)
 
+cartesian_samples = pfft.fftshift(cartesian_samples)
 #############################################################################
 # Generate the kspace
 # -------------------
