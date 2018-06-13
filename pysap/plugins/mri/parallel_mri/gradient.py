@@ -15,8 +15,6 @@ This module contains classses for defining algorithm operators and gradients.
 # System import
 
 # Package import
-from .utils import prod_over_maps
-from .utils import function_over_maps
 from .utils import check_lipschitz_cst
 
 # Third party import
@@ -25,7 +23,7 @@ from modopt.math.matrix import PowerMethod
 from modopt.opt.gradient import GradBasic
 
 
-class Grad_pMRI_analysis(GradBasic, PowerMethod):
+class Gradient_pMRI_analysis(GradBasic, PowerMethod):
     """ Gradient synthesis class.
 
     This class defines the grad operators for:
@@ -47,7 +45,7 @@ class Grad_pMRI_analysis(GradBasic, PowerMethod):
         self.fourier_op = fourier_op
         self.p_MRI = False if S is None else True
         if self.p_MRI:
-            self.S = S
+            self.smaps = S
         GradBasic.__init__(self, data, self._analy_op_method,
                            self._analy_rsns_op_method)
         PowerMethod.__init__(self, self.trans_op_op, self.fourier_op.shape,
@@ -71,8 +69,10 @@ class Grad_pMRI_analysis(GradBasic, PowerMethod):
             the operation result (the recovered kspace).
         """
         if self.p_MRI:
-            return function_over_maps(self.fourier_op.op,
-                                      prod_over_maps(self.S, x))
+            kspace = [self.fourier_op.op(self.smaps[channel] * x) for
+                      channel in range(self.smaps.shape[0])]
+            return np.asarray(kspace)
+
         else:
             return self.fourier_op.op(x)
 
@@ -93,13 +93,16 @@ class Grad_pMRI_analysis(GradBasic, PowerMethod):
             the operation result.
         """
         if self.p_MRI:
-            y = function_over_maps(self.fourier_op.adj_op, x)
-            return np.sum(prod_over_maps(y, np.conj(self.S)), axis=0)
+            y = [np.conj(self.smaps[channel]) * self.fourier_op.adj_op(
+                 x[channel]) for channel in range(self.smaps.shape[0])]
+            y = np.asarray(y)
+            return np.squeeze(np.sum(y, axis=0))
+
         else:
             return self.fourier_op.adj_op(x)
 
 
-class Grad_pMRI_synthesis(GradBasic, PowerMethod):
+class Gradient_pMRI_synthesis(GradBasic, PowerMethod):
     """ Gradient nD synthesis class.
 
     This class defines the grad operators for |M*F*invL*alpha - data|**2.
@@ -123,7 +126,7 @@ class Grad_pMRI_synthesis(GradBasic, PowerMethod):
         self.linear_op = linear_op
         self.p_MRI = True
         if S is not None:
-            self.S = S
+            self.smaps = S
         else:
             self.p_MRI = False
 
@@ -153,8 +156,8 @@ class Grad_pMRI_synthesis(GradBasic, PowerMethod):
         """
         img = self.linear_op.adj_op(x)
         if self.p_MRI:
-            rsl = np.asarray([self.fourier_op.op(self.S[l] * img) for l
-                              in range(self.S.shape[0])])
+            rsl = np.asarray([self.fourier_op.op(self.smaps[l] * img) for l
+                              in range(self.smaps.shape[0])])
         else:
             rsl = self.fourier_op.op(img)
         return rsl
@@ -179,15 +182,15 @@ class Grad_pMRI_synthesis(GradBasic, PowerMethod):
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
         if self.p_MRI:
             tmp = [self.fourier_op.adj_op(x[l]) for l in
-                   range(self.S.shape[0])]
-            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.S[l]))
-                          for l in range(self.S.shape[0])], axis=0)
+                   range(self.smaps.shape[0])]
+            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.smaps[l]))
+                          for l in range(self.smaps.shape[0])], axis=0)
         else:
             rsl = self.linear_op.op(self.fourier_op.adj_op(x))
         return rsl
 
 
-class Grad_pMRI(Grad_pMRI_analysis, Grad_pMRI_synthesis):
+class Gradient_pMRI(Gradient_pMRI_analysis, Gradient_pMRI_synthesis):
     """ Gradient for parallel imaging reconstruction.
 
     This class defines the datafidelity terms methods that will be defined by
@@ -208,23 +211,21 @@ class Grad_pMRI(Grad_pMRI_analysis, Grad_pMRI_synthesis):
             input nd data array.
         fourier_op: instance
             a Fourier operator instance derived from the FourierBase' class.
+        S: np.ndarray
+            The sensitivity matrix shape [L, N1, N2, N3]
         linear_op: instance
             a Linear operator instance.
+        check_lips: boolean
+            Check if the calculated Lipschitz constant satisfies the constaints
         """
-        if S is not None:
-            self.p_MRI = True
-            if S[0].shape != fourier_op.shape:
-                raise ValueError('Matrix dimension not aligned')
-        else:
-            self.p_MRI = False
-
         if linear_op is None:
-            Grad_pMRI_analysis.__init__(self, data, fourier_op, S)
+            Gradient_pMRI_analysis.__init__(self, data, fourier_op, S)
             if check_lips:
                 xinit_shape = fourier_op.img_shape
             self.analysis = True
         else:
-            Grad_pMRI_synthesis.__init__(self, data, fourier_op, linear_op, S)
+            Gradient_pMRI_synthesis.__init__(self, data, fourier_op, linear_op,
+                                             S)
             if check_lips:
                 xinit_shape = self.linear_op_coeffs_shape
 

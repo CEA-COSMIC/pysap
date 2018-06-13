@@ -322,7 +322,6 @@ def sparse_rec_condatvu(gradient_op, linear_op, std_est=None,
             opt._update()
             bar.update(i)
 
-
     opt.x_final = opt._x_new
     opt.y_final = opt._y_new
 

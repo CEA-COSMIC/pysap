@@ -116,15 +116,16 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding'):
             raise ValueError(['The number of samples in the k-space must be',
                               'equal to the (image size, the number of coils)'
                               ])
-        Smaps = [pfft.ifftshift(pfft.ifft2(k_coil.reshape(img_shape)))
+        Smaps = [pfft.fftshift(pfft.ifft2(pfft.ifftshift(
+                    k_coil.reshape(img_shape))))
                  for k_coil in k_space]
     elif mode == 'NFFT':
         raise ValueError('NotImplemented yet')
     else:
-        Smaps = [pfft.ifftshift(pfft.ifftn(gridding_nd(
+        Smaps = [pfft.fftshift(pfft.ifftn(pfft.ifftshift(gridding_nd(
             samples,
             k_coil,
-            img_shape))) for k_coil in k_space]
+            img_shape)))) for k_coil in k_space]
     SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=0))
     Smaps = [Smaps_l / SOS for Smaps_l in Smaps]
     Smaps = np.asarray(Smaps)
