@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 ##########################################################################
-# XXX - Copyright (C) XXX, 2017
+# pySAP - Copyright (C) CEA, 2017 - 2018
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -141,4 +142,46 @@ def logo():
  ||..|'      ||   |...|' .//       \\. .||
  ||       ,  |'
 .||        ''"""
+    return logo
+
+
+def fista_logo():
+    """ Return a nice ascii logo for the FISTA optimization using the dansing
+    font.
+
+    Returns
+    -------
+    logo: str
+        the desired ascii logo.
+    """
+    logo = r"""
+  _____             ____     _____      _
+ |" ___|    ___    / __"| u |_ " _| U  /"\  u
+U| |_  u   |_"_|  <\___ \/    | |    \/ _ \/
+\|  _|/     | |    u___) |   /| |\   / ___ \\
+ |_|      U/| |\u  |____/>> u |_|U  /_/   \_\\
+ )(\\\,-.-,_|___|_,-.)(  (__)_// \\\_  \\\    >>
+(__)(_/ \_)-' '-(_/(__)    (__) (__)(__)  (__)
+    """
+    return logo
+
+
+def condatvu_logo():
+    """ Return a nice ascii logo for the CONDAT-VU optimization using the
+    dansing font.
+
+    Returns
+    -------
+    logo: str
+        the desired ascii logo.
+    """
+    logo = r"""
+   ____   U  ___ u  _   _    ____       _       _____      __     __    _   _
+U /"___|   \/"_ \/ | \ |"|  |  _"\  U  /"\  u  |_ " _|     \ \   /"/uU |"|u| |
+\| | u     | | | |<|  \| |>/| | | |  \/ _ \/     | |        \ \ / //  \| |\| |
+ | |/__.-,_| |_| |U| |\  |uU| |_| |\ / ___ \    /| |\       /\ V /_,-. | |_| |
+  \____|\_)-\___/  |_| \_|  |____/ u/_/   \_\  u |_|U      U  \_/-(_/ <<\___/
+ _// \\      \\    ||   \\,-.|||_    \\    >>  _// \\_       //      (__) )(
+(__)(__)    (__)   (_")  (_/(__)_)  (__)  (__)(__) (__)     (__)         (__)
+    """
     return logo
