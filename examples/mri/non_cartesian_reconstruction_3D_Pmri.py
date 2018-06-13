@@ -10,15 +10,13 @@ measurments.
 """
 
 # Package import
-from pysap.plugins.mri.reconstruct_3D.fourier import FFT3
+from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
 from pysap.plugins.mri.parallel_mri.gradient import Gradient_pMRI
 from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
-from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
-from pysap.plugins.mri.reconstruct_3D.utils import convert_locations_to_mask_3D
 
 # Third party import
 import numpy as np
@@ -26,23 +24,19 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Loading input data
-filename = '/neurospin/optimed/LoubnaElGueddari/p_MRI_CSGRE_3D/' \
-            '2018-01-15_32ch_ref_nc1000_data/' \
-            'meas_MID14_gre_800um_iso_128x128x128_FID24.mat'
-workspace = loadmat(filename)
-Il = np.moveaxis(workspace['Il'].astype('complex128'), -1, 0)
-Iref = workspace['ref']
-Smaps = np.moveaxis(workspace['Smaps'].astype('complex128'), -1, 0)
+filename = '/neurospin/tmp/Loubna/' \
+            'orange_phantom_3d_pmri_images.npy'
+
+Il = np.load(filename)
+Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
+Smaps = np.asarray([Il[channel]/Iref for channel in range(Il.shape[0])])
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/volatile/data/sampling_schemes/'
-                  'samples_sparkling_3D_N128_502x1536x8_FID4971'
-                  '.mat')['samples']
+samples = loadmat('/neurospin/tmp/temp_spiral/' +
+                  'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
 
 samples = normalize_samples(samples)
-cartesian_samples = convert_locations_to_mask_3D(samples, [128, 128, 128])
-imshow3D(cartesian_samples, display=True)
 
 #############################################################################
 # Generate the kspace
@@ -54,10 +48,12 @@ imshow3D(cartesian_samples, display=True)
 
 # Generate the subsampled kspace
 
-fourier_op = FFT3(samples=convert_mask_to_locations_3D(cartesian_samples),
-                  shape=(128, 128, 128))
+gen_fourier_op = NFFT3(samples=samples,
+                       shape=(128, 128, 160))
 
-kspace_data = np.asarray([fourier_op.op(Il[channel]) for channel
+print('Generate the k-space')
+
+kspace_data = np.asarray([gen_fourier_op.op(Il[channel]) for channel
                           in range(Il.shape[0])])
 
 
@@ -70,9 +66,18 @@ kspace_data = np.asarray([fourier_op.op(Il[channel]) for channel
 # maximum number of iterations. Fill free to play with this parameter.
 
 # Start the FISTA reconstruction
-max_iter = 4
+max_iter = 2
 linear_op = pyWavelet3(wavelet_name="sym4",
                        nb_scale=4)
+
+fourier_op = NFFT3(samples=samples,
+                   shape=(128, 128, 160))
+
+print('Generate the zero order solution')
+
+rec_0 = np.asarray([fourier_op.adj_op(kspace_data[l]) for l in range(32)])
+imshow3D(np.squeeze(np.sqrt(np.sum(np.abs(rec_0)**2, axis=0))),
+         display=True)
 
 gradient_op = Gradient_pMRI(data=kspace_data,
                             fourier_op=fourier_op,
@@ -82,19 +87,18 @@ gradient_op = Gradient_pMRI(data=kspace_data,
 x_final, transform, cost = sparse_rec_fista(
     gradient_op=gradient_op,
     linear_op=linear_op,
-    mu=1e-9,
+    mu=0,
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
     verbose=1,
     get_cost=True)
-
 imshow3D(np.abs(x_final), display=True)
+
 
 plt.figure()
 plt.plot(cost)
 plt.show()
-
 #############################################################################
 # Condata-Vu optimization
 # -----------------------

@@ -16,15 +16,11 @@ We also add some gaussian noise in the image space.
 """
 
 # Package import
-from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
-from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
-from pysap.plugins.mri.reconstruct_3D.utils import convert_locations_to_mask
-from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
-from pysap.plugins.mri.parallel_mri.gradient import Grad_pMRI
-# from pysap.plugins.mri.reconstruct_3D.gradient import GradSynthesis3
-# from pysap.plugins.mri.reconstruct_3D.gradient import GradAnalysis3
-from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
 from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
+from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
+from pysap.plugins.mri.parallel_mri.gradient import Gradient_pMRI
+from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
+from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
 
@@ -35,45 +31,48 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Load input data
-filename = '/neurospin/optimed/LoubnaElGueddari/p_MRI_CSGRE_3D/' \
-            '2018-01-15_32ch_ref_nc1000_data/' \
-            'meas_MID14_gre_800um_iso_128x128x128_FID24.mat'
-Iref = loadmat(filename)['ref']
+filename = '/neurospin/tmp/Loubna/' \
+            'orange_phantom_3d_pmri_images.npy'
+
+Il = np.load(filename)
+Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/volatile/data/sampling_schemes/'
-                  'samples_sparkling_3D_N128_502x1536x8_FID4971.mat')['samples']
+samples = loadmat('/neurospin/tmp/temp_spiral/' +
+                  'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
 samples = normalize_samples(samples)
-cartesian_samples = convert_locations_to_mask(samples, [128, 128, 128])
-imshow3D(cartesian_samples, display=True)
 
 #############################################################################
 # Generate the kspace
 # -------------------
 #
-# From the 2D brain slice and the acquistion mask, we generate the acquisition
+# From the 3D phantom and the acquistion mask, we generate the acquisition
 # measurments, the observed kspace.
 # We then reconstruct the zero order solution.
 
 # Generate the subsampled kspace
-kspace_loc = convert_mask_to_locations_3D(cartesian_samples)
-fourier_op_gen = NFFT3(samples=kspace_loc, shape=Iref.shape)
+fourier_op_gen = NFFT3(samples=samples, shape=Iref.shape)
 kspace_data = fourier_op_gen.op(Iref)
 
 # Zero order solution
 image_rec0 = fourier_op_gen.adj_op(kspace_data)
 imshow3D(np.abs(image_rec0), display=True)
 
-max_iter = 10
+max_iter = 5
 
 linear_op = pyWavelet3(wavelet_name="sym4",
                        nb_scale=4)
 
-fourier_op = NFFT3(samples=kspace_loc, shape=Iref.shape)
-gradient_op = Grad_pMRI(data=kspace_data,
-                          fourier_op=fourier_op,
-                          linear_op=linear_op)
+fourier_op = NFFT3(samples=samples, shape=Iref.shape)
+
+print('Starting Lipschitz constant computation')
+
+gradient_op = Gradient_pMRI(data=kspace_data,
+                            fourier_op=fourier_op,
+                            linear_op=linear_op)
+
+print('Lipschitz constant found: ', str(gradient_op.spec_rad))
 
 x_final, transform, cost = sparse_rec_fista(
     gradient_op=gradient_op,
@@ -84,14 +83,15 @@ x_final, transform, cost = sparse_rec_fista(
     atol=1e-4,
     verbose=1,
     get_cost=True)
+
 imshow3D(np.abs(x_final), display=True)
 plt.figure()
 plt.plot(cost)
 plt.show()
 
 
-gradient_op_cd = Grad_pMRI(data=kspace_data,
-                             fourier_op=fourier_op)
+gradient_op_cd = Gradient_pMRI(data=kspace_data,
+                               fourier_op=fourier_op)
 x_final, transform = sparse_rec_condatvu(
     gradient_op=gradient_op_cd,
     linear_op=linear_op,

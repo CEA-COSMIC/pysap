@@ -270,7 +270,7 @@ def normalize_samples(samples_locations):
     return samples_locations
 
 
-def convert_locations_to_mask(samples_locations, img_shape):
+def convert_locations_to_mask_3D(samples_locations, img_shape):
     """ Return the converted the sampling locations as Cartesian mask.
 
     Parameters

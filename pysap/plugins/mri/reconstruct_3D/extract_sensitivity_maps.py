@@ -24,7 +24,7 @@ import numpy as np
 def extract_k_space_center(samples, samples_locations,
                            thr=None, img_shape=None):
     """
-    This class extract the k space center for a given threshold or it estimate
+    This class extract the k-space center for a given threshold or it estimate
     the threshold if any is provided using the density of the sampling scheme
     and the resolution.
     Parameters:
@@ -43,27 +43,33 @@ def extract_k_space_center(samples, samples_locations,
     """
     if thr is None:
         if img_shape is None:
-            raise ValueError('target image cartesian image shape must be fill')
+            raise ValueError('Target image cartesian image shape must be fill')
         raise NotImplementedError
     else:
         samples_thresholded = np.copy(samples)
-        samples_thresholded *= (samples_locations[:, 0] <= thr)
-        samples_thresholded *= (samples_locations[:, 1] <= thr)
-        samples_thresholded *= (samples_locations[:, 2] <= thr)
+        samples_thresholded = (samples_thresholded *
+                               (samples_locations[:, 0] <= thr))
+        samples_thresholded = (samples_thresholded *
+                               (samples_locations[:, 1] <= thr))
+        samples_thresholded = (samples_thresholded *
+                               (samples_locations[:, 2] <= thr))
     return samples_thresholded
 
 
-def get_3D_smaps(k_space, img_shape, samples=None, mode='Gridding'):
+def get_3D_smaps(k_space, img_shape, samples=None, mode='gridding'):
     """
     This method estimate the sensitivity maps information from parallel mri
-    acquisition and for variable density sampling scheme where teh k-space
-    center had been heavily sampled ina 3D setting.
+    acquisition and for variable density sampling scheme where the k-space
+    center had been heavily sampled in a 3D setting.
     Parameters:
     ----------
     k_space: np.ndarray
         The acquired kspace of shape (M,L), where M is the number of samples
         acquired and L is the number of coils used
-    samples: np.ndarray
+    img_shape: a 3 element tuple
+        target image shape
+    mode: string
+        The extraction mode either: 'gridding', 'FFT', or 'NFFT'
     Returns:
     -------
     Smaps: np.ndarray
@@ -75,17 +81,16 @@ def get_3D_smaps(k_space, img_shape, samples=None, mode='Gridding'):
     if samples is None:
         mode = 'FFT'
 
-    M, L = k_space.shape
-    Smaps_shape = (img_shape[0], img_shape[1], img_shape[2], L)
-    Smaps = np.zeros(Smaps_shape).astype('complex128')
+    L, M = k_space.shape
+    Smaps = []
     if mode == 'FFT':
         if not M == img_shape[0]*img_shape[1]*img_shape[2]:
             raise ValueError(['The number of samples in the k-space must be',
                               'equal to the (image size, the number of coils)'
                               ])
-        k_space = k_space.reshape(Smaps_shape)
-        for l in range(Smaps_shape[2]):
-            Smaps[:, :, :, l] = pfft.ifftshift(pfft.ifftn(k_space[:, :, :, l]))
+        k_space = k_space.reshape(L, *img_shape)
+        for l in range(L):
+            Smaps.append(pfft.fftshift(pfft.ifftn(pfft.ifftshift(k_space[l]))))
     elif mode == 'NFFT':
         raise ValueError('NotImplemented yet')
     else:
@@ -94,15 +99,16 @@ def get_3D_smaps(k_space, img_shape, samples=None, mode='Gridding'):
         zi = np.linspace(0, img_shape[2], endpoint=False)
         gridx, gridy, gridz = np.meshgrid(xi, yi, zi)
         for l in range(L):
-            Smaps[:, :, l] = pfft.ifftshift(
-                                            pfft.ifft2(griddata(
-                                                samples,
-                                                k_space[:, l],
-                                                (gridx, gridy, gridz),
-                                                method='linear',
-                                                fill_value=0)))
+            Smaps.append(pfft.fftshift(
+                pfft.ifft2(pfft.ifftshift(griddata(
+                    samples,
+                    k_space[:, l],
+                    (gridx, gridy, gridz),
+                    method='linear',
+                    fill_value=0)))))
 
-    SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=3))
+    Smaps = Smaps.asarray()
+    SOS = np.squeeze(np.sqrt(np.sum(np.abs(Smaps)**2, axis=0)))
     for r in range(L):
-        Smaps[:, :, :, r] /= SOS
+        Smaps[l] /= SOS
     return Smaps, SOS
