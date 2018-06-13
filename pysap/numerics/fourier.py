@@ -14,4 +14,6 @@ This module contains shortcuts to fourier classes.
 # Package import
 from pysap.plugins.mri.reconstruct.fourier import FFT2
 from pysap.plugins.mri.reconstruct.fourier import NFFT2
+from pysap.plugins.mri.reconstruct_3D.fourier import FFT3
+from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
 from pysap.plugins.mri.reconstruct.fourier import FourierBase

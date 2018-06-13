@@ -26,22 +26,21 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Loading input data
-filename = '/neurospin/optimed/LoubnaElGueddari/p_MRI_CSGRE_3D/' \
-            '2018-01-15_32ch_ref_nc1000_data/' \
-            'meas_MID14_gre_800um_iso_128x128x128_FID24.mat'
-workspace = loadmat(filename)
-Il = np.moveaxis(workspace['Il'].astype('complex128'), -1, 0)
-Iref = workspace['ref']
-Smaps = np.moveaxis(workspace['Smaps'].astype('complex128'), -1, 0)
+filename = '/neurospin/tmp/Loubna/' \
+            'orange_phantom_3d_pmri_images.npy'
+
+Il = np.load(filename)
+Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
+Smaps = np.asarray([Il[channel]/Iref for channel in range(Il.shape[0])])
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/volatile/data/sampling_schemes/'
-                  'samples_sparkling_3D_N128_502x1536x8_FID4971'
-                  '.mat')['samples']
+samples = loadmat('/neurospin/tmp/temp_spiral/' +
+                  'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
 
 samples = normalize_samples(samples)
-cartesian_samples = convert_locations_to_mask_3D(samples, [128, 128, 128])
+
+cartesian_samples = convert_locations_to_mask_3D(samples, Iref.shape)
 imshow3D(cartesian_samples, display=True)
 
 #############################################################################
@@ -55,7 +54,7 @@ imshow3D(cartesian_samples, display=True)
 # Generate the subsampled kspace
 
 fourier_op = FFT3(samples=convert_mask_to_locations_3D(cartesian_samples),
-                  shape=(128, 128, 128))
+                  shape=Iref.shape)
 
 kspace_data = np.asarray([fourier_op.op(Il[channel]) for channel
                           in range(Il.shape[0])])

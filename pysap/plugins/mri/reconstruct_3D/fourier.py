@@ -13,11 +13,17 @@ Fourier operators for cartesian and non-cartesian space.
 
 
 # Package import
+import warnings
 from .utils import convert_locations_to_mask_3D
 from pysap.plugins.mri.reconstruct.fourier import FourierBase
 
 # Third party import
-import pynfft
+try:
+    import pynfft
+except Exception:
+    warnings.warn("pynfft python package has not been found. If needed use "
+                  "the master release.")
+    pass
 import numpy as np
 import scipy.fftpack as pfft
 

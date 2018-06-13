@@ -19,10 +19,10 @@ import time
 import progressbar
 
 # Package import
-from pysap.plugins.mri.reconstruct.utils import fista_logo
+from pysap.utils import fista_logo
+from pysap.utils import condatvu_logo
 from pysap.plugins.mri.reconstruct.cost import DualGapCost
 from pysap.plugins.mri.reconstruct.reweight import mReweight
-from pysap.plugins.mri.reconstruct.utils import condatvu_logo
 from pysap.plugins.mri.parallel_mri.proximity import Threshold
 
 # Third party import
