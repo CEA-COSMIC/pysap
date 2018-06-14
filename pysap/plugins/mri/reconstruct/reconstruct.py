@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 ##########################################################################
-# XXX - Copyright (C) XXX, 2017
+# pySAP - Copyright (C) CEA, 2017 - 2018
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -17,16 +18,16 @@ import copy
 import time
 
 # Package import
-from pysap.plugins.mri.reconstruct.fourier import FFT2
-from pysap.plugins.mri.reconstruct.fourier import NFFT2
-from pysap.plugins.mri.reconstruct.linear import Wavelet2
-from pysap.plugins.mri.reconstruct.utils import unflatten
-from pysap.plugins.mri.reconstruct.utils import fista_logo
-from pysap.plugins.mri.reconstruct.cost import DualGapCost
-from pysap.plugins.mri.reconstruct.reweight import mReweight
-from pysap.plugins.mri.reconstruct.utils import condatvu_logo
-from pysap.plugins.mri.reconstruct.gradient import GradAnalysis2
-from pysap.plugins.mri.reconstruct.gradient import GradSynthesis2
+from pysap.numerics.cost import DualGapCost
+from pysap.numerics.linear import Wavelet2
+from pysap.numerics.fourier import FFT2
+from pysap.numerics.fourier import NFFT2
+from pysap.numerics.reweight import mReweight
+from pysap.numerics.gradient import GradAnalysis2
+from pysap.numerics.gradient import GradSynthesis2
+from pysap.utils import fista_logo
+from pysap.utils import condatvu_logo
+from pysap.base.utils import unflatten
 
 # Third party import
 import numpy as np

@@ -8,5 +8,11 @@
 ##########################################################################
 
 """
-This module defines all the MRI related plugins.
+This module contains shortcuts to gradient classes.
 """
+
+# Package import
+from pysap.plugins.mri.reconstruct.gradient import GradAnalysis2
+from pysap.plugins.mri.reconstruct.gradient import GradSynthesis2
+from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI_analysis
+from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI_synthesis
