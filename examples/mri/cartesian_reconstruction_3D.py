@@ -46,7 +46,7 @@ Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/neurospin/tmp/temp_spiral/' +
+samples = loadmat('/neurospin/tmp/temp_spiral/'
                   'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
 samples = normalize_samples(samples)
 
