@@ -165,7 +165,7 @@ class TestOptimizer(unittest.TestCase):
     #                     numpy.isclose(x_final, fourier.adj_op(data),
     #                                   rtol=1e-3)))
     #                 print("      mismatch = ", mismatch)
-    #
+
     def test_reconstruction_condat_vu_nfft2(self):
         """ Test all the registered transformations.
         """
@@ -208,6 +208,7 @@ class TestOptimizer(unittest.TestCase):
     #                                   rtol=1e-3)))
     #                 print("      mismatch = ", mismatch)
     #                 return
+
 
 if __name__ == "__main__":
     unittest.main()
