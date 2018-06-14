@@ -35,7 +35,7 @@ class MAT(LoaderBase):
         image: Image
             the loaded image.
         """
-        cube = loadmat(path)['samples'] ### TODO: Make it more general
+        cube = loadmat(path)['samples']  # ## TODO: Make it more general
         return Image(data_type="scalar",
                      metadata={"path": path},
                      data=cube)
