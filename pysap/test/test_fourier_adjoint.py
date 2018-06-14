@@ -100,7 +100,7 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             _samples = convert_mask_to_locations_3D(_mask)
             print("Process FFT3 test '{0}'...", i)
             fourier_op_dir = FFT3(samples=_samples,
-                                   shape=(self.N, self.N, self.N))
+                                  shape=(self.N, self.N, self.N))
             fourier_op_adj = FFT3(samples=_samples,
                                   shape=(self.N, self.N, self.N))
             Img = numpy.random.randn(self.N, self.N, self.N)
