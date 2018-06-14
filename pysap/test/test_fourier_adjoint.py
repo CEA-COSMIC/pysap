@@ -117,7 +117,7 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
     def test_NFFT3(self):
         """Test the adjoint operator for the 3D non-Cartesian Fourier transform
         """
-        warnings.warns('No tests will be done on the NFFT operator')
+        warnings.warn('No tests will be done on the NFFT operator')
         # for i in range(self.max_iter):
         #     _mask = numpy.random.randint(2, size=(self.N, self.N, self.N))
         #     _samples = convert_mask_to_locations_3D(_mask)
