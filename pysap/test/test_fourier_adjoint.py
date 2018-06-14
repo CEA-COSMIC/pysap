@@ -22,7 +22,6 @@ from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
 # from pysap.plugins.mri.parallel_mri.utils import convert_locations_to_mask_3D
 
 
-
 class TestAdjointOperatorFourierTransform(unittest.TestCase):
     """ Test the adjoint operator of the NFFT both for 2D and 3D.
     """
@@ -100,8 +99,10 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             _mask = numpy.random.randint(2, size=(self.N, self.N, self.N))
             _samples = convert_mask_to_locations_3D(_mask)
             print("Process FFT3 test '{0}'...", i)
-            fourier_op_dir = FFT3(samples=_samples, shape=(self.N, self.N, self.N))
-            fourier_op_adj = FFT3(samples=_samples, shape=(self.N, self.N, self.N))
+            fourier_op_dir = FFT3(samples=_samples,
+                                   shape=(self.N, self.N, self.N))
+            fourier_op_adj = FFT3(samples=_samples,
+                                  shape=(self.N, self.N, self.N))
             Img = numpy.random.randn(self.N, self.N, self.N)
             f = numpy.random.randn(self.N, self.N, self.N)
             f_p = fourier_op_dir.op(Img) / (self.N ** 3)
@@ -122,8 +123,10 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
         #     _mask = numpy.random.randint(2, size=(self.N, self.N, self.N))
         #     _samples = convert_mask_to_locations_3D(_mask)
         #     print("Process NFFT3 test '{0}'...", i)
-        #     fourier_op_dir = NFFT3(samples=_samples, shape=(self.N, self.N, self.N))
-        #     fourier_op_adj = NFFT3(samples=_samples, shape=(self.N, self.N, self.N))
+        #     fourier_op_dir = NFFT3(samples=_samples,
+        #                            shape=(self.N, self.N, self.N))
+        #     fourier_op_adj = NFFT3(samples=_samples,
+        #                            shape=(self.N, self.N, self.N))
         #     Img = numpy.random.randn(self.N, self.N, self.N) \
         #           + 1j * numpy.random.randn(self.N, self.N, self.N)
         #     f = numpy.random.randn(_samples.shape[0], 1) + \
@@ -137,6 +140,7 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
         #                       rtol=1e-3)))
         #     print("      mismatch = ", mismatch)
         # print(" NFFT3 adjoint test passes")
+
 
 if __name__ == "__main__":
     unittest.main()
