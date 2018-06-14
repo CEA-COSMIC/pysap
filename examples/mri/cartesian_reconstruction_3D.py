@@ -16,6 +16,7 @@ We also add some gaussian noise in the image space.
 """
 
 # Package import
+from pysap.data import get_sample_data
 from pysap.plugins.mri.reconstruct_3D.fourier import FFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
@@ -30,7 +31,6 @@ from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
 # Third party import
 import numpy as np
 import scipy.fftpack as pfft
-from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 #############################################################################
@@ -38,16 +38,13 @@ import matplotlib.pyplot as plt
 # -------------------
 #
 
-filename = '/neurospin/tmp/Loubna/' \
-            'orange_phantom_3d_pmri_images.npy'
+Il = get_sample_data("3d-pmri")
 
-Il = np.load(filename)
 Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/neurospin/tmp/temp_spiral/'
-                  'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
+samples = get_sample_data("mri-radial-3d-samples").data
 samples = normalize_samples(samples)
 
 cartesian_samples = convert_locations_to_mask_3D(samples, Iref.shape)

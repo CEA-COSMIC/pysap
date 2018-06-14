@@ -17,25 +17,24 @@ from pysap.plugins.mri.reconstruct.reconstruct import NFFT2
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.parallel_mri.gradient import Gradient_pMRI
-# from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI_synthesis
 
 # Third party import
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Loading input data
-filename = '/neurospin/tmp/Loubna/' \
-            'orange_phantom_pmri_images.npy'
-
-Il = np.load(filename)
+Il = get_sample_data("2d-pmri").data
 SOS = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/SOS for channel in range(Il.shape[0])])
 
-samples_f = '/neurospin/tmp/Loubna/' \
-            'samples_radial_GA_nc64_512.npy'
-samples = np.load(samples_f)
+samples = get_sample_data("mri-radial-samples").data
+
+plt.imshow(np.abs(SOS), cmap='gray')
+plt.axis('off')
+plt.show()
 
 plt.plot(samples[:, 0], samples[:, 1], '.k')
+plt.axis('off')
 plt.show()
 
 #############################################################################

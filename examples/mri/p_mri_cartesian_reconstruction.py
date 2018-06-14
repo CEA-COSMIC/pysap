@@ -27,23 +27,20 @@ import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 
 # Loading input data
-filename = '/neurospin/tmp/Loubna/' \
-            'orange_phantom_pmri_images.npy'
-
-Il = np.load(filename)
+Il = get_sample_data("2d-pmri").data
 SOS = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/SOS for channel in range(Il.shape[0])])
 
-plt.imshow(SOS)
+plt.imshow(SOS, cmap='gray')
+plt.axis('off')
 plt.show()
 
-samples_f = '/neurospin/tmp/Loubna/' \
-            'samples_radial_GA_nc64_512.npy'
-samples = np.load(samples_f)
+samples = get_sample_data("mri-radial-samples").data
 
 mask = convert_locations_to_mask(samples, SOS.shape)
 
 plt.imshow(mask)
+plt.axis('off')
 plt.show()
 
 #############################################################################

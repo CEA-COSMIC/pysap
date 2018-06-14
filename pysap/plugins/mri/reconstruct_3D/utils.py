@@ -57,6 +57,7 @@ def imshow3D(volume, display=False):
     tracker = IndexTracker(ax, volume)
     fig.canvas.mpl_connect('scroll_event', tracker.onscroll)
     if display:
+        plt.axis('off')
         plt.show()
 
 

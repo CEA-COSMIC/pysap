@@ -43,36 +43,67 @@ SAMPLE_DATE_FILES = {
     "mri-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "t1_localizer.nii.gz"),
-        "md5sum": "9617b36e5510a4783038c63241da21d4"
+        "md5sum": "9617b36e5510a4783038c63241da21d4",
+        "dtype": numpy.single
      },
+     "3d-pmri": {
+         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                 "orange_phantom_3d_pmri_images.npy"),
+         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
+         "dtype": numpy.complex
+    },
+    "2d-pmri": {
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                "orange_phantom_pmri_images.npy"),
+        "md5sum": "b5cbfe5bb46a050ccc66cab244bf478e",
+        "dtype": numpy.complex
+    },
+     "mri-radial-samples": {
+         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                 "samples_radial_GA_nc64_512.npy"),
+         "md5sum": "07b006ef003b825086880a663dfcdb6d",
+         "dtype": numpy.single
+    },
+      "mri-radial-3d-samples": {
+          "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                  "samples_3D_radial_spi_N256_nc1997x3073.mat"),
+          "md5sum": "0324b15ed8368e20fe7315281f31b6e6",
+          "dtype": numpy.single
+    },
     "mri-slice-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "BrainPhantom512.nii.gz"),
-        "md5sum": "19983e6003ae94487d03131f4bacae2e"
+        "md5sum": "19983e6003ae94487d03131f4bacae2e",
+        "dtype": numpy.single
     },
     "mri-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "mask_BrainPhantom512.nii.gz"),
-        "md5sum": "078760d89e737e69b5578d47e368c42f"
+        "md5sum": "078760d89e737e69b5578d47e368c42f",
+        "dtype": numpy.single
     },
     "astro-fits": {
         "url": "ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits",
-        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad"
+        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad",
+        "dtype": numpy.single
     },
     "astro-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "mask25_sig40.fits"),
-        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f"
+        "md5sum": "8d7fd9b4d7c2aaf407fa1331860a130f",
+        "dtype": numpy.single
     },
     "astro-galaxy": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "example_galaxy_image.npy"),
-        "md5sum": None
+        "md5sum": None,
+        "dtype": numpy.single
     },
     "astro-psf": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "example_psf_image.npy"),
-        "md5sum": None
+        "md5sum": None,
+        "dtype": numpy.single
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pysap")
@@ -107,6 +138,7 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
 
     # Get the resource on the web or on the local machine
     dataset["url"] = dataset["url"].format(**{"PYSAP": PACKAGEDIR})
+    dtype = dataset["dtype"]
     if os.path.isfile(dataset["url"]):
         path = copy_file(dataset["url"], data_dir=DATADIR, overwrite=False,
                          verbose=verbose)
@@ -121,7 +153,7 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
                             "failed.".format(path))
 
     # Load the dataset
-    image = pysap.io.load(path)
+    image = pysap.io.load(path, dtype)
 
     return image
 

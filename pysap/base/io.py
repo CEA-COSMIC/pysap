@@ -15,11 +15,12 @@ import pysap
 from pysap.base.exceptions import Exception
 from pysap.base.loaders import FITS
 from pysap.base.loaders import NIFTI
+from pysap.base.loaders import MAT
 from pysap.base.loaders import npBinary
 
 # Global parameters
 # > define all the available loaders
-LOADERS = [FITS, NIFTI, npBinary]
+LOADERS = [FITS, NIFTI, MAT, npBinary]
 
 
 def load(path, dtype=numpy.single):

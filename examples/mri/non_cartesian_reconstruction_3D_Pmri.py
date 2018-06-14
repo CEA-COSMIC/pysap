@@ -10,6 +10,7 @@ measurments.
 """
 
 # Package import
+from pysap.data import get_sample_data
 from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
@@ -20,21 +21,16 @@ from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
 
 # Third party import
 import numpy as np
-from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Loading input data
-filename = '/neurospin/tmp/Loubna/' \
-            'orange_phantom_3d_pmri_images.npy'
-
-Il = np.load(filename)
+Il = get_sample_data("3d-pmri")
 Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/Iref for channel in range(Il.shape[0])])
 
 imshow3D(Iref, display=True)
 
-samples = loadmat('/neurospin/tmp/temp_spiral/'
-                  'samples_3D_radial_spi_N256_nc1997x3073.mat')['samples']
+samples = get_sample_data("mri-radial-3d-samples").data
 
 samples = normalize_samples(samples)
 
