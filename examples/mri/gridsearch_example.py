@@ -23,6 +23,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from pysap.plugins.mri.gridsearch.data import load_exbaboon_512_retrospection
+from pysap.plugins.mri.gridsearch.data import get_example_data
 from pysap.plugins.mri.gridsearch.study_launcher import _gather_result
 from pysap.base.gridsearch import grid_search
 from pysap.plugins.mri.gridsearch.reconstruct_gridsearch import *
@@ -58,13 +59,14 @@ FISTA = False
 # Max number of iterations before stopping
 max_nb_of_iter = 200
 # Numbers of threads created on mCPU (if -1, all, if -2 all but one)
-n_jobs = 16
+n_jobs = -2
 # Verbose parameters, activated if >1
 verbose_reconstruction = 11
 verbose_gridsearch = 11
 
 # data loading
-res = load_exbaboon_512_retrospection(sigma, mask_type, acc_factor)
+# res = load_exbaboon_512_retrospection(sigma, mask_type, acc_factor)
+res = get_example_data(sigma, mask_type, acc_factor)
 ref, loc, kspace, binmask, info = res[0], res[1], res[2], res[3], res[4]
 
 #############################################################################

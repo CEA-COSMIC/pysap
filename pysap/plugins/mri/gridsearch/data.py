@@ -193,3 +193,49 @@ def load_exbaboon_512_retrospection(sigma=0.0, mask_type="cartesianR4",
         loc.astype("double"),\
         kspace.astype("complex128"),\
         np.rot90(np.fliplr(binary_mask)), info
+
+
+def get_example_data(sigma=0.0, mask_type="cartesianR4",
+                     acc_factor=None):
+
+    ref = get_sample_data("mri-slice-nifti")
+    ref = _l2_normalize(ref.data)
+    print(ref.shape)
+    mask = get_sample_data("mri-mask")
+    # Generate the subsampled kspace
+    kspace_mask = pfft.ifftshift(mask.data)
+    kspace = pfft.fft2(ref.data) * kspace_mask
+
+    # Get the locations of the kspace samples
+    loc = convert_mask_to_locations(kspace_mask)
+
+    # create noise
+    noise = sigma * (randn(*kspace.shape) + 1.j*randn(*kspace.shape))
+
+    # save the noise level
+    info = {'sigma': sigma}
+    info['snr'] = 20.0 * np.log(np.linalg.norm(kspace) / np.linalg.norm(noise))
+    info['psnr'] = 20.0*np.log(np.max(np.abs(kspace)) / np.linalg.norm(noise))
+
+    # add noise
+    kspace = kspace + noise
+
+    # binary mask
+    # binarymaskfile = "Ref_N512_NEX32_mask.png"
+    # binarymaskpath = osp.join(_data_dirname_, binarymaskfile)
+    # binary_mask = ~misc.imread(binarymaskpath)[:, :, 0]
+    # binary_mask[binary_mask != 0] = 1
+    binary_mask = np.ones(ref.shape)
+
+    # info
+    info.update({'N': 512, 'FOV(mm)': 200, 'TE(ms)': 30, 'TR(ms)': 550,
+                 'Tobs(ms)': 30.72, 'Angle(degree)': 25,
+                 'Slice-thickness(mm)': 3,
+                 'Contrast': 'T2*w'})
+    info['mask_type'] = mask_type
+    info['acc_factor'] = acc_factor
+
+    return ref.astype("complex128"),\
+        loc.astype("double"),\
+        kspace.astype("complex128"),\
+        np.rot90(np.fliplr(binary_mask)), info
