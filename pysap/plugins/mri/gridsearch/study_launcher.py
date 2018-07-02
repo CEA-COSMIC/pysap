@@ -15,12 +15,9 @@ import os
 import logging
 
 import argparse
-import itertools
 
 # Third party import
-import requests
 import numpy as np
-import matplotlib.pylab as plt
 import pickle
 import pprint
 
@@ -139,7 +136,7 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
     mu_list = list(np.logspace(-8, -1, 5))
     nb_scales = [3, 4]
     list_wts = ["MallatWaveletTransform79Filters",
-                "UndecimatedBiOrthogonalTransform",
+                # "UndecimatedBiOrthogonalTransform",
                 ]
 
     for wt in list_wts:

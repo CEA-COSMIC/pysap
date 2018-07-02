@@ -10,8 +10,6 @@ Credit: H Cherkaoui
 # Sys import
 import os.path as osp
 
-import sys
-
 # Third party import
 from scipy.io import loadmat
 from scipy import misc
@@ -21,15 +19,11 @@ import scipy.fftpack as pfft
 
 # Specific import
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
-from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
 from pysap.data import get_sample_data
 
 
-_dirname_ = osp.dirname(osp.abspath(__file__))
-_data_dirname_ = osp.join(_dirname_, "data")
-DATADIR = osp.join(osp.expanduser("~"), ".local", "share", "pysap")
-
-_data_dirname_ = DATADIR
+# To change if you have stored your data elsewhere
+_data_dirname_ = osp.join(osp.expanduser("~"), ".local", "share", "pysap")
 
 
 def _l2_normalize(x):
@@ -199,8 +193,7 @@ def get_example_data(sigma=0.0, mask_type="cartesianR4",
                      acc_factor=None):
 
     ref = get_sample_data("mri-slice-nifti")
-    ref = _l2_normalize(ref.data)
-    print(ref.shape)
+    ref.data = _l2_normalize(ref.data)
     mask = get_sample_data("mri-mask")
     # Generate the subsampled kspace
     kspace_mask = pfft.ifftshift(mask.data)
@@ -235,7 +228,7 @@ def get_example_data(sigma=0.0, mask_type="cartesianR4",
     info['mask_type'] = mask_type
     info['acc_factor'] = acc_factor
 
-    return ref.astype("complex128"),\
+    return ref.data.astype("complex128"),\
         loc.astype("double"),\
         kspace.astype("complex128"),\
         np.rot90(np.fliplr(binary_mask)), info
