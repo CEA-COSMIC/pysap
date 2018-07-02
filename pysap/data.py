@@ -40,6 +40,11 @@ from pysap.base.exceptions import Exception
 
 # Global parameters
 SAMPLE_DATE_FILES = {
+    "mri-babouin512": {
+        "url": ("ftp://ftp.cea.fr/../../../../pub/unati/nsap/pysap/datasets/"
+                "Ref_babouin_NEX32.mat"),
+        "md5sum": "b651f7ea2a3d4fc26c4d603bb7caeb95"
+     },
     "mri-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "t1_localizer.nii.gz"),
