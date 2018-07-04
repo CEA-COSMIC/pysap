@@ -326,7 +326,6 @@ global_params["verbose_gridsearch"] = bool(global_params[
                                                 "verbose_gridsearch"])
 global_params["max_nb_of_iter"] = int(global_params["max_nb_of_iter"])
 
-global_params["verbose_reconstruction"] = True
 global_params["verbose_gridsearch"] = True
 for section in config.sections():
     if "Run" in section:
