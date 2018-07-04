@@ -1,4 +1,12 @@
 #!/usr/bin/python
+##########################################################################
+# NSAp - Copyright (C) CEA, 2018
+# Distributed under the terms of the CeCILL-B license, as published by
+# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
+# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+# for details.
+##########################################################################
+
 """
 POST-PROCESSING:
 ===============
@@ -7,6 +15,8 @@ Command line tool to produce the EUSIPCO paper material.
 
 Credit: H Cherkaoui
 """
+
+# TODO: deal with common datasets - this script is not working yet
 
 # Sys import
 import os
