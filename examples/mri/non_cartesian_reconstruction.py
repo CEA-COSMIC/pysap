@@ -19,8 +19,7 @@ We also add some gaussian noise in the image space.
 import pysap
 from pysap.data import get_sample_data
 from pysap.plugins.mri.reconstruct.fourier import NFFT2
-from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
-from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
+from pysap.plugins.mri.opt import rec_ista_2d, rec_condat_vu_2d
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 
 # Third party import
@@ -65,17 +64,18 @@ image_rec0.show()
 
 # Start the FISTA reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_fista(
+x_final = rec_ista_2d(
     data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
     mu=1e-9,
     nb_scales=4,
-    lambda_init=1.0,
-    max_nb_of_iter=max_iter,
-    atol=1e-4,
-    non_cartesian=True,
-    uniform_data_shape=image.shape,
+    max_iter=max_iter,
+    tol=1e-4,
+    cartesian_sampling=False,
+    image_shape=image.shape,
+    acceleration=True,
+    cost='auto',
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
@@ -92,24 +92,17 @@ image_rec.show()
 
 # Start the CONDAT-VU reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_condatvu(
+x_final, transform = rec_condat_vu_2d(
     data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
     nb_scales=4,
-    std_est=None,
-    std_est_method="dual",
-    std_thr=2.,
-    mu=1e-9,
-    tau=None,
-    sigma=None,
-    relaxation_factor=1.0,
-    nb_of_reweights=2,
-    max_nb_of_iter=max_iter,
-    add_positivity=False,
-    atol=1e-4,
-    non_cartesian=True,
-    uniform_data_shape=image.shape,
+    mu=1e-5,
+    tol=1e-4,
+    max_iter=max_iter,
+    cartesian_sampling=False,
+    image_shape=image.shape,
+    cost='auto',
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()

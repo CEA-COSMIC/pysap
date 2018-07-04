@@ -26,8 +26,8 @@ from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
-# from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI_synthesis
 from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import get_Smaps
+from pysap.plugins.mri.opt import rec_ista_2d_p, rec_condat_vu_2d_p
 
 # Third party import
 import numpy as np
@@ -36,15 +36,14 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Loading input data
-image_name = '/home/loubnaelgueddari/Data'\
-            '/meas_MID41_CSGRE_ref_OS1_FID14687.mat'
+image_name = 'path/to/pmri/image'
 k_space_ref = loadmat(image_name)['ref']
 k_space_ref /= np.linalg.norm(k_space_ref)
 Smaps, SOS = get_Smaps(k_space_ref, (512, 512), mode='FFT')
 mask = get_sample_data("mri-mask")
 # mask.show()
 image = pysap.Image(data=np.abs(SOS), metadata=mask.metadata)
-image.show()
+# image.show()
 
 #############################################################################
 # Generate the kspace
@@ -59,6 +58,7 @@ Sl = prod_over_maps(Smaps, SOS)
 kspace_data = function_over_maps(pfft.fft2, Sl)
 kspace_data = prod_over_maps(kspace_data, mask.data)
 mask.show()
+
 # Get the locations of the kspace samples
 kspace_loc = convert_mask_to_locations(mask.data)
 
@@ -73,60 +73,53 @@ kspace_loc = convert_mask_to_locations(mask.data)
 
 # Start the FISTA reconstruction
 max_iter = 10
-
-linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
+x_final = rec_ista_2d_p(
+    data=kspace_data,
+    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
+    samples=kspace_loc,
+    mu=1e-9,
+    smaps=Smaps,
+    nb_scales=4,
+    lambda_init=1.0,
+    max_iter=max_iter,
+    tol=1e-4,
+    cartesian_sampling=True,
+    use_acceleration=True,
+    cost=None,
+    verbose=0)
+linear_op = Wavelet2(wavelet_name="BsplineWaveletTransformATrousAlgorithm",
                      nb_scale=4)
 
 fourier_op = FFT2(samples=kspace_loc, shape=(512, 512))
-gradient_op = Grad2D_pMRI(data=kspace_data,
-                          fourier_op=fourier_op,
-                          linear_op=linear_op,
-                          S=Smaps)
 
-x_final, transform, cost = sparse_rec_fista(
-    gradient_op=gradient_op,
-    linear_op=linear_op,
-    mu=1e-9,
-    lambda_init=1.0,
-    max_nb_of_iter=max_iter,
-    atol=1e-4,
-    verbose=1,
-    get_cost=True)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
 
-plt.figure()
-plt.plot(cost)
-plt.show()
-#############################################################################
-# Condata-Vu optimization
-# -----------------------
+# #############################################################################
+# # Condata-Vu optimization
+# # -----------------------
+# #
+# # We now want to refine the zero order solution using a Condata-Vu
+# # optimization.
+# # Here no cost function is set, and the optimization will reach the
+# # maximum number of iterations. Fill free to play with this parameter.
 #
-# We now want to refine the zero order solution using a Condata-Vu
-# optimization.
-# Here no cost function is set, and the optimization will reach the
-# maximum number of iterations. Fill free to play with this parameter.
+# # Start the CONDAT-VU reconstruction
+max_iter = 10
 
-# Start the CONDAT-VU reconstruction
-max_iter = 1
-gradient_op_cd = Grad2D_pMRI(data=kspace_data,
-                             fourier_op=fourier_op,
-                             S=Smaps)
-x_final, transform = sparse_rec_condatvu(
-    gradient_op=gradient_op_cd,
-    linear_op=linear_op,
-    std_est=None,
-    std_est_method="dual",
-    std_thr=2.,
-    mu=0,
-    tau=None,
-    sigma=None,
-    relaxation_factor=1.0,
-    nb_of_reweights=0,
-    max_nb_of_iter=max_iter,
-    add_positivity=False,
-    atol=1e-4,
-    verbose=1)
+x_final, alpha_final = rec_condat_vu_2d_p(
+    data=kspace_data,
+    wavelet_name="BsplineWaveletTransformATrousAlgorithm",
+    samples=kspace_loc,
+    mu=1e-9,
+    s_maps=Smaps,
+    nb_scale=4,
+    max_iter=max_iter,
+    tol=1e-4,
+    cartesian_sampling=True,
+    cost=None,
+    verbose=0)
+
 
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
