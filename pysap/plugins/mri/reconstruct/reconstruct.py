@@ -154,7 +154,8 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         auto_iterate=False,
         metric_call_period=metric_call_period,
         metrics=metrics or {},
-        linear=linear_op)
+        linear=linear_op,
+        beta_param=gradient_op.inv_spec_rad))
 
     # Perform the reconstruction
     end = time.clock()
@@ -242,8 +243,6 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
         the estimated CONDAT-VU solution.
     transform: a WaveletTransformBase derived instance
         the wavelet transformation instance.
-    metrics: dict
-        the requested metrics values during the optimization.
     """
     # Check inputs
     start = time.clock()
