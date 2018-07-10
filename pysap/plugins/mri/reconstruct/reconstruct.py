@@ -41,7 +41,8 @@ from modopt.opt.reweight import cwbReweight
 
 def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
                      lambda_init=1.0, max_nb_of_iter=300, atol=1e-4,
-                     non_cartesian=False, uniform_data_shape=None, verbose=0):
+                     non_cartesian=False, uniform_data_shape=None,
+                     metric_call_period=5, metrics=None, verbose=0):
     """ The FISTA sparse reconstruction without reweightings.
 
     .. note:: At the moment, supports only 2D data.
@@ -71,6 +72,11 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
     uniform_data_shape: uplet (optional, default None)
         the shape of the matrix containing the uniform data. Only required
         for non-cartesian reconstructions.
+    metric_call_period: int (default 5)
+        the period on which the metrics are compute.
+    metrics: dict (optional, default None)
+        the list of desired convergence metrics: {'metric_name':
+        [@metric, metric_parameter]}. See modopt for the metrics API.
     verbose: int (optional, default 0)
         the verbosity level.
 
@@ -80,6 +86,8 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         the estimated FISTA solution.
     transform: a WaveletTransformBase derived instance
         the wavelet transformation instance.
+    metrics: dict
+        the requested metrics values during the optimizat
     """
     # Check inputs
     start = time.clock()
@@ -109,9 +117,11 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         linear_op=linear_op,
         fourier_op=fourier_op)
 
+    # Fista works only with undecimated wavelets
     if linear_op.transform.__is_decimated__:
-        print('WARNING: decimated wavelets shouldnt be used with FISTA:\
-              non inversible')
+        raise ValueError("Decimated wavelets shouldn't be used with FISTA: "
+                         "non inversible.")
+
     # Define the initial primal and dual solutions
     x_init = np.zeros(fourier_op.shape, dtype=np.complex)
     alpha = linear_op.op(x_init)
@@ -141,7 +151,10 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         grad=gradient_op,
         prox=prox_op,
         cost=cost_op,
-        auto_iterate=False)
+        auto_iterate=False,
+        metric_call_period=metric_call_period,
+        metrics=metrics or {},
+        linear=linear_op)
 
     # Perform the reconstruction
     end = time.clock()
@@ -158,7 +171,7 @@ def sparse_rec_fista(data, wavelet_name, samples, mu, nb_scales=4,
         print("-" * 40)
     x_final = linear_op.adj_op(opt.x_final)
 
-    return x_final, linear_op.transform
+    return x_final, linear_op.transform, opt.metrics
 
 
 def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
@@ -166,7 +179,8 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
                         mu=1e-6, tau=None, sigma=None, relaxation_factor=1.0,
                         nb_of_reweights=1, max_nb_of_iter=150,
                         add_positivity=False, atol=1e-4, non_cartesian=False,
-                        uniform_data_shape=None, verbose=0):
+                        uniform_data_shape=None, metric_call_period=5,
+                        metrics=None, verbose=0):
     """ The Condat-Vu sparse reconstruction with reweightings.
 
     .. note:: At the moment, supports only 2D data.
@@ -214,6 +228,11 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     uniform_data_shape: uplet (optional, default None)
         the shape of the matrix containing the uniform data. Only required
         for non-cartesian reconstructions.
+    metric_call_period: int (default 5)
+        the period on which the metrics are compute.
+    metrics: dict (optional, default None)
+        the list of desired convergence metrics: {'metric_name':
+        [@metric, metric_parameter]}. See modopt for the metrics API.
     verbose: int, default 0
         the verbosity level.
 
@@ -223,6 +242,8 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
         the estimated CONDAT-VU solution.
     transform: a WaveletTransformBase derived instance
         the wavelet transformation instance.
+    metrics: dict
+        the requested metrics values during the optimization.
     """
     # Check inputs
     start = time.clock()
@@ -357,7 +378,9 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
         rho_update=None,
         sigma_update=None,
         tau_update=None,
-        auto_iterate=False)
+        auto_iterate=False,
+        metric_call_period=metric_call_period,
+        metrics=metrics or {})
 
     # Perform the first reconstruction
     if verbose > 0:
@@ -399,4 +422,4 @@ def sparse_rec_condatvu(data, wavelet_name, samples, nb_scales=4,
     linear_op.transform.analysis_data = unflatten(
         opt.y_final, linear_op.coeffs_shape)
 
-    return x_final, linear_op.transform
+    return x_final, linear_op.transform, opt.metrics

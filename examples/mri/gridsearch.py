@@ -29,8 +29,8 @@ from modopt.math.metrics import ssim, snr, psnr, nrmse
 # Package import
 from pysap.data import get_sample_data
 from pysap.numerics.gridsearch import grid_search
-from pysap.numerics.gridsearch import sparse_rec_condatvu
-from pysap.numerics.gridsearch import sparse_rec_fista
+from pysap.numerics.reconstruct import sparse_rec_condatvu
+from pysap.numerics.reconstruct import sparse_rec_fista
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 
 
@@ -164,9 +164,9 @@ for wt in list_wts:
         }
 
         # Launch the gridsearch
-        list_kwargs, results = grid_search(sparse_rec_condatvu,
-                                           params, n_jobs=n_jobs,
-                                           verbose=verbose_gridsearch)
+        grid_metrics = grid_search(sparse_rec_condatvu,
+                                   params, n_jobs=n_jobs,
+                                   verbose=verbose_gridsearch)
 
     # Case FISTA
     elif FISTA:
@@ -184,19 +184,20 @@ for wt in list_wts:
         }
 
         # Launcher the gridsearch
-        list_kwargs, results = grid_search(sparse_rec_fista,
-                                           params, n_jobs=n_jobs,
-                                           verbose=verbose_gridsearch)
+        grid_metrics = grid_search(sparse_rec_fista,
+                                   params, n_jobs=n_jobs,
+                                   verbose=verbose_gridsearch)
 
     else:
         print("No reconstruction called.")
 
     # Reorganize the gridsearch outputs
-
-    for res, params in zip(results, list_kwargs):
+    for step, metric_item in grid_metrics.items():
         key = "mu={0}-scales={1}-transform={2}".format(
-            params["mu"], params["nb_scales"], params["wavelet_name"])
-        ssim_metric[key] = res[2]["ssim"]["values"][-1]
+            metric_item["params"]["mu"],
+            metric_item["params"]["nb_scales"],
+            metric_item["params"]["wavelet_name"])
+        ssim_metric[key] = metric_item["metrics"]["ssim"]["values"][-1]
 
 
 #############################################################################

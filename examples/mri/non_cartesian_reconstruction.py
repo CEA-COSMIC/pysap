@@ -19,8 +19,8 @@ We also add some gaussian noise in the image space.
 import pysap
 from pysap.data import get_sample_data
 from pysap.plugins.mri.reconstruct.fourier import NFFT2
-from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_fista
-from pysap.plugins.mri.reconstruct.reconstruct import sparse_rec_condatvu
+from pysap.numerics.reconstruct.reconstruct import sparse_rec_fista
+from pysap.numerics.reconstruct.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 
 # Third party import
@@ -65,7 +65,7 @@ image_rec0.show()
 
 # Start the FISTA reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_fista(
+x_final, transform, metrics = sparse_rec_fista(
     data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
@@ -92,7 +92,7 @@ image_rec.show()
 
 # Start the CONDAT-VU reconstruction
 max_iter = 20
-x_final, transform = sparse_rec_condatvu(
+x_final, transform, metrics = sparse_rec_condatvu(
     data=kspace_obs,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,

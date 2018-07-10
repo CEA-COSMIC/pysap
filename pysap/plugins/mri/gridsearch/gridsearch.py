@@ -23,31 +23,7 @@ from joblib import Parallel, delayed
 def _default_wrapper(recons_func, **kwargs):
     """ Default wrapper to parallelize the image reconstruction.
     """
-    return recons_func(**kwargs)
-
-
-def _get_final_size(param_grid):
-    """ Return the memory size of the given param_grid when it will extend as
-    a carthesian grid a parameters.
-
-    Parameters:
-    ----------
-    param_grid: dict or list of dictionaries
-        Dictionary with parameters names (string) as keys and lists of
-        parameter settings to try as values.
-
-    Return:
-    -------
-    size: int
-        the number of bytes of the extended carthesian grid a parameters.
-    """
-    tmp = {}  # same pattern than param_grid but store the size
-    for idx, key in enumerate(param_grid.iterkeys()):
-        if isinstance(param_grid[key], list):
-            tmp[idx] = [sys.getsizeof(value) for value in param_grid[key]]
-        else:
-            tmp[idx] = [sys.getsizeof(param_grid[key])]
-    return np.array([x for x in itertools.product(*tmp.values())]).sum()
+    return recons_func(**kwargs),
 
 
 def grid_search(func, param_grid, wrapper=None, n_jobs=1, verbose=0):
@@ -83,20 +59,24 @@ def grid_search(func, param_grid, wrapper=None, n_jobs=1, verbose=0):
 
     Results:
     --------
-    list_kwargs: dict
-        the list of the params used for each reconstruction.
-    res: list
-        the list of result for each reconstruction.
+    metrics: dict
+        the gridsearch results. Each key corresponds to a gridsearch parameters
+        set. The values are 'params' the reconstruction parameters, 'image'
+        the reconstructed image, and 'metrics' the different metrics as
+        specified in the input parameters.
     """
+    # Define the default wrapper call function if necessary
     if wrapper is None:
         wrapper = _default_wrapper
-    # sanitize value to list type
+
+    # Sanitize wrapper value to list type
     for key, value in param_grid.items():
         if not isinstance(value, list):
             param_grid[key] = [value]
     list_kwargs = [dict(zip(param_grid, x))
                    for x in itertools.product(*param_grid.values())]
-    # Run the reconstruction
+
+    # Run the reconstruction with joblib
     if verbose > 0:
         if n_jobs == -1:
             n_jobs_used = psutil.cpu_count()
@@ -106,7 +86,18 @@ def grid_search(func, param_grid, wrapper=None, n_jobs=1, verbose=0):
             n_jobs_used = n_jobs
         print(("Running grid_search for {0} candidates"
                " on {1} jobs").format(len(list_kwargs), n_jobs_used))
-    res = Parallel(n_jobs=n_jobs, verbose=verbose)(
-                   delayed(wrapper)(func, **kwargs)
-                   for kwargs in list_kwargs)
-    return list_kwargs, res
+    results = Parallel(n_jobs=n_jobs, verbose=verbose)(
+                       delayed(wrapper)(func, **kwargs)
+                       for kwargs in list_kwargs)
+
+    # Reorganize the gridsearch outputs
+    metrics = {}
+    for cnt, (res, params) in enumerate(zip(results, list_kwargs)):
+        params.pop("metrics")
+        params.pop("samples")
+        metrics["grid{0}".format(cnt + 1)] = {
+            "params": params,
+            "image": res[0][0],
+            "metrics": res[0][2]}
+
+    return metrics
