@@ -16,13 +16,14 @@ from pysap.base.exceptions import Exception
 from pysap.base.loaders import FITS
 from pysap.base.loaders import NIFTI
 from pysap.base.loaders import npBinary
+from pysap.base.loaders import MAT
 
 # Global parameters
 # > define all the available loaders
-LOADERS = [FITS, NIFTI, npBinary]
+LOADERS = [FITS, NIFTI, npBinary, MAT]
 
 
-def load(path, dtype=numpy.single):
+def load(path, dtype=numpy.single, **kwargs):
     """ Load an image.
 
     Parameters
@@ -39,7 +40,7 @@ def load(path, dtype=numpy.single):
     """
     # Load the image
     loader = get_loader(path)
-    image = loader.load(path)
+    image = loader.load(path, **kwargs)
 
     # Cast the image if requested
     if dtype:
@@ -48,7 +49,7 @@ def load(path, dtype=numpy.single):
     return image
 
 
-def save(image, path):
+def save(image, path, **kwargs):
     """ Save an image.
 
     Parameters
@@ -64,7 +65,7 @@ def save(image, path):
 
     # Save the data
     saver = get_saver(path)
-    saver.save(image, path)
+    saver.save(image, path, **kwargs)
 
 
 def get_loader(path):

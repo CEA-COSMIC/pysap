@@ -40,10 +40,23 @@ from pysap.base.exceptions import Exception
 
 # Global parameters
 SAMPLE_DATE_FILES = {
+    "3d-pmri": {
+         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                 "orange_phantom_3d_pmri_images.npy"),
+         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
+         "dtype": numpy.complex
+    },
     "2d-pmri": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "orange_phantom_pmri_images.npy"),
-        "md5sum": "b5cbfe5bb46a050ccc66cab244bf478e"
+        "md5sum": "b5cbfe5bb46a050ccc66cab244bf478e",
+        "dtype": numpy.complex
+    },
+    "mri-radial-3d-samples": {
+          "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                  "samples_3D_radial_spi_N256_nc1997x3073.mat"),
+          "md5sum": "0324b15ed8368e20fe7315281f31b6e6",
+          "image_field": "samples"
     },
     "mri-radial-samples": {
          "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -131,7 +144,10 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
                             "failed.".format(path))
 
     # Load the dataset
-    image = pysap.io.load(path)
+    for key in ("url", "md5sum"):
+        dataset.pop(key)
+    print(dataset)
+    image = pysap.io.load(path, **dataset)
 
     return image
 

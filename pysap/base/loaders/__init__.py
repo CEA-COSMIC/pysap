@@ -15,3 +15,4 @@ neuroimaging datasets.
 from .nifti import NIFTI
 from .fits import FITS
 from .numpy_binary import npBinary
+from .mat import MAT
