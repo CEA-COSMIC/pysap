@@ -15,6 +15,7 @@ A module that privides the utility functions to download toy datasets.
 from __future__ import print_function
 import os
 import sys
+import copy
 if sys.version_info[:2] >= (3, 0):
     from urllib.request import FancyURLopener
     from urllib.request import urlopen
@@ -41,10 +42,10 @@ from pysap.base.exceptions import Exception
 # Global parameters
 SAMPLE_DATE_FILES = {
     "3d-pmri": {
-         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                 "orange_phantom_3d_pmri_images.npy"),
-         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
-         "dtype": numpy.complex
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                "orange_phantom_3d_pmri_images.npy"),
+        "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
+        "dtype": numpy.complex
     },
     "2d-pmri": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -53,15 +54,15 @@ SAMPLE_DATE_FILES = {
         "dtype": numpy.complex
     },
     "mri-radial-3d-samples": {
-          "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                  "samples_3D_radial_spi_N256_nc1997x3073.mat"),
-          "md5sum": "0324b15ed8368e20fe7315281f31b6e6",
-          "image_field": "samples"
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                "samples_3D_radial_spi_N256_nc1997x3073.mat"),
+        "md5sum": "0324b15ed8368e20fe7315281f31b6e6",
+        "image_field": "samples"
     },
     "mri-radial-samples": {
-         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                 "samples_radial_GA_nc64_512.npy"),
-         "md5sum": "07b006ef003b825086880a663dfcdb6d"
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                "samples_radial_GA_nc64_512.npy"),
+        "md5sum": "07b006ef003b825086880a663dfcdb6d"
     },
     "mri-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -122,7 +123,7 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
         the loaded dataset.
     """
     # First get the data url
-    dataset = SAMPLE_DATE_FILES.get(dataset_name)
+    dataset = copy.deepcopy(SAMPLE_DATE_FILES.get(dataset_name))
     if dataset is None:
         raise Exception("No '{0}' sample data available - allowed sample data "
                         "are {1}.".format(dataset_name,
