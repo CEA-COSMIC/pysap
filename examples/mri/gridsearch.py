@@ -31,7 +31,7 @@ from pysap.data import get_sample_data
 from pysap.numerics.gridsearch import grid_search
 from pysap.numerics.reconstruct import sparse_rec_condatvu
 from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
+from pysap.numerics.utils import convert_mask_to_locations
 
 
 #############################################################################
@@ -161,6 +161,9 @@ for wt in list_wts:
             "sigma": 0.1,
             "metrics": metrics,
             "verbose": verbose_reconstruction,
+            "non_cartesian": False,
+            "uniform_data_shape": None,
+            "gradient_space": "analysis"
         }
 
         # Launch the gridsearch
@@ -181,6 +184,9 @@ for wt in list_wts:
             "max_nb_of_iter": max_nb_of_iter,
             "metrics": metrics,
             "verbose": verbose_reconstruction,
+            "non_cartesian": False,
+            "uniform_data_shape": None,
+            "gradient_space": "synthesis"
         }
 
         # Launcher the gridsearch

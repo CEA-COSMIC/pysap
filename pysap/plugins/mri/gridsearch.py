@@ -7,22 +7,44 @@
 ##########################################################################
 
 """
-Grid search that help launching multiple reconstruction at once.
+Grid search method that helps launching multiple reconstructions at once.
 """
 
 # System import
 import sys
 import itertools
 import psutil
-import numpy as np
+
+# Package import
+from pysap.numerics.utils import generate_operators
 
 # Third party import
 from joblib import Parallel, delayed
+import numpy as np
 
 
 def _default_wrapper(recons_func, **kwargs):
     """ Default wrapper to parallelize the image reconstruction.
     """
+    gradient_space = kwargs.pop("gradient_space")
+    gradient_op, linear_op, prox_op, cost_op = generate_operators(
+        data=kwargs.pop("data"),
+        wavelet_name=kwargs.pop("wavelet_name"),
+        samples=kwargs.pop("samples"),
+        nb_scales=kwargs.pop("nb_scales"),
+        non_cartesian=kwargs.pop("non_cartesian"),
+        uniform_data_shape=kwargs.pop("uniform_data_shape"),
+        gradient_space=gradient_space)
+    if gradient_space == "analysis":
+        prox_name = "prox_dual_op"
+    else:
+        prox_name = "prox_op"
+    for name, oper in (
+            ("gradient_op", gradient_op),
+            ("linear_op", linear_op),
+            (prox_name, prox_op),
+            ("cost_op", cost_op)):
+        kwargs[name] = oper
     return recons_func(**kwargs),
 
 
@@ -98,6 +120,6 @@ def grid_search(func, param_grid, wrapper=None, n_jobs=1, verbose=0):
         metrics["grid{0}".format(cnt + 1)] = {
             "params": params,
             "image": res[0][0],
-            "metrics": res[0][2]}
+            "metrics": res[0][3]}
 
     return metrics

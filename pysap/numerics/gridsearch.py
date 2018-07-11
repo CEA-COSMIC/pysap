@@ -12,4 +12,4 @@ This module contains shortcuts to gridsearch functions.
 """
 
 # Package import
-from pysap.plugins.mri.gridsearch.gridsearch import grid_search
+from pysap.plugins.mri.gridsearch import grid_search
