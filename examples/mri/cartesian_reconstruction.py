@@ -18,9 +18,10 @@ We also add some gaussian noise in the image space.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.reconstruct.reconstruct import sparse_rec_fista
-from pysap.numerics.reconstruct.reconstruct import sparse_rec_condatvu
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
+from pysap.numerics.reconstruct import sparse_rec_fista
+from pysap.numerics.reconstruct import sparse_rec_condatvu
+from pysap.numerics.utils import generate_operators
+from pysap.numerics.utils import convert_mask_to_locations
 
 # Third party import
 import numpy as np
@@ -63,14 +64,24 @@ image_rec0.show()
 # Here no cost function is set, and the optimization will reach the
 # maximum number of iterations. Fill free to play with this parameter.
 
-# Start the FISTA reconstruction
-max_iter = 20
-x_final, transform, metrics = sparse_rec_fista(
+# Generate operators
+gradient_op, linear_op, prox_op, cost_op = generate_operators(
     data=kspace_data,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
-    mu=1e-9,
     nb_scales=4,
+    non_cartesian=False,
+    uniform_data_shape=None,
+    gradient_space="synthesis")
+
+# Start the FISTA reconstruction
+max_iter = 20
+x_final, transform, costs, metrics = sparse_rec_fista(
+    gradient_op,
+    linear_op,
+    prox_op,
+    None,
+    mu=1e-9,
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
@@ -87,13 +98,23 @@ image_rec.show()
 # Here no cost function is set, and the optimization will reach the
 # maximum number of iterations. Fill free to play with this parameter.
 
-# Start the CONDAT-VU reconstruction
-max_iter = 20
-x_final, transform, metrics = sparse_rec_condatvu(
+# Generate operators
+gradient_op, linear_op, prox_op, cost_op = generate_operators(
     data=kspace_data,
     wavelet_name="BsplineWaveletTransformATrousAlgorithm",
     samples=kspace_loc,
     nb_scales=4,
+    non_cartesian=False,
+    uniform_data_shape=None,
+    gradient_space="analysis")
+
+# Start the CONDAT-VU reconstruction
+max_iter = 20
+x_final, transform, costs, metrics = sparse_rec_condatvu(
+    gradient_op,
+    linear_op,
+    prox_op,
+    cost_op,
     std_est=None,
     std_est_method="dual",
     std_thr=2.,
@@ -108,3 +129,5 @@ x_final, transform, metrics = sparse_rec_condatvu(
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
 image_rec.show()
+cost_rec = pysap.Image(data=costs)
+cost_rec.show()
