@@ -147,13 +147,16 @@ def generate_operators(data, wavelet_name, samples, nb_scales=4,
     prox_op = SparseThreshold(linear_op, None, thresh_type="soft")
 
     # Define the cost function
-    cost_op = DualGapCost(
-        linear_op=linear_op,
-        initial_cost=1e6,
-        tolerance=1e-4,
-        cost_interval=1,
-        test_range=4,
-        verbose=0,
-        plot_output=None)
+    if gradient_space == "synthesis":
+        cost_op = None
+    else:
+        cost_op = DualGapCost(
+            linear_op=linear_op,
+            initial_cost=1e6,
+            tolerance=1e-4,
+            cost_interval=1,
+            test_range=4,
+            verbose=0,
+            plot_output=None)
 
     return gradient_op, linear_op, prox_op, cost_op
