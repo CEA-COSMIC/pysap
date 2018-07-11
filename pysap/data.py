@@ -146,7 +146,6 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
     # Load the dataset
     for key in ("url", "md5sum"):
         dataset.pop(key)
-    print(dataset)
     image = pysap.io.load(path, **dataset)
 
     return image
