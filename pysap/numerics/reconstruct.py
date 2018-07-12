@@ -99,7 +99,8 @@ def sparse_rec_fista(gradient_op, linear_op, prox_op, cost_op,
         print(" - mu: ", mu)
         print(" - lipschitz constant: ", gradient_op.spec_rad)
         print(" - data: ", gradient_op.fourier_op.shape)
-        print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
+        if hasattr(linear_op, "nb_scale"):
+            print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
         print(" - max iterations: ", max_nb_of_iter)
         print(" - image variable shape: ", x_init.shape)
         print(" - alpha variable shape: ", alpha.shape)
@@ -207,8 +208,8 @@ def sparse_rec_condatvu(gradient_op, linear_op, prox_dual_op, cost_op,
     -------
     x_final: ndarray
         the estimated CONDAT-VU solution.
-    transform: a WaveletTransformBase derived instance
-        the wavelet transformation instance.
+    transform_output: a WaveletTransformBase derived instance or an array
+        the wavelet transformation instance or the transformation coefficients.
     costs: list of float
         the cost function values.
     metrics: dict
@@ -281,7 +282,8 @@ def sparse_rec_condatvu(gradient_op, linear_op, prox_dual_op, cost_op,
         print(" - std: ", std_est)
         print(" - 1/tau - sigma||L||^2 >= beta/2: ", convergence_test)
         print(" - data: ", gradient_op.fourier_op.shape)
-        print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
+        if hasattr(linear_op, "nb_scale"):
+            print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
         print(" - max iterations: ", max_nb_of_iter)
         print(" - number of reweights: ", nb_of_reweights)
         print(" - primal variable shape: ", primal.shape)
@@ -352,11 +354,16 @@ def sparse_rec_condatvu(gradient_op, linear_op, prox_dual_op, cost_op,
 
     # Get the final solution
     x_final = opt.x_final
-    linear_op.transform.analysis_data = unflatten(
-        opt.y_final, linear_op.coeffs_shape)
+    if hasattr(linear_op, "transform"):
+        linear_op.transform.analysis_data = unflatten(
+            opt.y_final, linear_op.coeffs_shape)
+        transform_output = linear_op.transform
+    else:
+        linear_op.coeff = opt.y_final
+        transform_output = linear_op.coeff
     if hasattr(cost_op, "cost"):
         costs = cost_op._cost_list
     else:
         costs = None
 
-    return x_final, linear_op.transform, costs, opt.metrics
+    return x_final, transform_output, costs, opt.metrics
