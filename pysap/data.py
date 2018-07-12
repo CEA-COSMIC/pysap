@@ -41,6 +41,11 @@ from pysap.base.exceptions import Exception
 
 # Global parameters
 SAMPLE_DATE_FILES = {
+    "dict-learn-dataset": {
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
+                "training_database.npy"),
+        "md5sum": "4fa7669901cfeef410429be8640b594a"
+    },
     "3d-pmri": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "orange_phantom_3d_pmri_images.npy"),
@@ -271,6 +276,13 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
 
     # Start a timer to evaluate the download time
     t0 = time.time()
+
+    # Test if the dataset has been released
+    try:
+        urlopen(url)
+    except:
+        raise ValueError(
+            "The '{0}' dataset has not been released yet.".format(url))
 
     # Start downloading dataset
     local_file = None

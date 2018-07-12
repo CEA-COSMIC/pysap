@@ -79,7 +79,8 @@ REQUIRES = [
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",
-    "modopt>=1.1.5"
+    "modopt>=1.1.5",
+    "sklearn>=0.19.1"
 ]
 EXTRA_REQUIRES = {
     "gui": {
