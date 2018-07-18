@@ -42,17 +42,26 @@ class TestWarpAndBinding(unittest.TestCase):
     def test_wavelet_transformations(self):
         """ Test all the registered transformations.
         """
-        for image in self.images:
+        for image_i in self.images:
             print("Process test with image '{0}'...".format(
-                image.metadata["path"]))
+                image_i.metadata["path"]))
             for nb_scale in self.nb_scales:
                 print("- Number of scales: {0}".format(nb_scale))
                 for transform in self.transforms:
                     print("    Transform: {0}".format(transform))
                     transform = transform(nb_scale=nb_scale, verbose=0)
+
+                    image = numpy.copy(image_i)
+
+                    if transform.data_dim == 3:
+                        image = image[64:192, 64:192]
+                        image = numpy.tile(image, (image.shape[0], 1, 1))
+                        transform.data = image
+                    else:
+                        transform.data = image
+
                     self.assertFalse(transform.use_wrapping)
                     transform.info
-                    transform.data = image
                     transform.analysis()
                     # transform.show()
                     recim = transform.synthesis()
