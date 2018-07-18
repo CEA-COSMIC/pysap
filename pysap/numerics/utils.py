@@ -8,11 +8,10 @@
 ##########################################################################
 
 """
-This module defines common loaders to deal with astronomical and
-neuroimaging datasets.
+This module contains shortcuts to utility functions.
 """
 
-from .nifti import NIFTI
-from .fits import FITS
-from .numpy_binary import npBinary
-from .mat import MAT
+# Package import
+from pysap.plugins.mri.reconstruct.utils import generate_operators
+from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
+from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask

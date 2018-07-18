@@ -53,6 +53,7 @@ install:
     - pip install coverage
     - pip install coveralls
     - pip install pycodestyle
+    - pip install sklearn
     - pip install nibabel
     - pip install progressbar2
     - pip install astropy

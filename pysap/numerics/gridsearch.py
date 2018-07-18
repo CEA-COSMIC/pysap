@@ -12,6 +12,4 @@ This module contains shortcuts to gridsearch functions.
 """
 
 # Package import
-from pysap.plugins.mri.gridsearch.gridsearch import grid_search
-from pysap.plugins.mri.gridsearch.recon import sparse_rec_condatvu
-from pysap.plugins.mri.gridsearch.recon import sparse_rec_fista
+from pysap.plugins.mri.gridsearch import grid_search

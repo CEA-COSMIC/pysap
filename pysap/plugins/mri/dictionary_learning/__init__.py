@@ -8,5 +8,6 @@
 ##########################################################################
 
 """
-This module defines a gridsearch over 2D reconstruction plugin.
+This module defines all the MRI dictionary learning based reconstruction
+plugin.
 """
