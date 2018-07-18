@@ -43,6 +43,12 @@ Available transform from ISAP are:
 - WaveletTransformViaLiftingScheme
 - OnLine53AndOnColumn44
 - OnLine44AndOnColumn53
+
+For 3D:
+
+- BiOrthogonalTransform3D
+- Wavelet3DTransformViaLiftingScheme
+- ATrou3D
 """
 
 # System import
@@ -595,3 +601,44 @@ class OnLine44AndOnColumn53(ISAPWaveletTransformBase):
     def _update_default_transformation_parameters(self):
         self.bands_names = ["a", "a", "a"]
         self.bands_lengths[-1, 1:] = 0
+
+#####################
+# 3D Transforms #####
+#####################
+
+
+class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
+    """ Mallat's 3D wavelet transform (7/9 biorthogonal filters)
+    """
+    def __init__(self, nb_scale, verbose, **kwargs):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale,
+                                          dim=3, **kwargs)
+
+    __isap_transform_id__ = 1
+    __isap_name__ = "3D Wavelet transform via lifting scheme"
+    __is_decimated__ = True
+    __isap_nb_bands__ = 7
+
+
+class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
+    """ Wavelet transform via lifting scheme.
+    """
+    def __init__(self, nb_scale, verbose):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
+
+    __isap_transform_id__ = 2
+    __isap_name__ = "Wavelet transform via lifting scheme"
+    __is_decimated__ = True
+    __isap_nb_bands__ = 7
+
+
+class ATrou3D(ISAPWaveletTransformBase):
+    """ Wavelet transform with the A trou algorithm.
+    """
+    def __init__(self, nb_scale, verbose):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
+
+    __isap_transform_id__ = 3
+    __isap_name__ = "3D Wavelet A Trou"
+    __is_decimated__ = False
+    __isap_nb_bands__ = 1

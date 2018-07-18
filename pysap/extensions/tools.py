@@ -182,3 +182,102 @@ def mr_recons(
     # Execute the command
     process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
+
+
+def mr3d_recons(in_mr_file, out_image, verbose=False):
+    """ Wrap the Sparse2d 'mr3d_recons'.
+    """
+    # Generate the command
+    cmd = ["mr3d_recons"]
+    if verbose:
+        cmd.append("-v")
+    cmd += [in_mr_file, out_image]
+
+    # Execute the command
+    process = Sparse2dWrapper(verbose=verbose)
+    process(cmd)
+
+
+def mr3d_transform(
+        in_image, out_mr_file, type_of_multiresolution_transform=2,
+        type_of_lifting_transform=3, number_of_scales=4,
+        type_of_filters=1, use_l2_norm=False,
+        verbose=False):
+    """ Wrap the Sparse2d 'mr3d_trans'.
+    """
+    # Generate the command
+    cmd = [
+        "mr3d_trans",
+        "-t", type_of_multiresolution_transform,
+        "-n", number_of_scales]
+    for key, value in [("-v", verbose)]:
+        if value:
+            cmd.append(key)
+
+    # Bi orthogonal transform
+    if type_of_multiresolution_transform == 1:
+        if type_of_filters == 10:
+            raise ValueError('Wrong type of filters with orthogonal transform')
+        if type_of_lifting_transform != 3 and\
+           type_of_lifting_transform is not None:
+            raise ValueError('Wrong type of lifting transform with orthogonal')
+        for key, value in [("-l", type_of_lifting_transform),
+                           ("-T", type_of_filters)]:
+            if value is not None:
+                    cmd += [key, value]
+        for key, value in [("-L", use_l2_norm)]:
+            if value:
+                cmd.append(key)
+
+    # (bi) orthogonal transform with lifting
+    if type_of_multiresolution_transform == 2:
+        for key, value in [("-l", type_of_lifting_transform)]:
+            if value is not None:
+                    cmd += [key, value]
+
+    # A trous wavelet transform
+    if type_of_multiresolution_transform == 3:
+        if type_of_lifting_transform != 3 and\
+           type_of_lifting_transform is not None:
+            raise ValueError('Wrong type of lifting transform with orthogonal')
+        for key, value in [("-l", type_of_lifting_transform)]:
+            if value is not None:
+                    cmd += [key, value]
+
+    cmd += [in_image, out_mr_file]
+
+    # Execute the command
+    process = Sparse2dWrapper(verbose=verbose)
+    process(cmd)
+
+
+def mr3d_filter(
+        in_image, out_image,
+        type_of_multiresolution_transform=2, type_of_filters=1,
+        sigma=None, correlated_noise=None, number_of_scales=4,
+        nsigma=3,
+        verbose=False):
+    """ Wrap the Sparse2d 'mr3d_filter'.
+    """
+    # WARNING: relative path with ~  doesn't work, use absolute path from /home
+    # Generate the command
+    cmd = [
+        "mr3d_filter",
+        "-t", type_of_multiresolution_transform,
+        "-T", type_of_filters,
+        "-n", number_of_scales]
+    for key, value in [
+            ("-C", correlated_noise),
+            ("-v", verbose)]:
+        if value:
+            cmd.append(key)
+    for key, value in [
+            ("-g", sigma),
+            ("-s", nsigma)]:
+        if value is not None:
+            cmd += [key, value]
+    cmd += [in_image, out_image]
+
+    # Execute the command
+    process = Sparse2dWrapper(verbose=verbose)
+    process(cmd)
