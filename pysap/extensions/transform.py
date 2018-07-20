@@ -49,6 +49,7 @@ For 3D:
 - BiOrthogonalTransform3D
 - Wavelet3DTransformViaLiftingScheme
 - ATrou3D
+
 """
 
 # System import
