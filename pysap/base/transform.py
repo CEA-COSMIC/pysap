@@ -244,8 +244,6 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             print("[info] Replacing existing input data array.")
         if not all([e == data.shape[0] for e in data.shape]):
             raise ValueError("Expect a square shape data.")
-        if data.ndim != 2:
-            raise ValueError("Expect a two-dim data array.")
         if data.ndim != self.data_dim:
             if self.data_dim == 2:
                 raise ValueError("This wavelet can only be applied on 2D"
