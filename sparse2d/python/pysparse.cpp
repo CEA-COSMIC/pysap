@@ -153,7 +153,7 @@ BOOST_PYTHON_MODULE(pysparse){
 
 
     // Module property
-    bp::scope().attr("__version__") = "0.0.1";
+    bp::scope().attr("__version__") = "0.0.2";
     bp::scope().attr("__doc__") = "Python bindings for ISAP";
 
 }

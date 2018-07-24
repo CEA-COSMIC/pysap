@@ -110,7 +110,6 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             kwargs["type_of_multiresolution_transform"] = (
                 self.__isap_transform_id__)
             kwargs["number_of_scales"] = self.nb_scale
-            self.trf = pysparse.MRTransform(**self.kwargs)
             if self.data_dim == 2:
                 self.trf = pysparse.MRTransform(**self.kwargs)
             elif self.data_dim == 3:
@@ -118,7 +117,6 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             else:
                 raise NameError('Please define a correct dimension for data')
         else:
-            self.trf = None
             if self.data_dim == 2:
                 self.trf = None
             elif self.data_dim == 3:
@@ -245,15 +243,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         if not all([e == data.shape[0] for e in data.shape]):
             raise ValueError("Expect a square shape data.")
         if data.ndim != self.data_dim:
-            if self.data_dim == 2:
-                raise ValueError("This wavelet can only be applied on 2D"
-                                 " square images")
-            if self.data_dim == 3:
-                raise ValueError("This wavelet can only be applied on 3D"
-                                 " cubic images")
-            else:
-                raise ValueError("Those data dimensions aren't managed by"
-                                 " current transformation")
+                raise ValueError("This wavelet can only be applied on {}D"
+                                 " square images".format(self.data_dim))
         if self.is_decimated and not (data.shape[0] // 2**(self.nb_scale) > 0):
             raise ValueError("Can't decimate the data with the specified "
                              "number of scales.")

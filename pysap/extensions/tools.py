@@ -217,10 +217,10 @@ def mr3d_transform(
     # Bi orthogonal transform
     if type_of_multiresolution_transform == 1:
         if type_of_filters == 10:
-            raise ValueError('Wrong type of filters with orthogonal transform')
-        if type_of_lifting_transform != 3 and\
-           type_of_lifting_transform is not None:
-            raise ValueError('Wrong type of lifting transform with orthogonal')
+            raise ValueError("Wrong type of filters with orthogonal transform")
+        if (type_of_lifting_transform != 3 and
+           type_of_lifting_transform is not None):
+            raise ValueError("Wrong type of lifting transform with orthogonal")
         for key, value in [("-l", type_of_lifting_transform),
                            ("-T", type_of_filters)]:
             if value is not None:
@@ -237,9 +237,9 @@ def mr3d_transform(
 
     # A trous wavelet transform
     if type_of_multiresolution_transform == 3:
-        if type_of_lifting_transform != 3 and\
-           type_of_lifting_transform is not None:
-            raise ValueError('Wrong type of lifting transform with orthogonal')
+        if (type_of_lifting_transform != 3 and
+           type_of_lifting_transform is not None):
+            raise ValueError("Wrong type of lifting transform with orthogonal")
         for key, value in [("-l", type_of_lifting_transform)]:
             if value is not None:
                     cmd += [key, value]

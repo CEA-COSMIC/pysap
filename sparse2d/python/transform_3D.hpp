@@ -1,10 +1,11 @@
 /*##########################################################################
-# XXX - Copyright (C) XXX, 2017
-# Distributed under the terms of the CeCILL-B license, as published by
-# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
-# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
-# for details.
+pySAP - Copyright (C) CEA, 2017 - 2018
+Distributed under the terms of the CeCILL-B license, as published by
+the CEA-CNRS-INRIA. Refer to the LICENSE file or to
+http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+for details.
 ##########################################################################*/
+
 /*Availables transforms:
 1: Mallat 3D
 2: Lifting
@@ -230,7 +231,6 @@ bp::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
         cout << "  Array shape: " << arr.shape(0) << ", " << arr.shape(1) << ", " << arr.shape(2) << endl;
         cout << "  Save transform: " << save << endl;
     }
-
 
     ASSERT_THROW(
         ((int)pow(2, this->number_of_scales) <= (int)min(arr.shape(0), min(arr.shape(1), arr.shape(2)))),
