@@ -116,7 +116,7 @@ class Wavelet2(object):
         shape = numpy.asarray(shape)
         shape += shape % 2
         fake_data = numpy.zeros(shape)
-        fake_data[list(zip(shape // 2))] = 1
+        fake_data[tuple(zip(shape // 2))] = 1
 
         # Call mr_transform
         data = self.op(fake_data)
