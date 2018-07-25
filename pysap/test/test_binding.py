@@ -67,7 +67,7 @@ class TestWarpAndBinding(unittest.TestCase):
                     recim = transform.synthesis()
                     # recim.show()
                     mismatch = (1. - numpy.mean(
-                        numpy.isclose(recim.data, image.data, atol=1e-8,
+                        numpy.isclose(recim.data, image, atol=1e-8,
                                       rtol=1e-5)))
                     print("      mismatch = ", mismatch)
                     print("      analysis = ",
