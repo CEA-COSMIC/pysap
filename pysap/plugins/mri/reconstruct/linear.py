@@ -24,7 +24,7 @@ import numpy
 class Wavelet2(object):
     """ The 2D wavelet transform class.
     """
-    def __init__(self, wavelet_name, nb_scale=4, verbose=0):
+    def __init__(self, wavelet_name, nb_scale=4, verbose=0, **kwargs):
         """ Initialize the 'Wavelet2' class.
 
         Parameters
@@ -37,13 +37,21 @@ class Wavelet2(object):
             the verbosity level.
         """
         self.nb_scale = nb_scale
+        self.flatten = flatten
+        self.unflatten = unflatten
         if wavelet_name not in pysap.AVAILABLE_TRANSFORMS:
             raise ValueError(
                 "Unknown transformation '{0}'.".format(wavelet_name))
         transform_klass = pysap.load_transform(wavelet_name)
         self.transform = transform_klass(
-            nb_scale=self.nb_scale, verbose=verbose)
+            nb_scale=self.nb_scale, verbose=verbose, **kwargs)
         self.coeffs_shape = None
+
+    def get_coeff(self):
+        return self.transform.analysis_data
+
+    def set_coeff(self, coeffs):
+        self.transform.analysis_data = coeffs
 
     def op(self, data):
         """ Define the wavelet operator.
@@ -108,7 +116,7 @@ class Wavelet2(object):
         shape = numpy.asarray(shape)
         shape += shape % 2
         fake_data = numpy.zeros(shape)
-        fake_data[list(zip(shape // 2))] = 1
+        fake_data[tuple(zip(shape // 2))] = 1
 
         # Call mr_transform
         data = self.op(fake_data)

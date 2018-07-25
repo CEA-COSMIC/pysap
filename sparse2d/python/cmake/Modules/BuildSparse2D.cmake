@@ -2,12 +2,12 @@
 # Build the CfitsIO dependencies for the project         #
 #========================================================#
 
-set(sparse2dVersion 2.0.0)
+set(sparse2dVersion 2.1.1)
 
 ExternalProject_Add(sparse2d
     PREFIX sparse2d
     GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
-    GIT_TAG v2.0.0
+    GIT_TAG v2.1.1
     # GIT_TAG master
     DEPENDS cfitsio
     CONFIGURE_COMMAND cmake ../sparse2d
@@ -24,5 +24,4 @@ ExternalProject_Add(sparse2d
 
 set(sparse2d_LIBRARY_DIR ${CMAKE_BINARY_DIR}/extern/lib/ )
 set(sparse2d_INCLUDE_DIR ${CMAKE_BINARY_DIR}/extern/include/ )
-set(sparse2d_LIBRARIES -lmga2d -lsparse2d -lsparse1d -ltools)
-
+set(sparse2d_LIBRARIES -lmga2d -lsparse3d -lsparse2d -lsparse1d -ltools)

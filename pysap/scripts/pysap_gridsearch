@@ -18,7 +18,7 @@ import json
 import pickle
 from datetime import datetime
 from argparse import RawTextHelpFormatter
-from pprint import pprint
+import pprint
 from collections import OrderedDict
 import logging
 if sys.version_info[0] < 3:
@@ -237,13 +237,15 @@ def _launch(sigma, mask_type, acc_factor, dirname, max_nb_of_iter, n_jobs,
     }
 
     # principal gridsearch params grid
-    mu_list = list(np.logspace(-8, -1, 20))
-    nb_scales = [3, 4, 5]
+    # mu_list = list(np.logspace(-8, -1, 20))
+    mu_list = list(np.logspace(-8, -1, 2))
+    # nb_scales = [3, 4, 5]
+    nb_scales = [3]
     list_wts = ["MallatWaveletTransform79Filters",
-     			"UndecimatedBiOrthogonalTransform",
-     			"MeyerWaveletsCompactInFourierSpace",
-     			"BsplineWaveletTransformATrousAlgorithm",
-     			"FastCurveletTransform"]
+                # "UndecimatedBiOrthogonalTransform",
+                # "MeyerWaveletsCompactInFourierSpace",
+                # "BsplineWaveletTransformATrousAlgorithm",
+                "FastCurveletTransform"]
 
     for wt in list_wts:
 
@@ -324,7 +326,6 @@ global_params["verbose_gridsearch"] = bool(global_params[
                                                 "verbose_gridsearch"])
 global_params["max_nb_of_iter"] = int(global_params["max_nb_of_iter"])
 
-global_params["verbose_reconstruction"] = True
 global_params["verbose_gridsearch"] = True
 for section in config.sections():
     if "Run" in section:
@@ -344,5 +345,3 @@ for section in config.sections():
         for sigma in sigma_list:
             params["sigma"] = sigma
             _launch(**params)
-
-

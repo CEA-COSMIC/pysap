@@ -16,5 +16,8 @@ from .tools import mr_transform
 from .tools import mr_filter
 from .tools import mr_deconv
 from .tools import mr_recons
+from .tools import mr3d_recons
+from .tools import mr3d_transform
+from .tools import mr3d_filter
 from .formating import FLATTENING_FCTS as ISAP_FLATTEN
 from .formating import INFLATING_FCTS as ISAP_UNFLATTEN
