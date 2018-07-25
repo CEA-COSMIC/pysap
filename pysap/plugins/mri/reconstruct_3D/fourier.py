@@ -31,8 +31,9 @@ try:
     from pynufft import NUFFT_cpu
 
 except Exception:
-    warnings.warn("pyNUFFT python package has not been found. Try Pynfft"
-                  "if non uniform Fourier transform needed")
+    warnings.warn("pyNUFFT python package has not been found. Exists only "
+                  "in Python3.x. Try Pynfft if non uniform Fourier"
+                  " transform needed")
 
 import numpy as np
 import scipy.fftpack as pfft
