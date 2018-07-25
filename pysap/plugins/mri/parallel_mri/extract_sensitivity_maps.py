@@ -48,8 +48,8 @@ def extract_k_space_center(samples, samples_locations,
         raise NotImplementedError
     else:
         samples_thresholded = np.copy(samples)
-        samples_thresholded *= (samples_locations[:, 0] <= thr)
-        samples_thresholded *= (samples_locations[:, 1] <= thr)
+        samples_thresholded *= (samples_locations[:, 0] <= thr[0])
+        samples_thresholded *= (samples_locations[:, 1] <= thr[1])
     return samples_thresholded
 
 def extract_k_space_center_and_locations(data_values, samples_locations,
@@ -80,8 +80,8 @@ def extract_k_space_center_and_locations(data_values, samples_locations,
     else:
         data_thresholded = np.copy(data_values)
         center_locations = np.copy(samples_locations)
-        condition = np.logical_and(np.abs(samples_locations[:,0]) <= thr,
-                                   np.abs(samples_locations[:,1]) <= thr)
+        condition = np.logical_and(np.abs(samples_locations[:,0]) <= thr[0],
+                                   np.abs(samples_locations[:,1]) <= thr[1])
         index = np.linspace(0, samples_locations.shape[0]-1,
                             samples_locations.shape[0], dtype=np.int)
         index = np.extract(condition, index)
@@ -158,8 +158,6 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
     ISOS: np.ndarray
         The sum of Squarre used to extract the sensitivity maps
     """
-    import time
-    start_time = time.time()
     if samples is None:
         mode = 'FFT'
 
@@ -193,5 +191,4 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
     SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=0))
     for r in range(L):
         Smaps[r] /= SOS
-    compute_time = time.time()-start_time
-    return Smaps, SOS, compute_time
+    return Smaps, SOS

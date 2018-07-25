@@ -63,9 +63,8 @@ class Grad2D_pMRI_analysis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result (the recovered kspace).
         """
-        y = np.asarray([self.fourier_op.op(x * self.S[...,l]) for l in
-                        range(self.S.shape[-1])])
-        y = np.moveaxis(y, 0, -1)
+        y = np.asarray([self.fourier_op.op(x * self.S[l]) for l in
+                        range(self.S.shape[0])])
         return y
 
     def _analy_rsns_op_method(self, x):
@@ -84,9 +83,9 @@ class Grad2D_pMRI_analysis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result.
         """
-        y = np.asarray([self.fourier_op.adj_op(x[..., l]) *
-                        np.conj(self.S[...,l]) for l in
-                        range(self.S.shape[-1])])
+        y = np.asarray([self.fourier_op.adj_op(x[l]) *
+                        np.conj(self.S[l]) for l in
+                        range(self.S.shape[0])])
         return np.sum(y, axis=0)
 
 
@@ -140,9 +139,8 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
 
         rsl = []
         img = self.linear_op.adj_op(x)
-        rsl = np.asarray([self.fourier_op.op(self.S[:, :, l] * img) for l in
-                          range(self.shape[2])])
-        rsl = np.moveaxis(rsl, 0, -1)
+        rsl = np.asarray([self.fourier_op.op(self.S[l] * img) for l in
+                          range(self.S.shape[0])])
         return rsl
 
     def _synth_trans_op_method(self, x):
@@ -163,10 +161,10 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
         """
 
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
-        for l in range(self.S.shape[2]):
-            tmp = self.fourier_op.adj_op(x[..., l])
+        for l in range(self.S.shape[0]):
+            tmp = self.fourier_op.adj_op(x[l])
             rsl += self.linear_op.op(tmp *
-                                     np.conj(self.S[..., l]))
+                                     np.conj(self.S[l]))
         return rsl
 
 
@@ -193,7 +191,7 @@ class Grad2D_pMRI(Grad2D_pMRI_analysis, Grad2D_pMRI_synthesis):
         linear_op: instance
             a Linear operator instance.
         """
-        if S.shape[:2] != fourier_op.shape:
+        if S.shape[1:] != fourier_op.shape:
             raise ValueError('Matrix dimension not aligned')
 
         if linear_op is None:
