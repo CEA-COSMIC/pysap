@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##########################################################################
-# XXX - Copyright (C) XXX, 3017
+# PYSAP - Copyright (C) CEA, 2018
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -14,6 +14,7 @@ Fourier operators for cartesian and non-cartesian space.
 
 # Package import
 import warnings
+import numpy as np
 from .utils import convert_locations_to_mask_3D
 from pysap.plugins.mri.reconstruct.fourier import FourierBase
 from modopt.interface.errors import warn
@@ -22,41 +23,49 @@ from modopt.interface.errors import warn
 try:
     from pynufft import NUFFT_hsa
     from pynufft import NUFFT_cpu
-
 except Exception:
     warnings.warn("pyNUFFT python package has not been found. Exists only "
                   "in Python3.x. Try Pynfft if non uniform Fourier"
                   " transform needed")
 
-import numpy as np
 
-
-class Singleton:
-    """  Singleton design pattern, to count the number of instanciation of
-    a subclass.
+class InstanceCounter:
+    """  InstanceCounter design pattern, to count the number of instanciation
+    of a subclass.
 
     Attributes
     ----------
     numOfInstances: int
-        number of instances of the Singleton class.
+        number of instances of the InstanceCounter class.
     """
 
     numOfInstances = 0
 
     def countInstances(cls):
+        """ This method increments the number of instantiations of the class
+         associated with the cls obj"""
         cls.numOfInstances += 1
 
+    # Insure the class is inherited in subclasses
     countInstances = classmethod(countInstances)
 
     def getNumInstances(cls):
+        """ This method returns the number of instantiations of the class
+         associated with the cls obj"""
+
         return cls.numOfInstances
+
+    # Insure the class is inherited in subclasses
     getNumInstances = classmethod(getNumInstances)
 
     def __init__(self):
+        """ Initialize a InstanceCounter object and immediatly increment the
+        counter """
+
         self.countInstances()
 
 
-class NUFFT(FourierBase, Singleton):
+class NUFFT(FourierBase, InstanceCounter):
     """  N-D non uniform Fast Fourrier Transform class
 
     Attributes
@@ -100,7 +109,6 @@ class NUFFT(FourierBase, Singleton):
             to (Jd,)*dims image
 
         """
-
         self.shape = shape
         self.platform = platform
         self.samples = samples * (2 * np.pi)  # Pynufft use samples in
@@ -140,7 +148,11 @@ class NUFFT(FourierBase, Singleton):
             self.nufftObj.offload('ocl')  # for multi-CPU computation
 
         elif self.platform == 'gpu':
-            Singleton.__init__(self)
+            # In the case of GPU NUFFT, a bug in the CUDA implementation allows
+            # us to only create one instance of the NUFFT_hsa object. The
+            # CounterInstance metaclass of the NUFFT is here to insure the user
+            # doesn't declare it more than once (in the GPU case)
+            InstanceCounter.__init__(self)
 
             warn('Attemping to use Cuda plateform. Make sure to '
                  'have  all the dependecies installed and '

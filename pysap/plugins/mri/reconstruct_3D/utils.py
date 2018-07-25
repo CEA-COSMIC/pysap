@@ -10,7 +10,6 @@
 Common tools for MRI image reconstruction.
 """
 
-
 # System import
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,7 +36,7 @@ def convert_mask_to_locations_3D(mask):
 
 
 def normalize_samples(samples_locations):
-    """Normalize the 3D samples between [-.5; .5[
+    """ Normalize the 3D samples between [-.5; .5[
 
     Parameters
     ----------
