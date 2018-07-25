@@ -12,8 +12,6 @@ This module contains classes for defining algorithm operators and gradients.
 """
 
 # Package import
-from .utils import prod_over_maps
-from .utils import function_over_maps
 from .utils import check_lipschitz_cst
 
 # Third party import
@@ -65,8 +63,10 @@ class Grad2D_pMRI_analysis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result (the recovered kspace).
         """
-        return function_over_maps(self.fourier_op.op,
-                                  prod_over_maps(self.S, x))
+        y = np.asarray([self.fourier_op.op(x * self.S[...,l]) for l in
+                        range(self.S.shape[-1])])
+        y = np.moveaxis(y, 0, -1)
+        return y
 
     def _analy_rsns_op_method(self, x):
         """ MtX operation.
@@ -84,8 +84,10 @@ class Grad2D_pMRI_analysis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result.
         """
-        y = function_over_maps(self.fourier_op.adj_op, x)
-        return np.sum(prod_over_maps(y, np.conj(self.S)), axis=2)
+        y = np.asarray([self.fourier_op.adj_op(x[..., l]) *
+                        np.conj(self.S[...,l]) for l in
+                        range(self.S.shape[-1])])
+        return np.sum(y, axis=0)
 
 
 class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
@@ -136,10 +138,11 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
             the operation result (the recovered kspace).
         """
 
-        rsl = np.zeros(self.obs_data.shape).astype('complex128')
+        rsl = []
         img = self.linear_op.adj_op(x)
-        for l in range(self.S.shape[2]):
-            rsl[:, :, l] = self.fourier_op.op(self.S[:, :, l] * img)
+        rsl = np.asarray([self.fourier_op.op(self.S[:, :, l] * img) for l in
+                          range(self.shape[2])])
+        rsl = np.moveaxis(rsl, 0, -1)
         return rsl
 
     def _synth_trans_op_method(self, x):
@@ -161,9 +164,9 @@ class Grad2D_pMRI_synthesis(GradBasic, PowerMethod):
 
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
         for l in range(self.S.shape[2]):
-            tmp = self.fourier_op.adj_op(x[:, :, l])
+            tmp = self.fourier_op.adj_op(x[..., l])
             rsl += self.linear_op.op(tmp *
-                                     np.conj(self.S[:, :, l]))
+                                     np.conj(self.S[..., l]))
         return rsl
 
 
