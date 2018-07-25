@@ -50,7 +50,7 @@ kspace_loc = normalize_samples(samples)
 # Generate the subsampled kspace
 fourier_op_gen = NFFT2(samples=kspace_loc, shape=SOS.shape)
 kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
-                 range(Il.shape[0])])
+                          range(Il.shape[0])])
 
 # Generate the senitivity matrix from undersampled data
 data_thresholded, samples_thresholded = extract_k_space_center_and_locations(

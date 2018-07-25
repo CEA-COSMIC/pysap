@@ -21,8 +21,8 @@ import numpy as np
 
 def normalize_samples(samples):
     """
-    This function normalize the samples so it can be between [-0.5; 0.5[ for the
-    non-cartesian case
+    This function normalize the samples so it can be between [-0.5; 0.5[ for
+    the non-cartesian case
     Parameters:
     -----------
         samples: np.ndarray

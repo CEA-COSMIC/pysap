@@ -52,8 +52,9 @@ def extract_k_space_center(samples, samples_locations,
         samples_thresholded *= (samples_locations[:, 1] <= thr[1])
     return samples_thresholded
 
+
 def extract_k_space_center_and_locations(data_values, samples_locations,
-                                        thr=None, img_shape=None):
+                                         thr=None, img_shape=None):
     """
     This class extract the k space center for a given threshold and extracts
     the corresponding sampling locations
@@ -80,14 +81,15 @@ def extract_k_space_center_and_locations(data_values, samples_locations,
     else:
         data_thresholded = np.copy(data_values)
         center_locations = np.copy(samples_locations)
-        condition = np.logical_and(np.abs(samples_locations[:,0]) <= thr[0],
-                                   np.abs(samples_locations[:,1]) <= thr[1])
+        condition = np.logical_and(np.abs(samples_locations[:, 0]) <= thr[0],
+                                   np.abs(samples_locations[:, 1]) <= thr[1])
         index = np.linspace(0, samples_locations.shape[0]-1,
                             samples_locations.shape[0], dtype=np.int)
         index = np.extract(condition, index)
         center_locations = samples_locations[index, :]
         data_thresholded = data_thresholded[:, index]
     return data_thresholded, center_locations
+
 
 def gridding_2d(points, values, img_shape, method='linear', point_min=None,
                 point_max=None):
@@ -187,7 +189,8 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
                 method=method,
                 point_min=min_samples,
                 point_max=max_samples)
-            Smaps[l] = pfft.fftshift(pfft.ifft2(pfft.ifftshift(gridded_kspace)))
+            Smaps[l] = pfft.fftshift(pfft.ifft2(pfft.ifftshift(
+                gridded_kspace)))
     SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=0))
     for r in range(L):
         Smaps[r] /= SOS
