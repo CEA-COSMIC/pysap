@@ -8,11 +8,8 @@
 ##########################################################################
 
 """
-This module defines common loaders to deal with astronomical and
-neuroimaging datasets.
+This module contains shortcuts to gridsearch functions.
 """
 
-from .nifti import NIFTI
-from .fits import FITS
-from .numpy_binary import npBinary
-from .mat import MAT
+# Package import
+from pysap.plugins.mri.gridsearch import grid_search

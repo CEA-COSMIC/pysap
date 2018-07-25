@@ -15,15 +15,15 @@ ExternalProject_Add(Boost
     URL  https://dl.bintray.com/boostorg/release/${BoostVersion}/source/${BoostFolderName}.tar.bz2
     URL_HASH  SHA256=${BoostSHA256}
     CONFIGURE_COMMAND ./bootstrap.sh
-                                                        --with-libraries=python
-                                                        --with-python=${PYTHON_EXECUTABLE}
-    BUILD_COMMAND           ./b2 install
-                                                        variant=release
-                                                        link=static
-                                                        cxxflags='-fPIC'
-                                                        --prefix=${CMAKE_BINARY_DIR}/extern
-                                                        -d 0
-                                                        -j8
+        --with-libraries=python
+        --with-python=${PYTHON_EXECUTABLE}
+    BUILD_COMMAND ./b2 install
+        variant=release
+        link=static
+        cxxflags='-fPIC'
+        --prefix=${CMAKE_BINARY_DIR}/extern
+        -d 0
+        -j8
     INSTALL_COMMAND ""
     BUILD_IN_SOURCE 1
     )

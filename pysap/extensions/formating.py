@@ -24,64 +24,64 @@ def get_hbl(A):
     """ Return the half-bottom-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[l:, :l]
+    li = int(nx / 2)
+    return A[li:, :li]
 
 
 def get_hbr(A):
     """ Return the half-bottom-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[l:, l:]
+    li = int(nx / 2)
+    return A[li:, li:]
 
 
 def get_htl(A):
     """ Return the half-top-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[:l, :l]
+    li = int(nx / 2)
+    return A[:li, :li]
 
 
 def get_htr(A):
     """ Return the half-top-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[:l, l:]
+    li = int(nx / 2)
+    return A[:li, li:]
 
 
 def get_hr(A):
     """ Return the half-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[:, l:]
+    li = int(nx / 2)
+    return A[:, li:]
 
 
 def get_hl(A):
     """ Return the half-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[:, :l]
+    li = int(nx / 2)
+    return A[:, :li]
 
 
 def get_hb(A):
     """ Return the half-bottom of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[l:, :]
+    li = int(nx / 2)
+    return A[li:, :]
 
 
 def get_ht(A):
     """ Return the half-top of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    return A[:l, :]
+    li = int(nx / 2)
+    return A[:li, :]
 
 # SETTERS
 
@@ -90,64 +90,64 @@ def set_hbl(A, a):
     """ Return the half-bottom-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[l:, :l] = a
+    li = int(nx / 2)
+    A[li:, :li] = a
 
 
 def set_hbr(A, a):
     """ Return the half-bottom-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[l:, l:] = a
+    li = int(nx / 2)
+    A[li:, li:] = a
 
 
 def set_htl(A, a):
     """ Return the half-top-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[:l, :l] = a
+    li = int(nx / 2)
+    A[:li, :li] = a
 
 
 def set_htr(A, a):
     """ Return the half-top-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[:l, l:] = a
+    li = int(nx / 2)
+    A[:li, li:] = a
 
 
 def set_hr(A, a):
     """ Return the half-right of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[:, l:] = a
+    li = int(nx / 2)
+    A[:, li:] = a
 
 
 def set_hl(A, a):
     """ Return the half-left of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[:, :l] = a
+    li = int(nx / 2)
+    A[:, :li] = a
 
 
 def set_hb(A, a):
     """ Return the half-bottom of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[l:, :] = a
+    li = int(nx / 2)
+    A[li:, :] = a
 
 
 def set_ht(A, a):
     """ Return the half-top of the given array.
     """
     nx, _ = A.shape
-    l = nx / 2
-    A[:l, :] = a
+    li = int(nx / 2)
+    A[:li, :] = a
 
 ###
 # FLATTEN

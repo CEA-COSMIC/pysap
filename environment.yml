@@ -1,0 +1,36 @@
+name: pysap
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6
+  - scipy>=1.0.0
+  - numpy>=1.11.0
+  - matplotlib>=2.1.2
+  - future>=0.16.0
+  - astropy==2.0.4
+  - pyqtgraph>=0.10.0
+  - progressbar2>=3.34.3
+  - PySide>=1.2.2
+  - ipython
+  - ipywidgets
+  - cython
+  - jupyter
+  - notebook
+  - docutils
+  - pep8
+  - pytest
+  - pytest-cov
+  - readline
+  - setuptools
+  - sphinx
+  - sphinx_rtd_theme
+  - sphinx-automodapi
+  - sphinxcontrib
+  - sphinxcontrib-websupport
+  - wheel
+  - yaml
+  - zlib
+  - pip:
+      - pytest_runner
+      - nibabel
+      - modopt

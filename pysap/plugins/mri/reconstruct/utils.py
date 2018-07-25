@@ -54,8 +54,109 @@ def convert_locations_to_mask(samples_locations, img_shape):
     samples_locations += 0.5
     samples_locations[:, 0] *= img_shape[0]
     samples_locations[:, 1] *= img_shape[1]
-    samples_locations = np.round(samples_locations)
+    samples_locations = np.floor(samples_locations)
     samples_locations = samples_locations.astype("int")
     mask = np.zeros(img_shape)
     mask[samples_locations[:, 0], samples_locations[:, 1]] = 1
     return mask
+
+
+def generate_operators(data, wavelet_name, samples, nb_scales=4,
+                       non_cartesian=False, uniform_data_shape=None,
+                       gradient_space="analysis"):
+    """ Function that ease the creation of a set of common operators.
+
+    .. note:: At the moment, supports only 2D data.
+
+    Parameters
+    ----------
+    data: ndarray
+        the data to reconstruct: observation are expected in Fourier space.
+    wavelet_name: str
+        the wavelet name to be used during the decomposition.
+    samples: np.ndarray
+        the mask samples in the Fourier domain.
+    nb_scales: int, default 4
+        the number of scales in the wavelet decomposition.
+    non_cartesian: bool (optional, default False)
+        if set, use the nfftw rather than the fftw. Expect an 1D input dataset.
+    uniform_data_shape: uplet (optional, default None)
+        the shape of the matrix containing the uniform data. Only required
+        for non-cartesian reconstructions.
+    gradient_space: str (optional, default 'analysis')
+        the space where the gradient operator is defined: 'analysis' or
+        'synthesis'
+
+    Returns
+    -------
+    gradient_op: instance of class GradBase
+        the gradient operator.
+    linear_op: instance of LinearBase
+        the linear operator: seek the sparsity, ie. a wavelet transform.
+    prox_op: instance of ProximityParent
+        the proximal operator.
+    cost_op: instance of costObj
+        the cost function used to check for convergence during the
+        optimization.
+    """
+    # Local imports
+    from pysap.numerics.cost import DualGapCost
+    from pysap.numerics.linear import Wavelet2
+    from pysap.numerics.fourier import FFT2
+    from pysap.numerics.fourier import NFFT2
+    from pysap.numerics.gradient import GradAnalysis2
+    from pysap.numerics.gradient import GradSynthesis2
+    from modopt.opt.proximity import SparseThreshold
+
+    # Check input parameters
+    if gradient_space not in ("analysis", "synthesis"):
+        raise ValueError("Unsupported gradient space '{0}'.".format(
+            gradient_space))
+    if non_cartesian and data.ndim != 1:
+        raise ValueError("Expect 1D data with the non-cartesian option.")
+    elif non_cartesian and uniform_data_shape is None:
+        raise ValueError("Need to set the 'uniform_data_shape' parameter with "
+                         "the non-cartesian option.")
+    elif not non_cartesian and data.ndim != 2:
+        raise ValueError("At the moment, this functuion only supports 2D "
+                         "data.")
+
+    # Define the gradient/linear/fourier operators
+    linear_op = Wavelet2(
+        nb_scale=nb_scales,
+        wavelet_name=wavelet_name)
+    if non_cartesian:
+        fourier_op = NFFT2(
+            samples=samples,
+            shape=uniform_data_shape)
+    else:
+        fourier_op = FFT2(
+            samples=samples,
+            shape=data.shape)
+    if gradient_space == "synthesis":
+        gradient_op = GradSynthesis2(
+            data=data,
+            linear_op=linear_op,
+            fourier_op=fourier_op)
+    else:
+        gradient_op = GradAnalysis2(
+            data=data,
+            fourier_op=fourier_op)
+
+    # Define the proximity dual/primal operator
+    prox_op = SparseThreshold(linear_op, None, thresh_type="soft")
+
+    # Define the cost function
+    if gradient_space == "synthesis":
+        cost_op = None
+    else:
+        cost_op = DualGapCost(
+            linear_op=linear_op,
+            initial_cost=1e6,
+            tolerance=1e-4,
+            cost_interval=1,
+            test_range=4,
+            verbose=0,
+            plot_output=None)
+
+    return gradient_op, linear_op, prox_op, cost_op

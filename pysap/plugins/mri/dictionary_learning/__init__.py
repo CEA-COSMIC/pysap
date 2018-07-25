@@ -8,11 +8,6 @@
 ##########################################################################
 
 """
-This module defines common loaders to deal with astronomical and
-neuroimaging datasets.
+This module defines all the MRI dictionary learning based reconstruction
+plugin.
 """
-
-from .nifti import NIFTI
-from .fits import FITS
-from .numpy_binary import npBinary
-from .mat import MAT

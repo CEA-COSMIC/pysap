@@ -43,6 +43,13 @@ Available transform from ISAP are:
 - WaveletTransformViaLiftingScheme
 - OnLine53AndOnColumn44
 - OnLine44AndOnColumn53
+
+For 3D:
+
+- BiOrthogonalTransform3D
+- Wavelet3DTransformViaLiftingScheme
+- ATrou3D
+
 """
 
 # System import
@@ -70,9 +77,10 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         """ Declare transformation parameters.
         """
         # Check transformation has been defined
-        if (self.__isap_transform_id__ is None or self.__isap_name__ is None or
-                self.__is_decimated__ is None or
-                self.__isap_nb_bands__ is None):
+        if (self.__isap_transform_id__ is None or self.__isap_name__ is None
+                or self.__is_decimated__ is None
+                or self.__isap_nb_bands__ is None):
+
             raise ValueError("ISAPWaveletTransform is not defined properly.")
         self.name = self.__isap_name__
 
@@ -147,8 +155,8 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         nb_band_per_scale = numpy.ones((nb_scale, 1), dtype=int)
         nb_band_per_scale[:-1] = nb_band
         bands_lengths = (
-            (iso_shape * iso_shape) *
-            numpy.ones((nb_scale, nb_band), dtype=int))
+            (iso_shape * iso_shape)
+            * numpy.ones((nb_scale, nb_band), dtype=int))
         bands_shapes = WaveletTransformBase.bands_shapes(bands_lengths)
 
         return (bands_names, flatten_fct, unflatten_fct, is_decimated,
@@ -213,7 +221,7 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
             iso_shape * numpy.ones((nb_scale, nb_band), dtype=int))
         bands_lengths[-1, 1:] = 0
         for i, scale in enumerate(bands_lengths):
-            scale /= 2**(i + scale_shift)
+            bands_lengths[i] = scale / 2**(i + scale_shift)
         bands_lengths[-1, :] *= 2
         bands_lengths = (bands_lengths**2).astype(int)
         bands_shapes = WaveletTransformBase.bands_shapes(bands_lengths)
@@ -404,8 +412,8 @@ class LineColumnWaveletTransform1D1D(ISAPWaveletTransformBase):
         self.nb_band_per_scale = numpy.array([
             _map[self._iso_shape]] * nb_scale)
         self.bands_lengths = (
-            (self._iso_shape * self._iso_shape) *
-            numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
+            (self._iso_shape * self._iso_shape)
+            * numpy.ones((nb_scale,  _map[self._iso_shape]), dtype=int))
         self.bands_shapes = WaveletTransformBase.bands_shapes(
             bands_lengths)
         self.isap_transform_id = 17
@@ -594,3 +602,44 @@ class OnLine44AndOnColumn53(ISAPWaveletTransformBase):
     def _update_default_transformation_parameters(self):
         self.bands_names = ["a", "a", "a"]
         self.bands_lengths[-1, 1:] = 0
+
+#####################
+# 3D Transforms #####
+#####################
+
+
+class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
+    """ Mallat's 3D wavelet transform (7/9 biorthogonal filters)
+    """
+    def __init__(self, nb_scale, verbose, **kwargs):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale,
+                                          dim=3, **kwargs)
+
+    __isap_transform_id__ = 1
+    __isap_name__ = "3D Wavelet transform via lifting scheme"
+    __is_decimated__ = True
+    __isap_nb_bands__ = 7
+
+
+class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
+    """ Wavelet transform via lifting scheme.
+    """
+    def __init__(self, nb_scale, verbose):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
+
+    __isap_transform_id__ = 2
+    __isap_name__ = "Wavelet transform via lifting scheme"
+    __is_decimated__ = True
+    __isap_nb_bands__ = 7
+
+
+class ATrou3D(ISAPWaveletTransformBase):
+    """ Wavelet transform with the A trou algorithm.
+    """
+    def __init__(self, nb_scale, verbose):
+        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
+
+    __isap_transform_id__ = 3
+    __isap_name__ = "3D Wavelet A Trou"
+    __is_decimated__ = False
+    __isap_nb_bands__ = 1

@@ -24,7 +24,7 @@ from .utils import with_metaclass
 from pysap.plotting import plot_transform
 try:
     import pysparse
-except:
+except ImportError:
     warnings.warn("Sparse2d python bindings not found, use binaries.")
     pysparse = None
 
@@ -63,7 +63,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
     Available transforms are define in 'pysap.transform'.
     """
-    def __init__(self, nb_scale, verbose=0, **kwargs):
+    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -90,6 +90,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         self.scales_lengths = None
         self.scales_padds = None
         self.use_wrapping = pysparse is None
+        self.data_dim = dim
 
         # Data that can be decalred afterward
         self._data = None
@@ -102,14 +103,36 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         self._analysis_buffer_shape = None
         self.verbose = verbose
 
+        self.kwargs = kwargs
+
         # Transformation
         if not self.use_wrapping:
             kwargs["type_of_multiresolution_transform"] = (
                 self.__isap_transform_id__)
             kwargs["number_of_scales"] = self.nb_scale
-            self.trf = pysparse.MRTransform(**kwargs)
+            if self.data_dim == 2:
+                self.trf = pysparse.MRTransform(**self.kwargs)
+            elif self.data_dim == 3:
+                self.trf = pysparse.MRTransform3D(**self.kwargs)
+            else:
+                raise NameError("Please define a correct dimension for data.")
         else:
-            self.trf = None
+            if self.data_dim == 2:
+                self.trf = None
+            else:
+                raise NameError("For {0}D, only the bindings work for "
+                                "now.".format(self.data_dim))
+
+    def __reduce__(self):
+        """ The interface to pickle dump call.
+
+        Return
+        ------
+        reduced_instance: tuple,
+            two or five items long tuple to define the init of a pickled
+            instance.
+        """
+        return (self.__class__, (self.nb_scale, self.verbose))
 
     def __getitem__(self, given):
         """ Access the analysis designated scale/band coefficients.
@@ -220,8 +243,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             print("[info] Replacing existing input data array.")
         if not all([e == data.shape[0] for e in data.shape]):
             raise ValueError("Expect a square shape data.")
-        if data.ndim != 2:
-            raise ValueError("Expect a two-dim data array.")
+        if data.ndim != self.data_dim:
+                raise ValueError("This wavelet can only be applied on {0}D "
+                                 "square images".format(self.data_dim))
         if self.is_decimated and not (data.shape[0] // 2**(self.nb_scale) > 0):
             raise ValueError("Can't decimate the data with the specified "
                              "number of scales.")
@@ -489,8 +513,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         # Compute selected scale/band start/stop indices
         start_scale_padd = self.scales_padds[scale]
         start_band_padd = (
-            self.bands_lengths[scale, :band + 1].sum() -
-            self.bands_lengths[scale, band])
+            self.bands_lengths[scale, :band + 1].sum()
+            - self.bands_lengths[scale, band])
         start_padd = start_scale_padd + start_band_padd
         stop_padd = start_padd + self.bands_lengths[scale, band]
 
@@ -522,8 +546,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         # Compute selected scale/band start/stop indices
         start_scale_padd = self.scales_padds[scale]
         start_band_padd = (
-            self.bands_lengths[scale, :band + 1].sum() -
-            self.bands_lengths[scale, band])
+            self.bands_lengths[scale, :band + 1].sum()
+            - self.bands_lengths[scale, band])
         start_padd = start_scale_padd + start_band_padd
         stop_padd = start_padd + self.bands_lengths[scale, band]
 
