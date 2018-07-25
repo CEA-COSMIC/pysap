@@ -86,7 +86,7 @@ EXTRA_REQUIRES = {
     "gui": {
         "PySide>=1.2.2",
         "pypipe>=0.0.1"
-    }
+    },
     "py3": {
         "pynufft>=0.3.3.7"
     }
