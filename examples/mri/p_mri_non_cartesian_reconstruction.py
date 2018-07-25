@@ -2,7 +2,7 @@
 Neuroimaging cartesian reconstruction
 =====================================
 
-Credit: L Elgueddari, S.Lannuzel
+Credit: L Elgueddari
 
 In this tutorial we will reconstruct an MRI image from the sparse kspace
 measurments.
@@ -12,25 +12,25 @@ measurments.
 import pysap
 from pysap.data import get_sample_data
 from pysap.plugins.mri.reconstruct.linear import Wavelet2
-from pysap.numerics.fourier import FFT2
+from pysap.numerics.fourier import NFFT2
+from pysap.numerics.utils import normalize_samples
 from pysap.numerics.reconstruct import sparse_rec_fista
 from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
-from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
 from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
 from pysap.numerics.proximity import Threshold
+from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import \
+                                        extract_k_space_center_and_locations
+from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import get_Smaps
+
 
 # Third party import
 import numpy as np
-import scipy.fftpack as pfft
-
 
 # Loading input data
 Il = get_sample_data("2d-pmri").data.astype("complex128")
 SOS = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/SOS for channel in range(Il.shape[0])])
 samples = get_sample_data("mri-radial-samples").data
-mask = pfft.fftshift(convert_locations_to_mask(samples, SOS.shape))
 image = pysap.Image(data=np.abs(SOS))
 image.show()
 
@@ -43,17 +43,30 @@ image.show()
 # measurments, the observed kspace.
 # We then reconstruct the zero order solution.
 
-# Generate the subsampled kspace
-Sl = np.asarray([Smaps[l] * SOS for l in range(Smaps.shape[0])])
-kspace_data = np.asarray([mask * pfft.fft2(Sl[l]) for l in
-                          range(Sl.shape[0])])
-mask = pysap.Image(data=pfft.fftshift(mask))
-mask.show()
-
 
 # Get the locations of the kspace samples
-kspace_loc = convert_mask_to_locations(pfft.fftshift(mask.data))
+kspace_loc = normalize_samples(samples)
 
+# Generate the subsampled kspace
+fourier_op_gen = NFFT2(samples=kspace_loc, shape=SOS.shape)
+kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
+                 range(Il.shape[0])])
+
+# Generate the senitivity matrix from undersampled data
+data_thresholded, samples_thresholded = extract_k_space_center_and_locations(
+    data_values=kspace_data,
+    samples_locations=kspace_loc,
+    thr=(0.5/128*5, 0.5/128*5),
+    img_shape=SOS.shape)
+
+Smaps, _ = get_Smaps(
+    k_space=data_thresholded,
+    img_shape=SOS.shape,
+    samples=samples_thresholded,
+    mode='Gridding',
+    min_samples=np.min(kspace_loc),
+    max_samples=np.max(kspace_loc),
+    method='linear')
 
 #############################################################################
 # FISTA optimization
@@ -69,7 +82,7 @@ max_iter = 10
 linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
 prox_op = Threshold(None)
-fourier_op = FFT2(samples=kspace_loc, shape=SOS.shape)
+fourier_op = NFFT2(samples=kspace_loc, shape=SOS.shape)
 gradient_op = Grad2D_pMRI(data=kspace_data,
                           fourier_op=fourier_op,
                           linear_op=linear_op,
