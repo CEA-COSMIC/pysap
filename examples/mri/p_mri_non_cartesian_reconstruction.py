@@ -11,16 +11,15 @@ measurments.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.plugins.mri.reconstruct.linear import Wavelet2
+from pysap.numerics.linear import Wavelet2
 from pysap.numerics.fourier import NFFT2
 from pysap.numerics.utils import normalize_samples
 from pysap.numerics.reconstruct import sparse_rec_fista
 from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
+from pysap.numerics.gradient import Gradient_pMRI
 from pysap.numerics.proximity import Threshold
-from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import \
-                                        extract_k_space_center_and_locations
-from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import get_Smaps
+from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import (
+    extract_k_space_center_and_locations, get_Smaps)
 
 
 # Third party import
@@ -77,23 +76,23 @@ Smaps, _ = get_Smaps(
 # maximum number of iterations. Fill free to play with this parameter.
 
 # Start the FISTA reconstruction
-max_iter = 10
+max_iter = 50
 
 linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
 prox_op = Threshold(None)
 fourier_op = NFFT2(samples=kspace_loc, shape=SOS.shape)
-gradient_op = Grad2D_pMRI(data=kspace_data,
-                          fourier_op=fourier_op,
-                          linear_op=linear_op,
-                          S=Smaps)
+gradient_op = Gradient_pMRI(data=kspace_data,
+                            fourier_op=fourier_op,
+                            linear_op=linear_op,
+                            S=Smaps)
 
 x_final, transform, cost, metrics = sparse_rec_fista(
     gradient_op=gradient_op,
     linear_op=linear_op,
     prox_op=prox_op,
     cost_op=None,
-    mu=1e-9,
+    mu=1e-7,
     lambda_init=1.0,
     max_nb_of_iter=max_iter,
     atol=1e-4,
@@ -112,10 +111,10 @@ image_rec.show()
 # maximum number of iterations. Fill free to play with this parameter.
 
 # Start the CONDAT-VU reconstruction
-max_iter = 1
-gradient_op_cd = Grad2D_pMRI(data=kspace_data,
-                             fourier_op=fourier_op,
-                             S=Smaps)
+max_iter = 50
+gradient_op_cd = Gradient_pMRI(data=kspace_data,
+                               fourier_op=fourier_op,
+                               S=Smaps)
 x_final, transform, cost, metrics = sparse_rec_condatvu(
     gradient_op=gradient_op_cd,
     linear_op=linear_op,
@@ -124,7 +123,7 @@ x_final, transform, cost, metrics = sparse_rec_condatvu(
     std_est=None,
     std_est_method="dual",
     std_thr=2.,
-    mu=0,
+    mu=1e-7,
     tau=None,
     sigma=None,
     relaxation_factor=1.0,

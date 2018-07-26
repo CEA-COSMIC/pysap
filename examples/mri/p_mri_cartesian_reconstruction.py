@@ -11,13 +11,13 @@ measurments.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.plugins.mri.reconstruct.linear import Wavelet2
+from pysap.numerics.linear import Wavelet2
 from pysap.numerics.fourier import FFT2
 from pysap.numerics.reconstruct import sparse_rec_fista
 from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
-from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
-from pysap.plugins.mri.parallel_mri.gradient import Grad2D_pMRI
+from pysap.numerics.utils import convert_mask_to_locations
+from pysap.numerics.utils import convert_locations_to_mask
+from pysap.numerics.gradient import Gradient_pMRI
 from pysap.numerics.proximity import Threshold
 
 # Third party import
@@ -70,10 +70,10 @@ linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
 prox_op = Threshold(None)
 fourier_op = FFT2(samples=kspace_loc, shape=SOS.shape)
-gradient_op = Grad2D_pMRI(data=kspace_data,
-                          fourier_op=fourier_op,
-                          linear_op=linear_op,
-                          S=Smaps)
+gradient_op = Gradient_pMRI(data=kspace_data,
+                            fourier_op=fourier_op,
+                            linear_op=linear_op,
+                            S=Smaps)
 
 x_final, transform, cost, metrics = sparse_rec_fista(
     gradient_op=gradient_op,
@@ -100,9 +100,9 @@ image_rec.show()
 
 # Start the CONDAT-VU reconstruction
 max_iter = 1
-gradient_op_cd = Grad2D_pMRI(data=kspace_data,
-                             fourier_op=fourier_op,
-                             S=Smaps)
+gradient_op_cd = Gradient_pMRI(data=kspace_data,
+                               fourier_op=fourier_op,
+                               S=Smaps)
 x_final, transform, cost, metrics = sparse_rec_condatvu(
     gradient_op=gradient_op_cd,
     linear_op=linear_op,

@@ -61,6 +61,30 @@ def convert_locations_to_mask(samples_locations, img_shape):
     return mask
 
 
+def normalize_samples(samples):
+    """
+    This function normalize the samples so it can be between [-0.5; 0.5[ for
+    the non-cartesian case
+
+    Parameters:
+    -----------
+    samples: np.ndarray
+        Unnormalized samples
+
+    Return:
+    -------
+    normalized_samples: np.ndarray
+        Same shape as the parameters but with values between [-0.5; 0.5[
+    """
+    samples_locations = np.copy(samples.astype('float'))
+    samples_locations[:, 0] /= 2 * np.abs(samples_locations[:, 0]).max()
+    samples_locations[:, 1] /= 2 * np.abs(samples_locations[:, 1]).max()
+    if samples_locations.max() == 0.5:
+        dim1, dim2 = np.where(samples_locations == 0.5)
+        samples_locations[dim1, dim2] = -0.5
+    return samples_locations
+
+
 def generate_operators(data, wavelet_name, samples, nb_scales=4,
                        non_cartesian=False, uniform_data_shape=None,
                        gradient_space="analysis"):
