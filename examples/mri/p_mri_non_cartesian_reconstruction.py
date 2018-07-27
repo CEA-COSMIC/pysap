@@ -13,14 +13,13 @@ import pysap
 from pysap.data import get_sample_data
 from pysap.numerics.linear import Wavelet2
 from pysap.numerics.fourier import NFFT2
-from pysap.numerics.utils import normalize_samples
 from pysap.numerics.reconstruct import sparse_rec_fista
 from pysap.numerics.reconstruct import sparse_rec_condatvu
 from pysap.numerics.gradient import Gradient_pMRI
 from pysap.numerics.proximity import Threshold
 from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import (
     extract_k_space_center_and_locations, get_Smaps)
-
+from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations
 
 # Third party import
 import numpy as np
@@ -29,7 +28,7 @@ import numpy as np
 Il = get_sample_data("2d-pmri").data.astype("complex128")
 SOS = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/SOS for channel in range(Il.shape[0])])
-samples = get_sample_data("mri-radial-samples").data
+kspace_loc = get_sample_data("mri-radial-samples").data * 400
 image = pysap.Image(data=np.abs(SOS))
 image.show()
 
@@ -42,29 +41,25 @@ image.show()
 # measurments, the observed kspace.
 # We then reconstruct the zero order solution.
 
-
-# Get the locations of the kspace samples
-kspace_loc = normalize_samples(samples)
-
 # Generate the subsampled kspace
 fourier_op_gen = NFFT2(samples=kspace_loc, shape=SOS.shape)
-kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
+kspace_data = np.asarray([np.copy(fourier_op_gen.op(Il[l])) for l in
                           range(Il.shape[0])])
 
 # Generate the senitivity matrix from undersampled data
 data_thresholded, samples_thresholded = extract_k_space_center_and_locations(
     data_values=kspace_data,
-    samples_locations=kspace_loc,
+    samples_locations=normalize_frequency_locations(kspace_loc),
     thr=(0.5/128*5, 0.5/128*5),
     img_shape=SOS.shape)
 
-Smaps, _ = get_Smaps(
+Smaps, SOS_Smaps = get_Smaps(
     k_space=data_thresholded,
     img_shape=SOS.shape,
     samples=samples_thresholded,
     mode='Gridding',
-    min_samples=np.min(kspace_loc),
-    max_samples=np.max(kspace_loc),
+    min_samples=np.min(normalize_frequency_locations(kspace_loc)),
+    max_samples=np.max(normalize_frequency_locations(kspace_loc)),
     method='linear')
 
 #############################################################################

@@ -14,6 +14,7 @@ Common tools for MRI image reconstruction.
 
 # System import
 import numpy as np
+import warnings
 
 
 def convert_mask_to_locations(mask):
@@ -61,15 +62,18 @@ def convert_locations_to_mask(samples_locations, img_shape):
     return mask
 
 
-def normalize_samples(samples):
+def normalize_frequency_locations(samples, Kmax=None):
     """
-    This function normalize the samples so it can be between [-0.5; 0.5[ for
+    This function normalize the samples locations between [-0.5; 0.5[ for
     the non-cartesian case
 
     Parameters:
     -----------
     samples: np.ndarray
         Unnormalized samples
+    Kmax: float
+        Maximum Frequency of the samples locations is supposed to be equal to
+        base Resolution / (2* Field of View)
 
     Return:
     -------
@@ -77,11 +81,14 @@ def normalize_samples(samples):
         Same shape as the parameters but with values between [-0.5; 0.5[
     """
     samples_locations = np.copy(samples.astype('float'))
-    samples_locations[:, 0] /= 2 * np.abs(samples_locations[:, 0]).max()
-    samples_locations[:, 1] /= 2 * np.abs(samples_locations[:, 1]).max()
+    if Kmax is None:
+        Kmax = [2*np.abs(samples_locations[:, dim]).max() for dim in
+                range(samples_locations.shape[-1])]
+    for dim in range(samples_locations.shape[-1]):
+        samples_locations[:, dim] /= Kmax[dim]
     if samples_locations.max() == 0.5:
-        dim1, dim2 = np.where(samples_locations == 0.5)
-        samples_locations[dim1, dim2] = -0.5
+        warnings.warns("Frequency equal to 0.5 will be put in -0.5")
+        samples_locations[np.where(samples_locations == 0.5)] = -0.5
     return samples_locations
 
 

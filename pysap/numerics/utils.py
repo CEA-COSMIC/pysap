@@ -13,6 +13,5 @@ This module contains shortcuts to utility functions.
 
 # Package import
 from pysap.plugins.mri.reconstruct.utils import generate_operators
-from pysap.plugins.mri.reconstruct.utils import normalize_samples
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask

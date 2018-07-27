@@ -16,6 +16,7 @@ import warnings
 
 # Package import
 from .utils import convert_locations_to_mask
+from .utils import normalize_frequency_locations
 
 # Third party import
 try:
@@ -24,7 +25,6 @@ except Exception:
     warnings.warn("pynfft python package has not been found. If needed use "
                   "the master release.")
     pass
-import numpy as np
 import scipy.fftpack as pfft
 
 
@@ -140,9 +140,12 @@ class NFFT2(FourierBase):
         shape: tuple of int
             shape of the image (not necessarly a square matrix).
         """
+        self.samples = samples
+        if samples.min() < -0.5 and samples.max() >= 0.5:
+            warnings.warn("Samples will be normalized between [-0.5; 0.5[")
+            self.samples = normalize_frequency_locations(self.samples)
         self.plan = pynfft.NFFT(N=shape, M=len(samples))
         self.shape = shape
-        self.samples = samples
         self.plan.x = self.samples
         self.plan.precompute()
 
