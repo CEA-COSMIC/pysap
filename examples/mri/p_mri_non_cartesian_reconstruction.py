@@ -28,7 +28,8 @@ import numpy as np
 Il = get_sample_data("2d-pmri").data.astype("complex128")
 SOS = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 Smaps = np.asarray([Il[channel]/SOS for channel in range(Il.shape[0])])
-kspace_loc = get_sample_data("mri-radial-samples").data * 400
+kspace_loc = normalize_frequency_locations(
+    get_sample_data("mri-radial-samples").data)
 image = pysap.Image(data=np.abs(SOS))
 image.show()
 
@@ -49,7 +50,7 @@ kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
 # Generate the senitivity matrix from undersampled data
 data_thresholded, samples_thresholded = extract_k_space_center_and_locations(
     data_values=kspace_data,
-    samples_locations=normalize_frequency_locations(kspace_loc),
+    samples_locations=kspace_loc,
     thr=(0.5/128*5, 0.5/128*5),
     img_shape=SOS.shape)
 
@@ -58,8 +59,8 @@ Smaps, SOS_Smaps = get_Smaps(
     img_shape=SOS.shape,
     samples=samples_thresholded,
     mode='Gridding',
-    min_samples=np.min(normalize_frequency_locations(kspace_loc)),
-    max_samples=np.max(normalize_frequency_locations(kspace_loc)),
+    min_samples=np.min(kspace_loc),
+    max_samples=np.max(kspace_loc),
     method='linear')
 
 #############################################################################

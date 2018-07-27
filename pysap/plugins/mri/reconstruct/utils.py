@@ -87,7 +87,7 @@ def normalize_frequency_locations(samples, Kmax=None):
     for dim in range(samples_locations.shape[-1]):
         samples_locations[:, dim] /= Kmax[dim]
     if samples_locations.max() == 0.5:
-        warnings.warns("Frequency equal to 0.5 will be put in -0.5")
+        warnings.warn("Frequency equal to 0.5 will be put in -0.5")
         samples_locations[np.where(samples_locations == 0.5)] = -0.5
     return samples_locations
 

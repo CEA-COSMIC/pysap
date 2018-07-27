@@ -190,7 +190,7 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
                 point_min=min_samples,
                 point_max=max_samples)
             Smaps[l] = pfft.fftshift(pfft.ifft2(pfft.ifftshift(
-                gridded_kspace)))
+                gridded_kspace))).T
     SOS = np.sqrt(np.sum(np.abs(Smaps)**2, axis=0))
     for r in range(L):
         Smaps[r] /= SOS
