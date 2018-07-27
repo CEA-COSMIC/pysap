@@ -43,7 +43,7 @@ image.show()
 
 # Generate the subsampled kspace
 fourier_op_gen = NFFT2(samples=kspace_loc, shape=SOS.shape)
-kspace_data = np.asarray([np.copy(fourier_op_gen.op(Il[l])) for l in
+kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
                           range(Il.shape[0])])
 
 # Generate the senitivity matrix from undersampled data
