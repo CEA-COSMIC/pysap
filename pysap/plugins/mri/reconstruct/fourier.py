@@ -13,6 +13,7 @@ Fourier operators for cartesian and non-cartesian space.
 
 # System import
 import warnings
+import numpy as np
 
 # Package import
 from .utils import convert_locations_to_mask
@@ -164,7 +165,7 @@ class NFFT2(FourierBase):
             masked Fourier transform of the input image.
         """
         self.plan.f_hat = img
-        return self.plan.trafo()
+        return np.copy(self.plan.trafo())
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
@@ -181,4 +182,4 @@ class NFFT2(FourierBase):
             inverse 2D discrete Fourier transform of the input coefficients.
         """
         self.plan.f = x
-        return (1.0 / self.plan.M) * self.plan.adjoint()
+        return np.copy((1.0 / self.plan.M) * self.plan.adjoint())
