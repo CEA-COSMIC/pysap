@@ -107,7 +107,6 @@ class NUFFT(FourierBase, InstanceCounter):
         Jd: int or tuple
             Size of the interpolator kernel. If int, will be evaluated
             to (Jd,)*dims image
-
         """
         self.shape = shape
         self.platform = platform
