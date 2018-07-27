@@ -20,57 +20,6 @@ This module contains all the utils tools needed in the p_MRI reconstruction.
 import numpy as np
 
 
-def prod_over_maps(S, X):
-    """
-    Computes the element-wise product of the two inputs over the first two
-    direction
-
-    Parameters
-    ----------
-    S: np.ndarray
-        The sensitivity maps of size [N,M,L]
-    X: np.ndarray
-        An image of size [N,M]
-
-    Returns
-    -------
-    Sl: np.ndarray
-        The product of every L element of S times X
-    """
-    Sl = np.copy(S)
-    if Sl.shape == X.shape:
-        for i in range(S.shape[2]):
-            Sl[:, :, i] *= X[:, :, i]
-    else:
-        for i in range(S.shape[2]):
-            Sl[:, :, i] *= X
-    return Sl
-
-
-def function_over_maps(f, x):
-    """
-    This methods computes the callable function over the third direction
-
-    Parameters
-    ----------
-    f: callable
-        This function will be applyed n times where n is the last element in
-        the shape of x
-    x: np.ndarray
-        Input data
-
-    Returns
-    -------
-    out: np.list
-        the results of the function as a list where the length of the list is
-        equal to n
-    """
-    yl = []
-    for i in range(x.T.shape[0]):
-        yl.append(f((x.T[i]).T))
-    return np.stack(yl, axis=len(yl[0].shape))
-
-
 def check_lipschitz_cst(f, x_shape, lipschitz_cst, max_nb_of_iter=10):
     """
     This methods check that for random entrees the lipschitz constraint are

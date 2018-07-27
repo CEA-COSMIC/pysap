@@ -16,6 +16,7 @@ import numpy
 from pysap.plugins.mri.reconstruct.fourier import FFT2
 from pysap.plugins.mri.reconstruct.utils import convert_mask_to_locations
 from pysap.plugins.mri.reconstruct.utils import convert_locations_to_mask
+from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations
 
 
 class TestAdjointOperatorFourierTransform(unittest.TestCase):
@@ -26,6 +27,18 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
         """
         self.N = 256
         self.max_iter = 10
+
+    def test_normalize_frequency_locations(self):
+        """Test the output of the normalize frequency methods and check that it
+        is indeed between [-0.5; 0.5[
+        """
+        for _ in range(10):
+            samples = numpy.random.randn(128*128, 2)
+            normalized_samples = normalize_frequency_locations(samples)
+            print(normalized_samples.min(), normalized_samples.max())
+            self.assertFalse((normalized_samples.all() < 0.5 and
+                             normalized_samples.all() >= -0.5))
+        print(" Test normalization function")
 
     def test_sampling_converters(self):
         """Test the adjoint operator for the 2D non-Cartesian Fourier transform
@@ -38,7 +51,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             samples = convert_mask_to_locations(mask)
             recovered_mask = convert_locations_to_mask(samples,
                                                        (Nx, Ny))
-            mismatch = (1. - numpy.mean(
+            self.assertEqual(mask.all(), recovered_mask.all())
+            mismatch = 0. + (numpy.mean(
                 numpy.allclose(mask, recovered_mask)))
             print("      mismatch = ", mismatch)
         print(" Test convert mask to samples and it's adjoint passes")
@@ -58,6 +72,7 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             I_p = fourier_op_adj.adj_op(f)
             x_d = numpy.dot(Img.flatten(), numpy.conj(I_p).flatten())
             x_ad = numpy.dot(f_p.flatten(), numpy.conj(f).flatten())
+            self.assertTrue(numpy.isclose(x_d, x_ad, rtol=1e-3))
             mismatch = (1. - numpy.mean(
                 numpy.isclose(x_d, x_ad,
                               rtol=1e-3)))
