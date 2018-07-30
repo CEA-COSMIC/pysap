@@ -35,17 +35,19 @@ class Gradient_pMRI_analysis(GradBasic, PowerMethod):
     S: np.ndarray
         sensitivity matrix
     """
-    def __init__(self, data, fourier_op, S):
-        """ Initilize the 'GradSynthesis2' class.
+    def __init__(self, data, fourier_op, S=None):
+        """ Initilize the 'GradSynthesis' class.
         """
 
         self.fourier_op = fourier_op
-        self.S = S
+        self.p_MRI = False if S is None else True
+        if self.p_MRI:
+            self.smaps = S
         GradBasic.__init__(self, data, self._analy_op_method,
                            self._analy_rsns_op_method)
         PowerMethod.__init__(self, self.trans_op_op, self.fourier_op.shape,
                              data_type="complex128", auto_run=False)
-        self.get_spec_rad(extra_factor=1.1)
+        self.get_spec_rad(extra_factor=1.1, max_iter=5)
 
     def _analy_op_method(self, x):
         """ MX operation.
@@ -63,9 +65,13 @@ class Gradient_pMRI_analysis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result (the recovered kspace).
         """
-        y = np.asarray([self.fourier_op.op(x * self.S[l]) for l in
-                        range(self.S.shape[0])])
-        return y
+        if self.p_MRI:
+            kspace = [self.fourier_op.op(self.smaps[channel] * x) for
+                      channel in range(self.smaps.shape[0])]
+            return np.asarray(kspace)
+
+        else:
+            return self.fourier_op.op(x)
 
     def _analy_rsns_op_method(self, x):
         """ MtX operation.
@@ -76,17 +82,21 @@ class Gradient_pMRI_analysis(GradBasic, PowerMethod):
         Parameters
         ----------
         x: np.ndarray
-            input kspace 2D array.
+            input kspace nD array.
 
         Returns
         -------
         result: np.ndarray
             the operation result.
         """
-        y = np.asarray([self.fourier_op.adj_op(x[l]) *
-                        np.conj(self.S[l]) for l in
-                        range(self.S.shape[0])])
-        return np.sum(y, axis=0)
+        if self.p_MRI:
+            y = [np.conj(self.smaps[channel]) * self.fourier_op.adj_op(
+                 x[channel]) for channel in range(self.smaps.shape[0])]
+            y = np.asarray(y)
+            return np.squeeze(np.sum(y, axis=0))
+
+        else:
+            return self.fourier_op.adj_op(x)
 
 
 class Gradient_pMRI_synthesis(GradBasic, PowerMethod):
@@ -97,28 +107,33 @@ class Gradient_pMRI_synthesis(GradBasic, PowerMethod):
     Parameters
     ----------
     data: np.ndarray
-        input 2D data array.
+        input nD data array.
     fourier_op: instance
         a Fourier operator instance.
     linear_op: object
         a linear operator instance.
-    S: np.ndarray  (image_shape, L)
+    S: np.ndarray  (L, image_shape)
         The sensitivity maps of size.
     """
-    def __init__(self, data, fourier_op, linear_op, S):
+    def __init__(self, data, fourier_op, linear_op, S=None):
         """ Initilize the 'GradSynthesis2' class.
         """
 
         self.fourier_op = fourier_op
         self.linear_op = linear_op
-        self.S = S
+        self.p_MRI = True
+        if S is not None:
+            self.smaps = S
+        else:
+            self.p_MRI = False
+
         GradBasic.__init__(self, data, self._synth_op_method,
                            self._synth_trans_op_method)
         coef = linear_op.op(np.zeros(fourier_op.shape).astype(np.complex))
         self.linear_op_coeffs_shape = coef.shape
         PowerMethod.__init__(self, self.trans_op_op, coef.shape,
                              data_type="complex128", auto_run=False)
-        self.get_spec_rad(extra_factor=1.1)
+        self.get_spec_rad(extra_factor=1.1, max_iter=5)
 
     def _synth_op_method(self, x):
         """ MX operation.
@@ -136,11 +151,12 @@ class Gradient_pMRI_synthesis(GradBasic, PowerMethod):
         result: np.ndarray
             the operation result (the recovered kspace).
         """
-
-        rsl = []
         img = self.linear_op.adj_op(x)
-        rsl = np.asarray([self.fourier_op.op(self.S[l] * img) for l in
-                          range(self.S.shape[0])])
+        if self.p_MRI:
+            rsl = np.asarray([self.fourier_op.op(self.smaps[l] * img) for l
+                              in range(self.smaps.shape[0])])
+        else:
+            rsl = self.fourier_op.op(img)
         return rsl
 
     def _synth_trans_op_method(self, x):
@@ -161,15 +177,18 @@ class Gradient_pMRI_synthesis(GradBasic, PowerMethod):
         """
 
         rsl = np.zeros(self.linear_op_coeffs_shape).astype('complex128')
-        for l in range(self.S.shape[0]):
-            tmp = self.fourier_op.adj_op(x[l])
-            rsl += self.linear_op.op(tmp *
-                                     np.conj(self.S[l]))
+        if self.p_MRI:
+            tmp = [self.fourier_op.adj_op(x[l]) for l in
+                   range(self.smaps.shape[0])]
+            rsl = np.sum([self.linear_op.op(tmp[l] * np.conj(self.smaps[l]))
+                          for l in range(self.smaps.shape[0])], axis=0)
+        else:
+            rsl = self.linear_op.op(self.fourier_op.adj_op(x))
         return rsl
 
 
 class Gradient_pMRI(Gradient_pMRI_analysis, Gradient_pMRI_synthesis):
-    """ Gradient for 2D parallel imaging reconstruction.
+    """ Gradient for parallel imaging reconstruction.
 
     This class defines the datafidelity terms methods that will be defined by
     derived gradient classes:
@@ -179,21 +198,24 @@ class Gradient_pMRI(Gradient_pMRI_analysis, Gradient_pMRI_synthesis):
     * (1/2) * sum(||Ft Sl x - yl||^2_2,l)
     * (1/2) * sum(||Ft Sl L* alpha - yl||^2_2,l)
     """
-    def __init__(self, data, fourier_op, S, linear_op=None, check_lips=False):
+    def __init__(self, data, fourier_op, S=None, linear_op=None,
+                 check_lips=False):
         """ Initilize the 'Gradient_pMRI' class.
 
         Parameters
         ----------
         data: np.ndarray
-            input 2D data array.
+            input nd data array.
         fourier_op: instance
             a Fourier operator instance derived from the FourierBase' class.
+        S: np.ndarray
+            The sensitivity matrix shape [L, img_shape]
+            for 2D images:[L, N1, N2]; for 3D images: [L, N1, N2, N3]
         linear_op: instance
             a Linear operator instance.
+        check_lips: boolean
+            Check if the calculated Lipschitz constant satisfies the constaints
         """
-        if S.shape[1:] != fourier_op.shape:
-            raise ValueError('Matrix dimension not aligned')
-
         if linear_op is None:
             Gradient_pMRI_analysis.__init__(self, data, fourier_op, S)
             if check_lips:

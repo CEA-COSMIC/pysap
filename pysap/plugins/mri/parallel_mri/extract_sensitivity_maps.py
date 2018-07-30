@@ -48,9 +48,9 @@ def extract_k_space_center(samples, samples_locations,
         raise NotImplementedError
     else:
         samples_thresholded = np.copy(samples)
-        samples_thresholded *= (samples_locations[:, 0] <= thr[0])
-        samples_thresholded *= (samples_locations[:, 1] <= thr[1])
-    return samples_thresholded
+        for l in range(len(samples.shape[1])):
+            samples_thresholded *= (samples_locations[:, l] <= thr)
+        return samples_thresholded
 
 
 def extract_k_space_center_and_locations(data_values, samples_locations,
@@ -95,7 +95,6 @@ def gridding_2d(points, values, img_shape, method='linear', point_min=None,
                 point_max=None):
     """
     Interpolate non-Cartesian data into a cartesian grid
-
     Parameters
     ----------
     points: np.ndarray
@@ -136,7 +135,6 @@ def gridding_2d(points, values, img_shape, method='linear', point_min=None,
                     (grid_x, grid_y),
                     method=method,
                     fill_value=0)
-
 
 def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
               min_samples=None, max_samples=None, method='linear'):

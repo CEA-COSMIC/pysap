@@ -12,6 +12,7 @@ This module defines common loaders to deal with astronomical and
 neuroimaging datasets.
 """
 
+from .mat import MAT
 from .nifti import NIFTI
 from .fits import FITS
 from .numpy_binary import npBinary
