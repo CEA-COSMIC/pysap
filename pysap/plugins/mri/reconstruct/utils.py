@@ -51,14 +51,25 @@ def convert_locations_to_mask(samples_locations, img_shape):
     mask: np.ndarray, {0,1}
         2D matrix, not necessarly a square matrix.
     """
-    samples_locations = samples_locations.astype("float")
-    samples_locations += 0.5
-    samples_locations[:, 0] *= img_shape[0]
-    samples_locations[:, 1] *= img_shape[1]
-    samples_locations = np.round(samples_locations)
-    samples_locations = samples_locations.astype("int")
+    locations = samples_locations + 0.5
+    locations[:, 0] *= img_shape[0]
+    locations[:, 1] *= img_shape[1]
+    locations = np.round(locations)
+    locations = locations.astype("int")
+    if locations[:, 0].max() >= img_shape[0]:
+        warnings.warn("One or more samples have been found to exceed image" +
+                      "dimension. They will be removed")
+        locations = np.delete(locations, np.where(
+            locations[:, 0] >= img_shape[0]), 0)
+
+    if locations[:, 1].max() >= img_shape[1]:
+        warnings.warn("One or more samples have been found to exceed image" +
+                      "dimension. They will be removed")
+        locations = np.delete(locations, np.where(
+            locations[:, 1] >= img_shape[1]), 0)
+
     mask = np.zeros(img_shape)
-    mask[samples_locations[:, 0], samples_locations[:, 1]] = 1
+    mask[locations[:, 0], locations[:, 1]] = 1
     return mask
 
 

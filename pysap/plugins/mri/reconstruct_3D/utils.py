@@ -13,6 +13,7 @@ Common tools for MRI image reconstruction.
 
 
 # System import
+import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import griddata
@@ -287,17 +288,33 @@ def convert_locations_to_mask_3D(samples_locations, img_shape):
     mask: np.ndarray, {0,1}
         2D matrix, not necessarly a square matrix.
     """
-    samples_locations = np.copy(samples_locations).astype("float")
-    samples_locations += 0.5
-    samples_locations[:, 0] *= img_shape[0]
-    samples_locations[:, 1] *= img_shape[1]
-    samples_locations[:, 2] *= img_shape[2]
-    samples_locations = np.round(samples_locations) - 1
-    samples_locations = samples_locations.astype("int")
+    locations = np.copy(samples_locations).astype("float")
+    locations += 0.5
+    locations[:, 0] *= img_shape[0]
+    locations[:, 1] *= img_shape[1]
+    locations[:, 2] *= img_shape[2]
+    locations = np.round(locations) - 1
+    locations = locations.astype("int")
     mask = np.zeros(img_shape)
-    mask[samples_locations[:, 0],
-         samples_locations[:, 1],
-         samples_locations[:, 2]] = 1
+    if locations[:, 0].max() >= img_shape[0]:
+        warnings.warn("One or more samples have been found to exceed image" +
+                      "dimension. They will be removed")
+        locations = np.delete(locations, np.where(
+            locations[:, 0] >= img_shape[0]), 0)
+
+    if locations[:, 1].max() >= img_shape[1]:
+        warnings.warn("One or more samples have been found to exceed image" +
+                      "dimension. They will be removed")
+        locations = np.delete(locations, np.where(
+            locations[:, 1] >= img_shape[1]), 0)
+    if locations[:, 2].max() >= img_shape[2]:
+        warnings.warn("One or more samples have been found to exceed image" +
+                      "dimension. They will be removed")
+        locations = np.delete(locations, np.where(
+            locations[:, 2] >= img_shape[2]), 0)
+    mask[locations[:, 0],
+         locations[:, 1],
+         locations[:, 2]] = 1
     return mask
 
 
