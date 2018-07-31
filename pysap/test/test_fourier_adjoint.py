@@ -36,9 +36,13 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
         """Test the output of the normalize frequency methods and check that it
         is indeed between [-0.5; 0.5[
         """
-        for _ in range(10):
+        for i in range(10):
+            print("Process test on samples normalization '{0}'...", i)
             samples = numpy.random.randn(128*128, 2)
             normalized_samples = normalize_frequency_locations(samples)
+            mismatch = 0. + (numpy.mean(normalized_samples.all() < 0.5 and
+                             normalized_samples.all() >= -0.5))
+            print("      mismatch = ", mismatch)
             self.assertFalse((normalized_samples.all() < 0.5 and
                              normalized_samples.all() >= -0.5))
         print(" Test normalization function")
@@ -54,9 +58,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             samples = convert_mask_to_locations(mask)
             recovered_mask = convert_locations_to_mask(samples,
                                                        (Nx, Ny))
-            self.assertEqual(mask.all(), recovered_mask.all())
-            mismatch = 0. + (numpy.mean(
-                numpy.allclose(mask, recovered_mask)))
+            self.assertEqual(numpy.sum(mask - recovered_mask), 0.0)
+            mismatch = numpy.mean(mask - recovered_mask)
             print("      mismatch = ", mismatch)
         print(" Test convert mask to samples and it's adjoint passes")
 
@@ -73,9 +76,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             samples = convert_mask_to_locations_3D(mask)
             recovered_mask = convert_locations_to_mask_3D(samples,
                                                           (Nx, Ny, Nz))
-            self.assertEqual(mask.all(), recovered_mask.all())
-            mismatch = 0. + (numpy.mean(
-                numpy.allclose(mask, recovered_mask)))
+            self.assertEqual(numpy.sum(mask - recovered_mask), 0.)
+            mismatch = numpy.sum(mask - recovered_mask)
             print("      mismatch = ", mismatch)
         print(" Test convert mask to samples and it's adjoint passes in 3D")
 
