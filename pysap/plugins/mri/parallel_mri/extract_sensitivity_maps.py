@@ -136,6 +136,7 @@ def gridding_2d(points, values, img_shape, method='linear', point_min=None,
                     method=method,
                     fill_value=0)
 
+
 def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
               min_samples=None, max_samples=None, method='linear'):
     """

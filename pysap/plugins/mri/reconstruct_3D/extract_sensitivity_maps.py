@@ -50,20 +50,26 @@ def extract_k_space_center(data_value, samples_locations,
         center_locations = np.copy(samples_locations)
         data_thresholded = np.copy(data_value)
         condition = np.logical_and(
-                        np.logical_and(np.abs(samples_locations[:,0])<= thr[0],
-                                       np.abs(samples_locations[:,1])<= thr[1]),
-                        np.abs(samples_locations[:,2])<= thr[2]
+                        np.logical_and(
+                            np.abs(samples_locations[:, 0]) <= thr[0],
+                            np.abs(samples_locations[:, 1]) <= thr[1]),
+                        np.abs(samples_locations[:, 2]) <= thr[2]
                         )
-        index = np.linspace(0, samples_locations.shape[0] - 1,
-                             samples_locations.shape[0]).astype('int')
+        index = np.linspace(0,
+                            samples_locations.shape[0] - 1,
+                            samples_locations.shape[0]).astype('int')
         index = np.extract(condition, index)
         center_locations = samples_locations[index, :]
-        data_thresholded = data_thresholded[: , index]
+        data_thresholded = data_thresholded[:, index]
         return center_locations, data_thresholded
 
-def gridding_3d (points, values, xi, method='linear', fill_value=0):
-    return griddata(points=np.copy(points), values=np.copy(values), xi=deepcopy(xi),
-                            method=method, fill_value=fill_value)
+
+def gridding_3d(points, values, xi, method='linear', fill_value=0):
+    return griddata(points=np.copy(points),
+                    values=np.copy(values),
+                    xi=deepcopy(xi),
+                    method=method,
+                    fill_value=fill_value)
 
 
 def get_3D_smaps(k_space, img_shape, samples=None, mode='gridding',
@@ -90,9 +96,11 @@ def get_3D_smaps(k_space, img_shape, samples=None, mode='gridding',
         The sum of Squarre used to extract the sensitivity maps
     """
     if samples_min is None:
-        samples_min = [np.min(samples[:,idx]) for idx in range(samples.shape[1])]
+        samples_min = [np.min(samples[:, idx]) for idx in
+                       range(samples.shape[1])]
     if samples_max is None:
-        samples_max = [np.max(samples[:,idx]) for idx in range(samples.shape[1])]
+        samples_max = [np.max(samples[:, idx]) for idx in
+                       range(samples.shape[1])]
 
     if samples is None:
         mode = 'FFT'
@@ -124,12 +132,14 @@ def get_3D_smaps(k_space, img_shape, samples=None, mode='gridding',
                          endpoint=False)
         gridx, gridy, gridz = np.meshgrid(xi, yi, zi)
 
-        gridded_kspaces = Parallel(n_jobs=n_cpu, verbose=1000)(delayed(gridding_3d)
+        gridded_kspaces = Parallel(n_jobs=n_cpu,
+                                   verbose=1000)(
+            delayed(gridding_3d)
             (points=np.copy(samples),
-            values=np.copy(k_space[l]),
-            xi=(gridx, gridy, gridz),
-            method='linear',
-            fill_value=0) for l in range(L))
+             values=np.copy(k_space[l]),
+             xi=(gridx, gridy, gridz),
+             method='linear',
+             fill_value=0) for l in range(L))
 
         for gridded_kspace in gridded_kspaces:
             Smaps.append(np.swapaxes(pfft.fftshift(

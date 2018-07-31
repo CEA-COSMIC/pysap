@@ -64,7 +64,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
         """Test the adjoint operator for the 3D non-Cartesian Fourier transform
         """
         for i in range(self.max_iter):
-            print("Process test convert mask to samples in 3D test '{0}'...", i)
+            print("Process test convert mask to samples in 3D test '{0}'...",
+                  i)
             Nx = numpy.random.randint(8, 512)
             Ny = numpy.random.randint(8, 512)
             Nz = numpy.random.randint(8, 512)
@@ -110,8 +111,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
             print("Process NFFT2 test '{0}'...", i)
             fourier_op_dir = NFFT2(samples=_samples, shape=(self.N, self.N))
             fourier_op_adj = NFFT2(samples=_samples, shape=(self.N, self.N))
-            Img = numpy.random.randn(self.N, self.N) \
-                  + 1j * numpy.random.randn(self.N, self.N)
+            Img = numpy.random.randn(self.N, self.N) + \
+                1j * numpy.random.randn(self.N, self.N)
             f = numpy.random.randn(_samples.shape[0], 1) + \
                 1j * numpy.random.randn(_samples.shape[0], 1)
             f_p = fourier_op_dir.op(Img)
@@ -161,8 +162,8 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
                                    shape=(self.N, self.N, self.N))
             fourier_op_adj = NFFT3(samples=_samples,
                                    shape=(self.N, self.N, self.N))
-            Img = numpy.random.randn(self.N, self.N, self.N) \
-                  + 1j * numpy.random.randn(self.N, self.N, self.N)
+            Img = numpy.random.randn(self.N, self.N, self.N) + \
+                1j * numpy.random.randn(self.N, self.N, self.N)
             f = numpy.random.randn(_samples.shape[0], 1) + \
                 1j * numpy.random.randn(_samples.shape[0], 1)
             f_p = fourier_op_dir.op(Img)

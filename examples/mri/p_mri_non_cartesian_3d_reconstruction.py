@@ -11,15 +11,16 @@ measurments.
 
 # Package import
 from pysap.data import get_sample_data
+from pysap.numrics.gradient import Gradient_pMRI
+from pysap.numerics.reconstruct import sparse_rec_fista
+from pysap.numerics.reconstruct import sparse_rec_condatvu
 from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
-from pysap.plugins.mri.parallel_mri.gradient import Gradient_pMRI
 from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
-from pysap.plugins.mri.reconstruct_3D.extract_sensitivity_maps \
-                    import extract_k_space_center, get_3D_smaps
-from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_fista
-from pysap.plugins.mri.parallel_mri.reconstruct import sparse_rec_condatvu
+from pysap.plugins.mri.reconstruct_3D.extract_sensitivity_maps import (
+    extract_k_space_center,
+    get_3D_smaps)
 
 # Third party import
 import numpy as np

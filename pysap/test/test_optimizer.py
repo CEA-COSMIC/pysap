@@ -141,11 +141,11 @@ class TestOptimizer(unittest.TestCase):
         for image in self.images:
             fourier = NFFT2(samples=convert_mask_to_locations(
                                             fftshift(self.mask)),
-                           shape=image.shape)
+                            shape=image.shape)
             data = fourier.op(image.data)
             fourier_op = NFFT2(convert_mask_to_locations(
                                             fftshift(self.mask)),
-                              shape=image.shape)
+                               shape=image.shape)
             print("Process test with image '{0}'...".format(
                 image.metadata["path"]))
             for nb_scale in self.nb_scales:
