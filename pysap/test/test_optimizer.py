@@ -44,7 +44,7 @@ class TestOptimizer(unittest.TestCase):
         self.names = ["MallatWaveletTransform79Filters"]
         print("[info] Found {0} transformations.".format(len(self.names)))
         self.nb_scales = [4]
-        self.nb_iter = 10
+        self.nb_iter = 100
 
     def test_reconstruction_fista_fft2(self):
         """ Test all the registered transformations.
@@ -82,8 +82,9 @@ class TestOptimizer(unittest.TestCase):
                         max_nb_of_iter=self.nb_iter,
                         atol=1e-4,
                         verbose=0)
-                    self.assertTrue(numpy.isclose(x_final, fourier.adj_op(data),
-                                  rtol=1e-3))
+                    self.assertTrue(numpy.isclose(x_final,
+                                                  fourier.adj_op(data),
+                                                  rtol=1e-3).all())
                     mismatch = (1. - numpy.mean(
                         numpy.isclose(x_final, fourier.adj_op(data),
                                       rtol=1e-3)))
@@ -129,8 +130,9 @@ class TestOptimizer(unittest.TestCase):
                         add_positivity=False,
                         atol=1e-4,
                         verbose=0)
-                    self.assertTrue(numpy.isclose(x_final, fourier.adj_op(data),
-                                  rtol=1e-3))
+                    self.assertTrue(numpy.isclose(x_final,
+                                                  fourier.adj_op(data),
+                                                  rtol=1e-3).all())
                     mismatch = (1. - numpy.mean(
                         numpy.isclose(x_final, fourier.adj_op(data),
                                       rtol=1e-3)))
@@ -143,12 +145,14 @@ class TestOptimizer(unittest.TestCase):
         warnings.warn('No test will be mage on the NFFT package')
         # print('Process test NFFT2 FISTA')
         # for image in self.images:
-        #     fourier = NFFT2(samples=convert_mask_to_locations(
-        #                                     fftshift(self.mask)),
+        #     fourier = NFFT2(samples=convert_mask_to_locations(self.mask),
         #                     shape=image.shape)
         #     data = fourier.op(image.data)
-        #     fourier_op = NFFT2(convert_mask_to_locations(
-        #                                     fftshift(self.mask)),
+        #     I_0_fourier = FFT2(samples=convert_mask_to_locations(
+        #                        fftshift(self.mask)),
+        #                     shape=image.shape)
+        #     I_0 = I_0_fourier.adj_op(I_0_fourier.op(image.data))
+        #     fourier_op = NFFT2(convert_mask_to_locations(self.mask),
         #                        shape=image.shape)
         #     print("Process test with image '{0}'...".format(
         #         image.metadata["path"]))
@@ -175,7 +179,7 @@ class TestOptimizer(unittest.TestCase):
         #                 atol=1e-4,
         #                 verbose=0)
         #             mismatch = (1. - numpy.mean(
-        #                 numpy.isclose(x_final, fourier.adj_op(data),
+        #                 numpy.isclose(x_final, I_0,
         #                               rtol=1e-3)))
         #             print("      mismatch = ", mismatch)
 
