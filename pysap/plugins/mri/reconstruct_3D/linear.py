@@ -45,7 +45,7 @@ class pyWavelet3(object):
         if wavelet_name not in pywt.wavelist():
             raise ValueError(
                 "Unknown transformation '{0}'.".format(wavelet_name))
-        self.transform = pywt.Wavelet(wavelet_name)
+        self.pywt_transform = pywt.Wavelet(wavelet_name)
         self.nb_scale = nb_scale-1
         self.undecimated = undecimated
         self.unflatten = unflatten_swtn if undecimated else unflatten_wave
@@ -63,7 +63,7 @@ class pyWavelet3(object):
     def set_coeff(self, coeffs):
         """ Set the wavelet coefficients value
         """
-        self.coeffs = coeffs    #XXX: TODO: add some checks
+        self.coeffs = coeffs  # XXX: TODO: add some checks
 
     def op(self, data):
         """ Define the wavelet operator.
@@ -83,14 +83,15 @@ class pyWavelet3(object):
         if isinstance(data, numpy.ndarray):
             data = pysap.Image(data=data)
         if self.undecimated:
-            coeffs_dict = pywt.swtn(data, self.transform, level=self.nb_scale)
-            coeffs, self.coeffs_shape = flatten_swtn(coeffs_dict)
+            coeffs_dict = pywt.swtn(data, self.pywt_transform,
+                                    level=self.nb_scale)
+            coeffs, self.coeffs_shape = self.flatten(coeffs_dict)
             return coeffs
         else:
             coeffs_dict = pywt.wavedecn(data,
-                                        self.transform,
+                                        self.pywt_transform,
                                         level=self.nb_scale)
-            self.coeffs, self.coeffs_shape = flatten_wave(coeffs_dict)
+            self.coeffs, self.coeffs_shape = self.flatten(coeffs_dict)
             return self.coeffs
 
     def adj_op(self, coeffs, dtype="array"):
@@ -113,14 +114,14 @@ class pyWavelet3(object):
         """
         self.coeffs = coeffs
         if self.undecimated:
-            coeffs_dict = unflatten_swtn(coeffs, self.coeffs_shape)
+            coeffs_dict = self.unflatten(coeffs, self.coeffs_shape)
             data = pywt.iswtn(coeffs_dict,
-                              self.transform)
+                              self.pywt_transform)
         else:
-            coeffs_dict = unflatten_wave(coeffs, self.coeffs_shape)
+            coeffs_dict = self.unflatten(coeffs, self.coeffs_shape)
             data = pywt.waverecn(
                 coeffs=coeffs_dict,
-                wavelet=self.transform)
+                wavelet=self.pywt_transform)
         if dtype == "array":
             return data
         return pysap.Image(data=data)
