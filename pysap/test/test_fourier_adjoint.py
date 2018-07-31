@@ -47,6 +47,21 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
                              normalized_samples.all() >= -0.5))
         print(" Test normalization function")
 
+    def test_normalize_frequency_locations_3D(self):
+        """Test the output of the normalize frequency methods and check that it
+        is indeed between [-0.5; 0.5[
+        """
+        for i in range(10):
+            print("Process test on samples normalization on 3D '{0}'...", i)
+            samples = numpy.random.randn(128*128, 3)
+            normalized_samples = normalize_frequency_locations(samples)
+            mismatch = 0. + (numpy.mean(normalized_samples.all() < 0.5 and
+                             normalized_samples.all() >= -0.5))
+            print("      mismatch = ", mismatch)
+            self.assertFalse((normalized_samples.all() < 0.5 and
+                             normalized_samples.all() >= -0.5))
+        print(" Test normalization function on 3D")
+
     def test_sampling_converters(self):
         """Test the adjoint operator for the 2D non-Cartesian Fourier transform
         """
