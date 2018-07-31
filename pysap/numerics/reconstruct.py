@@ -84,9 +84,14 @@ def sparse_rec_fista(gradient_op, linear_op, prox_op, cost_op,
     """
     # Check inputs
     start = time.clock()
-    if not linear_op.transform.__is_decimated__:
-        warnings.warn("Undecimated wavelets shouldn't be used with FISTA: "
-                      "non optimal solution.")
+    if hasattr(linear_op, 'undecimated'):
+        if linear_op.undecimated:
+            warnings.warn("Undecimated wavelets shouldn't be used with FISTA: "
+                          "non optimal solution.")
+    elif hasattr(linear_op.transform, '__is_decimated__'):
+        if not linear_op.transform.__is_decimated__:
+            warnings.warn("Undecimated wavelets shouldn't be used with FISTA: "
+                          "non optimal solution.")
 
     # Define the initial primal and dual solutions
     x_init = np.zeros(gradient_op.fourier_op.shape, dtype=np.complex)
@@ -144,7 +149,10 @@ def sparse_rec_fista(gradient_op, linear_op, prox_op, cost_op,
     else:
         costs = None
 
-    return x_final, linear_op.transform, costs, opt.metrics
+    if hasattr(linear_op, 'transform'):
+        return x_final, linear_op.transform, costs, opt.metrics
+    elif hasattr(linear_op, 'pywt_transform'):
+        return x_final, linear_op.pywt_transform, costs, opt.metrics
 
 
 def sparse_rec_condatvu(gradient_op, linear_op, prox_dual_op, cost_op,
