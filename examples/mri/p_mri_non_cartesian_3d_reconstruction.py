@@ -19,7 +19,7 @@ from pysap.plugins.mri.reconstruct_3D.fourier import NFFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.parallel_mri.cost import GenericCost
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
-from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
+from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations
 from pysap.plugins.mri.reconstruct_3D.extract_sensitivity_maps import (
     extract_k_space_center,
     get_3D_smaps)
@@ -37,7 +37,7 @@ imshow3D(Iref, display=True)
 
 samples = get_sample_data("mri-radial-3d-samples").data
 
-samples = normalize_samples(samples)
+samples = normalize_frequency_locations(samples)
 #############################################################################
 # Generate the kspace
 # -------------------

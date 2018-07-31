@@ -25,7 +25,7 @@ from pysap.plugins.mri.reconstruct_3D.fourier import FFT3
 from pysap.plugins.mri.reconstruct_3D.utils import imshow3D
 from pysap.plugins.mri.parallel_mri.cost import GenericCost
 from pysap.plugins.mri.reconstruct_3D.linear import pyWavelet3
-from pysap.plugins.mri.reconstruct_3D.utils import normalize_samples
+from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations
 from pysap.plugins.mri.reconstruct_3D.utils import convert_locations_to_mask_3D
 from pysap.plugins.mri.reconstruct_3D.utils import convert_mask_to_locations_3D
 
@@ -47,7 +47,7 @@ Iref = np.squeeze(np.sqrt(np.sum(np.abs(Il)**2, axis=0)))
 imshow3D(Iref, display=True)
 
 samples = get_sample_data("mri-radial-3d-samples").data
-samples = normalize_samples(samples)
+samples = normalize_frequency_locations(samples)
 
 cartesian_samples = convert_locations_to_mask_3D(samples, Iref.shape)
 imshow3D(cartesian_samples, display=True)

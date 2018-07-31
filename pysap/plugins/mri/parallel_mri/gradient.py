@@ -21,7 +21,7 @@ from modopt.opt.gradient import GradBasic
 
 
 class Gradient_pMRI_analysis(GradBasic, PowerMethod):
-    """ Gradient synthesis class.
+    """ Gradient analysis class.
 
     This class defines the grad operators for:
             (1/2) * sum(||Ft Sl x - yl||^2_2,l)
@@ -226,8 +226,7 @@ class Gradient_pMRI(Gradient_pMRI_analysis, Gradient_pMRI_synthesis):
                                              S)
             if check_lips:
                 xinit_shape = self.linear_op_coeffs_shape
-
-            self.synthesis = False
+            self.analysis = False
 
         if check_lips:
             is_lips = check_lipschitz_cst(f=self.trans_op_op,

@@ -255,24 +255,6 @@ def convert_mask_to_locations_3D(mask):
     return np.c_[dim1, dim2, dim3]
 
 
-def normalize_samples(samples_locations):
-    """Normalize the 3D samples between [-.5; .5[
-
-    Parameters
-    ----------
-    samples_locations: np.array
-        A representation of the 3D locations of the samples
-    """
-    samples_locations = samples_locations.astype('float')
-    samples_locations[:, 0] /= 2 * np.abs(samples_locations[:, 0]).max()
-    samples_locations[:, 1] /= 2 * np.abs(samples_locations[:, 1]).max()
-    samples_locations[:, 2] /= 2 * np.abs(samples_locations[:, 2]).max()
-    while samples_locations.max() == 0.5:
-        dim1, dim2 = np.where(samples_locations == 0.5)
-        samples_locations[dim1, dim2] = -0.5
-    return samples_locations
-
-
 def convert_locations_to_mask_3D(samples_locations, img_shape):
     """ Return the converted the sampling locations as Cartesian mask.
 

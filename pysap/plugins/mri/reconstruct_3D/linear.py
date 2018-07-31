@@ -41,7 +41,6 @@ class pyWavelet3(object):
         undecimated: bool, default False
             enable use undecimated wavelet transform.
         """
-        self.nb_scale = nb_scale
         if wavelet_name not in pywt.wavelist():
             raise ValueError(
                 "Unknown transformation '{0}'.".format(wavelet_name))

@@ -117,7 +117,7 @@ x_final, transform, costs, metrics = sparse_rec_condatvu(
     prox_op,
     cost_op,
     std_est=None,
-    std_est_method=None,
+    std_est_method="dual",
     std_thr=2.,
     mu=1e-9,
     tau=None,

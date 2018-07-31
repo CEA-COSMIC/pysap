@@ -82,6 +82,8 @@ class TestOptimizer(unittest.TestCase):
                         max_nb_of_iter=self.nb_iter,
                         atol=1e-4,
                         verbose=0)
+                    self.assertTrue(numpy.isclose(x_final, fourier.adj_op(data),
+                                  rtol=1e-3))
                     mismatch = (1. - numpy.mean(
                         numpy.isclose(x_final, fourier.adj_op(data),
                                       rtol=1e-3)))
@@ -127,6 +129,8 @@ class TestOptimizer(unittest.TestCase):
                         add_positivity=False,
                         atol=1e-4,
                         verbose=0)
+                    self.assertTrue(numpy.isclose(x_final, fourier.adj_op(data),
+                                  rtol=1e-3))
                     mismatch = (1. - numpy.mean(
                         numpy.isclose(x_final, fourier.adj_op(data),
                                       rtol=1e-3)))
