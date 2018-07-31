@@ -42,7 +42,7 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 
-def imshow3D(volume, display=False):
+def imshow3D(volume, display=True):
     """ Display an 3D volume on the axes, press "p" or "n" to navigate across
     the slices.
 
