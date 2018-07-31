@@ -53,10 +53,17 @@ class pyWavelet3(object):
         self.coeffs_shape = None
 
     def get_coeff(self):
+        """ Return the wavelet coeffiscients
+        Return:
+        -------
+        The wavelet coeffiscients value
+        """
         return self.coeffs
 
     def set_coeff(self, coeffs):
-        self.coeffs = coeffs
+        """ Set the wavelet coefficients value
+        """
+        self.coeffs = coeffs    #XXX: TODO: add some checks
 
     def op(self, data):
         """ Define the wavelet operator.

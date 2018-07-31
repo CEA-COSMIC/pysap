@@ -65,6 +65,38 @@ def extract_k_space_center(data_value, samples_locations,
 
 
 def gridding_3d(points, values, xi, method='linear', fill_value=0):
+    """
+    This method is perform the gridding operations.It is based on the griddata
+    function from scipy.interpolate.
+    Parameters:
+    ----------
+    points: np.ndarray
+        The kspace frequency locations of shape [M, d], where M is the total
+        number of points and d is the dimension of the k-space
+    value: np.ndarray
+        The acquired kspace of shape (M,L), where M is the number of samples
+        acquired and L is the number of coils used
+    xi: 2-D ndarray of float or tuple of 1-D array, shape (N, D)
+        Points at which to interpolate data
+    method : {'linear', 'nearest', 'cubic'}, optional
+        Method of interpolation. One of
+        ``nearest`` return the value at the data point closest to
+          the point of interpolation.
+        ``linear`` tesselate the input point set to n-dimensional simplices,
+          and interpolate linearly on each simplex.
+        ``cubic`` (1-D) return the value determined from a cubic spline.
+        ``cubic`` (2-D) return the value determined from a
+          piecewise cubic, continuously differentiable (C1), and
+          approximately curvature-minimizing polynomial surface.
+    fill_value : float, optional
+        Value used to fill in for requested points outside of the
+        convex hull of the input points.  If not provided, then the
+        default is ``nan``. This option has no effect for the
+        'nearest' method.
+    Returns:
+    -------
+    The gridded value
+    """
     return griddata(points=np.copy(points),
                     values=np.copy(values),
                     xi=deepcopy(xi),
@@ -86,7 +118,25 @@ def get_3D_smaps(k_space, img_shape, samples=None, mode='gridding',
     img_shape: a 3 element tuple
         target image shape
     mode: string
-        The extraction mode either: 'gridding', 'FFT', or 'NFFT'
+        The extraction mode either:
+        ``gridding`` uses the gridding operations from scipy.interpolate to
+        project the k-space into a cartesian grid before doing the Fourier
+        operations. This mode requires the samples
+        ``FFT`` The k-space is cartesian and it only computes the SOS and
+        extract Smaps by computing the ratio between the image coil and the SOS
+        ``NFFT`` The NFFT is used to compute the image coil
+    samples: np.ndarray
+        the non-cartesian samples locations in the k-space domain could be all
+        the non-cartesian samples or just a part of the frequency locations
+    samples_min: np.ndarray
+        The minimum samples value of the entire k-space typically -0.5
+        if any is provided the min(samples) will be taken
+    samples_max:
+        The maximum samples value of the entire k-space typically <0.5
+        if any is provided the max(samples) will be taken
+    n_cpu:
+        The number of cpu used to compute the gridding operations, it will
+        split across the number of channels
     Returns:
     -------
     Smaps: np.ndarray
