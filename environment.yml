@@ -34,3 +34,4 @@ dependencies:
       - pytest_runner
       - nibabel
       - modopt
+      - PyWavelets
