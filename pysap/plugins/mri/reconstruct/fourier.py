@@ -122,6 +122,7 @@ class FFT2(FourierBase):
 
 class NFFT(FourierBase):
     """ ND non catesian Fast Fourrier Transform class
+    The NFFT will normalize in a symmetric way the direct and adjoint operator
 
     Attributes
     ----------
