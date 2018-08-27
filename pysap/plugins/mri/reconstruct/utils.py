@@ -134,7 +134,7 @@ def generate_operators(data, wavelet_name, samples, nb_scales=4,
     from pysap.numerics.cost import DualGapCost
     from pysap.numerics.linear import Wavelet2
     from pysap.numerics.fourier import FFT2
-    from pysap.numerics.fourier import NFFT2
+    from pysap.numerics.fourier import NFFT
     from pysap.numerics.gradient import GradAnalysis2
     from pysap.numerics.gradient import GradSynthesis2
     from modopt.opt.proximity import SparseThreshold
@@ -157,7 +157,7 @@ def generate_operators(data, wavelet_name, samples, nb_scales=4,
         nb_scale=nb_scales,
         wavelet_name=wavelet_name)
     if non_cartesian:
-        fourier_op = NFFT2(
+        fourier_op = NFFT(
             samples=samples,
             shape=uniform_data_shape)
     else:
