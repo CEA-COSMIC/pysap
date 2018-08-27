@@ -120,8 +120,8 @@ class FFT2(FourierBase):
         return pfft.ifft2(self._mask * x)
 
 
-class NFFT2(FourierBase):
-    """ Standard 2D non catesian Fast Fourrier Transform class
+class NFFT(FourierBase):
+    """ ND non catesian Fast Fourrier Transform class
 
     Attributes
     ----------
@@ -132,15 +132,19 @@ class NFFT2(FourierBase):
     """
 
     def __init__(self, samples, shape):
-        """ Initilize the 'NFFT2' class.
+        """ Initilize the 'NFFT' class.
 
         Parameters
         ----------
-        samples: np.ndarray
-            the mask samples in the Fourier domain.
+        samples: np.ndarray (Mxd)
+            the samples locations in the Fourier domain where M is the number
+            of samples and d is the dimensionnality of the output data
+            (2D for an image, 3D for a volume).
         shape: tuple of int
             shape of the image (not necessarly a square matrix).
         """
+        if samples.shape[-1] != len(shape):
+            raise ValueError("Samples and Shape dimension doesn't correspond")
         self.samples = samples
         if samples.min() < -0.5 or samples.max() >= 0.5:
             warnings.warn("Samples will be normalized between [-0.5; 0.5[")
@@ -152,12 +156,12 @@ class NFFT2(FourierBase):
 
     def op(self, img):
         """ This method calculates the masked non-cartesian Fourier transform
-        of a 2-D image.
+        of a N-D data.
 
         Parameters
         ----------
         img: np.ndarray
-            input 2D array with the same shape as the mask.
+            input MD array with the same shape as the mask.
 
         Returns
         -------
@@ -165,7 +169,7 @@ class NFFT2(FourierBase):
             masked Fourier transform of the input image.
         """
         self.plan.f_hat = img
-        return np.copy(self.plan.trafo())
+        return np.sqrt(1.0 / self.plan.M) * np.copy(self.plan.trafo())
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
@@ -182,4 +186,4 @@ class NFFT2(FourierBase):
             inverse 2D discrete Fourier transform of the input coefficients.
         """
         self.plan.f = x
-        return np.copy((1.0 / self.plan.M) * self.plan.adjoint())
+        return np.sqrt(1.0 / self.plan.M) * np.copy(self.plan.adjoint())

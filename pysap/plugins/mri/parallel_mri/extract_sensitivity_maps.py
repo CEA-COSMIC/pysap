@@ -12,7 +12,7 @@ This module contains tools to extract sensitivity maps from undersampled MR
 acquisition with high density in the k space center.
 """
 # System import
-from pysap.plugins.mri.reconstruct.fourier import NFFT2
+from pysap.plugins.mri.reconstruct.fourier import NFFT
 
 # Package import
 from scipy.interpolate import griddata
@@ -175,7 +175,7 @@ def get_Smaps(k_space, img_shape, samples=None, mode='Gridding',
         for l in range(Smaps_shape[2]):
             Smaps[l] = pfft.ifftshift(pfft.ifft2(pfft.fftshift(k_space[l])))
     elif mode == 'NFFT':
-        fourier_op = NFFT2(samples=samples, shape=img_shape)
+        fourier_op = NFFT(samples=samples, shape=img_shape)
         Smaps = np.asarray([fourier_op.adj_op(k_space[l]) for l in range(L)])
     else:
         xi = np.asarray(range(img_shape[0]))
