@@ -122,12 +122,12 @@ class FFT2(FourierBase):
 
 class NFFT(FourierBase):
     """ ND non catesian Fast Fourrier Transform class
-    The NFFT will normalize in a symmetric way the direct and adjoint operator
+    The NFFT will normalize in a symmetric way the direct and adjoint operator.
 
     Attributes
     ----------
     samples: np.ndarray
-        the mask samples in the Fourier domain.
+        the samples locations in the Fourier domain between [-0.5; 0.5[.
     shape: tuple of int
         shape of the image (not necessarly a square matrix).
     """
@@ -143,6 +143,23 @@ class NFFT(FourierBase):
             (2D for an image, 3D for a volume).
         shape: tuple of int
             shape of the image (not necessarly a square matrix).
+
+        Exemple
+        -------
+        >>> import numpy as np
+        >>> from pysap.data import get_sample_data
+        >>> from pysap.numerics.fourier import NFFT
+        >>> from pysap.plugins.mri.reconstruct.utils import \
+        convert_mask_to_locations
+
+        >>> I = get_sample_data("2d-pmri").data.astype("complex128")
+        >>> I = I[0]
+        >>> samples = convert_mask_to_locations(np.ones(I.shape))
+        >>> fourier_op = NFFT(samples=samples, shape=I.shape)
+        >>> x_nfft = fourier_op.op(I)
+        >>> x_fft = np.fft.ifftshift(np.fft.fft2(np.fftshift(I))).flatten()
+        >>> np.mean(np.abs(x_fft / np.sqrt(np.prod(I.shape)) / x_nfft))
+        1.000000000000005
         """
         if samples.shape[-1] != len(shape):
             raise ValueError("Samples and Shape dimension doesn't correspond")
