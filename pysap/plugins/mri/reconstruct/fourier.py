@@ -124,7 +124,7 @@ class NFFT(FourierBase):
     """ ND non catesian Fast Fourrier Transform class
     The NFFT will normalize in a symmetric way the direct and adjoint operator.
     This means that both the direct and adjoint operator will be divided by the
-    squarre root of the number of samples in the fourier domain. 
+    squarre root of the number of samples in the fourier domain.
 
     Attributes
     ----------
