@@ -123,6 +123,8 @@ class FFT2(FourierBase):
 class NFFT(FourierBase):
     """ ND non catesian Fast Fourrier Transform class
     The NFFT will normalize in a symmetric way the direct and adjoint operator.
+    This means that both the direct and adjoint operator will be divided by the
+    squarre root of the number of samples in the fourier domain. 
 
     Attributes
     ----------
@@ -179,7 +181,7 @@ class NFFT(FourierBase):
         Parameters
         ----------
         img: np.ndarray
-            input MD array with the same shape as the mask.
+            input ND array with the same shape as the mask.
 
         Returns
         -------
