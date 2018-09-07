@@ -58,7 +58,11 @@ project(pysparse)
 
   # Build and link the pylib module
   add_library(pysparse SHARED pysparse.cpp)
-  target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+  if(APPLE)
+    target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES})
+  else(APPLE)
+    target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+  endif(APPLE)
   add_dependencies(pysparse Boost)
   add_dependencies(pysparse cfitsio)
   add_dependencies(pysparse sparse2d)
@@ -66,3 +70,7 @@ project(pysparse)
   # Tweaks the name of the library to match what Python expects
   set_target_properties(pysparse PROPERTIES SUFFIX .so)
   set_target_properties(pysparse PROPERTIES PREFIX "")
+
+  if(APPLE)
+    set_target_properties(pysparse PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  endif(APPLE)
