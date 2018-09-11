@@ -49,6 +49,7 @@ install:
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
+    - pip install cython
     - git clone https://github.com/ghisvail/pyNFFT.git $HOME/pynfft
     - cd $HOME/pynfft
     - python setup.py build_ext --inplace
