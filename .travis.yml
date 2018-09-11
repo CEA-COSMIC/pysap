@@ -31,7 +31,7 @@ before_install:
     - hash -r
     - conda update --yes conda
     - conda info -a
-    - apt install libnfft3-dev
+    - sudo apt install -y libnfft3-dev
 
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
