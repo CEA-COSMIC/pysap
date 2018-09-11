@@ -50,9 +50,10 @@ install:
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
     - git clone https://github.com/ghisvail/pyNFFT.git $HOME/pynfft
-    - python $HOME/pynfft/setup.py build_ext --inplace
-    - python $HOME/pynfft/setup.py install
-    - pip install git+https://github.com/ghisvail/pyNFFT.git
+    - cd $HOME/pynfft
+    - python setup.py build_ext --inplace
+    - python setup.py install
+    - cd $HOME
     - pip install nose
     - pip install nose-exclude
     - pip install coverage
