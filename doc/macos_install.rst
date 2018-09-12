@@ -60,6 +60,32 @@ Troubleshooting
 
 The following subsections propose solutions to some known issues.
 
+Python 3
+--------
+
+For some Python 3 installations (such as Anaconda) the ``Python.h`` header file is
+located in a directory called ``python3.Xm`` (where X is the minor version number).
+This causes issues with Boost, which looks for this header file in ``python3.X``.
+
+*e.g.*
+
+.. code-block:: bash
+
+  In file included from ./boost/python/detail/prefix.hpp:13:0,
+                 from ./boost/python/list.hpp:8,
+                 from libs/python/src/list.cpp:5:
+  ./boost/python/detail/wrap_python.hpp:50:11: fatal error: pyconfig.h: No such file or directory
+  # include <pyconfig.h>
+           ^~~~~~~~~~~~
+  compilation terminated.
+
+This can be easily solved by exporting the following
+
+.. code-block:: bash
+
+  export CPLUS_INCLUDE_PATH=/PATH-TO-PYTHON/include/python3.Xm
+
+
 PyQtGraph
 ---------
 
