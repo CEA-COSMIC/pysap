@@ -33,8 +33,11 @@ class TestWarpAndBinding(unittest.TestCase):
             get_sample_data(dataset_name="mri-slice-nifti")]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
+        transforms_struct = pysap.wavelist(["isap", "isap-3d"])
+        transforms_names = (
+            transforms_struct["isap"] + transforms_struct["isap-3d"])
         self.transforms = [
-            pysap.load_transform(name) for name in pysap.AVAILABLE_TRANSFORMS]
+            pysap.load_transform(name) for name in transforms_names]
         print("[info] Found {0} transformations.".format(len(self.transforms)))
         self.nb_scales = [3]  # [2, 3, 4]
         self.nb_iter = 10
