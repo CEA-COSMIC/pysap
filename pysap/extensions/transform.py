@@ -28,8 +28,10 @@ Available transform from pywt are:
 
 # System import
 from __future__ import print_function, absolute_import
+import os
 
 # Package import
+import pysap
 from pysap.base.transform import WaveletTransformBase
 from pysap.extensions import ISAP_FLATTEN
 from pysap.extensions import ISAP_UNFLATTEN
