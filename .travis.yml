@@ -20,7 +20,7 @@ before_install:
         export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
-        export CPLUS_INCLUDE_PATH=/opt/python/3.5.5/include/python3.5m;
+        export CPLUS_INCLUDE_PATH=/opt/python/3.5.6/include/python3.5m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.6.3/include/python3.6m;
