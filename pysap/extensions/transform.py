@@ -10,46 +10,20 @@
 """
 Wavelet transform module.
 
-Available transform from ISAP are:
+Available 2D transform from ISAP are:
 
-- LinearWaveletTransformATrousAlgorithm
-- BsplineWaveletTransformATrousAlgorithm
-- WaveletTransformInFourierSpace
-- MorphologicalMedianTransform
-- MorphologicalMinmaxTransform
-- PyramidalLinearWaveletTransform
-- PyramidalBsplineWaveletTransform
-- PyramidalWaveletTransformInFourierSpaceAlgo1
-- MeyerWaveletsCompactInFourierSpace
-- PyramidalMedianTransform
-- PyramidalLaplacian
-- MorphologicalPyramidalMinmaxTransform
-- DecompositionOnScalingFunction
-- MallatWaveletTransform79Filters
-- FeauveauWaveletTransform
-- FeauveauWaveletTransformWithoutUndersampling
-- LineColumnWaveletTransform1D1D
-- HaarWaveletTransform
-- HalfPyramidalTransform
-- MixedHalfPyramidalWTAndMedianMethod
-- UndecimatedDiadicWaveletTransform
-- MixedWTAndPMTMethod
-- UndecimatedHaarTransformATrousAlgorithm
-- UndecimatedBiOrthogonalTransform
-- NonOrthogonalUndecimatedTransform
-- IsotropicAndCompactSupportWaveletInFourierSpace
-- PyramidalWaveletTransformInFourierSpaceAlgo2
-- FastCurveletTransform
-- WaveletTransformViaLiftingScheme
-- OnLine53AndOnColumn44
-- OnLine44AndOnColumn53
+- to get the full list of builtin wavelets' names just use the pysap.wavelist
+  with 'isap' as the family argument.
 
-For 3D:
+Available 3D transform from ISAP are:
 
-- BiOrthogonalTransform3D
-- Wavelet3DTransformViaLiftingScheme
-- ATrou3D
+- to get the full list of builtin wavelets' names just use the pysap.wavelist
+  with 'isap-3d' as the family argument.
 
+Available transform from pywt are:
+
+- to get the full list of builtin wavelets' names just use the pysap.wavelist
+  with 'pywt' as the family argument.
 """
 
 # System import
@@ -59,19 +33,350 @@ from __future__ import print_function, absolute_import
 from pysap.base.transform import WaveletTransformBase
 from pysap.extensions import ISAP_FLATTEN
 from pysap.extensions import ISAP_UNFLATTEN
+try:
+    import pysparse
+except ImportError:
+    warnings.warn("Sparse2d python bindings not found, use binaries.")
+    pysparse = None
 
 # Third party import
 import numpy
+import pywt
+
+
+class PyWaveletTransformBase(WaveletTransformBase):
+    """ Define the structure that will be used to store the pywt results.
+    """
+    __family__ = "pywt"
+
+    def __init__(self, nb_scale, verbose=0, dim=2, is_decimated=True,
+                 **kwargs):
+        """ Initialize the WaveletTransformBase class.
+
+        Parameters
+        ----------
+        data: ndarray
+            the input data.
+        nb_scale: int
+            the number of scale of the decomposition that includes the
+            approximation scale.
+        verbose: int, default 0
+            control the verbosity level.
+        dim: int, default 2
+            define the data dimension.
+        is_decimated: bool, default True
+            use a decimated or undecimated transform.
+        """
+        # Inheritance
+        super(PyWaveletTransformBase, self).__init__(
+            nb_scale, verbose=verbose, dim=dim, **kwargs)
+
+        # pywt Wavelet transform parameters
+        self.is_decimated = is_decimated
+
+    def _init_transform(self, **kwargs):
+        """ Define the transform.
+        """
+        if (self._pywt_func is None or self._pywt_name is None):
+            raise ValueError("Transform not specified properly.")
+        self.trf = self._pywt_func(self._pywt_name)
+
+    def _analysis(self, data, **kwargs):
+        """ Decompose a real signal using pywt.
+
+        Parameters
+        ----------
+        data: nd-array
+            a real array to be decomposed.
+
+        Returns
+        -------
+        analysis_data: nd_array
+            the decomposition coefficients.
+        analysis_header: dict
+            the decomposition associated information.
+        """
+        if self.is_decimated:
+            coeffs = pywt.wavedecn(data, self.trf, mode="symmetric",
+                                   level=self.nb_scale)
+        else:
+            coeffs = pywt.swtn(data, self.trf, level=self.nb_scale)
+        analysis_data, analysis_header = self._organize_pysap(coeffs)
+        self.nb_band_per_scale = [
+            len(scale_info) for scale_info in analysis_header]
+
+        return analysis_data, analysis_header
+
+    def _synthesis(self, analysis_data, analysis_header):
+        """ Reconstruct a real signal from the wavelet coefficients using pywt.
+
+        Parameters
+        ----------
+        analysis_data: list of nd-array
+            the wavelet coefficients array.
+        analysis_header: dict
+            the wavelet decomposition parameters.
+
+        Returns
+        -------
+        data: nd-array
+            the reconstructed data array.
+        """
+        coeffs = self._organize_pywt(analysis_data, analysis_header)
+        if self.is_decimated:
+            data = pywt.waverecn(coeffs, self.trf, mode="symmetric")
+        else:
+            data = pywt.iswtn(coeffs, self.trf)
+        return data
+
+    def _organize_pysap(self, coeffs):
+        """ Organize the coefficients from pywt for pysap.
+
+        Parameters
+        ----------
+        coeffs: list of dict or ndarray
+            the pywt input coefficents.
+
+        Returns
+        -------
+        data: list of ndarray
+            the organized coefficients.
+        info: list
+            the pywt transform information.
+        """
+        if not isinstance(coeffs, list):
+            coeffs = [coeffs]
+        elif len(coeffs) == 0:
+            return None, None
+        if self.is_decimated:
+            coeffs[0] = {"a": coeffs[0]}
+        data = []
+        info = []
+        for band_struct in coeffs:
+            band_info = []
+            for key, arr in band_struct.items():
+                band_info.append((key, arr.shape))
+                data.append(arr)
+            info.append(band_info)
+
+        return data, info
+
+    def _organize_pywt(self, data, info):
+        """ Organize the coefficients from pysap for pywt.
+
+        Parameters
+        ----------
+        data: list of ndarray
+            the organized coefficients.
+        info: list
+            the pywt transform information.
+
+        Returns
+        -------
+        coeffs: list
+            the pywt input coefficents.
+        """
+        coeffs = []
+        offset = 0
+        if self.is_decimated:
+            coeffs.append(data[0])
+            info = info[1:]
+            offset += 1
+        for band_struct in info:
+            band_info = {}
+            for cnt, (key, shape) in enumerate(band_struct):
+                band_info[key] = data[cnt + offset]
+            offset += len(band_struct)
+            coeffs.append(band_info)
+
+        return coeffs
+
+
+def pywt_class_factory(func, name, destination_module_globals):
+    """ Dynamically create a pywt transform.
+
+    In order to make the class publicly accessible, we assign the result of
+    the function to a variable dynamically using globals().
+
+    Parameters
+    ----------
+    func: @function
+        the wavelet transform function.
+    name: str
+        the wavelet name we want to instanciate.
+    """
+    # Define the transform class name
+    class_name = name.title()
+
+    # Define the trsform class parameters
+    class_parameters = {
+        "__module__": destination_module_globals["__name__"],
+        "_id":  destination_module_globals["__name__"] + "." + class_name,
+        "_pywt_name": name,
+        "_pywt_func": func
+    }
+
+    # Get the process instance associated to the function
+    destination_module_globals[class_name] = (
+        type(class_name, (PyWaveletTransformBase, ), class_parameters))
+
+
+destination_module_globals = globals()
+for family in pywt.families():
+    if family in ("gaus", "mexh", "morl", "cgau", "shan", "fbsp", "cmor"):
+        func = pywt.ContinuousWavelet
+    else:
+        func = pywt.Wavelet
+    for name in pywt.wavelist(family):
+        pywt_class_factory(func, name, destination_module_globals)
 
 
 class ISAPWaveletTransformBase(WaveletTransformBase):
     """ Define the structure that will be used to store the ISAP results.
     """
+    __family__ = "isap"
     __isap_transform_id__ = None
     __isap_name__ = None
     __is_decimated__ = None
     __isap_nb_bands__ = None
     __isap_scale_shift__ = 0
+
+    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
+        """ Initialize the WaveletTransformBase class.
+
+        Parameters
+        ----------
+        data: ndarray
+            the input data.
+        nb_scale: int
+            the number of scale of the decomposition that includes the
+            approximation scale.
+        verbose: int, default 0
+            control the verbosity level.
+        dim: int, default 2
+            define the data dimension.
+        """
+        # ISAP Wavelet transform parameters
+        self.bands_lengths = None
+        self.bands_shapes = None
+        self.isap_transform_id = None
+        self.flatten_fct = None
+        self.unflatten_fct = None
+        self.scales_lengths = None
+        self.scales_padds = None
+        self.use_wrapping = pysparse is None
+
+        # Inheritance
+        super(ISAPWaveletTransformBase, self).__init__(
+            nb_scale, verbose=verbose, dim=dim, **kwargs)
+
+    def _init_transform(self, **kwargs):
+        """ Define the transform.
+        """
+        if not self.use_wrapping:
+            kwargs["type_of_multiresolution_transform"] = (
+                self.__isap_transform_id__)
+            kwargs["number_of_scales"] = self.nb_scale
+            if self.data_dim == 2:
+                self.trf = pysparse.MRTransform(**kwargs)
+            elif self.data_dim == 3:
+                self.trf = pysparse.MRTransform3D(**kwargs)
+            else:
+                raise NameError("Please define a correct dimension for data.")
+        else:
+            if self.data_dim == 2:
+                self.trf = None
+            else:
+                raise NameError("For {0}D, only the bindings work for "
+                                "now.".format(self.data_dim))
+
+    def _analysis(self, data, **kwargs):
+        """ Decompose a real signal using ISAP.
+
+        Parameters
+        ----------
+        data: nd-array
+            a real array to be decomposed.
+        kwargs: dict (optional)
+            the parameters that will be passed to
+            'pysap.extensions.mr_tansform'.
+
+        Returns
+        -------
+        analysis_data: nd_array
+            the decomposition coefficients.
+        analysis_header: dict
+            the decomposition associated information.
+        """
+        # Update ISAP parameters
+        kwargs["type_of_multiresolution_transform"] = self.isap_transform_id
+        kwargs["number_of_scales"] = self.nb_scale
+
+        # Use subprocess to execute binaries
+        if self.use_wrapping:
+            kwargs["verbose"] = self.verbose > 0
+            with pysap.TempDir(isap=True) as tmpdir:
+                in_image = os.path.join(tmpdir, "in.fits")
+                out_mr_file = os.path.join(tmpdir, "cube.mr")
+                pysap.io.save(data, in_image)
+                pysap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
+                image = pysap.io.load(out_mr_file)
+                analysis_data = image.data
+                analysis_header = image.metadata
+
+            # Reorganize the generated coefficents
+            self._analysis_shape = analysis_data.shape
+            analysis_buffer = self.flatten_fct(analysis_data, self)
+            self._analysis_buffer_shape = analysis_buffer.shape
+            if not isinstance(self.nb_band_per_scale, list):
+                self.nb_band_per_scale = (
+                    self.nb_band_per_scale.squeeze().tolist())
+            analysis_data = []
+            for scale, nb_bands in enumerate(self.nb_band_per_scale):
+                for band in range(nb_bands):
+                    analysis_data.append(self._get_linear_band(
+                        scale, band, analysis_buffer))
+
+        # Use Python bindings
+        else:
+            analysis_data, self.nb_band_per_scale = self.trf.transform(
+                data.astype(numpy.double), save=False)
+            analysis_header = None
+
+        return analysis_data, analysis_header
+
+    def _synthesis(self, analysis_data, analysis_header):
+        """ Reconstruct a real signal from the wavelet coefficients using ISAP.
+
+        Parameters
+        ----------
+        analysis_data: list of nd-array
+            the wavelet coefficients array.
+        analysis_header: dict
+            the wavelet decomposition parameters.
+
+        Returns
+        -------
+        data: nd-array
+            the reconstructed data array.
+        """
+        # Use subprocess to execute binaries
+        if self.use_wrapping:
+
+            cube = pysap.Image(data=analysis_data[0], metadata=analysis_header)
+            with pysap.TempDir(isap=True) as tmpdir:
+                in_mr_file = os.path.join(tmpdir, "cube.mr")
+                out_image = os.path.join(tmpdir, "out.fits")
+                pysap.io.save(cube, in_mr_file)
+                pysap.extensions.mr_recons(
+                    in_mr_file, out_image, verbose=(self.verbose > 0))
+                data = pysap.io.load(out_image).data
+
+        # Use Python bindings
+        else:
+            data = self.trf.reconstruct(analysis_data)
+
+        return data
 
     def _set_transformation_parameters(self):
         """ Declare transformation parameters.
@@ -603,10 +908,6 @@ class OnLine44AndOnColumn53(ISAPWaveletTransformBase):
         self.bands_names = ["a", "a", "a"]
         self.bands_lengths[-1, 1:] = 0
 
-#####################
-# 3D Transforms #####
-#####################
-
 
 class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
     """ Mallat's 3D wavelet transform (7/9 biorthogonal filters)
@@ -614,7 +915,7 @@ class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
     def __init__(self, nb_scale, verbose, **kwargs):
         ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale,
                                           dim=3, **kwargs)
-
+    __family__ = "isap-3d"
     __isap_transform_id__ = 1
     __isap_name__ = "3D Wavelet transform via lifting scheme"
     __is_decimated__ = True
@@ -627,6 +928,7 @@ class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
     def __init__(self, nb_scale, verbose):
         ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
 
+    __family__ = "isap-3d"
     __isap_transform_id__ = 2
     __isap_name__ = "Wavelet transform via lifting scheme"
     __is_decimated__ = True
@@ -639,6 +941,7 @@ class ATrou3D(ISAPWaveletTransformBase):
     def __init__(self, nb_scale, verbose):
         ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
 
+    __family__ = "isap-3d"
     __isap_transform_id__ = 3
     __isap_name__ = "3D Wavelet A Trou"
     __is_decimated__ = False
