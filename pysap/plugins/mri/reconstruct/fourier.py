@@ -189,7 +189,7 @@ class NFFT(FourierBase):
             masked Fourier transform of the input image.
         """
         self.plan.f_hat = img
-        return np.sqrt(1.0 / self.plan.M) * np.copy(self.plan.trafo())
+        return np.copy(self.plan.trafo())
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
@@ -206,4 +206,4 @@ class NFFT(FourierBase):
             inverse 2D discrete Fourier transform of the input coefficients.
         """
         self.plan.f = x
-        return np.sqrt(1.0 / self.plan.M) * np.copy(self.plan.adjoint())
+        return np.copy(self.plan.adjoint()) / self.plan.M
