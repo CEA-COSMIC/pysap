@@ -9,7 +9,6 @@
 
 # System import
 from __future__ import print_function
-import warnings
 import unittest
 import numpy
 
@@ -150,7 +149,7 @@ class TestAdjointOperatorFourierTransform(unittest.TestCase):
                 1j * numpy.random.randn(self.N, self.N, self.N)
             f = numpy.random.randn(_samples.shape[0], 1) + \
                 1j * numpy.random.randn(_samples.shape[0], 1)
-            f_p = fourier_op_dir.op(Img)
+            f_p = fourier_op_dir.op(Img) / (_samples.shape[0])
             I_p = fourier_op_adj.adj_op(f)
             x_d = numpy.dot(Img.flatten(), numpy.conj(I_p).flatten())
             x_ad = numpy.dot(f_p.flatten(), numpy.conj(f).flatten())

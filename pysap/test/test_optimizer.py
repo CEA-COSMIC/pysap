@@ -48,21 +48,15 @@ class TestOptimizer(unittest.TestCase):
         """
         print("Process test FFT2 FISTA::")
         for image in self.images:
-            # fourier = FFT2(samples=convert_mask_to_locations(
-            #                                 fftshift(self.mask)),
-            #                shape=image.shape)
-
-            fourier = NFFT(samples=convert_mask_to_locations(
-                                            self.mask),
+            fourier = FFT2(samples=convert_mask_to_locations(
+                                            fftshift(self.mask)),
                            shape=image.shape)
-            data = fourier.op(image.data)
-            # fourier_op = NFFT(convert_mask_to_locations(
-            #                                 fftshift(self.mask)),
-            #                   shape=image.shape)
 
-            fourier_op = NFFT(samples=convert_mask_to_locations(
-                                            self.mask),
+            data = fourier.op(image.data)
+            fourier_op = FFT2(convert_mask_to_locations(
+                                            fftshift(self.mask)),
                               shape=image.shape)
+
             print("Process test with image '{0}'...".format(
                 image.metadata["path"]))
             for nb_scale in self.nb_scales:
