@@ -22,11 +22,6 @@ import warnings
 import pysap
 from .utils import with_metaclass
 from pysap.plotting import plot_transform
-try:
-    import pysparse
-except ImportError:
-    warnings.warn("Sparse2d python bindings not found, use binaries.")
-    pysparse = None
 
 # Third party import
 import numpy
@@ -53,7 +48,8 @@ class MetaRegister(type):
         if name in cls.REGISTRY:
             raise ValueError(
                 "'{0}' name already used in registry.".format(name))
-        if name not in ("WaveletTransformBase", "ISAPWaveletTransformBase"):
+        if name not in ("WaveletTransformBase", "ISAPWaveletTransformBase",
+                        "PyWaveletTransformBase"):
             cls.REGISTRY[name] = new_cls
         return new_cls
 
@@ -74,23 +70,18 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             the number of scale of the decomposition that includes the
             approximation scale.
         verbose: int, default 0
-            control the verbosity level
+            control the verbosity level.
+        dim: int, default 2
+            define the data dimension.
         """
         # Wavelet transform parameters
         self.nb_scale = nb_scale
         self.name = None
         self.bands_names = None
         self.nb_band_per_scale = None
-        self.bands_lengths = None
-        self.bands_shapes = None
-        self.isap_transform_id = None
-        self.flatten_fct = None
-        self.unflatten_fct = None
         self.is_decimated = None
-        self.scales_lengths = None
-        self.scales_padds = None
-        self.use_wrapping = pysparse is None
         self.data_dim = dim
+        self.use_wrapping = False
 
         # Data that can be decalred afterward
         self._data = None
@@ -106,22 +97,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         self.kwargs = kwargs
 
         # Transformation
-        if not self.use_wrapping:
-            kwargs["type_of_multiresolution_transform"] = (
-                self.__isap_transform_id__)
-            kwargs["number_of_scales"] = self.nb_scale
-            if self.data_dim == 2:
-                self.trf = pysparse.MRTransform(**self.kwargs)
-            elif self.data_dim == 3:
-                self.trf = pysparse.MRTransform3D(**self.kwargs)
-            else:
-                raise NameError("Please define a correct dimension for data.")
-        else:
-            if self.data_dim == 2:
-                self.trf = None
-            else:
-                raise NameError("For {0}D, only the bindings work for "
-                                "now.".format(self.data_dim))
+        self._init_transform(**self.kwargs)
 
     def __reduce__(self):
         """ The interface to pickle dump call.
@@ -388,10 +364,6 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         if self._data is None:
             raise ValueError("Please specify first the input data.")
 
-        # Update ISAP parameters
-        kwargs["type_of_multiresolution_transform"] = self.isap_transform_id
-        kwargs["number_of_scales"] = self.nb_scale
-
         # Analysis
         if numpy.iscomplexobj(self._data):
             analysis_data_real, self.analysis_header = self._analysis(
@@ -492,6 +464,17 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
     ##########################################################################
     # Private members
     ##########################################################################
+
+    def _init_transform(self):
+        """ Define the transform.
+
+        Attributes
+        ----------
+        trf: object
+            the transformation.
+        """
+        raise NotImplementedError("Abstract method should not be declared "
+                                  "in derivate classes.")
 
     def _get_linear_band(self, scale, band, analysis_data):
         """ Access the desired band data from a 1D linear analysis buffer.
@@ -623,38 +606,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         analysis_header: dict
             the decomposition associated information.
         """
-        # Use subprocess to execute binaries
-        if self.use_wrapping:
-            kwargs["verbose"] = self.verbose > 0
-            with pysap.TempDir(isap=True) as tmpdir:
-                in_image = os.path.join(tmpdir, "in.fits")
-                out_mr_file = os.path.join(tmpdir, "cube.mr")
-                pysap.io.save(data, in_image)
-                pysap.extensions.mr_transform(in_image, out_mr_file, **kwargs)
-                image = pysap.io.load(out_mr_file)
-                analysis_data = image.data
-                analysis_header = image.metadata
-
-            # Reorganize the generated coefficents
-            self._analysis_shape = analysis_data.shape
-            analysis_buffer = self.flatten_fct(analysis_data, self)
-            self._analysis_buffer_shape = analysis_buffer.shape
-            if not isinstance(self.nb_band_per_scale, list):
-                self.nb_band_per_scale = (
-                    self.nb_band_per_scale.squeeze().tolist())
-            analysis_data = []
-            for scale, nb_bands in enumerate(self.nb_band_per_scale):
-                for band in range(nb_bands):
-                    analysis_data.append(self._get_linear_band(
-                        scale, band, analysis_buffer))
-
-        # Use Python bindings
-        else:
-            analysis_data, self.nb_band_per_scale = self.trf.transform(
-                data.astype(numpy.double), save=False)
-            analysis_header = None
-
-        return analysis_data, analysis_header
+        raise NotImplementedError("Abstract method should not be declared "
+                                  "in derivate classes.")
 
     def _synthesis(self, analysis_data, analysis_header):
         """ Reconstruct a real signal from the wavelet coefficients using ISAP.
@@ -671,20 +624,5 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         data: nd-array
             the reconstructed data array.
         """
-        # Use subprocess to execute binaries
-        if self.use_wrapping:
-
-            cube = pysap.Image(data=analysis_data[0], metadata=analysis_header)
-            with pysap.TempDir(isap=True) as tmpdir:
-                in_mr_file = os.path.join(tmpdir, "cube.mr")
-                out_image = os.path.join(tmpdir, "out.fits")
-                pysap.io.save(cube, in_mr_file)
-                pysap.extensions.mr_recons(
-                    in_mr_file, out_image, verbose=(self.verbose > 0))
-                data = pysap.io.load(out_image).data
-
-        # Use Python bindings
-        else:
-            data = self.trf.reconstruct(analysis_data)
-
-        return data
+        raise NotImplementedError("Abstract method should not be declared "
+                                  "in derivate classes.")

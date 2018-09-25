@@ -25,9 +25,33 @@ from pysap.base.transform import WaveletTransformBase
 AVAILABLE_TRANSFORMS = sorted(WaveletTransformBase.REGISTRY.keys())
 
 
-def load_image(image_path):
+def wavelist(family=None):
+    """ List/sort all available transforms.
+
+    Parameters
+    ----------
+    family: str or list of str, default None
+        the family wave family name.
+
+    Returns
+    -------
+    transforms: dict
+        the requested transforms.
     """
-    Load an image.
+    if family is not None and not isinstance(family, list):
+        family = [family]
+    transforms = {}
+    for key, trf in WaveletTransformBase.REGISTRY.items():
+        if family is None:
+            transforms.setdefault(trf.__family__, []).append(key)
+            continue
+        if trf.__family__ in family:
+            transforms.setdefault(trf.__family__, []).append(key)
+    return transforms
+
+
+def load_image(image_path):
+    """ Load an image.
 
     Parameters
     ----------
@@ -44,8 +68,7 @@ def load_image(image_path):
 
 
 def save_image(image, image_path):
-    """
-    Save an image.
+    """ Save an image.
 
     Parameters
     ----------

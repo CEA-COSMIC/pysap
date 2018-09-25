@@ -20,6 +20,7 @@ from __future__ import print_function
 from .info import __version__
 import pysap.extensions
 from pysap.base import io
+from pysap.utils import wavelist
 from pysap.utils import TempDir
 from pysap.configure import info
 from pysap.base.image import Image
