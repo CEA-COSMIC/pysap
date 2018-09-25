@@ -13,7 +13,7 @@ Wavelet transform module.
 Available 2D transform from ISAP are:
 
 - to get the full list of builtin wavelets' names just use the pysap.wavelist
-  with 'isap' as the family argument.
+  with 'isap-2d' as the family argument.
 
 Available 3D transform from ISAP are:
 
@@ -52,7 +52,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
     __family__ = "pywt"
 
     def __init__(self, nb_scale, verbose=0, dim=2, is_decimated=True,
-                 **kwargs):
+                 axes=None, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -68,6 +68,8 @@ class PyWaveletTransformBase(WaveletTransformBase):
             define the data dimension.
         is_decimated: bool, default True
             use a decimated or undecimated transform.
+        axes: list of int, default None
+            axes over which to compute the transform.
         """
         # Inheritance
         super(PyWaveletTransformBase, self).__init__(
@@ -75,6 +77,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         # pywt Wavelet transform parameters
         self.is_decimated = is_decimated
+        self.axes = axes
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
@@ -100,9 +103,10 @@ class PyWaveletTransformBase(WaveletTransformBase):
         """
         if self.is_decimated:
             coeffs = pywt.wavedecn(data, self.trf, mode="symmetric",
-                                   level=self.nb_scale)
+                                   level=self.nb_scale, axes=self.axes)
         else:
-            coeffs = pywt.swtn(data, self.trf, level=self.nb_scale)
+            coeffs = pywt.swtn(data, self.trf, level=self.nb_scale,
+                               axes=self.axes)
         analysis_data, analysis_header = self._organize_pysap(coeffs)
         self.nb_band_per_scale = [
             len(scale_info) for scale_info in analysis_header]
@@ -126,9 +130,10 @@ class PyWaveletTransformBase(WaveletTransformBase):
         """
         coeffs = self._organize_pywt(analysis_data, analysis_header)
         if self.is_decimated:
-            data = pywt.waverecn(coeffs, self.trf, mode="symmetric")
+            data = pywt.waverecn(coeffs, self.trf, mode="symmetric",
+                                 axes=self.axes)
         else:
-            data = pywt.iswtn(coeffs, self.trf)
+            data = pywt.iswtn(coeffs, self.trf, axes=self.axes)
         return data
 
     def _organize_pysap(self, coeffs):
@@ -236,7 +241,7 @@ for family in pywt.families():
 class ISAPWaveletTransformBase(WaveletTransformBase):
     """ Define the structure that will be used to store the ISAP results.
     """
-    __family__ = "isap"
+    __family__ = "isap-2d"
     __isap_transform_id__ = None
     __isap_name__ = None
     __is_decimated__ = None
