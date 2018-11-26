@@ -11,10 +11,6 @@
 Noise estimation strategies.
 """
 
-
-# Package import
-from .utils import flatten
-
 # Third party import
 from modopt.math.stats import sigma_mad
 
@@ -35,5 +31,5 @@ def sigma_mad_sparse(grad_op, linear_op):
         a list of std estimate for each scale.
     """
     linear_op.op(grad_op.grad)
-    return [sigma_mad(flatten(linear_op.transform[scale])[0])
+    return [sigma_mad(linear_op.transform.flatten(linear_op.transform[scale])[0])
             for scale in range(linear_op.transform.nb_scale)]
