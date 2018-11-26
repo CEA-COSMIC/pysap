@@ -292,7 +292,7 @@ def sparse_rec_condatvu(gradient_op, linear_op, prox_dual_op, cost_op,
 
     # Define the proximity operator
     if add_positivity:
-        prox_op = Positive()
+        prox_op = Positivity()
     else:
         prox_op = Identity()
 
