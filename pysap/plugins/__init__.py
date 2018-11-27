@@ -30,8 +30,6 @@ EXTPLUGINS_FILE = os.path.join(EXTPLUGINS_DIR, "pysap-extplugins.json")
 if not os.path.isfile(EXTPLUGINS_FILE):
     with open(EXTPLUGINS_FILE, "wt") as open_file:
         open_file.write("{}")
-with open(EXTPLUGINS_FILE, "rt") as open_file:
-    EXTPLUGINS = json.load(open_file)
 
 
 def addplugin(location, update=False):
@@ -104,9 +102,10 @@ def addplugin(location, update=False):
         os.remove(plugin)
     # Add a plugin from a path
     else:
-        plugin_name = os.path.dirname(location)
+        plugin_name = os.path.basename(location)
         plugin_version = None
         plugin_dir = os.path.join(EXTPLUGINS_DIR, plugin_name)
+        print(plugin_dir)
         if not os.path.isdir(plugin_dir):
             os.symlink(location, plugin_dir)
         else:
@@ -170,10 +169,12 @@ def addplugin(location, update=False):
         os.symlink(plugin_mod_dir, pysap_link)
 
     # Update the plugins factory
+    with open(EXTPLUGINS_FILE, "rt") as open_file:
+        extplugins = json.load(open_file)
     plugin_info["location"] = plugin_dir
-    EXTPLUGINS[plugin_mod] = plugin_info
+    extplugins[plugin_mod] = plugin_info
     with open(EXTPLUGINS_FILE, "wt") as open_file:
-        json.dump(EXTPLUGINS, open_file, indent=4)
+        json.dump(extplugins, open_file, indent=4)
 
     return status
 
@@ -192,10 +193,12 @@ def removeplugin(name):
         the command status: 0 removed, 1 already removed.
     """
     # Check for the reuested plugin in the registery
-    if name not in EXTPLUGINS:
+    with open(EXTPLUGINS_FILE, "rt") as open_file:
+        extplugins = json.load(open_file)
+    if name not in extplugins:
         print("No plugin registered with name '{0}'.".format(name))
         return 1
-    plugin_info = EXTPLUGINS[name]
+    plugin_info = extplugins[name]
 
     # Check that the pysap plugins directory is in write mode
     pysap_plugin_dir = os.path.dirname(__file__)
@@ -219,8 +222,8 @@ def removeplugin(name):
         os.unlink(pysap_link)
 
     # Update the plugins factory
-    del EXTPLUGINS[name]
+    del extplugins[name]
     with open(EXTPLUGINS_FILE, "wt") as open_file:
-        json.dump(EXTPLUGINS, open_file, indent=4)
+        json.dump(extplugins, open_file, indent=4)
 
     return 0
