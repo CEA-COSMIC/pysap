@@ -12,6 +12,7 @@ This module checks that all the dependencies are installed properly.
 """
 
 # System import
+import json
 import importlib
 import distutils
 
@@ -21,6 +22,7 @@ from .info import REQUIRES
 from .info import LICENSE
 from .info import AUTHOR
 from .utils import logo
+from .plugins import EXTPLUGINS_FILE
 
 
 def _check_python_versions():
@@ -63,13 +65,23 @@ def info():
     info: str
         package information.
     """
+    with open(EXTPLUGINS_FILE, "rt") as open_file:
+        extplugins = json.load(open_file)
+    plugins = "External Plugins: \n\n"
+    for name, plugin_info in extplugins.items():
+        plugins += "{0:15s}: {1:9s} - {2:15s} | {3}".format(
+            name, plugin_info["version"], plugin_info["author"],
+            plugin_info["location"])
+    plugins += "\n"
     dependencies = "Dependencies: \n\n"
     dependencies_info = _check_python_versions()
     for name, (min_version, install_version) in dependencies_info.items():
         dependencies += "{0:15s}: {1:9s} - required | {2:9s} installed".format(
             name, min_version, install_version)
         dependencies += "\n"
+    dependencies += "\n"
     version = "Package version: {0}\n\n".format(__version__)
     license = "License: {0}\n\n".format(LICENSE)
     authors = "Authors: \n{0}\n".format(AUTHOR)
-    return logo() + "\n\n" + version + license + authors + dependencies
+    return (logo() + "\n\n" + version + license + authors + dependencies +
+            plugins)
