@@ -28,6 +28,8 @@ EXTPLUGINS_DIR = os.path.join(
     os.path.expanduser("~"), ".local", "share", "pysap", "extplugins")
 EXTPLUGINS_FILE = os.path.join(EXTPLUGINS_DIR, "pysap-extplugins.json")
 if not os.path.isfile(EXTPLUGINS_FILE):
+    if not os.path.isdir(EXTPLUGINS_DIR):
+        os.makedirs(EXTPLUGINS_DIR)
     with open(EXTPLUGINS_FILE, "wt") as open_file:
         open_file.write("{}")
 
@@ -66,10 +68,6 @@ def addplugin(location, update=False):
     status: int
         the command status: 0 imported, 1 already imported.
     """
-    # Check existance
-    if not os.path.isdir(EXTPLUGINS_DIR):
-        os.makedirs(EXTPLUGINS_DIR)
-
     # Check that the pysap plugins directory is in write mode
     pysap_plugin_dir = os.path.dirname(__file__)
     if not os.access(pysap_plugin_dir, os.W_OK):
