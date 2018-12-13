@@ -55,7 +55,7 @@ The above listed requirements can be readily installed on Mac OS using |link-to-
 
 .. code-block:: bash
 
-  $ brew install gcc cmake
+  brew install gcc cmake
 
 Note that the commands ``gcc`` and ``g++`` default to ``clang``. Before
 installing PySAP you should export the environment variables ``CC`` and ``CXX``.
@@ -64,8 +64,8 @@ installing PySAP you should export the environment variables ``CC`` and ``CXX``.
 
 .. code-block:: bash
 
-  $ export CC="/usr/local/bin/gcc-8"
-  $ export CXX="/usr/local/bin/g++-8"
+  export CC="/usr/local/bin/gcc-8"
+  export CXX="/usr/local/bin/g++-8"
 
 If you encounter problems re-compiling PySAP following an OS update it may be necessary to uninstall Homebrew and repeat these steps.
 
@@ -113,7 +113,7 @@ easiest solution to this problem is to install the package using |link-to-conda|
 
 .. code-block:: bash
 
-  $ conda install pyqtgraph
+  conda install pyqtgraph
 
 Alternatively see the |link-to-pyqt| for help.
 
