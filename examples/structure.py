@@ -8,7 +8,7 @@ pysap is a Python package related to sparsity and its application in
 astronomical or mediacal data analysis. This package also bind the 'sparse2d'
 C++ library that allows fast and extended sparse decomposition, denoising and
 deconvolution. It is accessible to everybody, and is reusable in various
-contexts. The project is hosted on github: https://github.com/neurospin/pysap.
+contexts. The project is hosted on github: https://github.com/CEA-COSMIC/pysap.
 
 First checks
 ------------
