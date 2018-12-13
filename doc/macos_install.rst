@@ -2,9 +2,9 @@ Mac OS Installation
 ===================
 
 Some additional steps beyond the standard installation instructions may be
-required for certain Mac OS systems.
+required for certain macOS systems.
 
-The steps detailed in this document have been tested for **Mac OS 10.13.3**.
+The steps detailed in this document were last tested for **macOS 10.14.1**.
 
 
 Contents
@@ -12,12 +12,15 @@ Contents
 
 1. `Requirements`_
 
-   1. `Homebrew`_
+   1. `Xcode Command Line Tools`_
+   2. `Homebrew`_
 
 2. `Troubleshooting`_
 
-   1. `PyQtGraph`_
-   2. `Matplotlib`_
+   1. `Python3`_
+   2. `PyQtGraph`_
+   3. `Matplotlib`_
+   4. `CFITSIO`_
 
 Requirements
 ============
@@ -30,6 +33,15 @@ The following packages are required in order to build PySAP:
   OS ``clang`` does not)
 
 2. ``cmake``
+
+Xcode Command Line Tools
+------------------------
+
+An essential first step for any developer working on macOS is to install the command line tools. This can be done as follows
+
+.. code-block:: bash
+
+  xcode-select --install
 
 Homebrew
 --------
@@ -52,8 +64,10 @@ installing PySAP you should export the environment variables ``CC`` and ``CXX``.
 
 .. code-block:: bash
 
-  $ export CC="/usr/local/bin/gcc-7"
-  $ export CXX="/usr/local/bin/g++-7"
+  $ export CC="/usr/local/bin/gcc-8"
+  $ export CXX="/usr/local/bin/g++-8"
+
+If you encounter problems re-compiling PySAP following an OS update it may be necessary to uninstall Homebrew and repeat these steps.
 
 Troubleshooting
 ===============
@@ -124,3 +138,24 @@ simply create a ``matplotlibrc`` file and specify a backend.
 .. code-block:: bash
 
   echo "backend: Agg" >> ~/.matplotlib/matplotlibrc
+
+CFITSIO
+-------
+
+If you encounter this error
+
+.. code-block:: bash
+
+  configure: error: cannot run C compiled programs.
+  If you meant to cross compile, use `--host'.
+  See `config.log' for more details
+  make[2]: *** [cfitsio/src/cfitsio-stamp/cfitsio-configure] Error 1
+  make[1]: *** [CMakeFiles/cfitsio.dir/all] Error 2
+  make[1]: *** Waiting for unfinished jobs....
+
+It may be necessary to install the macOS SDK headers. This can be done as follows
+
+.. code-block:: bash
+
+  cd /Library/Developer/CommandLineTools/Packages/
+  open macOS_SDK_headers_for_macOS_10.14.pkg
