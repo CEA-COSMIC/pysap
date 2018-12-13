@@ -17,7 +17,7 @@ Contents
 
 2. `Troubleshooting`_
 
-   1. `Python3`_
+   1. `Python 3`_
    2. `PyQtGraph`_
    3. `Matplotlib`_
    4. `CFITSIO`_
