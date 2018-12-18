@@ -122,9 +122,9 @@ class FFT2(FourierBase):
 
 class NFFT(FourierBase):
     """ ND non catesian Fast Fourrier Transform class
-    The NFFT will normalize in a symmetric way the direct and adjoint operator.
-    This means that both the direct and adjoint operator will be divided by the
-    squarre root of the number of samples in the fourier domain.
+    The NFFT will normalize like the FFT operator.
+    This means that the adjoint operator will be divided by the number of
+    samples in the fourier domain.
 
     Attributes
     ----------
@@ -159,8 +159,8 @@ class NFFT(FourierBase):
         >>> samples = convert_mask_to_locations(np.ones(I.shape))
         >>> fourier_op = NFFT(samples=samples, shape=I.shape)
         >>> x_nfft = fourier_op.op(I)
-        >>> x_fft = np.fft.ifftshift(np.fft.fft2(np.fftshift(I))).flatten()
-        >>> np.mean(np.abs(x_fft / np.sqrt(np.prod(I.shape)) / x_nfft))
+        >>> x_fft = np.fft.ifftshift(np.fft.fft2(np.fft.fftshift(I))).flatten()
+        >>> np.mean(np.abs(x_fft / x_nfft))
         1.000000000000005
         """
         if samples.shape[-1] != len(shape):
