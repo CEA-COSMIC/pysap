@@ -19,7 +19,7 @@ check the package version
 
 import pysap
 
-print pysap.__version__
+print(pysap.__version__)
 
 #############################################################################
 # Now you can run the the configuration info function to see if all the
@@ -27,7 +27,7 @@ print pysap.__version__
 
 import pysap.configure
 
-print pysap.configure.info()
+print(pysap.configure.info())
 
 #############################################################################
 # Import astronomical data
@@ -42,9 +42,9 @@ from pprint import pprint
 from pysap.data import get_sample_data
 
 image = get_sample_data("astro-fits")
-print image.shape, image.spacing, image.data_type
+print(image.shape, image.spacing, image.data_type)
 pprint(image.metadata)
-print image.data.dtype
+print(image.data.dtype)
 image.show()
 
 #############################################################################
@@ -61,9 +61,9 @@ from pysap.data import get_sample_data
 
 image = get_sample_data("mri-nifti")
 image.scroll_axis = 2
-print image.shape, image.spacing, image.data_type
+print(image.shape, image.spacing, image.data_type)
 pprint(image.metadata)
-print image.data.dtype
+print(image.data.dtype)
 image.show()
 
 #############################################################################
@@ -71,21 +71,35 @@ image.show()
 # ------------------------------------------------------------------
 #
 # The package provides also a common interface to the ISAP C++ software
-# developped by the COSMOSTAT lab. The code is optimzed and give access to
-# many decompsition strategies. All the ISAP library decompositions have
-# been declared in a registery:
+# developped by the COSMOSTAT lab and PyWavelet. The code is optimzed and give
+# access to many decompsition strategies. All the decompositions
+# have been declared in a registery:
 
 from pprint import pprint
 import pysap
 
-pprint(pysap.AVAILABLE_TRANSFORMS)
+pprint(pysap.wavelist())
+pprint(pysap.wavelist(family="isap-3d"))
 
 #############################################################################
-# We illustrate the the decompose/recompose using a 'FastCurveletTransform'
+# We illustrate the the decompose/recompose using a 'Daubechies' from pywt
 # and 4 scales:
 
 import pysap
 from pysap.data import get_sample_data
+
+image = get_sample_data("mri-slice-nifti")
+transform_klass = pysap.load_transform("Db3")
+transform = transform_klass(nb_scale=4, verbose=1)
+transform.data = image
+transform.analysis()
+transform.show()
+rec_image = transform.synthesis()
+rec_image.show()
+
+#############################################################################
+# We illustrate the the decompose/recompose using a 'FastCurveletTransform'
+# from ISAP and 4 scales:
 
 image = get_sample_data("mri-slice-nifti")
 transform_klass = pysap.load_transform("FastCurveletTransform")
