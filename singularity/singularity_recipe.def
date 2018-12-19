@@ -1,0 +1,58 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+
+%help
+    Singularity container for pySAP & Python3.
+
+    Contains:
+    - astropy
+    - ipython
+    - matplotlib
+    - modopt
+    - nibabel
+    - nilearn
+    - numpy
+    - progressbar2
+    - pyNFFT
+    - pyqtgraph
+    - python-pySAP
+    - PyWavelets
+    - scikit-learn
+    - scipy
+
+%labels
+    Maintainer Antoine Grigis <antoine.grigis@cea.fr>
+    Version v1.0.0
+
+%runscript
+    echo "Executing command in singularity container using Python3..."
+    exec python3 "$@"
+
+%post
+    echo "Adding NeuroDebian..."
+    mkdir /scratch
+    apt-get update -y
+    apt install tree gnupg2 wget eatmydata nano -y 
+    wget -O- http://neuro.debian.net/lists/stretch.de-md.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
+    while true; do
+	    apt-key adv --recv-keys --keyserver hkp://eu.pool.sks-keyservers.net:80 0xA5D32F012649A5A9 || continue
+	    break
+    done
+    apt-get update -y
+
+    echo "Adding Python3 tools..."
+    apt install python3-pip ipython3 -y
+
+    echo "Adding pysap..."
+    apt install cmake git python3-pyqt4 python3-tk -y
+    pip3 install python-pysap
+
+    echo "Adding Python3 modules..."
+    apt install libnfft3-dev -y
+    pip3 install scikit-image joblib scikit-learn nilearn PyWavelets
+    pip3 install cython git+https://github.com/ghisvail/pyNFFT.git
+    
+%environment
+    export LC_ALL=C
+
