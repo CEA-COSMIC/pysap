@@ -3,8 +3,8 @@
 #specific version of python                              #
 #========================================================#
 
-set(BoostVersion 1.66.0)
-set(BoostSHA256 5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9)
+set(BoostVersion 1.68.0)
+set(BoostSHA256 7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7)
 
 string(REGEX REPLACE "beta\\.([0-9])$" "beta\\1" BoostFolderName ${BoostVersion})
 string(REPLACE "." "_" BoostFolderName ${BoostFolderName})
@@ -30,11 +30,5 @@ ExternalProject_Add(Boost
 
 set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/extern/lib/ )
 set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/extern/include/ )
-
-if(${PYTHON_VERSION_STRING} GREATER 3.0)
-  message(STATUS "Using Python3")
-  set(Boost_LIBRARIES -lboost_python3 -lboost_numpy3)
-else()
-  message(STATUS "Using Python2")
-  set(Boost_LIBRARIES -lboost_python -lboost_numpy)
-endif()
+set(PYTHON_EXT "${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}")
+set(Boost_LIBRARIES "-lboost_python${PYTHON_EXT} -lboost_numpy${PYTHON_EXT}")
