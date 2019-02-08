@@ -224,7 +224,7 @@ def mr3d_transform(
         for key, value in [("-l", type_of_lifting_transform),
                            ("-T", type_of_filters)]:
             if value is not None:
-                    cmd += [key, value]
+                cmd += [key, value]
         for key, value in [("-L", use_l2_norm)]:
             if value:
                 cmd.append(key)
@@ -233,7 +233,7 @@ def mr3d_transform(
     if type_of_multiresolution_transform == 2:
         for key, value in [("-l", type_of_lifting_transform)]:
             if value is not None:
-                    cmd += [key, value]
+                cmd += [key, value]
 
     # A trous wavelet transform
     if type_of_multiresolution_transform == 3:
@@ -242,7 +242,7 @@ def mr3d_transform(
             raise ValueError("Wrong type of lifting transform with orthogonal")
         for key, value in [("-l", type_of_lifting_transform)]:
             if value is not None:
-                    cmd += [key, value]
+                cmd += [key, value]
 
     cmd += [in_image, out_mr_file]
 

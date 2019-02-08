@@ -220,8 +220,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         if not all([e == data.shape[0] for e in data.shape]):
             raise ValueError("Expect a square shape data.")
         if data.ndim != self.data_dim:
-                raise ValueError("This wavelet can only be applied on {0}D "
-                                 "square images".format(self.data_dim))
+            raise ValueError("This wavelet can only be applied on {0}D "
+                             "square images".format(self.data_dim))
         if self.is_decimated and not (data.shape[0] // 2**(self.nb_scale) > 0):
             raise ValueError("Can't decimate the data with the specified "
                              "number of scales.")
