@@ -59,7 +59,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
     Available transforms are define in 'pysap.transform'.
     """
-    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
+    def __init__(self, nb_scale, verbose=0, dim=2, use_wrapping=False, **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -81,7 +81,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         self.nb_band_per_scale = None
         self.is_decimated = None
         self.data_dim = dim
-        self.use_wrapping = False
+        self.use_wrapping = use_wrapping
 
         # Data that can be decalred afterward
         self._data = None

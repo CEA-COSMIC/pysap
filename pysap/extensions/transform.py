@@ -29,6 +29,7 @@ Available transform from pywt are:
 # System import
 from __future__ import print_function, absolute_import
 import os
+import warnings
 
 # Package import
 import pysap
@@ -271,11 +272,13 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         self.unflatten_fct = None
         self.scales_lengths = None
         self.scales_padds = None
-        self.use_wrapping = pysparse is None
+
+        use_wrapping = pysparse is None
 
         # Inheritance
         super(ISAPWaveletTransformBase, self).__init__(
-            nb_scale, verbose=verbose, dim=dim, **kwargs)
+            nb_scale, verbose=verbose, dim=dim, use_wrapping=use_wrapping,
+            **kwargs)
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
