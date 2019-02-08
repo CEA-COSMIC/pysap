@@ -69,6 +69,16 @@ installing PySAP you should export the environment variables ``CC`` and ``CXX``.
 
 If you encounter problems re-compiling PySAP following an OS update it may be necessary to uninstall Homebrew and repeat these steps.
 
+In some cases Boost will have trouble finding the correct version of gcc, if so the following hack can be implemented (even just temporarily).
+
+.. code-block:: bash
+
+   cd /usr/local/bin
+   ln -s gcc-8 gcc
+   ln -s g++-8 g++
+   ln -s gcc cc
+   ln -s g++ c++
+
 Troubleshooting
 ===============
 
