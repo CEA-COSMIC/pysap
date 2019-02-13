@@ -45,10 +45,15 @@ def _check_python_versions():
             raise ValueError("'{0}' dependency no formatted correctly.".format(
                 dependency))
         mod_name, mod_min_version = dependency.split(operator)
+        mod_name_real = mod_name
         if mod_name == "progressbar2":
-            mod_name = "progressbar"
+            mod_name_real = "progressbar"
+        elif mod_name == "PyWavelets":
+            mod_name_real = "pywt"
+        elif mod_name == "scikit-learn":
+            mod_name_real = "sklearn"
         try:
-            mod_install_version = importlib.import_module(mod_name).__version__
+            mod_install_version = importlib.import_module(mod_name_real).__version__
         except:
             mod_install_version = "?"
         versions[mod_name] = (operator + mod_min_version, mod_install_version)
