@@ -85,14 +85,14 @@ class TestOptimizer(unittest.TestCase):
                                             fftshift(self.mask)),
                                      shape=image.shape)
                     data_0 = fourier_0.op(numpy.fft.fftshift(image.data))
-                    self.assertTrue(numpy.allclose(x_final.all(),
+                    self.assertTrue(numpy.allclose(x_final.any(),
                                     numpy.fft.ifftshift(
-                                    fourier_0.adj_op(data_0)).all(),
+                                    fourier_0.adj_op(data_0)).any(),
                                     rtol=1e-10))
-                    mismatch = (1. - numpy.mean(
-                        numpy.allclose(x_final, fourier.adj_op(data),
-                                       rtol=1e-3)))
-                    print("      mismatch = ", mismatch)
+                    mean_square_error = numpy.mean(
+                        numpy.abs(x_final - numpy.fft.ifftshift(
+                                            fourier_0.adj_op(data_0)))**2)
+                    print("      Mean Square Error = ", mean_square_error)
 
     def test_reconstruction_condat_vu_fft2(self):
         """ Test all the registered transformations.
@@ -142,20 +142,21 @@ class TestOptimizer(unittest.TestCase):
                                             fftshift(self.mask)),
                                      shape=image.shape)
                     data_0 = fourier_0.op(numpy.fft.fftshift(image.data))
-                    self.assertTrue(numpy.allclose(x_final.all(),
+
+                    self.assertTrue(numpy.allclose(x_final.any(),
                                     numpy.fft.ifftshift(
-                                        fourier_0.adj_op(data_0)).all(),
+                                        fourier_0.adj_op(data_0)).any(),
                                     rtol=1e-10))
-                    mismatch = (1. - numpy.mean(
-                        numpy.allclose(x_final, fourier.adj_op(data),
-                                       rtol=1e-3)))
-                    print("      mismatch = ", mismatch)
+                    mean_square_error = numpy.mean(
+                        numpy.abs(x_final - numpy.fft.ifftshift(
+                                            fourier_0.adj_op(data_0)))**2)
+                    print("      Mean Square Error = ", mean_square_error)
                     return
 
     def test_reconstruction_fista_nfft2(self):
         """ Test all the registered transformations.
         """
-        print("Process test FFT2 FISTA::")
+        print("Process test NFFT2 FISTA::")
         for image in self.images:
             fourier = NFFT(samples=convert_mask_to_locations(
                                             self.mask),
@@ -192,19 +193,19 @@ class TestOptimizer(unittest.TestCase):
                                             fftshift(self.mask)),
                                      shape=image.shape)
                     data_0 = fourier_0.op(numpy.fft.fftshift(image.data))
-                    self.assertTrue(numpy.allclose(x_final.all(),
+                    self.assertTrue(numpy.allclose(x_final.any(),
                                     numpy.fft.ifftshift(
-                                    fourier_0.adj_op(data_0)).all(),
+                                    fourier_0.adj_op(data_0)).any(),
                                     rtol=1e-10))
-                    mismatch = (1. - numpy.mean(
-                        numpy.allclose(x_final, fourier.adj_op(data),
-                                       rtol=1e-3)))
-                    print("      mismatch = ", mismatch)
+                    mean_square_error = numpy.mean(
+                        numpy.abs(x_final - numpy.fft.ifftshift(
+                                            fourier_0.adj_op(data_0)))**2)
+                    print("      Mean Square Error = ", mean_square_error)
 
     def test_reconstruction_condat_vu_nfft2(self):
         """ Test all the registered transformations.
         """
-        print("Process test FFT2 Condat Vu algorithm::")
+        print("Process test NFFT2 Condat Vu algorithm::")
         for image in self.images:
             fourier = NFFT(samples=convert_mask_to_locations(
                                             self.mask),
@@ -247,14 +248,14 @@ class TestOptimizer(unittest.TestCase):
                                             fftshift(self.mask)),
                                      shape=image.shape)
                     data_0 = fourier_0.op(numpy.fft.fftshift(image.data))
-                    self.assertTrue(numpy.allclose(x_final.all(),
+                    self.assertTrue(numpy.allclose(x_final.any(),
                                     numpy.fft.ifftshift(
-                                        fourier_0.adj_op(data_0)).all(),
+                                        fourier_0.adj_op(data_0)).any(),
                                     rtol=1e-10))
-                    mismatch = (1. - numpy.mean(
-                        numpy.allclose(x_final, fourier.adj_op(data),
-                                       rtol=1e-3)))
-                    print("      mismatch = ", mismatch)
+                    mean_square_error = numpy.mean(
+                        numpy.abs(x_final - numpy.fft.ifftshift(
+                                            fourier_0.adj_op(data_0)))**2)
+                    print("      Mean Square Error = ", mean_square_error)
                     return
 
 
