@@ -71,7 +71,8 @@ class PyWaveletTransformBase(WaveletTransformBase):
         axes: list of int, default None
             axes over which to compute the transform.
         padding_mode: str, default zero
-            ways to extend the signal when computing the decomposition. Refer to
+            ways to extend the signal when computing the decomposition.
+            Refer to
             https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html
             for more explanations.
         """
@@ -87,7 +88,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
                 self.padding_mode = padding_mode
             else:
                 raise ValueError(
-                    "%s is not a valid padding mode, it should be one of %s" % (
+                    "%s is not a valid padding mode, should be one of %s" % (
                         padding_mode,
                         ", ".join(pywt.Modes.modes),
                     )
