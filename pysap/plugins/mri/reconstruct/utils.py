@@ -23,17 +23,21 @@ def convert_mask_to_locations(mask):
     Parameters
     ----------
     mask: np.ndarray, {0,1}
-        2D matrix, not necessarly a square matrix.
+        ND matrix, not necessarly a square matrix.
 
     Returns
     -------
     samples_locations: np.ndarray
-        list of the samples between [-0.5, 0.5[.
+        samples location between [-0.5, 0.5[ of shape MxN where M is the
+        number of 1 values in the mask.
     """
-    row, col = np.where(mask == 1)
-    row = row.astype("float") / mask.shape[0] - 0.5
-    col = col.astype("float") / mask.shape[1] - 0.5
-    return np.c_[row, col]
+    locations = np.where(mask == 1)
+    rslt = []
+    for dim, loc in enumerate(locations):
+        loc_n = loc.astype("float") / mask.shape[dim] - 0.5
+        rslt.append(loc_n)
+
+    return np.asarray(rslt).T
 
 
 def convert_locations_to_mask(samples_locations, img_shape):
@@ -42,7 +46,7 @@ def convert_locations_to_mask(samples_locations, img_shape):
     Parameters
     ----------
     samples_locations: np.ndarray
-        list of the samples between [-0.5, 0.5[.
+        samples locations between [-0.5, 0.5[.
     img_shape: tuple of int
         shape of the desired mask, not necessarly a square matrix.
 
@@ -51,14 +55,23 @@ def convert_locations_to_mask(samples_locations, img_shape):
     mask: np.ndarray, {0,1}
         2D matrix, not necessarly a square matrix.
     """
-    samples_locations = samples_locations.astype("float")
-    samples_locations += 0.5
-    samples_locations[:, 0] *= img_shape[0]
-    samples_locations[:, 1] *= img_shape[1]
-    samples_locations = np.floor(samples_locations)
-    samples_locations = samples_locations.astype("int")
-    mask = np.zeros(img_shape)
-    mask[samples_locations[:, 0], samples_locations[:, 1]] = 1
+    if samples_locations.shape[-1] != len(img_shape):
+        raise ValueError("Samples locations dimension doesn't correspond to ",
+                         "the dimension of the image shape")
+    locations = np.copy(samples_locations).astype("float")
+    test = []
+    locations += 0.5
+    for dimension in range(len(img_shape)):
+        locations[:, dimension] *= img_shape[dimension]
+        if locations[:, dimension].max() >= img_shape[dimension]:
+            warnings.warn("One or more samples have been found to exceed " +
+                          "image dimension. They will be removed")
+            locations = np.delete(locations, np.where(
+                locations[:, dimension] >= img_shape[dimension]), 0)
+        locations[:, dimension] = np.floor(locations[:, dimension])
+        test.append(list(locations[:, dimension].astype("int")))
+    mask = np.zeros(img_shape, dtype="int")
+    mask[test] = 1
     return mask
 
 
@@ -134,7 +147,7 @@ def generate_operators(data, wavelet_name, samples, nb_scales=4,
     from pysap.numerics.cost import DualGapCost
     from pysap.numerics.linear import Wavelet2
     from pysap.numerics.fourier import FFT2
-    from pysap.numerics.fourier import NFFT2
+    from pysap.numerics.fourier import NFFT
     from pysap.numerics.gradient import GradAnalysis2
     from pysap.numerics.gradient import GradSynthesis2
     from modopt.opt.proximity import SparseThreshold
@@ -157,7 +170,7 @@ def generate_operators(data, wavelet_name, samples, nb_scales=4,
         nb_scale=nb_scales,
         wavelet_name=wavelet_name)
     if non_cartesian:
-        fourier_op = NFFT2(
+        fourier_op = NFFT(
             samples=samples,
             shape=uniform_data_shape)
     else:

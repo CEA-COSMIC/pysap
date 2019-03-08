@@ -26,7 +26,6 @@ except Exception:
     warnings.warn("pynfft python package has not been found. If needed use "
                   "the master release.")
     pass
-import scipy.fftpack as pfft
 
 
 class FourierBase(object):
@@ -65,7 +64,8 @@ class FourierBase(object):
 
 
 class FFT2(FourierBase):
-    """ Standard 2D Fast Fourrier Transform class.
+    """ Standard unitary 2D Fast Fourrier Transform class.
+    The FFT2 will be normalized in a symmetric way
 
     Attributes
     ----------
@@ -101,7 +101,7 @@ class FFT2(FourierBase):
         x: np.ndarray
             masked Fourier transform of the input image.
         """
-        return self._mask * pfft.fft2(img)
+        return self._mask * np.fft.fft2(img, norm="ortho")
 
     def adj_op(self, x):
         """ This method calculates inverse masked Fourier transform of a 2-D
@@ -117,30 +117,56 @@ class FFT2(FourierBase):
         img: np.ndarray
             inverse 2D discrete Fourier transform of the input coefficients.
         """
-        return pfft.ifft2(self._mask * x)
+        return np.fft.ifft2(self._mask * x, norm="ortho")
 
 
-class NFFT2(FourierBase):
-    """ Standard 2D non catesian Fast Fourrier Transform class
+class NFFT(FourierBase):
+    """ ND non catesian Fast Fourrier Transform class
+    The NFFT will normalize like the FFT2 i.e. in a symetric way.
+    This means that both direct and adjoint operator will be divided by the
+    square root of the number of samples in the fourier domain.
 
     Attributes
     ----------
     samples: np.ndarray
-        the mask samples in the Fourier domain.
+        the samples locations in the Fourier domain between [-0.5; 0.5[.
     shape: tuple of int
         shape of the image (not necessarly a square matrix).
     """
 
     def __init__(self, samples, shape):
-        """ Initilize the 'NFFT2' class.
+        """ Initilize the 'NFFT' class.
 
         Parameters
         ----------
-        samples: np.ndarray
-            the mask samples in the Fourier domain.
+        samples: np.ndarray (Mxd)
+            the samples locations in the Fourier domain where M is the number
+            of samples and d is the dimensionnality of the output data
+            (2D for an image, 3D for a volume).
         shape: tuple of int
             shape of the image (not necessarly a square matrix).
+
+        Exemple
+        -------
+        >>> import numpy as np
+        >>> from pysap.data import get_sample_data
+        >>> from pysap.numerics.fourier import NFFT, FFT2
+        >>> from pysap.plugins.mri.reconstruct.utils import \
+        convert_mask_to_locations
+
+        >>> I = get_sample_data("2d-pmri").data.astype("complex128")
+        >>> I = I[0]
+        >>> samples = convert_mask_to_locations(np.ones(I.shape))
+        >>> fourier_op = NFFT(samples=samples, shape=I.shape)
+        >>> cartesian_fourier_op = FFT2(samples=samples, shape=I.shape)
+        >>> x_nfft = fourier_op.op(I)
+        >>> x_fft = np.fft.ifftshift(cartesian_fourier_op.op(
+                np.fft.fftshift(I))).flatten()
+        >>> np.mean(np.abs(x_fft / x_nfft))
+        1.000000000000005
         """
+        if samples.shape[-1] != len(shape):
+            raise ValueError("Samples and Shape dimension doesn't correspond")
         self.samples = samples
         if samples.min() < -0.5 or samples.max() >= 0.5:
             warnings.warn("Samples will be normalized between [-0.5; 0.5[")
@@ -152,12 +178,12 @@ class NFFT2(FourierBase):
 
     def op(self, img):
         """ This method calculates the masked non-cartesian Fourier transform
-        of a 2-D image.
+        of a N-D data.
 
         Parameters
         ----------
         img: np.ndarray
-            input 2D array with the same shape as the mask.
+            input ND array with the same shape as the mask.
 
         Returns
         -------
@@ -165,7 +191,7 @@ class NFFT2(FourierBase):
             masked Fourier transform of the input image.
         """
         self.plan.f_hat = img
-        return np.copy(self.plan.trafo())
+        return np.copy(self.plan.trafo()) / np.sqrt(self.plan.M)
 
     def adj_op(self, x):
         """ This method calculates inverse masked non-cartesian Fourier
@@ -182,4 +208,4 @@ class NFFT2(FourierBase):
             inverse 2D discrete Fourier transform of the input coefficients.
         """
         self.plan.f = x
-        return np.copy((1.0 / self.plan.M) * self.plan.adjoint())
+        return np.copy(self.plan.adjoint()) / np.sqrt(self.plan.M)
