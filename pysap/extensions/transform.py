@@ -52,7 +52,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
     __family__ = "pywt"
 
     def __init__(self, nb_scale, verbose=0, dim=2, is_decimated=True,
-                 axes=None, **kwargs):
+                 axes=None, padding_mode="zero", **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -70,6 +70,10 @@ class PyWaveletTransformBase(WaveletTransformBase):
             use a decimated or undecimated transform.
         axes: list of int, default None
             axes over which to compute the transform.
+        padding_mode: str, default zero
+            ways to extend the signal when computing the decomposition. Refer to
+            https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html
+            for more explanations.
         """
         # Inheritance
         super(PyWaveletTransformBase, self).__init__(
@@ -78,6 +82,16 @@ class PyWaveletTransformBase(WaveletTransformBase):
         # pywt Wavelet transform parameters
         self.is_decimated = is_decimated
         self.axes = axes
+        if is_decimated:
+            if padding_mode in pywt.Modes.modes:
+                self.padding_mode = padding_mode
+            else:
+                raise ValueError(
+                    "%s is not a valid padding mode, it should be one of %s" % (
+                        padding_mode,
+                        ", ".join(pywt.Modes.modes),
+                    )
+                )
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
@@ -102,7 +116,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
             the decomposition associated information.
         """
         if self.is_decimated:
-            coeffs = pywt.wavedecn(data, self.trf, mode="symmetric",
+            coeffs = pywt.wavedecn(data, self.trf, mode=self.padding_mode,
                                    level=self.nb_scale, axes=self.axes)
         else:
             coeffs = pywt.swtn(data, self.trf, level=self.nb_scale,
@@ -130,7 +144,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
         """
         coeffs = self._organize_pywt(analysis_data, analysis_header)
         if self.is_decimated:
-            data = pywt.waverecn(coeffs, self.trf, mode="symmetric",
+            data = pywt.waverecn(coeffs, self.trf, mode=self.padding_mode,
                                  axes=self.axes)
         else:
             data = pywt.iswtn(coeffs, self.trf, axes=self.axes)
