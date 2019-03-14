@@ -79,7 +79,6 @@ class TestOptimizer(unittest.TestCase):
                         mu=0,
                         lambda_init=1.0,
                         max_nb_of_iter=self.nb_iter,
-                        atol=1e-4,
                         verbose=0)
                     fourier_0 = FFT2(samples=convert_mask_to_locations(
                                             fftshift(self.mask)),
