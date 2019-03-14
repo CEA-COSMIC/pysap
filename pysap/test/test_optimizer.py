@@ -135,7 +135,6 @@ class TestOptimizer(unittest.TestCase):
                         nb_of_reweights=0,
                         max_nb_of_iter=self.nb_iter,
                         add_positivity=False,
-                        atol=1e-4,
                         verbose=0)
                     fourier_0 = FFT2(samples=convert_mask_to_locations(
                                             fftshift(self.mask)),
