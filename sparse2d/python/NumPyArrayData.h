@@ -9,6 +9,7 @@
 #pragma once
 
 #include <omp.h>
+#include <pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/numpy.hpp>
 #include <stdexcept>
@@ -16,7 +17,7 @@
 #include <sparse2d/IM_Obj.h>
 #include <sparse2d/IM_IO.h>
 
-
+namespace py = pybind11;
 namespace bp = boost::python;
 namespace bn = boost::python::numpy;
 

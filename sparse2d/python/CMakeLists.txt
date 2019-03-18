@@ -40,7 +40,7 @@ project(pysparse)
 
   # Compilation flags
   #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-  set(CMAKE_CXX_FLAGS "-std=c++03 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+  set(CMAKE_CXX_FLAGS "-std=c++11 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
 
   # Custom modules
   include(BuildBoost)

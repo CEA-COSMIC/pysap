@@ -9,10 +9,12 @@
 // May check pybind11
 
 // Includes
+#include <pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/numpy.hpp>
 
 // Namespaces
+namespace py = pybind11;
 namespace bp = boost::python;
 namespace bn = boost::python::numpy;
 
@@ -61,7 +63,7 @@ BOOST_PYTHON_MODULE(pysparse){
 
         // Transform method
         {
-            typedef ::bp::list ( ::MRTransform::*Transform_function_type)( ::bn::ndarray, bool ) ;
+            typedef ::py::list ( ::MRTransform::*Transform_function_type)( ::bn::ndarray, bool ) ;
             MRTransform_exposer.def(
                 "transform",
                 Transform_function_type( &::MRTransform::Transform ),
@@ -123,7 +125,7 @@ BOOST_PYTHON_MODULE(pysparse){
 
         // Transform method
         {
-            typedef ::bp::list ( ::MRTransform3D::*Transform_function_type)( ::bn::ndarray, bool ) ;
+            typedef ::py::list ( ::MRTransform3D::*Transform_function_type)( ::bn::ndarray, bool ) ;
             MRTransform3D_exposer.def(
                 "transform",
                 Transform_function_type( &::MRTransform3D::Transform ),

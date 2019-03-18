@@ -52,7 +52,7 @@ public:
     void Info();
 
     // Transform method
-    bp::list Transform(const bn::ndarray& arr, bool save=false);
+    py::list Transform(const bn::ndarray& arr, bool save=false);
 
     // Reconstruction method
     bn::ndarray Reconstruct(bp::list mr_data);
@@ -201,7 +201,7 @@ void MRTransform3D::Info(){
 
 
 // Transform method
-bp::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
+py::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
 
     // Create the transformation
     fltarray data = array2image_3d(arr);
@@ -243,7 +243,7 @@ bp::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
         Save(mr);
 
     // Return the generated bands data
-    bp::list mr_data;
+    py::list mr_data;
     for (int s=0; s<mr.nbr_band(); s++) {
         fltarray tmpband;
         mr.get_band(s, tmpband);
@@ -251,7 +251,7 @@ bp::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
     }
 
     // Get the number of bands for each scale
-    bp::list mr_scale;
+    py::list mr_scale;
 
     // WARNING: This code is a fix as the method nbr_band_per_resol() hasn't
     // been implemented in the 3D case
@@ -271,7 +271,7 @@ bp::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
     }
 
     // Format the result
-    bp::list mr_result;
+    py::list mr_result;
     mr_result.append(mr_data);
     mr_result.append(mr_scale);
 

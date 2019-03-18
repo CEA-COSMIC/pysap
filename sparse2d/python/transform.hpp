@@ -45,7 +45,7 @@ public:
     void Info();
 
     // Transform method
-    bp::list Transform(const bn::ndarray& arr, bool save=false);
+    py::list Transform(const bn::ndarray& arr, bool save=false);
 
     // Reconstruction method
     bn::ndarray Reconstruct(bp::list mr_data);
@@ -209,7 +209,7 @@ void MRTransform::Info(){
 }
 
 // Transform method
-bp::list MRTransform::Transform(const bn::ndarray& arr, bool save){
+py::list MRTransform::Transform(const bn::ndarray& arr, bool save){
     // Load the input image
     /*if (this->verbose > 0)
         cout << "Loading input image '" << this->m_ipath << "'..." << endl;
@@ -259,13 +259,13 @@ bp::list MRTransform::Transform(const bn::ndarray& arr, bool save){
         Save(mr);
 
     // Return the generated bands data
-    bp::list mr_data;
+    py::list mr_data;
     for (int s=0; s<mr.nbr_band(); s++) {
         mr_data.append(image2array_2d(mr.band(s)));
     }
 
     // Get the number of bands for each scale
-    bp::list mr_scale;
+    py::list mr_scale;
     int nb_bands_count = 0;
     for (int s=0; s<mr.nbr_scale(); s++) {
         nb_bands_count += mr.nbr_band_per_resol(s);
@@ -275,7 +275,7 @@ bp::list MRTransform::Transform(const bn::ndarray& arr, bool save){
         mr_scale[-1] = 1;
     }
     // Format the result
-    bp::list mr_result;
+    py::list mr_result;
     mr_result.append(mr_data);
     mr_result.append(mr_scale);
 
