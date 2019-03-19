@@ -62,8 +62,8 @@ install:
     - pip install astropy
     - pip install PyWavelets
     - pip install modopt
-    - pip install https://github.com/CEA-COSMIC/pysap-mri@master
-    - pip install https://github.com/CEA-COSMIC/pysap-astro@master
+    - pip install git+https://github.com/CEA-COSMIC/pysap-mri@master
+    - pip install git+https://github.com/CEA-COSMIC/pysap-astro@master
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
