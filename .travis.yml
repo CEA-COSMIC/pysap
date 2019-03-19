@@ -59,7 +59,7 @@ install:
     - pip install sklearn
     - pip install nibabel
     - pip install progressbar2
-    - pip install astropy
+    - pip install astropy==2.0.8
     - pip install PyWavelets
     - pip install modopt
     - pip install git+https://github.com/CEA-COSMIC/pysap-mri@master
