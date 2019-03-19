@@ -11,12 +11,12 @@ measurments.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.linear import Wavelet2
-from pysap.numerics.fourier import NFFT
-from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.gradient import Gradient_pMRI
-from pysap.numerics.proximity import Threshold
+from mri.numerics.linear import Wavelet2
+from mri.numerics.fourier import NFFT
+from mri.numerics.reconstruct import sparse_rec_fista
+from mri.numerics.reconstruct import sparse_rec_condatvu
+from mri.numerics.gradient import Gradient_pMRI
+from mri.numerics.proximity import Threshold
 from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import (
     extract_k_space_center_and_locations, get_Smaps)
 from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations

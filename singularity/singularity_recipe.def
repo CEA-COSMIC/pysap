@@ -47,6 +47,7 @@ From: ubuntu:16.04
     echo "Adding pysap..."
     apt install cmake git python3-pyqt4 python3-tk -y
     pip3 install python-pysap
+    #pip3 install "git+https://github.com/LElgueddari/pysap@elastic_net"
 
     echo "Adding Python3 modules..."
     apt install libnfft3-dev -y
