@@ -165,6 +165,7 @@ setup(
     install_requires=release_info["REQUIRES"],
     package_data=pkgdata,
     scripts=scripts,
+    dependency_links=release_info["DEPENDENCY_LINKS"],
     ext_modules=[CMakeExtension(
         "pysparse", sourcedir=os.path.join("sparse2d", "python"))],
     cmdclass={
