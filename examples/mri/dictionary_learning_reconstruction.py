@@ -18,12 +18,12 @@ We also add some gaussian noise in the image space.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.fourier import FFT2
-from pysap.numerics.gradient import GradAnalysis2
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.proximity import Threshold
-from pysap.numerics.utils import convert_mask_to_locations
-from pysap.numerics.cost import DualGapCost
+from mri.numerics.fourier import FFT2
+from mri.numerics.gradient import GradAnalysis2
+from mri.numerics.reconstruct import sparse_rec_condatvu
+from mri.numerics.proximity import Threshold
+from mri.numerics.utils import convert_mask_to_locations
+from mri.numerics.cost import DualGapCost
 from pysap.plugins.mri.dictionary_learning.utils import learn_dictionary
 from pysap.plugins.mri.dictionary_learning.utils import min_max_normalize
 from pysap.plugins.mri.dictionary_learning.linear import DictionaryLearning

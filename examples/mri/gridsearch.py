@@ -28,10 +28,10 @@ from modopt.math.metrics import ssim, snr, psnr, nrmse
 
 # Package import
 from pysap.data import get_sample_data
-from pysap.numerics.gridsearch import grid_search
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.numerics.utils import convert_mask_to_locations
+from mri.numerics.gridsearch import grid_search
+from mri.numerics.reconstruct import sparse_rec_condatvu
+from mri.numerics.reconstruct import sparse_rec_fista
+from mri.numerics.utils import convert_mask_to_locations
 
 
 #############################################################################

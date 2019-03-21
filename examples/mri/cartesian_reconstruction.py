@@ -18,10 +18,10 @@ We also add some gaussian noise in the image space.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.utils import generate_operators
-from pysap.numerics.utils import convert_mask_to_locations
+from pysap.plugins.mri.numerics.reconstruct import sparse_rec_fista
+from pysap.plugins.mri.numerics.reconstruct import sparse_rec_condatvu
+from pysap.plugins.mri.numerics.utils import generate_operators
+from pysap.plugins.mri.numerics.utils import convert_mask_to_locations
 
 # Third party import
 import numpy as np

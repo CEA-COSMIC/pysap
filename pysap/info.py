@@ -71,17 +71,20 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
 REQUIRES = [
-    "scipy>=1.0.0",
+    "scipy>=0.18.0",
     "numpy>=1.11.0",
-    "matplotlib>=2.1.2",
+    "matplotlib>=2.0.0",
     "future>=0.16.0",
     "astropy==2.0.8",
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",
-    "progressbar2>=3.34.3",
-    "modopt>=1.1.5",
-    "scikit-learn>=0.19.1",
-    "PyWavelets>=1.0.0"
+    "PyWavelets>=1.0.0",
+    "pysap-mri==0.0.0",
+    "pysap-astro==0.0.0"
+]
+DEPENDENCY_LINKS = [
+    "git+https://github.com/CEA-COSMIC/pysap-mri.git#egg=pysap-mri-0.0.0",
+    "git+https://github.com/CEA-COSMIC/pysap-astro.git#egg=pysap-astro-0.0.0",
 ]
 EXTRA_REQUIRES = {
     "gui": {

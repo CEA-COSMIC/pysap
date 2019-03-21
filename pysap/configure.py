@@ -45,8 +45,9 @@ def _check_python_versions():
             raise ValueError("'{0}' dependency no formatted correctly.".format(
                 dependency))
         mod_name, mod_min_version = dependency.split(operator)
-        if mod_name == "progressbar2":
-            mod_name = "progressbar"
+        mod_name = mod_name.replace("pysap-", "")
+        if mod_name == "PyWavelets":
+            mod_name = "pywt"
         try:
             mod_install_version = importlib.import_module(mod_name).__version__
         except:
