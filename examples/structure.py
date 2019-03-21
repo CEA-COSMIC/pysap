@@ -89,7 +89,7 @@ import pysap
 from pysap.data import get_sample_data
 
 image = get_sample_data("mri-slice-nifti")
-transform_klass = pysap.load_transform("Db3")
+transform_klass = pysap.load_transform("db3")
 transform = transform_klass(nb_scale=4, verbose=1)
 transform.data = image
 transform.analysis()
