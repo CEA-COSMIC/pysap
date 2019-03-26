@@ -35,7 +35,7 @@ BOOST_PYTHON_MODULE(pysparse){
         typedef bp::class_< MRTransform > MRTransform_exposer_t;
         MRTransform_exposer_t MRTransform_exposer = MRTransform_exposer_t(
             "MRTransform",
-            bp::init< int, bp::optional< int, int, int, int, bool, int, int, int > >(
+            bp::init< int, bp::optional< int, int, int, int, bool, int, int, int, int > >(
                 ( bp::arg("type_of_multiresolution_transform"),
                   bp::arg("type_of_lifting_transform")=(int)(3),
                   bp::arg("number_of_scales")=(int)(4),
@@ -43,6 +43,7 @@ BOOST_PYTHON_MODULE(pysparse){
                   bp::arg("type_of_filters")=(int)(1),
                   bp::arg("use_l2_norm")=(bool)(false),
                   bp::arg("type_of_non_orthog_filters")=(int)(2),
+                  bp::arg("bord")=(int)(0),
                   bp::arg("nb_procs")=(int)(0),
                   bp::arg("verbose")=(int)(0) )
             )

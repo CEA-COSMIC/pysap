@@ -52,7 +52,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
     __family__ = "pywt"
 
     def __init__(self, nb_scale, verbose=0, dim=2, is_decimated=True,
-                 axes=None, **kwargs):
+                 axes=None, padding_mode="zero", **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -70,6 +70,10 @@ class PyWaveletTransformBase(WaveletTransformBase):
             use a decimated or undecimated transform.
         axes: list of int, default None
             axes over which to compute the transform.
+        padding_mode: str, default zero
+            ways to extend the signal when computing the decomposition.
+            See https://pywavelets.readthedocs.io/en/latest/ref/
+            signal-extension-modes.html for more explanations.
         """
         # Inheritance
         super(PyWaveletTransformBase, self).__init__(
@@ -78,6 +82,11 @@ class PyWaveletTransformBase(WaveletTransformBase):
         # pywt Wavelet transform parameters
         self.is_decimated = is_decimated
         self.axes = axes
+        if padding_mode not in pywt.Modes.modes:
+            raise ValueError(
+                "'{0}' is not a valid padding mode, should be one of "
+                "{1}".format(padding_mode, pywt.Modes.modes))
+        self.padding_mode = padding_mode
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
@@ -102,7 +111,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
             the decomposition associated information.
         """
         if self.is_decimated:
-            coeffs = pywt.wavedecn(data, self.trf, mode="symmetric",
+            coeffs = pywt.wavedecn(data, self.trf, mode=self.padding_mode,
                                    level=self.nb_scale, axes=self.axes)
         else:
             coeffs = pywt.swtn(data, self.trf, level=self.nb_scale,
@@ -130,7 +139,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
         """
         coeffs = self._organize_pywt(analysis_data, analysis_header)
         if self.is_decimated:
-            data = pywt.waverecn(coeffs, self.trf, mode="symmetric",
+            data = pywt.waverecn(coeffs, self.trf, mode=self.padding_mode,
                                  axes=self.axes)
         else:
             data = pywt.iswtn(coeffs, self.trf, axes=self.axes)
@@ -247,8 +256,10 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
     __is_decimated__ = None
     __isap_nb_bands__ = None
     __isap_scale_shift__ = 0
+    __mods__ = ["zero", "constant", "symmetric", "periodic"]
 
-    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
+    def __init__(self, nb_scale, verbose=0, dim=2, padding_mode="zero",
+                 **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -262,6 +273,8 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
             control the verbosity level.
         dim: int, default 2
             define the data dimension.
+        padding_mode: str, default zero
+            ways to extend the signal when computing the decomposition.
         """
         # ISAP Wavelet transform parameters
         self.bands_lengths = None
@@ -272,6 +285,11 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         self.scales_lengths = None
         self.scales_padds = None
         self.use_wrapping = pysparse is None
+        if padding_mode not in self.__mods__:
+            raise ValueError(
+                "'{0}' is not a valid padding mode, should be one of "
+                "{1}".format(padding_mode, self.__mods__))
+        self.padding_mode = self.__mods__.index(padding_mode)
 
         # Inheritance
         super(ISAPWaveletTransformBase, self).__init__(
@@ -285,6 +303,7 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
                 self.__isap_transform_id__)
             kwargs["number_of_scales"] = self.nb_scale
             if self.data_dim == 2:
+                kwargs["bord"] = self.padding_mode
                 self.trf = pysparse.MRTransform(**kwargs)
             elif self.data_dim == 3:
                 self.trf = pysparse.MRTransform3D(**kwargs)

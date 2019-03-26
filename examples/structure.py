@@ -90,7 +90,7 @@ from pysap.data import get_sample_data
 
 image = get_sample_data("mri-slice-nifti")
 transform_klass = pysap.load_transform("db3")
-transform = transform_klass(nb_scale=4, verbose=1)
+transform = transform_klass(nb_scale=4, verbose=1, padding_mode="symmetric")
 transform.data = image
 transform.analysis()
 transform.show()
@@ -103,7 +103,7 @@ rec_image.show()
 
 image = get_sample_data("mri-slice-nifti")
 transform_klass = pysap.load_transform("FastCurveletTransform")
-transform = transform_klass(nb_scale=4, verbose=1)
+transform = transform_klass(nb_scale=4, verbose=1, padding_mode="zero")
 transform.data = image
 transform.analysis()
 transform.show()
