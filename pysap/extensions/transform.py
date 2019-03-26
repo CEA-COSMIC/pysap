@@ -278,6 +278,8 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
             ways to extend the signal when computing the decomposition.
         """
         # ISAP Wavelet transform parameters
+        if hasattr(self, "__family__") and self.__family__ in ("isap-3d", ):
+            dim = 3
         self.bands_lengths = None
         self.bands_shapes = None
         self.isap_transform_id = None
@@ -939,9 +941,6 @@ class OnLine44AndOnColumn53(ISAPWaveletTransformBase):
 class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
     """ Mallat's 3D wavelet transform (7/9 biorthogonal filters)
     """
-    def __init__(self, nb_scale, verbose, **kwargs):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale,
-                                          dim=3, **kwargs)
     __family__ = "isap-3d"
     __isap_transform_id__ = 1
     __isap_name__ = "3D Wavelet transform via lifting scheme"
@@ -952,9 +951,6 @@ class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
 class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
     """ Wavelet transform via lifting scheme.
     """
-    def __init__(self, nb_scale, verbose):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
-
     __family__ = "isap-3d"
     __isap_transform_id__ = 2
     __isap_name__ = "Wavelet transform via lifting scheme"
@@ -965,9 +961,6 @@ class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
 class ATrou3D(ISAPWaveletTransformBase):
     """ Wavelet transform with the A trou algorithm.
     """
-    def __init__(self, nb_scale, verbose):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
-
     __family__ = "isap-3d"
     __isap_transform_id__ = 3
     __isap_name__ = "3D Wavelet A Trou"
