@@ -29,6 +29,7 @@ Available transform from pywt are:
 # System import
 from __future__ import print_function, absolute_import
 import os
+import warnings
 
 # Package import
 import pysap
@@ -284,7 +285,6 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         self.unflatten_fct = None
         self.scales_lengths = None
         self.scales_padds = None
-        self.use_wrapping = pysparse is None
         if padding_mode not in self.__mods__:
             raise ValueError(
                 "'{0}' is not a valid padding mode, should be one of "
@@ -293,7 +293,8 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         # Inheritance
         super(ISAPWaveletTransformBase, self).__init__(
-            nb_scale, verbose=verbose, dim=dim, **kwargs)
+            nb_scale, verbose=verbose, dim=dim, use_wrapping=pysparse is None,
+            **kwargs)
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
