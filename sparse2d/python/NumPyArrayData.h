@@ -1,5 +1,5 @@
 /*##########################################################################
-# XXX - Copyright (C) XXX, 2017
+# XXX - Copyright (C) XXX, 2017 - 2019
 # Distributed under the terms of the CeCILL-B license, as published by
 # the CEA-CNRS-INRIA. Refer to the LICENSE file or to
 # http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
@@ -90,12 +90,16 @@ bn::ndarray image2array_2d(const Ifloat& im){
     bn::ndarray arr = bn::zeros(
         bp::make_tuple(im.nl(), im.nc()),
         bn::dtype::get_builtin<double>());
-    NumPyArrayData<double> arr_data(arr);
+    std::copy(
+        &im.buffer()[0],
+        &im.buffer()[im.n_elem()],
+        reinterpret_cast<double*>(arr.get_data()));
+    /*NumPyArrayData<double> arr_data(arr);
     for (int i=0; i<im.nl(); i++) {
         for (int j=0; j<im.nc(); j++) {
             arr_data(i, j) = im(i, j);
         }
-    }
+    }*/
     return arr;
 }
 
@@ -108,12 +112,17 @@ Ifloat array2image_2d(const bn::ndarray& arr){
     // Get the data: force cast to float
     // TODO: use buffer
     Ifloat im(arr.shape(0), arr.shape(1));
-    NumPyArrayData<double> arr_data(arr);
+    int nb_elem = arr.shape(0) * arr.shape(1);
+    std::copy(
+        &reinterpret_cast<double*>(arr.get_data())[0],
+        &reinterpret_cast<double*>(arr.get_data())[nb_elem],
+        im.buffer());
+    /*NumPyArrayData<double> arr_data(arr);
     for (int i=0; i<arr.shape(0); i++) {
         for (int j=0; j<arr.shape(1); j++) {
             im(i, j) = (float)arr_data(i, j);
         }
-    }
+    }*/
     return im;
 }
 
