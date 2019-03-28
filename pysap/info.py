@@ -82,13 +82,9 @@ REQUIRES = [
     "pysap-mri==0.0.0",
     "pysap-astro==0.0.0"
 ]
-DEPENDENCY_LINKS = [
-    "git+https://github.com/CEA-COSMIC/pysap-mri.git#egg=pysap-mri-0.0.0",
-    "git+https://github.com/CEA-COSMIC/pysap-astro.git#egg=pysap-astro-0.0.0",
-]
 EXTRA_REQUIRES = {
     "gui": {
         "PySide>=1.2.2",
-        "pypipe>=0.0.1"
+        # "python-pypipe>=0.0.1"
     }
 }

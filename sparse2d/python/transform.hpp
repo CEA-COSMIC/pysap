@@ -29,6 +29,7 @@ public:
         int type_of_filters=1,
         bool use_l2_norm=false,
         int type_of_non_orthog_filters=2,
+        int bord=0,
         int nb_procs=0,
         int verbose=0);
 
@@ -74,7 +75,7 @@ private:
     type_sb_filter filter = F_MALLAT_7_9;
     sb_type_norm norm = NORM_L1;
     type_undec_filter no_filter = DEF_UNDER_FILTER;
-    type_border bord = I_CONT;
+    type_border bord;
     int nb_of_undecimated_scales;
 };
 
@@ -87,9 +88,19 @@ MRTransform::MRTransform(
         int type_of_filters,
         bool use_l2_norm,
         int type_of_non_orthog_filters,
+        int bord,
         int nb_procs,
         int verbose){
     // Define instance attributes
+    switch (bord)
+    {
+      case 0: this->bord = I_ZERO; break;
+      case 1: this->bord = I_CONT; break;
+      case 2: this->bord = I_MIRROR; break;
+      case 3: this->bord = I_PERIOD; break;
+      default:
+         throw std::invalid_argument("Error: bad parameter bord.");
+    }
     this->type_of_multiresolution_transform = type_of_multiresolution_transform;
     this->type_of_lifting_transform = type_of_lifting_transform;
     this->number_of_scales = number_of_scales;

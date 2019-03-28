@@ -33,9 +33,10 @@ class PluginsMetaImportHook(object):
         package/module-finding code kicks in.
         """
         # Use this loader only on registered modules
-        if re.match("pysap.plugins..*", name) is None:
+        match = re.match("pysap\.plugins\.(.*)", name)
+        if match is None:
             return None
-        name = name.replace("pysap.plugins.", "")
+        name = match.groups()[0]
         if (len(name.split(".")) == 1):
             path = None
 
@@ -44,6 +45,7 @@ class PluginsMetaImportHook(object):
         self.mod_name = name.rpartition(".")[0]
 
         # Find the sub module and build the module path
+        # TODO: use importlib.util.find_spec for Python >= 3.5 only
         try:
             self.file, self.filename, self.stuff = imp.find_module(
                 self.sub_name, path)
