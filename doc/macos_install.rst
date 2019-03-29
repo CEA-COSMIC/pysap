@@ -14,6 +14,7 @@ Contents
 
    1. `Xcode Command Line Tools`_
    2. `Homebrew`_
+   3.
 
 2. `Troubleshooting`_
 
@@ -27,12 +28,13 @@ Requirements
 
 The following packages are required in order to build PySAP:
 
-1. ``gcc``
+1. ``OpenMP``
 
-  Or any c/c++ compiler that supports OpenMP. (Note that the native Mac
-  OS ``clang`` does not)
+  Any c/c++ compiler that supports OpenMP (*e.g.* ``gcc``/``g++``). (Note that the native Mac
+  OS ``AppleClang`` does not support OpenMP on its own)
 
 2. ``cmake``
+3. ``pkgconfig``
 
 Xcode Command Line Tools
 ------------------------
@@ -55,12 +57,45 @@ The above listed requirements can be readily installed on Mac OS using |link-to-
 
 .. code-block:: bash
 
-  brew install gcc cmake
+  brew install cmake pkgconfig
 
-Note that the commands ``gcc`` and ``g++`` default to ``clang``. Before
+AppleClang Build
+----------------
+
+In order to build with ``AppleClang`` you simply need to install OpenMP as follows.
+
+.. code-block:: bash
+
+  brew install libomp
+
+CLang Build
+-----------
+
+In order to build with standard ``Clang`` you simply need to install ``llvm`` as follows.
+
+.. code-block:: bash
+
+  brew install llvm
+
+Then export the environment variables ``CC`` and ``CXX``.
+
+.. code-block:: bash
+
+  export CC="/usr/local/opt/llvm/bin/clang"
+  export CXX="/usr/local/opt/llvm/bin/clang++"
+
+
+GCC Build
+---------
+
+In order to build with ``gcc`` you simply need to install it as follows.
+
+.. code-block:: bash
+
+  brew install gcc
+
+Note that the commands ``gcc`` and ``g++`` default to ``AppleClang``. Before
 installing PySAP you should export the environment variables ``CC`` and ``CXX``.
-
-*e.g.*
 
 .. code-block:: bash
 

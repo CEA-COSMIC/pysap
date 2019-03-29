@@ -6,7 +6,7 @@
 # for details.
 ##########################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 include(ExternalProject)
 include(FindPkgConfig)
 
@@ -28,8 +28,19 @@ project(pysparse)
     message(STATUS "Using Python Lib: ${PYTHON_LIBRARIES}")
     message(STATUS "Using Python Inc: ${PYTHON_INCLUDE_DIRS}")
   endif()
-  find_package(OpenMP REQUIRED)
 
+  # Find OpenMP
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    set(OpenMP_INCLUDE_PATH "/usr/local/include")
+    set(OpenMP_LIB_PATH "/usr/local/lib")
+    set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -lomp")
+    set(OpenMP_CXX_LIB_NAMES "omp")
+    set(OpenMP_CXX_LIBRARIES "${OpenMP_LIB_PATH}/libomp.dylib")
+    include_directories(${OpenMP_INCLUDE_PATH})
+    link_directories(${OpenMP_LIB_PATH})
+  else()
+    find_package(OpenMP REQUIRED)
+  endif()
   # Flags for MAC OSX
   if(APPLE)
     set(CMAKE_MACOSX_RPATH 1)
