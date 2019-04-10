@@ -41,7 +41,8 @@ def wavelist(family=None):
     if family is not None and not isinstance(family, list):
         family = [family]
     transforms = {}
-    for key, trf in WaveletTransformBase.REGISTRY.items():
+    for key in AVAILABLE_TRANSFORMS:
+        trf = WaveletTransformBase.REGISTRY[key]
         if family is None:
             transforms.setdefault(trf.__family__, []).append(key)
             continue

@@ -71,9 +71,9 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
 REQUIRES = [
-    "scipy>=1.0.0",
+    "scipy>=0.18.0",
     "numpy>=1.11.0",
-    "matplotlib>=2.1.2",
+    "matplotlib>=2.0.0",
     "future>=0.16.0",
     "astropy==2.0.8",
     "nibabel>=2.1.0",
@@ -87,6 +87,6 @@ REQUIRES = [
 EXTRA_REQUIRES = {
     "gui": {
         "PySide>=1.2.2",
-        "pypipe>=0.0.1"
+        # "python-pypipe>=0.0.1"
     }
 }

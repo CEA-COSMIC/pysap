@@ -50,4 +50,5 @@ PYBIND11_MODULE(pysparse, module)
     .def("transform", &MRTransform3D::Transform, py::arg("arr"), py::arg("save")=(bool)(0))
     .def("reconstruct", &MRTransform3D::Reconstruct, py::arg("mr_data"))
     .def_property("opath", &MRTransform3D::get_opath, &MRTransform3D::set_opath);
+
 }

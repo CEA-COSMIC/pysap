@@ -52,7 +52,11 @@ class TestWarpAndBinding(unittest.TestCase):
                 print("- Number of scales: {0}".format(nb_scale))
                 for transform in self.transforms:
                     print("    Transform: {0}".format(transform))
-                    transform = transform(nb_scale=nb_scale, verbose=0)
+                    if transform.__family__ == "isap-2d":
+                        transform = transform(nb_scale=nb_scale, verbose=0,
+                                              padding_mode="symmetric")
+                    else:
+                        transform = transform(nb_scale=nb_scale, verbose=0)
 
                     image = numpy.copy(image_i)
 

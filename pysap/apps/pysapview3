@@ -29,6 +29,15 @@ try:
     app = PyPipeViewerApp(extra_options=cmds)
 
 # Print an error message if an error occured
+except ImportError as error:
+    if "pypipe" in error.message:
+        raise ImportError(
+            "'pypipe' module is not automatically installed, please install "
+            "it with: pip install --user "
+            "git+https://github.com/AGrigis/pypipe.git")
+    else:
+        raise
+    raise ImportError(error)
 except:
     raise
 
