@@ -81,7 +81,8 @@ REQUIRES = [
     "progressbar2>=3.34.3",
     "modopt>=1.1.5",
     "scikit-learn>=0.19.1",
-    "PyWavelets>=1.0.0"
+    "PyWavelets>=1.0.0",
+    "pybind11>=2.2.4"
 ]
 EXTRA_REQUIRES = {
     "gui": {
