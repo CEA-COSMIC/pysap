@@ -18,11 +18,11 @@ We also add some gaussian noise in the image space.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.fourier import NFFT2
-from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.utils import generate_operators
-from pysap.numerics.utils import convert_mask_to_locations
+from mri.numerics.fourier import NFFT
+from mri.numerics.reconstruct import sparse_rec_fista
+from mri.numerics.reconstruct import sparse_rec_condatvu
+from mri.numerics.utils import generate_operators
+from mri.numerics.utils import convert_mask_to_locations
 
 # Third party import
 import numpy as np
@@ -47,7 +47,7 @@ mask.show()
 
 # Get the locations of the kspace samples and the associated observations
 kspace_loc = convert_mask_to_locations(mask.data)
-fourier_op = NFFT2(samples=kspace_loc, shape=image.shape)
+fourier_op = NFFT(samples=kspace_loc, shape=image.shape)
 kspace_obs = fourier_op.op(image.data)
 
 # Zero order solution

@@ -29,6 +29,7 @@ Available transform from pywt are:
 # System import
 from __future__ import print_function, absolute_import
 import os
+import warnings
 
 # Package import
 import pysap
@@ -52,7 +53,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
     __family__ = "pywt"
 
     def __init__(self, nb_scale, verbose=0, dim=2, is_decimated=True,
-                 axes=None, **kwargs):
+                 axes=None, padding_mode="zero", **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -70,6 +71,10 @@ class PyWaveletTransformBase(WaveletTransformBase):
             use a decimated or undecimated transform.
         axes: list of int, default None
             axes over which to compute the transform.
+        padding_mode: str, default zero
+            ways to extend the signal when computing the decomposition.
+            See https://pywavelets.readthedocs.io/en/latest/ref/
+            signal-extension-modes.html for more explanations.
         """
         # Inheritance
         super(PyWaveletTransformBase, self).__init__(
@@ -78,6 +83,11 @@ class PyWaveletTransformBase(WaveletTransformBase):
         # pywt Wavelet transform parameters
         self.is_decimated = is_decimated
         self.axes = axes
+        if padding_mode not in pywt.Modes.modes:
+            raise ValueError(
+                "'{0}' is not a valid padding mode, should be one of "
+                "{1}".format(padding_mode, pywt.Modes.modes))
+        self.padding_mode = padding_mode
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
@@ -102,7 +112,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
             the decomposition associated information.
         """
         if self.is_decimated:
-            coeffs = pywt.wavedecn(data, self.trf, mode="symmetric",
+            coeffs = pywt.wavedecn(data, self.trf, mode=self.padding_mode,
                                    level=self.nb_scale, axes=self.axes)
         else:
             coeffs = pywt.swtn(data, self.trf, level=self.nb_scale,
@@ -130,7 +140,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
         """
         coeffs = self._organize_pywt(analysis_data, analysis_header)
         if self.is_decimated:
-            data = pywt.waverecn(coeffs, self.trf, mode="symmetric",
+            data = pywt.waverecn(coeffs, self.trf, mode=self.padding_mode,
                                  axes=self.axes)
         else:
             data = pywt.iswtn(coeffs, self.trf, axes=self.axes)
@@ -213,7 +223,7 @@ def pywt_class_factory(func, name, destination_module_globals):
         the wavelet name we want to instanciate.
     """
     # Define the transform class name
-    class_name = name.title()
+    class_name = name
 
     # Define the trsform class parameters
     class_parameters = {
@@ -247,8 +257,10 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
     __is_decimated__ = None
     __isap_nb_bands__ = None
     __isap_scale_shift__ = 0
+    __mods__ = ["zero", "constant", "symmetric", "periodic"]
 
-    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
+    def __init__(self, nb_scale, verbose=0, dim=2, padding_mode="zero",
+                 **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -262,8 +274,12 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
             control the verbosity level.
         dim: int, default 2
             define the data dimension.
+        padding_mode: str, default zero
+            ways to extend the signal when computing the decomposition.
         """
         # ISAP Wavelet transform parameters
+        if hasattr(self, "__family__") and self.__family__ in ("isap-3d", ):
+            dim = 3
         self.bands_lengths = None
         self.bands_shapes = None
         self.isap_transform_id = None
@@ -271,11 +287,16 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
         self.unflatten_fct = None
         self.scales_lengths = None
         self.scales_padds = None
-        self.use_wrapping = pysparse is None
+        if padding_mode not in self.__mods__:
+            raise ValueError(
+                "'{0}' is not a valid padding mode, should be one of "
+                "{1}".format(padding_mode, self.__mods__))
+        self.padding_mode = self.__mods__.index(padding_mode)
 
         # Inheritance
         super(ISAPWaveletTransformBase, self).__init__(
-            nb_scale, verbose=verbose, dim=dim, **kwargs)
+            nb_scale, verbose=verbose, dim=dim, use_wrapping=pysparse is None,
+            **kwargs)
 
     def _init_transform(self, **kwargs):
         """ Define the transform.
@@ -285,6 +306,7 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
                 self.__isap_transform_id__)
             kwargs["number_of_scales"] = self.nb_scale
             if self.data_dim == 2:
+                kwargs["bord"] = self.padding_mode
                 self.trf = pysparse.MRTransform(**kwargs)
             elif self.data_dim == 3:
                 self.trf = pysparse.MRTransform3D(**kwargs)
@@ -919,9 +941,6 @@ class OnLine44AndOnColumn53(ISAPWaveletTransformBase):
 class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
     """ Mallat's 3D wavelet transform (7/9 biorthogonal filters)
     """
-    def __init__(self, nb_scale, verbose, **kwargs):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale,
-                                          dim=3, **kwargs)
     __family__ = "isap-3d"
     __isap_transform_id__ = 1
     __isap_name__ = "3D Wavelet transform via lifting scheme"
@@ -932,9 +951,6 @@ class BiOrthogonalTransform3D(ISAPWaveletTransformBase):
 class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
     """ Wavelet transform via lifting scheme.
     """
-    def __init__(self, nb_scale, verbose):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
-
     __family__ = "isap-3d"
     __isap_transform_id__ = 2
     __isap_name__ = "Wavelet transform via lifting scheme"
@@ -945,9 +961,6 @@ class Wavelet3DTransformViaLiftingScheme(ISAPWaveletTransformBase):
 class ATrou3D(ISAPWaveletTransformBase):
     """ Wavelet transform with the A trou algorithm.
     """
-    def __init__(self, nb_scale, verbose):
-        ISAPWaveletTransformBase.__init__(self, nb_scale=nb_scale, dim=3)
-
     __family__ = "isap-3d"
     __isap_transform_id__ = 3
     __isap_name__ = "3D Wavelet A Trou"

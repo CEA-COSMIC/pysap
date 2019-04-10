@@ -11,12 +11,12 @@ measurments.
 # Package import
 import pysap
 from pysap.data import get_sample_data
-from pysap.numerics.linear import Wavelet2
-from pysap.numerics.fourier import NFFT2
-from pysap.numerics.reconstruct import sparse_rec_fista
-from pysap.numerics.reconstruct import sparse_rec_condatvu
-from pysap.numerics.gradient import Gradient_pMRI
-from pysap.numerics.proximity import Threshold
+from mri.numerics.linear import Wavelet2
+from mri.numerics.fourier import NFFT
+from mri.numerics.reconstruct import sparse_rec_fista
+from mri.numerics.reconstruct import sparse_rec_condatvu
+from mri.numerics.gradient import Gradient_pMRI
+from mri.numerics.proximity import Threshold
 from pysap.plugins.mri.parallel_mri.extract_sensitivity_maps import (
     extract_k_space_center_and_locations, get_Smaps)
 from pysap.plugins.mri.reconstruct.utils import normalize_frequency_locations
@@ -43,7 +43,7 @@ image.show()
 # We then reconstruct the zero order solution.
 
 # Generate the subsampled kspace
-fourier_op_gen = NFFT2(samples=kspace_loc, shape=SOS.shape)
+fourier_op_gen = NFFT(samples=kspace_loc, shape=SOS.shape)
 kspace_data = np.asarray([fourier_op_gen.op(Il[l]) for l in
                           range(Il.shape[0])])
 
@@ -77,7 +77,7 @@ max_iter = 50
 linear_op = Wavelet2(wavelet_name="UndecimatedBiOrthogonalTransform",
                      nb_scale=4)
 prox_op = Threshold(None)
-fourier_op = NFFT2(samples=kspace_loc, shape=SOS.shape)
+fourier_op = NFFT(samples=kspace_loc, shape=SOS.shape)
 gradient_op = Gradient_pMRI(data=kspace_data,
                             fourier_op=fourier_op,
                             linear_op=linear_op,
