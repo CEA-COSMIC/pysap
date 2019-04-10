@@ -34,13 +34,13 @@ project(pysparse)
   # Flags for MAC OSX
   if(APPLE)
     set(CMAKE_MACOSX_RPATH 1)
-    set(APPLE_FLAGS "-DMACOS -fpermissive")
+    set(APPLE_FLAGS "-DMACOS")
   else(APPLE)
     set(APPLE_FLAGS "")
   endif(APPLE)
 
   # Compilation flags
-  set(CMAKE_CXX_FLAGS "-std=c++11 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+  set(CMAKE_CXX_FLAGS "-std=c++11 -fpermissive -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
 
   # Custom modules
   include(BuildCfitsIO)
