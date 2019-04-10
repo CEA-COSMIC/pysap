@@ -1,10 +1,13 @@
 /*##########################################################################
-# XXX - Copyright (C) XXX, 2017
-# Distributed under the terms of the CeCILL-B license, as published by
-# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
-# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
-# for details.
+pySAP - Copyright (C) CEA, 2017 - 2018
+Distributed under the terms of the CeCILL-B license, as published by
+the CEA-CNRS-INRIA. Refer to the LICENSE file or to
+http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
+for details.
 ##########################################################################*/
+
+#ifndef TRANSFORM_H_
+#define TRANSFORM_H_
 
 // Includes
 #include <iostream>
@@ -14,7 +17,7 @@
 #include <sparse2d/IM_IO.h>
 #include <sparse2d/MR_Obj.h>
 #include <sparse2d/IM_Prob.h>
-#include "NumPyArrayData.h"
+#include "numpydata.hpp"
 
 
 class MRTransform {
@@ -29,6 +32,7 @@ public:
         int type_of_filters=1,
         bool use_l2_norm=false,
         int type_of_non_orthog_filters=2,
+        int bord=0,
         int nb_procs=0,
         int verbose=0);
 
@@ -45,10 +49,10 @@ public:
     void Info();
 
     // Transform method
-    py::list Transform(const bn::ndarray& arr, bool save=false);
+    py::list Transform(py::array_t<float>& arr, bool save=false);
 
     // Reconstruction method
-    bn::ndarray Reconstruct(bp::list mr_data);
+    py::array_t<float> Reconstruct(py::list mr_data);
 
     // Getter/setter functions for the input/output image path
     void set_opath(std::string path) {this->m_opath = path;}
@@ -74,7 +78,7 @@ private:
     type_sb_filter filter = F_MALLAT_7_9;
     sb_type_norm norm = NORM_L1;
     type_undec_filter no_filter = DEF_UNDER_FILTER;
-    type_border bord = I_CONT;
+    type_border bord;
     int nb_of_undecimated_scales;
 };
 
@@ -87,9 +91,19 @@ MRTransform::MRTransform(
         int type_of_filters,
         bool use_l2_norm,
         int type_of_non_orthog_filters,
+        int bord,
         int nb_procs,
         int verbose){
     // Define instance attributes
+    switch (bord)
+    {
+      case 0: this->bord = I_ZERO; break;
+      case 1: this->bord = I_CONT; break;
+      case 2: this->bord = I_MIRROR; break;
+      case 3: this->bord = I_PERIOD; break;
+      default:
+         throw std::invalid_argument("Error: bad parameter bord.");
+    }
     this->type_of_multiresolution_transform = type_of_multiresolution_transform;
     this->type_of_lifting_transform = type_of_lifting_transform;
     this->number_of_scales = number_of_scales;
@@ -209,7 +223,7 @@ void MRTransform::Info(){
 }
 
 // Transform method
-py::list MRTransform::Transform(const bn::ndarray& arr, bool save){
+py::list MRTransform::Transform(py::array_t<float>& arr, bool save){
     // Load the input image
     /*if (this->verbose > 0)
         cout << "Loading input image '" << this->m_ipath << "'..." << endl;
@@ -244,7 +258,7 @@ py::list MRTransform::Transform(const bn::ndarray& arr, bool save){
         cout << "Starting transformation" << endl;
         cout << "Runtime parameters:" << endl;
         cout << "  Number of bands: " << mr.nbr_band() << endl;
-        cout << "  Data dimension: " << arr.get_nd() << endl;
+        cout << "  Data dimension: " << arr.ndim() << endl;
         cout << "  Array shape: " << arr.shape(0) << ", " << arr.shape(1) << endl;
         cout << "  Save transform: " << save << endl;
     }
@@ -283,17 +297,18 @@ py::list MRTransform::Transform(const bn::ndarray& arr, bool save){
 }
 
 // Reconstruction method
-bn::ndarray MRTransform::Reconstruct(bp::list mr_data){
+py::array_t<float> MRTransform::Reconstruct(py::list mr_data){
     // Welcome message
     if (this->verbose > 0) {
         cout << "Starting Reconstruction" << endl;
         cout << "Runtime parameters:" << endl;
-        cout << "  Number of bands: " << bp::len(mr_data) << endl;
+        cout << "  Number of bands: " << py::len(mr_data) << endl;
     }
 
     // Update transformation
-    for (int s=0; s<bp::len(mr_data); s++) {
-        Ifloat band_data = array2image_2d(bp::extract<bn::ndarray>(mr_data[s]));
+    for (int s=0; s<py::len(mr_data); s++) {
+        const py::array_t<float> &band_array = py::array(mr_data[s]);
+        Ifloat band_data = array2image_2d(band_array);
         // cout << "Size of inserted band ";
         // cout << "nb_e:"<< band_data.n_elem() << "/ndim:" << band_data.naxis()\
         // << "/nx:" << band_data.nx() << "/ny:"  << band_data.ny() <<  endl;
@@ -307,3 +322,5 @@ bn::ndarray MRTransform::Reconstruct(bp::list mr_data){
 
     return image2array_2d(data);
 }
+
+#endif

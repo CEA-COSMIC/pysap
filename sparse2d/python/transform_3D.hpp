@@ -6,6 +6,9 @@ http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
 for details.
 ##########################################################################*/
 
+#ifndef TRANSFORM_3D_H_
+#define TRANSFORM_3D_H_
+
 /*Availables transforms:
 1: Mallat 3D
 2: Lifting
@@ -22,7 +25,7 @@ for details.
 #include <sparse2d/MR3D_Obj.h>
 #include <sparse2d/MR_Obj.h>
 #include <sparse2d/IM_Prob.h>
-#include "NumPyArrayData.h"
+#include "numpydata.hpp"
 
 
 
@@ -52,10 +55,10 @@ public:
     void Info();
 
     // Transform method
-    py::list Transform(const bn::ndarray& arr, bool save=false);
+    py::list Transform(py::array_t<float>& arr, bool save=false);
 
     // Reconstruction method
-    bn::ndarray Reconstruct(bp::list mr_data);
+    py::array_t<float> Reconstruct(py::list mr_data);
 
     // Getter/setter functions for the input/output image path
     void set_opath(std::string path) {this->m_opath = path;}
@@ -201,7 +204,7 @@ void MRTransform3D::Info(){
 
 
 // Transform method
-py::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
+py::list MRTransform3D::Transform(py::array_t<float>& arr, bool save){
 
     // Create the transformation
     fltarray data = array2image_3d(arr);
@@ -227,7 +230,7 @@ py::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
         cout << "Starting transformation" << endl;
         cout << "Runtime parameters:" << endl;
         cout << "  Number of bands: " << mr.nbr_band() << endl;
-        cout << "  Data dimension: " << arr.get_nd() << endl;
+        cout << "  Data dimension: " << arr.ndim() << endl;
         cout << "  Array shape: " << arr.shape(0) << ", " << arr.shape(1) << ", " << arr.shape(2) << endl;
         cout << "  Save transform: " << save << endl;
     }
@@ -275,23 +278,24 @@ py::list MRTransform3D::Transform(const bn::ndarray& arr, bool save){
     mr_result.append(mr_data);
     mr_result.append(mr_scale);
 
-    // cout << "mr_result[1]: " << bp::extract<std::string>(bp::object(mr_result[1]).attr("__str__")())() << endl;
+    // cout << "mr_result[1]: " << py::extract<std::string>(py::object(mr_result[1]).attr("__str__")())() << endl;
 
     return mr_result;
 }
 
 // Reconstruction method
-bn::ndarray MRTransform3D::Reconstruct(bp::list mr_data){
+py::array_t<float> MRTransform3D::Reconstruct(py::list mr_data){
     // Welcome message
     if (this->verbose > 0) {
         cout << "Starting Reconstruction" << endl;
         cout << "Runtime parameters:" << endl;
-        cout << "  Number of bands: " << bp::len(mr_data) << endl;
+        cout << "  Number of bands: " << py::len(mr_data) << endl;
     }
 
     // Update transformation
-    for (int s=0; s<bp::len(mr_data); s++) {
-        fltarray band_data = array2image_3d(bp::extract<bn::ndarray>(mr_data[s]));
+    for (int s=0; s<py::len(mr_data); s++) {
+        const py::array_t<float> &band_array = py::array(mr_data[s]);
+        fltarray band_data = array2image_3d(band_array);
         // cout << "Size of inserted band ";
         // cout << "nb_e:"<< band_data.n_elem() << "/ndim:" << band_data.naxis()\
         // << "/nx:" << band_data.nx() << "/ny:"  << band_data.ny() << "nz:"  << band_data.nz() <<  endl;
@@ -309,3 +313,5 @@ bn::ndarray MRTransform3D::Reconstruct(bp::list mr_data){
 
     return image2array_3d(data);
 }
+
+#endif
