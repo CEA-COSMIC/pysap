@@ -270,7 +270,7 @@ py::list MRTransform3D::Transform(py::array_t<float>& arr, bool save){
         mr_scale.append(nbr_band_per_resol_cst);
     }
     if (nb_bands_count != mr.nbr_band()) {
-        mr_scale[-1] = 1;
+        mr_scale[py::len(mr_scale) - 1] = 1;
     }
 
     // Format the result

@@ -286,8 +286,9 @@ py::list MRTransform::Transform(py::array_t<float>& arr, bool save){
         mr_scale.append(mr.nbr_band_per_resol(s));
     }
     if (nb_bands_count != mr.nbr_band()) {
-        mr_scale[-1] = 1;
+        mr_scale[py::len(mr_scale) - 1] = 1;
     }
+
     // Format the result
     py::list mr_result;
     mr_result.append(mr_data);
