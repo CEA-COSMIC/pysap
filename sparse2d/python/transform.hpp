@@ -200,6 +200,7 @@ void MRTransform::Info(){
     cout << "  Number of procs: " << this->nb_procs << endl;
     cout << "  MR transform ID: " << this->type_of_multiresolution_transform << endl;
     cout << "  MR transform name: " << StringTransform(this->mr_transform) << endl;
+    cout << "  MR border type: " << this->bord << endl;
     if ((this->mr_transform == TO_MALLAT) || (this->mr_transform == TO_UNDECIMATED_MALLAT)) {
         cout << "  Filter ID: " << this->type_of_filters << endl;
         cout << "  Filter name: " << StringSBFilter(this->filter) << endl;
