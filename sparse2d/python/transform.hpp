@@ -308,7 +308,7 @@ py::array_t<float> MRTransform::Reconstruct(py::list mr_data){
 
     // Update transformation
     for (int s=0; s<py::len(mr_data); s++) {
-        const py::array_t<float> &band_array = py::array(mr_data[s]);
+        py::array_t<float> band_array = py::array(mr_data[s]);
         Ifloat band_data = array2image_2d(band_array);
         // cout << "Size of inserted band ";
         // cout << "nb_e:"<< band_data.n_elem() << "/ndim:" << band_data.naxis()\

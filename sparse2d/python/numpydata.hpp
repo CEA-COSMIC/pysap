@@ -38,7 +38,7 @@ py::array_t<float> image2array_2d(const Ifloat &image){
 }
 
 // Helper function for fast arrat to image conversion
-Ifloat array2image_2d(const py::array_t<float> &array){
+Ifloat array2image_2d(py::array_t<float> &array){
 
   if (array.ndim() != 2)
     throw std::runtime_error("Input should be 2-D NumPy array");
@@ -78,7 +78,7 @@ py::array_t<float> image2array_3d(const fltarray &image){
 }
 
 // Helper function for fast 3D arrat to image conversion
-fltarray array2image_3d(const py::array_t<float> &array){
+fltarray array2image_3d(py::array_t<float> &array){
 
   if (array.ndim() != 3)
     throw std::runtime_error("Input should be 2-D NumPy array");
