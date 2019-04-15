@@ -40,7 +40,7 @@ project(pysparse)
   endif(APPLE)
 
   # Compilation flags
-  set(CMAKE_CXX_FLAGS "-std=c++11 -fpermissive -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+  set(CMAKE_CXX_FLAGS "-std=c++11 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
 
   # Custom modules
   include(BuildCfitsIO)
@@ -63,11 +63,9 @@ project(pysparse)
     add_library(${program} SHARED ${program}.cpp)
 
     if(APPLE)
-      # target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES})
-      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${cfitsio_LIBRARIES} ${sparse2d_LIBRARIES})
+      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES})
     else(APPLE)
-      # target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
-      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${cfitsio_LIBRARIES} ${sparse2d_LIBRARIES} ${PYTHON_LIBRARIES})
+      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${PYTHON_LIBRARIES})
     endif(APPLE)
 
     add_dependencies(${program} cfitsio)
