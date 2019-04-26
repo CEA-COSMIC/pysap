@@ -59,7 +59,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
     Available transforms are define in 'pysap.transform'.
     """
-    def __init__(self, nb_scale, verbose=0, dim=2, **kwargs):
+    def __init__(self, nb_scale, verbose=0, dim=2, use_wrapping=False,
+                 **kwargs):
         """ Initialize the WaveletTransformBase class.
 
         Parameters
@@ -73,6 +74,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             control the verbosity level.
         dim: int, default 2
             define the data dimension.
+        use_wrapping: bool, default False
+            if set, in the case of ISAP, use the command lines rather than the
+            bindings.
         """
         # Wavelet transform parameters
         self.nb_scale = nb_scale
@@ -81,7 +85,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         self.nb_band_per_scale = None
         self.is_decimated = None
         self.data_dim = dim
-        self.use_wrapping = False
+        self.use_wrapping = use_wrapping
 
         # Data that can be decalred afterward
         self._data = None
@@ -300,7 +304,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         """ Return the transformation information. This iformation is only
         available when using the Python bindings.
         """
-        if not self.use_wrapping:
+        if hasattr(self.trf, "info"):
             self.trf.info()
 
     data = property(_get_data, _set_data)

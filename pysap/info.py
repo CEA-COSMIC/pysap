@@ -78,17 +78,15 @@ REQUIRES = [
     "astropy==2.0.8",
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",
+    "progressbar2>=3.34.3",
+    "modopt>=1.1.5",
+    "scikit-learn>=0.19.1",
     "PyWavelets>=1.0.0",
-    "pysap-mri==0.0.0",
-    "pysap-astro==0.0.0"
-]
-DEPENDENCY_LINKS = [
-    "git+https://github.com/CEA-COSMIC/pysap-mri.git#egg=pysap-mri-0.0.0",
-    "git+https://github.com/CEA-COSMIC/pysap-astro.git#egg=pysap-astro-0.0.0",
+    "pybind11>=2.2.4"
 ]
 EXTRA_REQUIRES = {
     "gui": {
         "PySide>=1.2.2",
-        "pypipe>=0.0.1"
+        # "python-pypipe>=0.0.1"
     }
 }

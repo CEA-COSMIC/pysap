@@ -1,24 +1,11 @@
-##########################################################################
-# XXX - Copyright (C) XXX, 2017
-# Distributed under the terms of the CeCILL-B license, as published by
-# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
-# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
-# for details.
-##########################################################################
-
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 include(ExternalProject)
 include(FindPkgConfig)
 
-# Adding customized cmake module for building boost
+# Adding customized cmake module for external packages
 list(APPEND CMAKE_MODULE_PATH  "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 project(pysparse)
-
-  # Define boost options
-  SET(Boost_USE_STATIC_LIBS ON)
-  SET(Boost_USE_MULTITHREADED ON)
-  SET(Boost_USE_STATIC_RUNTIME ON)
 
   # Find default python libraries and interpreter
   find_package(PythonInterp REQUIRED)
@@ -28,7 +15,21 @@ project(pysparse)
     message(STATUS "Using Python Lib: ${PYTHON_LIBRARIES}")
     message(STATUS "Using Python Inc: ${PYTHON_INCLUDE_DIRS}")
   endif()
-  find_package(OpenMP REQUIRED)
+  include_directories(${PYTHON_INCLUDE_DIRS})
+  link_directories(${PYTHON_LIBRARY_DIRS})
+
+  # Find OpenMP
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    set(OpenMP_INCLUDE_PATH "/usr/local/include")
+    set(OpenMP_LIB_PATH "/usr/local/lib")
+    set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -lomp")
+    set(OpenMP_CXX_LIB_NAMES "omp")
+    set(OpenMP_CXX_LIBRARIES "${OpenMP_LIB_PATH}/libomp.dylib")
+    include_directories(${OpenMP_INCLUDE_PATH})
+    link_directories(${OpenMP_LIB_PATH})
+  else()
+    find_package(OpenMP REQUIRED)
+  endif()
 
   # Flags for MAC OSX
   if(APPLE)
@@ -39,38 +40,42 @@ project(pysparse)
   endif(APPLE)
 
   # Compilation flags
-  #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-  set(CMAKE_CXX_FLAGS "-std=c++03 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
+  set(CMAKE_CXX_FLAGS "-std=c++11 -DNO_DISP_IO -ggdb3 -fPIC -O2 -ffast-math -fomit-frame-pointer ${APPLE_FLAGS} ${OpenMP_CXX_FLAGS} -Wno-write-strings -DNDEBUG")
 
   # Custom modules
-  include(BuildBoost)
   include(BuildCfitsIO)
   include(BuildSparse2D)
 
   # Includes
-  include_directories(${Boost_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+  include_directories(${PYTHON_INCLUDE_DIRS})
   include_directories(${cfitsio_INCLUDE_DIR})
   include_directories(${sparse2d_INCLUDE_DIR})
   include_directories(${OpenMP_INCLUDE_PATH})
-  link_directories(${Boost_LIBRARY_DIR})
   link_directories(${cfitsio_LIBRARY_DIR})
   link_directories(${sparse2d_LIBRARY_DIR})
 
-  # Build and link the pylib module
-  add_library(pysparse SHARED pysparse.cpp)
-  if(APPLE)
-    target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES})
-  else(APPLE)
-    target_link_libraries(pysparse ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
-  endif(APPLE)
-  add_dependencies(pysparse Boost)
-  add_dependencies(pysparse cfitsio)
-  add_dependencies(pysparse sparse2d)
 
-  # Tweaks the name of the library to match what Python expects
-  set_target_properties(pysparse PROPERTIES SUFFIX .so)
-  set_target_properties(pysparse PROPERTIES PREFIX "")
+  set(EXAMPLES pysparse)
 
-  if(APPLE)
-    set_target_properties(pysparse PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-  endif(APPLE)
+  # Build and link the module
+  foreach(program ${EXAMPLES})
+
+    add_library(${program} SHARED ${program}.cpp)
+
+    if(APPLE)
+      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES})
+    else(APPLE)
+      target_link_libraries(${program} ${OpenMP_CXX_LIBRARIES} ${sparse2d_LIBRARIES} ${cfitsio_LIBRARIES} ${PYTHON_LIBRARIES})
+    endif(APPLE)
+
+    add_dependencies(${program} cfitsio)
+    add_dependencies(${program} sparse2d)
+
+    set_target_properties(${program} PROPERTIES SUFFIX .so)
+    set_target_properties(${program} PROPERTIES PREFIX "")
+
+    if(APPLE)
+      set_target_properties(${program} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    endif(APPLE)
+
+  endforeach(program)
