@@ -2,12 +2,12 @@
 # Build the CfitsIO dependencies for the project         #
 #========================================================#
 
-set(sparse2dVersion 2.1.2)
+set(sparse2dVersion 2.1.3)
 
 ExternalProject_Add(sparse2d
     PREFIX sparse2d
     GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
-    GIT_TAG v2.1.2
+    GIT_TAG v2.1.3
     # GIT_TAG master
     DEPENDS cfitsio
     CONFIGURE_COMMAND cmake ../sparse2d
