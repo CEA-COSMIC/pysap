@@ -72,7 +72,11 @@ gradient_op, linear_op, prox_op, cost_op = generate_operators(
     nb_scales=4,
     non_cartesian=False,
     uniform_data_shape=None,
-    gradient_space="synthesis")
+    gradient_space="synthesis",
+    padding_mode="symmetric")
+
+# linear_op.transform.info()
+# exit()
 
 # Start the FISTA reconstruction
 max_iter = 20
@@ -106,7 +110,8 @@ gradient_op, linear_op, prox_op, cost_op = generate_operators(
     nb_scales=4,
     non_cartesian=False,
     uniform_data_shape=None,
-    gradient_space="analysis")
+    gradient_space="analysis",
+    padding_mode="symmetric")
 
 # Start the CONDAT-VU reconstruction
 max_iter = 20
