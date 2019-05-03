@@ -8,15 +8,25 @@ list(APPEND CMAKE_MODULE_PATH  "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 project(pysparse)
 
   # Find default python libraries and interpreter
+
   find_package(PythonInterp REQUIRED)
-  if(NOT DEFINED PYTHON_LIBRARIES OR NOT DEFINED PYTHON_INCLUDE_DIRS)
-    find_package(PythonLibs REQUIRED)
-  else()
-    message(STATUS "Using Python Lib: ${PYTHON_LIBRARIES}")
-    message(STATUS "Using Python Inc: ${PYTHON_INCLUDE_DIRS}")
+  if(NOT DEFINED PYTHON_LIBRARIES AND NOT DEFINED PYTHON_INCLUDE_DIRS)
+    find_package(PythonLibs ${PYTHON_VERSION_STRING} EXACT REQUIRED)
+  endif()
+  if(NOT "$ENV{VENV_DIR}" STREQUAL "")
+    message(STATUS "Using virtual environment: $ENV{VENV_DIR}")
+    if(${PYTHON_VERSION_MAJOR} STREQUAL "3")
+      set(PYTHON_INCLUDE_DIRS "$ENV{VENV_DIR}/include/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}m")
+    else()
+      set(PYTHON_INCLUDE_DIRS "$ENV{VENV_DIR}/include/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+    endif()
+    include_directories("$ENV{VENV_DIR}/include/site/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
   endif()
   include_directories(${PYTHON_INCLUDE_DIRS})
-  link_directories(${PYTHON_LIBRARY_DIRS})
+  link_directories(${PYTHON_LIBRARIES})
+
+  message(STATUS "Using Python Lib: ${PYTHON_LIBRARIES}")
+  message(STATUS "Using Python Inc: ${PYTHON_INCLUDE_DIRS}")
 
   # Find OpenMP
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
