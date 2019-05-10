@@ -8,7 +8,7 @@ assignees: ''
 
 ---
 
-**Which type of plugin review are you making?**
+**Which type of plugin do you want reviewed?**
 - [ ] A new plugin that is not hosted on CEA-COSMIC
 - [X] An existing plugin that is hosted on CEA-COSMIC
 
