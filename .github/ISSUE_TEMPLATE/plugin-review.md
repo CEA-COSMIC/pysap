@@ -3,7 +3,7 @@ name: Plugin review
 about: If you have a new or existing PySAP plugin that you want reviewed please provide
   the following information.
 title: "[PLUGIN REVIEW]"
-labels: ''
+labels: pugin review
 assignees: ''
 
 ---
