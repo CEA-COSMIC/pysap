@@ -20,6 +20,8 @@ from distutils.version import LooseVersion
 from setuptools.command.build_ext import build_ext
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
+from pip._internal import main as pip_main
+from importlib import import_module
 
 
 # Package information
@@ -63,9 +65,32 @@ class CMakeExtension(Extension):
 class CMakeBuild(build_ext):
     """ Define a cmake build extension.
     """
+
+    @staticmethod
+    def _preinstall(package_list):
+        """ Pre-install PyPi packages before running cmake.
+        """
+
+        if not isinstance(package_list, list):
+            raise TypeError('package_list must be of type list.')
+
+        pip_main(['install'] + package_list)
+
+    def _set_pybind_path(self):
+        """ Set path to Pybind11 include directory.
+        """
+
+        self.pybind_path = getattr(import_module('pybind11'), 'get_include')()
+
     def run(self):
         """ Redifine the run method.
         """
+
+        # Preinstall packages
+        self._preinstall(['pybind11'])
+
+        # Set Pybind11 path
+        self._set_pybind_path()
 
         # Check cmake is installed and is sufficiently new.
         try:
@@ -90,7 +115,8 @@ class CMakeBuild(build_ext):
         extdir = os.path.abspath(
             os.path.dirname(self.get_ext_fullpath(ext.name)))
         cmake_args = ["-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + extdir,
-                      "-DPYTHON_EXECUTABLE=" + sys.executable]
+                      "-DPYTHON_EXECUTABLE=" + sys.executable,
+                      "-DPYBIND11_INCLUDE_DIR=" + self.pybind_path]
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
         if platform.system() == "Windows":
