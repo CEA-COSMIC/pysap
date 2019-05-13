@@ -84,6 +84,9 @@ REQUIRES = [
     "PyWavelets>=1.0.0",
     "pybind11>=2.2.4"
 ]
+MACOS_REQUIRES = [
+    "pyqt5>=5.12.2"
+]
 EXTRA_REQUIRES = {
     "gui": {
         "PySide>=1.2.2",

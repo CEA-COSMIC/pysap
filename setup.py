@@ -67,14 +67,14 @@ class CMakeBuild(build_ext):
     """
 
     @staticmethod
-    def _preinstall(package_list):
+    def _preinstall(package_list, options=[]):
         """ Pre-install PyPi packages before running cmake.
         """
 
-        if not isinstance(package_list, list):
-            raise TypeError('package_list must be of type list.')
+        if not isinstance(package_list, list) or not isinstance(options, list):
+            raise TypeError('preinstall inputs must be of type list.')
 
-        pip_main(['install'] + package_list)
+        pip_main(['install'] + options + package_list)
 
     def _set_pybind_path(self):
         """ Set path to Pybind11 include directory.
@@ -86,8 +86,15 @@ class CMakeBuild(build_ext):
         """ Redifine the run method.
         """
 
+        # Set preinstall requirements
+        preinstall_list = ['pybind11']
+
+        # Add macOS specific requirements
+        if platform.system() == 'Darwin':
+            preinstall_list += release_info["MACOS_REQUIRES"]
+
         # Preinstall packages
-        self._preinstall(['pybind11'])
+        self._preinstall(preinstall_list)
 
         # Set Pybind11 path
         self._set_pybind_path()
