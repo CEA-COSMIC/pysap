@@ -20,8 +20,11 @@ from distutils.version import LooseVersion
 from setuptools.command.build_ext import build_ext
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
-from pip._internal import main as pip_main
 from importlib import import_module
+try:
+    from pip import main as pip_main
+except ImportError:
+    from pip._internal import main as pip_main
 
 
 # Package information
