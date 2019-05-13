@@ -4,7 +4,7 @@ Mac OS Installation
 Some additional steps beyond the standard installation instructions may be
 required for certain macOS systems.
 
-The steps detailed in this document were last tested for **macOS 10.14.1**.
+The steps detailed in this document were last tested for **macOS 10.14.2**.
 
 
 Contents
@@ -27,12 +27,13 @@ Requirements
 
 The following packages are required in order to build PySAP:
 
-1. ``gcc``
+1. ``cmake``
 
-  Or any c/c++ compiler that supports OpenMP. (Note that the native Mac
-  OS ``clang`` does not)
+2. ``libomp`` (or ``gcc``)
 
-2. ``cmake``
+  Any c/c++ compiler that supports OpenMP should work. (Note that the native macOS
+  ``clang`` does not provide OpenMP support on its own)
+
 
 Xcode Command Line Tools
 ------------------------
@@ -46,7 +47,7 @@ An essential first step for any developer working on macOS is to install the com
 Homebrew
 --------
 
-The above listed requirements can be readily installed on Mac OS using |link-to-brew|.
+The above listed requirements can be readily installed on macOS using |link-to-brew|.
 
 .. |link-to-brew| raw:: html
 
@@ -55,10 +56,10 @@ The above listed requirements can be readily installed on Mac OS using |link-to-
 
 .. code-block:: bash
 
-  brew install gcc cmake
+  brew install cmake libomp
 
-Note that the commands ``gcc`` and ``g++`` default to ``clang``. Before
-installing PySAP you should export the environment variables ``CC`` and ``CXX``.
+Note that if you install ``gcc`` the commands ``gcc`` and ``g++`` default to ``clang``.
+Therefore, before installing PySAP, you should export the environment variables ``CC`` and ``CXX``.
 
 *e.g.*
 
@@ -69,51 +70,15 @@ installing PySAP you should export the environment variables ``CC`` and ``CXX``.
 
 If you encounter problems re-compiling PySAP following an OS update it may be necessary to uninstall Homebrew and repeat these steps.
 
-In some cases Boost will have trouble finding the correct version of gcc, if so the following hack can be implemented (even just temporarily).
-
-.. code-block:: bash
-
-   cd /usr/local/bin
-   ln -s gcc-8 gcc
-   ln -s g++-8 g++
-   ln -s gcc cc
-   ln -s g++ c++
-
 Troubleshooting
 ===============
 
 The following subsections propose solutions to some known issues.
 
-Python 3
---------
-
-For some Python 3 installations (such as Anaconda) the ``Python.h`` header file is
-located in a directory called ``python3.Xm`` (where X is the minor version number).
-This causes issues with Boost, which looks for this header file in ``python3.X``.
-
-*e.g.*
-
-.. code-block:: bash
-
-  In file included from ./boost/python/detail/prefix.hpp:13:0,
-                 from ./boost/python/list.hpp:8,
-                 from libs/python/src/list.cpp:5:
-  ./boost/python/detail/wrap_python.hpp:50:11: fatal error: pyconfig.h: No such file or directory
-  # include <pyconfig.h>
-           ^~~~~~~~~~~~
-  compilation terminated.
-
-This can be easily solved by exporting the following
-
-.. code-block:: bash
-
-  export CPLUS_INCLUDE_PATH=/PATH-TO-PYTHON/include/python3.Xm
-
-
 PyQtGraph
 ---------
 
-Some issues may arise with regards to the installation of ``pyqtgraph``. The
+Some issues may arise at runtime with regards to the installation of ``pyqtgraph``. The
 easiest solution to this problem is to install the package using |link-to-conda|.
 
 .. |link-to-conda| raw:: html
@@ -125,7 +90,13 @@ easiest solution to this problem is to install the package using |link-to-conda|
 
   conda install pyqtgraph
 
-Alternatively see the |link-to-pyqt| for help.
+Alternatively reinstall PyQT5.
+
+.. code-block:: bash
+
+  pip install -I pyqt5
+
+See the |link-to-pyqt| for further help.
 
 .. |link-to-pyqt| raw:: html
 
