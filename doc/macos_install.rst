@@ -29,9 +29,9 @@ The following packages are required in order to build PySAP:
 
 1. ``cmake``
 
-2. ``libomp`` (or ``gcc``)
+2. ``libomp`` (or ``gcc``\*)
 
-  Any c/c++ compiler that supports OpenMP should work. (Note that the native macOS
+  \*Any c/c++ compiler that supports OpenMP should work. (Note that the native macOS
   ``clang`` does not provide OpenMP support on its own)
 
 
