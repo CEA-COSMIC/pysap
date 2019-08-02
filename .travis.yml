@@ -4,7 +4,6 @@ language: python
 
 matrix:
     include:
-        - python: 2.7
         - python: 3.5
         - python: 3.6
         - python: 3.7
@@ -14,14 +13,6 @@ matrix:
 before_install:
     - sudo apt-get update
     - sudo updatedb
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-      else
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-      fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
-        export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
-      fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.5.6/include/python3.5m;
       fi
@@ -42,13 +33,6 @@ before_install:
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
-    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then
-        pip install mock;
-      fi
-    - conda install --yes numpy scipy matplotlib
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        pip install future;
-      fi
     - locate pyconfig.h
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
@@ -63,10 +47,10 @@ install:
     - pip install coverage
     - pip install coveralls
     - pip install pycodestyle
-    - pip install scikit-learn==0.20
+    - pip install scikit-learn
     - pip install nibabel
     - pip install progressbar2
-    - pip install astropy==2.0.8
+    - pip install astropy
     - pip install PyWavelets
     - pip install modopt
     - pip install git+https://github.com/CEA-COSMIC/pysap-mri@master
@@ -75,9 +59,6 @@ install:
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-2.7/extern/bin;
-      fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
       fi
