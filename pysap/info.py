@@ -71,11 +71,11 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
 REQUIRES = [
-    "scipy>=0.18.0",
-    "numpy>=1.11.0",
-    "matplotlib>=2.0.0",
-    "astropy==2.0.8",
-    "nibabel>=2.1.0",
+    "scipy>=1.3.0",
+    "numpy>=1.16.4",
+    "matplotlib>=3.0.0",
+    "astropy>=3.0.0",
+    "nibabel>=2.3.2",
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",
     "modopt>=1.1.5",

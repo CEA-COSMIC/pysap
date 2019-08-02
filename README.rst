@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python27|_ |Python34|_ |Python35|_ |Python36|_ |PyPi|_
+|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_
 
 .. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
@@ -7,17 +7,14 @@
 .. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
 .. _Coveralls: https://coveralls.io/github/CEA-COSMIC/pysap
 
-.. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/python-pySAP
-
-.. |Python34| image:: https://img.shields.io/badge/python-3.4-blue.svg
-.. _Python34: https://badge.fury.io/py/python-pySAP
-
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _Python35: https://badge.fury.io/py/python-pySAP
 
 .. |Python36| image:: https://img.shields.io/badge/python-3.6-blue.svg
 .. _Python36: https://badge.fury.io/py/python-pySAP
+
+.. |Python37| image:: https://img.shields.io/badge/python-3.7-blue.svg
+.. _Python37: https://badge.fury.io/py/python-pySAP
 
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP

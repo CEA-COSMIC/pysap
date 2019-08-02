@@ -38,14 +38,9 @@ pkgdata = {
         os.path.join("test", "*.json"),
         os.path.join("apps", "*.json")]
 }
-if sys.version_info >= (3, 0):
-    scripts = [
-        os.path.join("pysap", "apps", "pysapview3")
-    ]
-else:
-    scripts = [
-        os.path.join("pysap", "apps", "pysapview")
-    ]
+scripts = [
+    os.path.join("pysap", "apps", "pysapview3")
+]
 
 # Workaround
 if "--release" in sys.argv:
@@ -110,8 +105,8 @@ class CMakeBuild(build_ext):
                 ", ".join(e.name for e in self.extensions))
         cmake_version = LooseVersion(re.search(r"version\s*([\d.]+)",
                                      out.decode()).group(1))
-        if cmake_version < "2.8.0":
-            raise RuntimeError("CMake >= 2.8.0 is required.")
+        if cmake_version < "3.0.0":
+            raise RuntimeError("CMake >= 3.0.0 is required.")
 
         # Build extensions
         for ext in self.extensions:
