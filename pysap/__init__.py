@@ -16,7 +16,6 @@ that allows sparse decomposition, denoising and deconvolution.
 # import matplotlib
 # matplotlib.use("Agg")
 
-from __future__ import print_function
 from .info import __version__
 import pysap.extensions
 from pysap.base import io

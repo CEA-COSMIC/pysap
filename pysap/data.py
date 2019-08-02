@@ -12,7 +12,6 @@ A module that privides the utility functions to download toy datasets.
 """
 
 # System import
-from __future__ import print_function
 import os
 import sys
 import copy

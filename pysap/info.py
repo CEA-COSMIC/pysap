@@ -74,7 +74,6 @@ REQUIRES = [
     "scipy>=0.18.0",
     "numpy>=1.11.0",
     "matplotlib>=2.0.0",
-    "future>=0.16.0",
     "astropy==2.0.8",
     "nibabel>=2.1.0",
     "pyqtgraph>=0.10.0",

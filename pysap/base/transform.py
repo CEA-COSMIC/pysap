@@ -12,7 +12,6 @@ Wavelet transform base module.
 """
 
 # System import
-from __future__ import division, print_function, absolute_import
 from pprint import pprint
 import uuid
 import os
