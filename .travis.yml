@@ -13,7 +13,7 @@ matrix:
 before_install:
     - sudo apt-get update
     - sudo updatedb
-    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.5.6/include/python3.5m;
       fi
