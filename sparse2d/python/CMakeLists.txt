@@ -18,6 +18,10 @@ project(pysparse)
   include_directories(${PYTHON_INCLUDE_DIRS})
   link_directories(${PYTHON_LIBRARY_DIRS})
 
+  # Include Pybind11 headers
+  message(STATUS "Using Pybind11 Inc: ${PYBIND11_INCLUDE_DIR}")
+  include_directories(${PYBIND11_INCLUDE_DIR})
+
   # Find OpenMP
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
     set(OpenMP_INCLUDE_PATH "/usr/local/include")
