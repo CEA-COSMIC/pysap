@@ -53,6 +53,7 @@ install:
     - pip install progressbar2
     - pip install astropy
     - pip install PyWavelets
+    - pip install matplotlib
     - pip install modopt
     - pip install git+https://github.com/CEA-COSMIC/pysap-mri@master
     - pip install git+https://github.com/CEA-COSMIC/pysap-astro@master
