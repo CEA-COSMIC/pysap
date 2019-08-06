@@ -8,7 +8,6 @@
 ##########################################################################
 
 # System import
-from __future__ import print_function
 import unittest
 import os
 import numpy

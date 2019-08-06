@@ -12,21 +12,13 @@ A module that privides the utility functions to download toy datasets.
 """
 
 # System import
-from __future__ import print_function
 import os
 import sys
 import copy
-if sys.version_info[:2] >= (3, 0):
-    from urllib.request import FancyURLopener
-    from urllib.request import urlopen
-    from urllib.request import urlparse
-    from urllib.request import HTTPError
-else:
-    from urllib import FancyURLopener
-    from urllib2 import urlopen
-    from urllib2 import urlparse
-    urlparse = urlparse.urlparse
-    from urllib2 import HTTPError
+from urllib.request import FancyURLopener
+from urllib.request import urlopen
+from urllib.request import urlparse
+from urllib.request import HTTPError
 import urllib
 import time
 import shutil
@@ -313,10 +305,7 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
             local_file = open(temp_fname, "wb")
         # Get the total file size
         try:
-            if sys.version_info[:2] >= (3, 0):
-                total_size = data.info().get_all("Content-Length")[0].strip()
-            else:
-                total_size = data.info().getheader("Content-Length").strip()
+            total_size = data.info().get_all("Content-Length")[0].strip()
             total_size = int(total_size) + bytes_so_far
         except Exception as e:
             if verbose > 0:
