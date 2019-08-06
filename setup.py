@@ -84,11 +84,7 @@ class CMakeBuild(build_ext):
         """
 
         # Set preinstall requirements
-        preinstall_list = ['pybind11']
-
-        # Add macOS specific requirements
-        if platform.system() == 'Darwin':
-            preinstall_list += release_info["MACOS_REQUIRES"]
+        preinstall_list = release_info["PREINSTALL_REQUIRES"]
 
         # Preinstall packages
         self._preinstall(preinstall_list)

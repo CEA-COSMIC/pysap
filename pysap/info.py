@@ -80,10 +80,10 @@ REQUIRES = [
     "progressbar2>=3.34.3",
     "modopt>=1.4.0",
     "scikit-learn>=0.19.1",
-    "PyWavelets>=1.0.0",
-    "pybind11>=2.2.4"
+    "PyWavelets>=1.0.0"
 ]
-MACOS_REQUIRES = [
+PREINSTALL_REQUIRES = [
+    "pybind11>=2.3.0",
     "pyqt5>=5.12.2"
 ]
 EXTRA_REQUIRES = {
