@@ -26,11 +26,11 @@ Install the python package with *pip*
 
 **Install the package without the root privilege**
 
->>> pip install --user pysap
+>>> pip install --user python-pySAP
 
 **Install the package with the root privilege**
 
->>> sudo pip install pysap
+>>> sudo pip install python-pySAP
 
 
 .. _install_development:
@@ -40,7 +40,7 @@ Installing the current version
 
 **Clone the project**
 
->>> git clone https://github.com/neurospin/pysap
+>>> git clone https://github.com/CEA-COSMIC/pysap
 
 **Install in the package directory created by the previous step**
 
