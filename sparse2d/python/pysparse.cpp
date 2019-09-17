@@ -60,7 +60,7 @@ PYBIND11_MODULE(pysparse, module)
     .def(py::init
     < int, int, int, int, int, int, int, float, double, double, double, std::string, int, std::string, std::string,
     bool, bool, bool, float, int, int, int, std::string, std::string,
-    int, bool, bool, bool, bool, int, float, float, float, bool ,bool, bool, bool>(),
+    int, std::string, bool, bool, bool, int, float, float, float, bool ,bool, bool, bool>(),
         py::arg("type_of_filtering")=(int)(1),
         py::arg("coef_detection_method")=(int)(1),
         py::arg("type_of_multiresolution_transform")=(int)(2),
@@ -68,7 +68,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("type_of_non_orthog_filters")=(int)(2),
         py::arg("type_of_noise")=(int)(1),
         py::arg("number_of_scales")=(int)(DEFAULT_NBR_SCALE),
-        py::arg("number_of_sigma")=(float)(DEFAULT_N_SIGMA),
+        py::arg("regul_param")=(float)(DEFAULT_N_SIGMA),
         py::arg("epsilon")=(double)(DEFAULT_EPSILON_FILTERING),
         py::arg("iter_max")=(double)(DEFAULT_MAX_ITER_FILTER),
         py::arg("max_inpainting_iter")=(double)(DEFAULT_MAX_ITER_INPAINTING),
@@ -86,7 +86,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("mask_file_name")=(std::string)(""),
         py::arg("prob_mr_file")=(std::string)(""),
         py::arg("min_event_number")=(int)(0),
-        py::arg("background_model_image")=(bool)(false),
+        py::arg("background_model_image")=(std::string)(""),
         py::arg("positive_recons_filter") =(bool)(false),
         py::arg("suppress_isolated_pixels")=(bool)(false),
         py::arg("verbose")=(bool)(false),
@@ -98,7 +98,8 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("positiv_ima")=(bool)(DEF_POSITIV_CONSTRAINT),
         py::arg("max_ima")=(bool)(DEF_MAX_CONSTRAINT),
         py::arg("kill_last_scale")=(bool)(false)
-      )
+
+    )
     .def("filter", &MRFilters::Filter)
     .def("info", &MRFilters::Info);
 }
