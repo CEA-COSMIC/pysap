@@ -25,7 +25,7 @@ class MRFilters
             int type_of_noise=1,
             int number_of_scales = DEFAULT_NBR_SCALE,
             float number_of_sigma = DEFAULT_N_SIGMA,
-            float epsilon = DEFAULT_EPSILON_FILTERING,
+            double epsilon = DEFAULT_EPSILON_FILTERING,
             double iter_max = DEFAULT_MAX_ITER_FILTER,
             double max_inpainting_iter = DEFAULT_MAX_ITER_INPAINTING,
             std::string support_file_name="",
@@ -63,7 +63,7 @@ class MRFilters
         int type_of_filters;
         int number_of_scales;
         float number_of_sigma;
-        float epsilon; //convergence parameter
+        double epsilon; //convergence parameter
         double iter_max;
         double max_inpainting_iter;
         std::string support_file_name;
@@ -108,7 +108,7 @@ MRFilters::MRFilters(
             int type_of_noise,
             int number_of_scales,
             float number_of_sigma,
-            float epsilon,
+            double epsilon,
             double iter_max,
             double max_inpainting_iter,
             std::string support_file_name,
@@ -280,19 +280,14 @@ MRFilters::MRFilters(
 
 
        // Epsilon option and MaxIter option are valid only with iterative methods
+      
     if ((this->epsilon != DEFAULT_EPSILON_FILTERING) || (this->iter_max != DEFAULT_MAX_ITER_FILTER))
-   {
-       //cout << "DEFAULT IS " << DEFAULT_EPSILON_FILTERING << " REAL IS: "<< this->epsilon<< std::endl;
-       //cout << "DUCOUP (this->epsilon == DEFAULT_EPSILON_FILTERING) = "<< (this->epsilon == DEFAULT_EPSILON_FILTERING) << std::endl;
-            
+    {   
        if ((this->filter != FILTER_ITER_THRESHOLD)
                 && (this->filter != FILTER_ITER_ADJOINT_COEFF)
 	            && (this->filter != FILTER_WAVELET_CONSTRAINT)
 	            && (this->filter != FILTER_TV_CONSTRAINT))
-        {
-            //cout << type_of_filters << std::endl;
             throw std::invalid_argument("Error: option -e and -i are not valid with non iterative filtering methods.");
-        }
     }
 
     if ((this->epsilon_poisson == 1.00e-03) //option is not set (default value)

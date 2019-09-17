@@ -58,7 +58,7 @@ PYBIND11_MODULE(pysparse, module)
 
   py::class_<MRFilters>(module, "MRFilters")
     .def(py::init
-    < int, int, int, int, int, int, int, float, float, double, double, std::string, int, std::string, std::string,
+    < int, int, int, int, int, int, int, float, double, double, double, std::string, int, std::string, std::string,
     bool, bool, bool, float, int, int, int, std::string, std::string,
     int, bool, bool, bool, bool, int, float, float, float, bool ,bool, bool, bool>(),
         py::arg("type_of_filtering")=(int)(1),
@@ -69,7 +69,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("type_of_noise")=(int)(1),
         py::arg("number_of_scales")=(int)(DEFAULT_NBR_SCALE),
         py::arg("number_of_sigma")=(float)(DEFAULT_N_SIGMA),
-        py::arg("epsilon")=(float)(DEFAULT_EPSILON_FILTERING),
+        py::arg("epsilon")=(double)(DEFAULT_EPSILON_FILTERING),
         py::arg("iter_max")=(double)(DEFAULT_MAX_ITER_FILTER),
         py::arg("max_inpainting_iter")=(double)(DEFAULT_MAX_ITER_INPAINTING),
         py::arg("support_file_name")=(std::string)(""),
