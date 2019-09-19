@@ -55,12 +55,11 @@ PYBIND11_MODULE(pysparse, module)
     .def("reconstruct", &MRTransform3D::Reconstruct, py::arg("mr_data"))
     .def_property("opath", &MRTransform3D::get_opath, &MRTransform3D::set_opath);
 
-
   py::class_<MRFilters>(module, "MRFilters")
     .def(py::init
     < int, int, int, int, int, int, int, float, double, double, double, std::string, int, std::string, std::string,
-    bool, bool, bool, float, int, int, int, std::string, std::string,
-    int, std::string, bool, bool, bool, int, float, float, float, bool ,bool, bool, bool>(),
+    bool, bool, bool, float, int, int, int, std::string, std::string, int, std::string, 
+    bool, bool, bool, int, float, float, float, bool ,bool, bool, bool, bool, std::vector<float>&>(),
         py::arg("type_of_filtering")=(int)(1),
         py::arg("coef_detection_method")=(int)(1),
         py::arg("type_of_multiresolution_transform")=(int)(2),
@@ -91,15 +90,16 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("suppress_isolated_pixels")=(bool)(false),
         py::arg("verbose")=(bool)(false),
         py::arg("number_undec")=(int)(-1),
-        py::arg("pas_codeur")=(float)(NULL),
-        py::arg("sigma_gauss")=(float)(NULL),
-        py::arg("mean_gauss")=(float)(NULL),
+        py::arg("pas_codeur")=(float)(-1),
+        py::arg("sigma_gauss")=(float)(-1),
+        py::arg("mean_gauss")=(float)(-1),
         py::arg("old_poisson")=(bool)(false),
         py::arg("positiv_ima")=(bool)(DEF_POSITIV_CONSTRAINT),
         py::arg("max_ima")=(bool)(DEF_MAX_CONSTRAINT),
-        py::arg("kill_last_scale")=(bool)(false)
-
+        py::arg("kill_last_scale")=(bool)(false),
+        py::arg("write_threshold")=(bool)(false),
+        py::arg("tab_n_sigma")=(std::vector<float>&)(v)
     )
-    .def("filter", &MRFilters::Filter)
-    .def("info", &MRFilters::Info);
+    .def("info", &MRFilters::Info)
+    .def("filter", &MRFilters::Filter, py::arg("arr"));
 }
