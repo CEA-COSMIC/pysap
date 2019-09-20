@@ -17,7 +17,6 @@
 
 #include "numpydata.hpp"
 
-//FIXME: faire une macro a la place
 std::vector<float> v = {DEFAULT_N_SIGMA};
 
 class MRFilters
@@ -25,12 +24,12 @@ class MRFilters
     public:
         MRFilters(
             int type_of_filtering=1,
-            double coef_detection_method=1,
+            int coef_detection_method=1,
             float type_of_multiresolution_transform=2,
             float type_of_filters = 1,
             float type_of_non_orthog_filters=2,
-            float type_of_noise=1,
-            float number_of_scales = DEFAULT_NBR_SCALE,
+            int type_of_noise=1,
+            int number_of_scales = DEFAULT_NBR_SCALE,
             float regul_param = 0.1,
             double epsilon = DEFAULT_EPSILON_FILTERING,
             double iter_max = DEFAULT_MAX_ITER_FILTER,
@@ -48,7 +47,7 @@ class MRFilters
             float first_scale=1,
             std::string mask_file_name="",
             std::string prob_mr_file="",
-            float min_event_number=0,
+            int min_event_number=0,
             std::string background_model_image="",
             bool positive_recons_filter=false,
             bool suppress_isolated_pixels=false,
@@ -57,7 +56,7 @@ class MRFilters
             float pas_codeur = -1, //always positive
             float sigma_gauss = -1, //always positive
             float mean_gauss = -1, //always positive
-            bool old_poisson=false,
+            bool old_poisson = false,
             bool positiv_ima= DEF_POSITIV_CONSTRAINT,
             bool max_ima = DEF_MAX_CONSTRAINT,
             bool kill_last_scale = false,
@@ -73,7 +72,7 @@ class MRFilters
         
     private:
         int type_of_filters;
-        float number_of_scales;
+        int number_of_scales;
         float regul_param;
         double epsilon; //convergence parameter
         double iter_max;
@@ -91,7 +90,7 @@ class MRFilters
         float first_scale;
         std::string mask_file_name;
         std::string prob_mr_file;
-        float min_event_number;
+        int min_event_number;
         std::string background_model_image;
         float number_undec;
         float pas_codeur;
@@ -123,12 +122,12 @@ class MRFilters
 
 MRFilters::MRFilters(
             int type_of_filtering,
-            double coef_detection_method,
+            int coef_detection_method,
             float type_of_multiresolution_transform,
             float type_of_filters,
             float type_of_non_orthog_filters,
-            float type_of_noise,
-            float number_of_scales,
+            int type_of_noise,
+            int number_of_scales,
             float regul_param,
             double epsilon,
             double iter_max,
@@ -146,7 +145,7 @@ MRFilters::MRFilters(
             float first_scale,
             std::string mask_file_name,
             std::string prob_mr_file,
-            float min_event_number,
+            int min_event_number,
             std::string background_model_image,
             bool positive_recons_filter,
             bool suppress_isolated_pixels,
@@ -208,7 +207,6 @@ MRFilters::MRFilters(
     else
         throw std::invalid_argument("Error: bad type of detection.");
 
-    //Verifier si il faut pas plutot mettre DEFAULT_N_SIGMA
     if (this->regul_param < 0.) this->regul_param = 0.1;
 
     if ((type_of_filtering > 0) && (type_of_filtering <= NBR_FILTERING))
@@ -580,7 +578,6 @@ py::array_t<float> MRFilters::Filter(py::array_t<float>& arr)
     if ((this->verbose) && (this->stat_noise == NOISE_GAUSSIAN)  && (ABS(this->sigma_noise) < FLOAT_EPSILON))
          cout << "Noise standard deviation = " <<  model_data.SigmaNoise << endl;
     
-    //FIXME: maybe discociate
     //write info used for computing the probability map
     if ((this->stat_noise == NOISE_EVENT_POISSON) && (this->prob_mr_file != ""))
         write_on_prob_map(CFilter, data);
