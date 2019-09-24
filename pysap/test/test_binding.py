@@ -13,6 +13,7 @@ import os
 import numpy
 import sys
 import time
+import pytest
 
 # Package import
 import pysap
@@ -172,7 +173,7 @@ class TestWarpAndBinding(unittest.TestCase):
         diff = flt.data - image
         assert(diff.all() == 0)
 
-    def test_several_options(self):
+    def test_several_options_filter(self):
         # filter with binding
         flt = sp.Filter(type_of_filtering=2, coef_detection_method =3, type_of_multiresolution_transform = 4,
                         type_of_non_orthog_filters = 3, type_of_noise=2)
@@ -189,6 +190,23 @@ class TestWarpAndBinding(unittest.TestCase):
             image = numpy.copy(pysap.io.load(out_file))
         diff = flt.data - image
         assert(diff.all() == 0)
+
+    def test_wrong_noise_parameter_filter(self):
+        data = numpy.copy(self.images[1])
+
+        with pytest.raises(ValueError, match=r".*bad precision number.*"):
+                flt = sp.Filter(epsilon_poisson=5, type_of_noise=2)
+                flt.filter(data)
+        with pytest.raises(ValueError, match=r".*this noise model need a noise map.*"):
+                flt = sp.Filter(type_of_noise=9)
+                flt.filter(data)
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            pysap.io.save(data, in_image)
+            with pytest.raises(ValueError, match=r"Error: this noise model is not correct when RMS map option is set."):
+                flt = sp.Filter(rms_map=in_image, type_of_noise=6)
+                flt.filter(data)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -245,7 +245,7 @@ MRFilters::MRFilters(
 
     // Check the number of scales
     if ((this->number_of_scales <= 1) || (this->number_of_scales > MAX_SCALE))
-        throw std::invalid_argument("Error: bad number of scale ]1;MAX_SCALE] ");
+        throw std::invalid_argument("Error: bad number of scale ]1;"+std::to_string(MAX_SCALE)+"] ");
 
     // Check iter_max
     if (this->iter_max <= 0)
@@ -257,7 +257,7 @@ MRFilters::MRFilters(
     
     //check epsilon poisson
     if ((this->epsilon_poisson <= 0.) || (this->epsilon_poisson > MAX_EPSILON))
-        throw std::invalid_argument("Error: bad precision number. [MIN_EPSILON;MAX_EPSILON]");
+        throw std::invalid_argument("Error: bad precision number. ["+std::to_string(MIN_EPSILON)+";"+std::to_string(MAX_EPSILON)+"]");
     
     //check sizeblock
     if (this->size_block < 2)
