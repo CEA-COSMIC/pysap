@@ -47,7 +47,6 @@ install:
     - pip install nose-exclude
     - pip install coverage
     - pip install coveralls
-    - pip install pyqtgraph>=0.10.0
     - pip install pycodestyle
     - pip install scikit-learn
     - pip install nibabel

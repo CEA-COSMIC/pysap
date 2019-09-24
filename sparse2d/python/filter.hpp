@@ -335,7 +335,6 @@ MRFilters::MRFilters(
 	    if ((this->stat_noise == NOISE_EVENT_POISSON) && (this->regul_param > 12))
 	        throw std::invalid_argument("Error: regul_param must be set to a lower value (<12).");
     }
-
  	if ((this->transform != TO_UNDECIMATED_MALLAT) && (this->transform != TO_MALLAT) && (type_of_filters != 1)) //Type_of_filters has been set
         throw std::invalid_argument("Error: option type_of_filters is only valid with Mallat transform");
 }
