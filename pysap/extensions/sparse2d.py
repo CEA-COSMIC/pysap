@@ -8,15 +8,12 @@
 ##########################################################################
 
 # System import
-#import os
+
 import warnings
 
 # Package import
 import pysap
 from pysap.base.transform import MetaRegister # for the metaclass
-
-import matplotlib.pyplot as plt
-import numpy as np
 
 try:
     import pysparse
@@ -25,7 +22,8 @@ except ImportError:
     pysparse = None
 
 # Third party import
-import numpy
+import numpy as np
+import matplotlib.pyplot as plt
 
 class Filter():
     def __init__(self, **kwargs):

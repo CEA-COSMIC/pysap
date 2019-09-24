@@ -17,7 +17,11 @@ import time
 # Package import
 import pysap
 import pysap.extensions.transform
+import pysap.extensions.sparse2d as sp
+from pysap.extensions import tools
 from pysap.data import get_sample_data
+from astropy.io import fits
+
 
 
 class TestWarpAndBinding(unittest.TestCase):
@@ -28,8 +32,8 @@ class TestWarpAndBinding(unittest.TestCase):
         """ Get the data from the server.
         """
         self.images = [
-            # get_sample_data(dataset_name="astro-fits"),
-            get_sample_data(dataset_name="mri-slice-nifti")]
+            get_sample_data(dataset_name="mri-slice-nifti"),
+            get_sample_data(dataset_name="astro-fits")]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
         transforms_struct = pysap.wavelist(["isap-2d", "isap-3d"])
@@ -81,7 +85,7 @@ class TestWarpAndBinding(unittest.TestCase):
                           len(transform.analysis_data))
                     print("      bands = ", transform.nb_band_per_scale)
                     print("      synthesis = ", recim.shape)
-
+ 
     def test_speed(self):
         """ Test the bindings time advantages.
         """
@@ -145,6 +149,46 @@ class TestWarpAndBinding(unittest.TestCase):
             band_array[:, :] = 10
             self.assertTrue(numpy.allclose(transform[0, 0], band_array))
 
+    def test_init_filter(self):
+        flt = sp.Filter()
+        data = numpy.copy(self.images[0])
+        flt.filter(data)
+        assert(flt.data is not None)
+
+    def test_default_filter(self):
+        # filter with binding
+        flt = sp.Filter()
+        data = numpy.copy(self.images[1])
+        flt.filter(data)
+        image = 0
+        # filter with wrapper
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr_filter(in_image, out_file)
+            image = numpy.copy(pysap.io.load(out_file))
+
+        diff = flt.data - image
+        assert(diff.all() == 0)
+
+    def test_several_options(self):
+        # filter with binding
+        flt = sp.Filter(type_of_filtering=2, coef_detection_method =3, type_of_multiresolution_transform = 4,
+                        type_of_non_orthog_filters = 3, type_of_noise=2)
+        data = numpy.copy(self.images[1])
+        flt.filter(data)
+        image = 0
+        # filter with wrapper
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr_filter(in_image, out_file, type_of_filtering=2, coef_detection_method =3, type_of_multiresolution_transform = 4,
+                        type_of_non_orthog_filters = 3, type_of_noise=2)
+            image = numpy.copy(pysap.io.load(out_file))
+        diff = flt.data - image
+        assert(diff.all() == 0)
 
 if __name__ == "__main__":
     unittest.main()
