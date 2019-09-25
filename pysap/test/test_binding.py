@@ -156,63 +156,6 @@ class TestWarpAndBinding(unittest.TestCase):
         flt.filter(data)
         assert(flt.data is not None)
 
-    def test_default_filter(self):
-        # filter with binding
-        flt = sp.Filter()
-        data = numpy.copy(self.images[1])
-        flt.filter(data)
-        image = 0
-        # filter with wrapper
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_file = os.path.join(tmpdir, "out")
-            pysap.io.save(data, in_image)
-            pysap.extensions.mr_filter(in_image, out_file)
-            image = numpy.copy(pysap.io.load(out_file))
-
-        diff = flt.data - image
-        assert(diff.all() == 0)
-
-    def test_several_options_filter(self):
-        # filter with binding
-        flt = sp.Filter(type_of_filtering=2, coef_detection_method=3,
-                        type_of_multiresolution_transform=4,
-                        type_of_non_orthog_filters=3, type_of_noise=2)
-        data = numpy.copy(self.images[1])
-        flt.filter(data)
-        image = 0
-        # filter with wrapper
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_file = os.path.join(tmpdir, "out")
-            pysap.io.save(data, in_image)
-            pysap.extensions.mr_filter(in_image,
-                                       out_file,
-                                       type_of_filtering=2,
-                                       coef_detection_method=3,
-                                       type_of_multiresolution_transform=4,
-                                       type_of_non_orthog_filters=3,
-                                       type_of_noise=2)
-            image = numpy.copy(pysap.io.load(out_file))
-        diff = flt.data - image
-        assert(diff.all() == 0)
-
-    def test_wrong_noise_parameter_filter(self):
-        data = numpy.copy(self.images[1])
-
-        with assert_raises(ValueError):
-            flt = sp.Filter(epsilon_poisson=5, type_of_noise=2)
-            flt.filter(data)
-        with assert_raises(ValueError):
-            flt = sp.Filter(type_of_noise=9)
-            flt.filter(data)
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            pysap.io.save(data, in_image)
-            with assert_raises(ValueError):
-                flt = sp.Filter(rms_map=in_image, type_of_noise=6)
-                flt.filter(data)
-
 
 if __name__ == "__main__":
     unittest.main()
