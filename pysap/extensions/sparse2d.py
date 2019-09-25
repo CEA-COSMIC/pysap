@@ -30,10 +30,10 @@ import matplotlib.pyplot as plt
 class Filter():
     def __init__(self, **kwargs):
         self.data = None
+        self.flt = pysparse.MRFilters(**kwargs)
 
-    def filter(self, data, **kwargs):
-        flt = pysparse.MRFilters(**kwargs)
-        self.data = flt.filter(data)
+    def filter(self, data):
+        self.data = self.flt.filter(data)
 
     def show(self, save=False):
         if self.data is None:

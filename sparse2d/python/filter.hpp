@@ -41,7 +41,7 @@ class MRFilters
             bool missing_data=false,
             bool keep_positiv_sup=false,
             bool write_info_on_prob_map=false,
-            float epsilon_poisson = 1.00e-03,
+            double epsilon_poisson = 1.00e-03,
             float size_block=7,
             float niter_sigma_clip=1,
             float first_scale=1,
@@ -84,7 +84,7 @@ class MRFilters
         bool missing_data;
         bool keep_positiv_sup;
         bool write_info_on_prob_map;
-        float epsilon_poisson;
+        double epsilon_poisson;
         float size_block;
         float niter_sigma_clip;
         float first_scale;
@@ -139,7 +139,7 @@ MRFilters::MRFilters(
             bool missing_data,
             bool keep_positiv_sup,
             bool write_info_on_prob_map,
-            float epsilon_poisson,
+            double epsilon_poisson,
             float size_block,
             float niter_sigma_clip,
             float first_scale,
@@ -175,7 +175,7 @@ MRFilters::MRFilters(
     this->missing_data = missing_data;
     this->keep_positiv_sup = keep_positiv_sup;
     this->write_info_on_prob_map = write_info_on_prob_map;
-    this->epsilon_poisson = (double)epsilon_poisson;
+    this->epsilon_poisson = epsilon_poisson;
     this->size_block = size_block;
     this->niter_sigma_clip = niter_sigma_clip;
     this->first_scale = first_scale - 1;

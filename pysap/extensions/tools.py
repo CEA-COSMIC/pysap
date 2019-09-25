@@ -53,21 +53,22 @@ def mr_filter(
         in_image, out_image, type_of_filtering=1, coef_detection_method=1,
         type_of_multiresolution_transform=2, type_of_filters=1,
         type_of_non_orthog_filters=2,
-        sigma=None, type_of_noise=1, number_of_scales=4, number_of_iterations=10, epsilon=0.001):
+        sigma=None, type_of_noise=1, number_of_scales=4,
+        number_of_iterations=10, epsilon=0.001):
     """ Wrap the Sparse2d 'mr_filter'.
     """
     # Generate the command
     cmd = ["mr_filter"]
     if type_of_noise != 1:
-        cmd+=["-m", type_of_noise]
+        cmd += ["-m", type_of_noise]
     if type_of_multiresolution_transform != 2:
-        cmd+=["-t", type_of_multiresolution_transform]
+        cmd += ["-t", type_of_multiresolution_transform]
     if type_of_non_orthog_filters != 2:
         cmd += ["-U", type_of_non_orthog_filters]
     if coef_detection_method != 1:
-        cmd+=["-C", coef_detection_method]
+        cmd += ["-C", coef_detection_method]
     if type_of_filtering != 1:
-        cmd+=["-f", type_of_filtering]
+        cmd += ["-f", type_of_filtering]
     if epsilon != 0.001:
         cmd += ["-e", epsilon]
     if number_of_iterations != 10:
@@ -75,9 +76,7 @@ def mr_filter(
     if type_of_filters != 1:
         cmd += ["-T", type_of_filters]
 
-
     cmd += [in_image, out_image]
-    print(cmd)
 
     # Execute the command
     process = Sparse2dWrapper()

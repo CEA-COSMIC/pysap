@@ -155,7 +155,7 @@ class TestWarpAndBinding(unittest.TestCase):
         data = numpy.copy(self.images[0])
         flt.filter(data)
         assert(flt.data is not None)
-    
+
     def test_default_filter(self):
         # filter with binding
         flt = sp.Filter()
@@ -194,6 +194,22 @@ class TestWarpAndBinding(unittest.TestCase):
             diff = flt.data - image
             print(diff)
             assert(diff.all() == 0)
+
+    def test_value_error(self):
+        data = numpy.copy(self.images[1])
+        with assert_raises(ValueError):
+            flt = sp.Filter(epsilon_poisson=5, type_of_noise=2)
+            flt.filter(data)
+        with assert_raises(ValueError):
+            flt = sp.Filter(type_of_noise=9)
+            flt.filter(data)
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            pysap.io.save(data, in_image)
+        with assert_raises(ValueError):
+            flt = sp.Filter(rms_map=in_image, type_of_noise=6)
+            flt.filter(data)
+
 
 if __name__ == "__main__":
     unittest.main()

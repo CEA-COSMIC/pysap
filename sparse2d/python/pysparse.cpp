@@ -58,7 +58,7 @@ PYBIND11_MODULE(pysparse, module)
   py::class_<MRFilters>(module, "MRFilters")
     .def(py::init
     < int, int, int, int, int, int, int, float, double, double, double, std::string, float, std::string, std::string,
-    bool, bool, bool, float, int, int, int, std::string, std::string, int, std::string, 
+    bool, bool, bool, double, int, int, int, std::string, std::string, int, std::string, 
     bool, bool, bool, int, float, float, float, bool ,bool, bool, bool, bool, std::vector<float>&>(),
         py::arg("type_of_filtering")=(int)(1),
         py::arg("coef_detection_method")=(int)(1),
@@ -78,7 +78,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("missing_data")=(bool)(false),
         py::arg("keep_positiv_sup")=(bool)(false),
         py::arg("write_info_on_prob_map")=(bool)(false),
-        py::arg("epsilon_poisson")=(float)(1.00e-03),
+        py::arg("epsilon_poisson")=(double)(1.00e-03),
         py::arg("size_block")=(int)(7),
         py::arg("niter_sigma_clip")=(int)(1),
         py::arg("first_scale")=(int)(1),
