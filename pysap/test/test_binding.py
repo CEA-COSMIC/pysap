@@ -34,7 +34,7 @@ class TestWarpAndBinding(unittest.TestCase):
         """
         self.images = [
             get_sample_data(dataset_name="mri-slice-nifti")
-            #get_sample_data(dataset_name="astro-ngc2997")
+            # get_sample_data(dataset_name="astro-ngc2997")
             ]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
@@ -150,6 +150,8 @@ class TestWarpAndBinding(unittest.TestCase):
             band_array = transform[0, 0]
             band_array[:, :] = 10
             self.assertTrue(numpy.allclose(transform[0, 0], band_array))
+
+
 '''
     def test_init_filter(self):
         flt = sp.Filter()
