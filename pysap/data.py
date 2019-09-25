@@ -94,6 +94,10 @@ SAMPLE_DATE_FILES = {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "example_psf_image.npy"),
         "md5sum": None
+    },
+    "astro-ngc2997": {
+        "url": ("https://github.com/sfarrens/test/raw/master/ngc2997.fits"),
+        "md5sum": None
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pysap")
