@@ -155,7 +155,45 @@ class TestWarpAndBinding(unittest.TestCase):
         data = numpy.copy(self.images[0])
         flt.filter(data)
         assert(flt.data is not None)
+    
+    def test_default_filter(self):
+        # filter with binding
+        flt = sp.Filter()
+        data = numpy.copy(self.images[1])
+        flt.filter(data)
+        image = 0
+        # filter with wrapper
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.fits")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr_filter(in_image, out_file)
+            image = numpy.copy(pysap.io.load(out_file))
 
+        diff = flt.data - image
+        assert(diff.all() == 0)
+
+    def test_several_options_filter(self):
+        # filter with binding
+        flt = sp.Filter(type_of_filtering=2, coef_detection_method=3,
+                        type_of_multiresolution_transform=4)
+        data = numpy.copy(self.images[1])
+        flt.filter(data)
+        image = 0
+        # filter with wrapper
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.fits")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr_filter(in_image,
+                                       out_file,
+                                       type_of_filtering=2,
+                                       coef_detection_method=3,
+                                       type_of_multiresolution_transform=4)
+            image = numpy.copy(pysap.io.load(out_file))
+            diff = flt.data - image
+            print(diff)
+            assert(diff.all() == 0)
 
 if __name__ == "__main__":
     unittest.main()
