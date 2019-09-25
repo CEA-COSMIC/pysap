@@ -15,6 +15,7 @@ import warnings
 import pysap
 
 from pysap.base.transform import MetaRegister  # for the metaclass
+from pysap.base import image
 
 try:
     import pysparse
@@ -33,15 +34,4 @@ class Filter():
         self.flt = pysparse.MRFilters(**kwargs)
 
     def filter(self, data):
-        self.data = self.flt.filter(data)
-
-    def show(self, save=False):
-        if self.data is None:
-            raise Exception("Data needs to be filtered!")
-        plt.imshow(self.data, cmap='gray')
-        plt.suptitle("Filtered Image")
-        if save:
-            plt.savefig()
-        plt.imshow(self.data, cmap='gray', vmax=np.max(self.data), vmin=0)
-        plt.suptitle("Filtered Image")
-        plt.show()
+        self.data = pysap.Image(data=self.flt.filter(data))
