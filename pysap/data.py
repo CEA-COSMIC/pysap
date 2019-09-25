@@ -78,7 +78,7 @@ SAMPLE_DATE_FILES = {
     },
     "astro-fits": {
         "url": "ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits",
-        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad"
+        "md5sum": None
     },
     "astro-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"

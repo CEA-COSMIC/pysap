@@ -120,6 +120,13 @@ class MRFilters
         FilterAnaSynt *ptrfas = NULL;
 };
 
+static inline char* int_to_char(int c)
+{
+    std::string temp_str = std::to_string(c);
+    char* char_type = new char[temp_str.length()];
+    strcpy(char_type, temp_str.c_str());
+    return char_type;
+}
 MRFilters::MRFilters(
             int type_of_filtering,
             int coef_detection_method,
@@ -220,7 +227,7 @@ MRFilters::MRFilters(
         throw std::invalid_argument("Error: bad type of transform.");
 
     if (this->type_of_filters != 1)
-        this->sb_filter = get_filter_bank((char *)this->type_of_filters);
+        this->sb_filter = get_filter_bank(int_to_char(this->type_of_filters));
 
     if ((type_of_non_orthog_filters> 0) && (type_of_non_orthog_filters <= NBR_UNDEC_FILTER))
          this->undec_filter = (type_undec_filter) (type_of_non_orthog_filters-1);
@@ -338,6 +345,8 @@ MRFilters::MRFilters(
  	if ((this->transform != TO_UNDECIMATED_MALLAT) && (this->transform != TO_MALLAT) && (type_of_filters != 1)) //Type_of_filters has been set
         throw std::invalid_argument("Error: option type_of_filters is only valid with Mallat transform");
 }
+
+
 
 static inline double dierfc(double y)
 {
