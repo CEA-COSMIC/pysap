@@ -57,7 +57,7 @@ PYBIND11_MODULE(pysparse, module)
 
   py::class_<MRFilters>(module, "MRFilters")
     .def(py::init
-    < int, int, int, int, int, int, int, float, double, double, double, std::string, float, std::string, std::string,
+    < int, int, int, int, int, int, int, float, float, double, double, double, std::string, float, std::string, std::string,
     bool, bool, bool, double, int, int, int, std::string, std::string, int, std::string, 
     bool, bool, bool, int, float, float, float, bool ,bool, bool, bool, bool, std::vector<float>&>(),
         py::arg("type_of_filtering")=(int)(1),
@@ -67,6 +67,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("type_of_non_orthog_filters")=(int)(2),
         py::arg("type_of_noise")=(int)(1),
         py::arg("number_of_scales")=(int)(DEFAULT_NBR_SCALE),
+        py::arg("n_sigma")=(float)(3),
         py::arg("regul_param")=(float)(DEFAULT_N_SIGMA),
         py::arg("epsilon")=(double)(DEFAULT_EPSILON_FILTERING),
         py::arg("iter_max")=(double)(DEFAULT_MAX_ITER_FILTER),

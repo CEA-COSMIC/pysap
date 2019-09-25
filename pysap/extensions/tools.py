@@ -54,7 +54,8 @@ def mr_filter(
         type_of_multiresolution_transform=2, type_of_filters=1,
         type_of_non_orthog_filters=2,
         sigma=None, type_of_noise=1, number_of_scales=4,
-        number_of_iterations=10, epsilon=0.001, verbose=False):
+        number_of_iterations=10, epsilon=0.001, verbose=False,
+        n_sigma=3, suppress_isolated_pixels=False):
     """ Wrap the Sparse2d 'mr_filter'.
     """
     # Generate the command
@@ -75,11 +76,14 @@ def mr_filter(
         cmd += ["-i", number_of_iterations]
     if type_of_filters != 1:
         cmd += ["-T", type_of_filters]
-
+    if n_sigma != 3:
+        cmd += ["-s", n_sigma]
+    if suppress_isolated_pixels:
+        cmd += ["-K"]
     cmd += [in_image, out_image]
 
     # Execute the command
-    process = Sparse2dWrapper(verbose =verbose)
+    process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
 
 

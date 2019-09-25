@@ -30,6 +30,7 @@ class MRFilters
             float type_of_non_orthog_filters=2,
             int type_of_noise=1,
             int number_of_scales = DEFAULT_NBR_SCALE,
+            float n_sigma = 3,
             float regul_param = 0.1,
             double epsilon = DEFAULT_EPSILON_FILTERING,
             double iter_max = DEFAULT_MAX_ITER_FILTER,
@@ -128,6 +129,7 @@ static inline char* int_to_char(int c)
     return char_type;
 }
 MRFilters::MRFilters(
+    
             int type_of_filtering,
             int coef_detection_method,
             float type_of_multiresolution_transform,
@@ -135,6 +137,7 @@ MRFilters::MRFilters(
             float type_of_non_orthog_filters,
             int type_of_noise,
             int number_of_scales,
+            float n_sigma,
             float regul_param,
             double epsilon,
             double iter_max,
@@ -203,10 +206,11 @@ MRFilters::MRFilters(
     this->suppress_isolated_pixels = suppress_isolated_pixels;
     this->positive_recons_filter = positive_recons_filter;
     this->tab_n_sigma[0] = tab_n_sigma[0];
+    this->n_sigma = n_sigma;
     for (int i = 1; i < tab_n_sigma.size(); ++i)
         (this->tab_n_sigma).push_back(tab_n_sigma[i]); 
 
-    this->n_sigma = tab_n_sigma[0];
+    //this->n_sigma = tab_n_sigma[0];
     this->use_n_sigma=false;
 
     if ((coef_detection_method > 0) && (coef_detection_method <= NBR_THRESHOLD))
