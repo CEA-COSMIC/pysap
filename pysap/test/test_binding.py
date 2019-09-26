@@ -33,8 +33,8 @@ class TestWarpAndBinding(unittest.TestCase):
         """ Get the data from the server.
         """
         self.images = [
-            get_sample_data(dataset_name="mri-slice-nifti")
-            # get_sample_data(dataset_name="astro-ngc2997")
+            get_sample_data(dataset_name="mri-slice-nifti"),
+            get_sample_data(dataset_name="astro-ngc2997")
             ]
         print("[info] Image loaded for test: {0}.".format(
             [i.data.shape for i in self.images]))
@@ -151,8 +151,6 @@ class TestWarpAndBinding(unittest.TestCase):
             band_array[:, :] = 10
             self.assertTrue(numpy.allclose(transform[0, 0], band_array))
 
-
-'''
     def test_init_filter(self):
         flt = sp.Filter()
         data = numpy.copy(self.images[0])
@@ -176,64 +174,7 @@ class TestWarpAndBinding(unittest.TestCase):
         diff = flt.data - image
         assert(diff.all() == 0)
 
-    def test_filter_options_f3_n5(self):
-        flt = sp.Filter(type_of_filtering=3, number_of_scales=5)
-        data = numpy.copy(self.images[1])
-        flt.filter(data)
-        image = 0
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_file = os.path.join(tmpdir, "out.fits")
-            pysap.io.save(data, in_image)
-            pysap.extensions.mr_filter(in_image,
-                                       out_file,
-                                       type_of_filtering=3,
-                                       number_of_scales=5)
-            image = numpy.copy(pysap.io.load(out_file))
-        diff = flt.data - image
-        assert(diff.all() == 0)
-
-    def test_filter_options_f2_C3_t4(self):
-        flt = sp.Filter(type_of_filtering=2, coef_detection_method=3,
-                        type_of_multiresolution_transform=4)
-        data = numpy.copy(self.images[1])
-        flt.filter(data)
-        image = 0
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_file = os.path.join(tmpdir, "out.fits")
-            pysap.io.save(data, in_image)
-            pysap.extensions.mr_filter(in_image,
-                                       out_file,
-                                       type_of_filtering=2,
-                                       coef_detection_method=3,
-                                       type_of_multiresolution_transform=4)
-            image = numpy.copy(pysap.io.load(out_file))
-
-        diff = flt.data - image
-        assert(diff.all() == 0)
-
-    def test_filter_options_f3_n5_s5_K(self):
-        flt = sp.Filter(type_of_filtering=3,
-                        number_of_scales=5,
-                        n_sigma=5,
-                        suppress_isolated_pixels=True)
-        data = numpy.copy(self.images[1])
-        flt.filter(data)
-        image = 0
-        with pysap.TempDir(isap=True) as tmpdir:
-            in_image = os.path.join(tmpdir, "in.fits")
-            out_file = os.path.join(tmpdir, "out.fits")
-            pysap.io.save(data, in_image)
-            pysap.extensions.mr_filter(in_image,
-                                       out_file,
-                                       type_of_filtering=3,
-                                       number_of_scales=5,
-                                       n_sigma=5,
-                                       suppress_isolated_pixels=True)
-            image = numpy.copy(pysap.io.load(out_file))
-        diff = flt.data - image
-        assert(diff.all() == 0)
+    # Common use cases of the filter function
 
     def test_filter_options_t24_n5(self):
         flt = sp.Filter(type_of_multiresolution_transform=4,
@@ -287,7 +228,6 @@ class TestWarpAndBinding(unittest.TestCase):
         with assert_raises(ValueError):
             flt = sp.Filter(rms_map=in_image, type_of_noise=6)
             flt.filter(data)
-'''
 
 
 if __name__ == "__main__":

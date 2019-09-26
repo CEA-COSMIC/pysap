@@ -19,7 +19,7 @@ from pysap.base import image
 
 try:
     import pysparse
-except ImportError:
+except ImportError:  # pragma: no cover
     warnings.warn("Sparse2d python bindings not found, use binaries.")
     pysparse = None
 
@@ -35,3 +35,8 @@ class Filter():
 
     def filter(self, data):
         self.data = pysap.Image(data=self.flt.filter(data))
+
+    def show(self):  # pragma: no cover
+        if self.data is None:
+            raise AttributeError("The data must be filtered first !")
+        self.data.show()
