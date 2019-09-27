@@ -18,7 +18,6 @@
 #include "numpydata.hpp"
 
 std::vector<float> v = {DEFAULT_N_SIGMA};
-
 class MRFilters
 {
     public:
@@ -30,7 +29,6 @@ class MRFilters
             float type_of_non_orthog_filters=2,
             int type_of_noise=1,
             int number_of_scales = DEFAULT_NBR_SCALE,
-            float n_sigma = 3,
             float regul_param = 0.1,
             double epsilon = DEFAULT_EPSILON_FILTERING,
             double iter_max = DEFAULT_MAX_ITER_FILTER,
@@ -54,9 +52,9 @@ class MRFilters
             bool suppress_isolated_pixels=false,
             bool verbose=false,
             float number_undec = -1,
-            float pas_codeur = -1, //always positive
-            float sigma_gauss = -1, //always positive
-            float mean_gauss = -1, //always positive
+            float pas_codeur = 1,
+            float sigma_gauss = 0., //always positive
+            float mean_gauss = 0., //always positive
             bool old_poisson = false,
             bool positiv_ima= DEF_POSITIV_CONSTRAINT,
             bool max_ima = DEF_MAX_CONSTRAINT,
@@ -106,8 +104,8 @@ class MRFilters
         bool suppress_isolated_pixels;
         bool positive_recons_filter;
         std::vector<float>& tab_n_sigma = v;
-        float n_sigma;
-        bool use_n_sigma;
+        float n_sigma = DEFAULT_N_SIGMA;
+        bool use_n_sigma = false;
 
         type_noise stat_noise = DEFAULT_STAT_NOISE;
         type_transform transform = DEFAULT_MR_TRANS;
@@ -137,7 +135,6 @@ MRFilters::MRFilters(
             float type_of_non_orthog_filters,
             int type_of_noise,
             int number_of_scales,
-            float n_sigma,
             float regul_param,
             double epsilon,
             double iter_max,
@@ -190,6 +187,7 @@ MRFilters::MRFilters(
     this->niter_sigma_clip = niter_sigma_clip;
     this->first_scale = first_scale - 1;
     this->mask_file_name = mask_file_name;
+    this->old_poisson = old_poisson;
     this->prob_mr_file = prob_mr_file;
     this->min_event_number = min_event_number;
     this->background_model_image = background_model_image;
@@ -206,12 +204,18 @@ MRFilters::MRFilters(
     this->suppress_isolated_pixels = suppress_isolated_pixels;
     this->positive_recons_filter = positive_recons_filter;
     this->tab_n_sigma[0] = tab_n_sigma[0];
-    this->n_sigma = n_sigma;
+
+
     for (int i = 1; i < tab_n_sigma.size(); ++i)
         (this->tab_n_sigma).push_back(tab_n_sigma[i]); 
 
-    //this->n_sigma = tab_n_sigma[0];
-    this->use_n_sigma=false;
+    this->n_sigma = tab_n_sigma[0];
+    
+    if (this->n_sigma != DEFAULT_N_SIGMA || this->tab_n_sigma.size() > 1)
+        this->use_n_sigma = true;
+    
+    if (this->n_sigma <= 0.)
+        this->n_sigma = DEFAULT_N_SIGMA;
 
     if ((coef_detection_method > 0) && (coef_detection_method <= NBR_THRESHOLD))
         this->threshold = (type_threshold)(coef_detection_method-1);
@@ -246,13 +250,6 @@ MRFilters::MRFilters(
     //check sigma noise
     if (this->sigma_noise != 0.)
         this->stat_noise = NOISE_GAUSSIAN;
-    
-    //check n_sigma
-    if (this->n_sigma != DEFAULT_N_SIGMA || this->tab_n_sigma.size() != 1)
-        this->use_n_sigma = true;
-    
-    if (this->n_sigma <= 0.)
-        this->n_sigma = DEFAULT_N_SIGMA;
 
     // Check the number of scales
     if ((this->number_of_scales <= 1) || (this->number_of_scales > MAX_SCALE))
@@ -284,13 +281,13 @@ MRFilters::MRFilters(
     if (this->mask_file_name != "")
         this->missing_data = true;
 
-    if (pas_codeur >= 0 && mean_gauss >= 0 && sigma_gauss >= 0) {
+    if (pas_codeur != 1 && mean_gauss != 0. && sigma_gauss != 0.) {
         this->stat_noise = NOISE_POISSON;
         this->sigma_noise = 1.;
     }
 
-    if (this->n_sigma != DEFAULT_N_SIGMA && this->threshold == T_FDR) {
-        this->n_sigma = 2;
+    if (!this->use_n_sigma && this->threshold == T_FDR) {
+        this->n_sigma = 2.;
         this->use_n_sigma = true;
     }
     
@@ -335,16 +332,15 @@ MRFilters::MRFilters(
             throw std::invalid_argument("Error: option -e and -i are not valid with non iterative filtering methods.");
     }
 
-    if ((this->epsilon_poisson == 1.00e-03) // if option is not set (default value)
-            && (this->regul_param != DEFAULT_N_SIGMA)) // option has been set
+    if ((this->epsilon_poisson == 1.00e-03) && (this->use_n_sigma))
     {
         if (old_poisson)
-	        this->epsilon_poisson = (1. - erf((double) this->regul_param / sqrt((double) 2.))) / 2;
+	        this->epsilon_poisson = (1. - erf((double) this->n_sigma / sqrt((double) 2.))) / 2;
 	    else
-	        this->epsilon_poisson = erffc( (double) this->regul_param / sqrt((double) 2.) ) / 2.;
+	        this->epsilon_poisson = erffc( (double) this->n_sigma / sqrt((double) 2.) ) / 2.;
 
-	    if ((this->stat_noise == NOISE_EVENT_POISSON) && (this->regul_param > 12))
-	        throw std::invalid_argument("Error: regul_param must be set to a lower value (<12).");
+	    if ((this->stat_noise == NOISE_EVENT_POISSON) && (this->n_sigma > 12))
+	        throw std::invalid_argument("Error: n_sigma must be set to a lower value (<12).");
     }
  	if ((this->transform != TO_UNDECIMATED_MALLAT) && (this->transform != TO_MALLAT) && (type_of_filters != 1)) //Type_of_filters has been set
         throw std::invalid_argument("Error: option type_of_filters is only valid with Mallat transform");
@@ -400,21 +396,22 @@ void MRFilters::NoiseInit(Ifloat data)
         fas.alloc(this->sb_filter);
         ptrfas = &fas;
     }
+
     model_data.set_old_poisson((Bool)this->old_poisson);
     model_data.write_threshold((Bool)this->write_threshold);
     model_data.alloc(this->stat_noise, data.nl(), data.nc(), 
                     this->number_of_scales, this->transform, ptrfas, NORM_L1, this->number_undec);
 
     float number_band = model_data.nbr_band();
-
+    
     if (this->sigma_noise > FLOAT_EPSILON)
         model_data.SigmaNoise = this->sigma_noise;
-    
     if (this->use_n_sigma)
     {
         double n_sigma_12 = erffc( (double) 12. / sqrt((double) 2.) ) / 2.;
     	if (this->verbose)
             cout << " NbrTabNSigma = " << this->tab_n_sigma.size() << endl;
+ 
     	if (this->tab_n_sigma.size() == 1)
         {
             for (i = 0; i < number_band; i++)
@@ -429,9 +426,10 @@ void MRFilters::NoiseInit(Ifloat data)
         }
         for (s = 0; s < number_band; s++)
             model_data.TabEps[s] = (model_data.NSigma[s] < 12) ? erffc( (double)  model_data.NSigma[s] / sqrt((double) 2.) ) / 2.: n_sigma_12;
-    }
-    else for (s = 0; s < number_band; s++) model_data.TabEps[s] = this->epsilon_poisson;
 
+    }
+    
+    else for (s = 0; s < number_band; s++) model_data.TabEps[s] = this->epsilon_poisson;
     if (this->n_sigma  == 111) {
         for (i=0; i < 4; i++)
             model_data.NSigma[i] = 5;
@@ -453,6 +451,10 @@ void MRFilters::NoiseInit(Ifloat data)
     model_data.CCD_ReadOutMean = this->mean_gauss;
     model_data.TypeThreshold = this->threshold;
     model_data.U_Filter = this->undec_filter;
+    model_data.PoissonFisz = False;
+    model_data.MadEstimFromCenter = False;
+    model_data.GetEgde = False;
+
 
     if (this->min_event_number > 0)
         model_data.MinEventNumber = this->min_event_number;
@@ -497,7 +499,7 @@ MRFiltering MRFilters::filtering_init(MRFiltering CFilter, Ifloat data)
     CFilter.KillLastScale = (Bool)this->kill_last_scale;
     CFilter.Epsilon = this->epsilon;
     CFilter.PositivIma = (Bool)this->positiv_ima;
-    CFilter.MaxIma = True;
+    CFilter.MaxIma = (Bool)this->max_ima;
     CFilter.Verbose = (Bool)this->verbose;
     CFilter.UseFlatField = (Bool)(this->flat_image != "");
 
@@ -573,11 +575,13 @@ py::array_t<float> MRFilters::Filter(py::array_t<float>& arr)
     Ifloat Result(data.nl(), data.nc(), (char *) "Result Filtering");
     check_scale(data.nl(), data.nc(), this->number_of_scales);
 
+
     // noise model class initialization
     NoiseInit(data);
 
     // Filtering class initialization
     MRFiltering CFilter(model_data, this->filter);
+
     CFilter = filtering_init(CFilter, data);
 
     //perform the filter operation
@@ -593,7 +597,6 @@ py::array_t<float> MRFilters::Filter(py::array_t<float>& arr)
     //write info used for computing the probability map
     if ((this->stat_noise == NOISE_EVENT_POISSON) && (this->prob_mr_file != ""))
         write_on_prob_map(CFilter, data);
-    
     return image2array_2d(Result);
 }
 void MRFilters::Info(){
@@ -626,7 +629,7 @@ void MRFilters::Info(){
         cout << "Epsilon speckle = " <<  this->epsilon_poisson << endl;
     if ((this->stat_noise !=  NOISE_EVENT_POISSON)
             && (this->stat_noise != NOISE_SPECKLE))
-        cout << "N_Sigma = " << this->regul_param << endl;
+        cout << "N_Sigma = " << this->n_sigma << endl;
 
     cout << "Filter = " << StringFilter(this->filter) << endl;
     cout << "Epsilon = " << this->epsilon << endl;

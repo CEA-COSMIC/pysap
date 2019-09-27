@@ -55,7 +55,7 @@ def mr_filter(
         type_of_non_orthog_filters=2,
         sigma=None, type_of_noise=1, number_of_scales=4,
         number_of_iterations=10, epsilon=0.001, verbose=False,
-        n_sigma=3, suppress_isolated_pixels=False):
+        tab_n_sigma=[], suppress_isolated_pixels=False):
     """ Wrap the Sparse2d 'mr_filter'.
     """
     # Generate the command
@@ -76,8 +76,10 @@ def mr_filter(
         cmd += ["-i", number_of_iterations]
     if type_of_filters != 1:
         cmd += ["-T", type_of_filters]
-    if n_sigma != 3:
-        cmd += ["-s", n_sigma]
+    if tab_n_sigma != []:
+        cmd += ["-s"]
+        for val in tab_n_sigma:
+            cmd += [val]
     if suppress_isolated_pixels:
         cmd += ["-K"]
     cmd += [in_image, out_image]

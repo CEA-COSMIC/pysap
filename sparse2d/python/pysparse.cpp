@@ -57,7 +57,7 @@ PYBIND11_MODULE(pysparse, module)
 
   py::class_<MRFilters>(module, "MRFilters")
     .def(py::init
-    < int, int, int, int, int, int, int, float, float, double, double, double, std::string, float, std::string, std::string,
+    < int, int, int, int, int, int, int, float, double, double, double, std::string, float, std::string, std::string,
     bool, bool, bool, double, int, int, int, std::string, std::string, int, std::string, 
     bool, bool, bool, int, float, float, float, bool ,bool, bool, bool, bool, std::vector<float>&>(),
         py::arg("type_of_filtering")=(int)(1),
@@ -67,8 +67,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("type_of_non_orthog_filters")=(int)(2),
         py::arg("type_of_noise")=(int)(1),
         py::arg("number_of_scales")=(int)(DEFAULT_NBR_SCALE),
-        py::arg("n_sigma")=(float)(3),
-        py::arg("regul_param")=(float)(DEFAULT_N_SIGMA),
+        py::arg("regul_param")=(float)(0.1),
         py::arg("epsilon")=(double)(DEFAULT_EPSILON_FILTERING),
         py::arg("iter_max")=(double)(DEFAULT_MAX_ITER_FILTER),
         py::arg("max_inpainting_iter")=(double)(DEFAULT_MAX_ITER_INPAINTING),
@@ -91,9 +90,9 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("suppress_isolated_pixels")=(bool)(false),
         py::arg("verbose")=(bool)(false),
         py::arg("number_undec")=(int)(-1),
-        py::arg("pas_codeur")=(float)(-1),
-        py::arg("sigma_gauss")=(float)(-1),
-        py::arg("mean_gauss")=(float)(-1),
+        py::arg("pas_codeur")=(float)(1),
+        py::arg("sigma_gauss")=(float)(0.),
+        py::arg("mean_gauss")=(float)(0.),
         py::arg("old_poisson")=(bool)(false),
         py::arg("positiv_ima")=(bool)(DEF_POSITIV_CONSTRAINT),
         py::arg("max_ima")=(bool)(DEF_MAX_CONSTRAINT),

@@ -96,7 +96,7 @@ SAMPLE_DATE_FILES = {
         "md5sum": None
     },
     "astro-ngc2997": {
-        "url": ("https://github.com/sfarrens/test/raw/master/ngc2997.fits"),
+        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/ngc2997.fits"),
         "md5sum": None
     }
 }
