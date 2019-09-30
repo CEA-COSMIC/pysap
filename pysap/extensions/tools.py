@@ -52,62 +52,36 @@ def mr_transform(
 def mr_filter(
         in_image, out_image, type_of_filtering=1, coef_detection_method=1,
         type_of_multiresolution_transform=2, type_of_filters=1,
-        type_of_non_orthog_filters=2, number_of_undecimated_scales=None,
-        sigma=None, c=None, type_of_noise=1, number_of_scales=4,
-        nsigma=3, number_of_iterations=10, epsilon=0.001,
-        support_file_name=False, suppress_isolated_pixels=False,
-        suppress_last_scale=False, detect_only_positive_structure=False,
-        E=1e-3, size_block=7, niter_sigma_clip=1, first_detection_scale=1,
-        rms_map_file_name=None, suppress_positive_constraint=False,
-        add_maximum_level_constraint=None, background_model_image=False,
-        flat_image=False, use_second_generation_filter=False,
-        consider_missing_data=False, mask_file_name=None,
-        write_info_probability_map=False, regul_param=0.1, snr_file_name=None,
-        verbose=False):
+        type_of_non_orthog_filters=2,
+        sigma=None, type_of_noise=1, number_of_scales=4,
+        number_of_iterations=10, epsilon=0.001, verbose=False,
+        tab_n_sigma=[], suppress_isolated_pixels=False):
     """ Wrap the Sparse2d 'mr_filter'.
     """
     # Generate the command
-    cmd = [
-        "mr_filter",
-        "-f", type_of_filtering,
-        "-C", coef_detection_method,
-        "-t", type_of_multiresolution_transform,
-        "-T", type_of_filters,
-        "-U", type_of_non_orthog_filters,
-        "-m", type_of_noise,
-        "-n", number_of_scales,
-        "-s", nsigma,
-        "-i", number_of_iterations,
-        "-e", epsilon,
-        "-E", E,
-        "-S", size_block,
-        "-N", niter_sigma_clip,
-        "-F", first_detection_scale,
-        "-G", regul_param]
-    for key, value in [
-            ("-w", support_file_name),
-            ("-k", suppress_isolated_pixels),
-            ("-K", suppress_last_scale),
-            ("-p", detect_only_positive_structure),
-            ("-P", suppress_positive_constraint),
-            ("-B", background_model_image),
-            ("-M", flat_image),
-            ("-A", use_second_generation_filter),
-            ("-H", consider_missing_data),
-            ("-h", write_info_probability_map),
-            ("-v", verbose)]:
-        if value:
-            cmd.append(key)
-    for key, value in [
-            ("-u", number_of_undecimated_scales),
-            ("-g", sigma),
-            ("-c", c),
-            ("-R", rms_map_file_name),
-            ("-b", add_maximum_level_constraint),
-            ("-I", mask_file_name),
-            ("-Q", snr_file_name)]:
-        if value is not None:
-            cmd += [key, value]
+    cmd = ["mr_filter"]
+    if type_of_noise != 1:
+        cmd += ["-m", type_of_noise]
+    if type_of_multiresolution_transform != 2:
+        cmd += ["-t", type_of_multiresolution_transform]
+    if type_of_non_orthog_filters != 2:
+        cmd += ["-U", type_of_non_orthog_filters]
+    if coef_detection_method != 1:
+        cmd += ["-C", coef_detection_method]
+    if type_of_filtering != 1:
+        cmd += ["-f", type_of_filtering]
+    if epsilon != 0.001:
+        cmd += ["-e", epsilon]
+    if number_of_iterations != 10:
+        cmd += ["-i", number_of_iterations]
+    if type_of_filters != 1:
+        cmd += ["-T", type_of_filters]
+    if tab_n_sigma != []:
+        cmd += ["-s"]
+        for val in tab_n_sigma:
+            cmd += [val]
+    if suppress_isolated_pixels:
+        cmd += ["-K"]
     cmd += [in_image, out_image]
 
     # Execute the command

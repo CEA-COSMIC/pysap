@@ -78,7 +78,7 @@ SAMPLE_DATE_FILES = {
     },
     "astro-fits": {
         "url": "ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits",
-        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad"
+        "md5sum": None
     },
     "astro-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -93,6 +93,11 @@ SAMPLE_DATE_FILES = {
     "astro-psf": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "example_psf_image.npy"),
+        "md5sum": None
+    },
+    "astro-ngc2997": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/blob/"
+                + "master/pysap-data/ngc2997.fits"),
         "md5sum": None
     }
 }
