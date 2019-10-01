@@ -14,6 +14,7 @@ for details.
 #include "transform.hpp"
 #include "transform_3D.hpp"
 #include "filter.hpp"
+#include "deconvolve.hpp"
 
 // Defines a python module which will be named "pysparse"
 PYBIND11_MODULE(pysparse, module)
@@ -102,4 +103,37 @@ PYBIND11_MODULE(pysparse, module)
     )
     .def("info", &MRFilters::Info)
     .def("filter", &MRFilters::Filter, py::arg("arr"));
+
+  py::class_<MRDeconvolve>(module, "MRDeconvolve")
+    .def(py::init<int, int, int, int, float, int, int, float, int, float, bool,
+                bool, bool, std::string, float, float, float, std::string, std::string,
+                std::string, bool, bool, bool, bool, float, float, float>(),
+        py::arg("type_of_deconvolution")=(int)(8),
+        py::arg("type_of_multiresolution_transform")=(int)(2),
+        py::arg("type_of_filters")=(int)(1),
+        py::arg("number_of_undecimated_scales")=(int)(-1),
+        py::arg("sigma_noise")=(float)(0.),
+        py::arg("type_of_noise")=(int)(1),
+        py::arg("number_of_scales")=(int)(DEFAULT_NBR_SCALE),
+        py::arg("nsigma")=(float)(DEFAULT_N_SIGMA),
+        py::arg("number_of_iterations")=(int)(DEFAULT_MAX_ITER_DECONV),
+        py::arg("epsilon")=(float)(DEFAULT_EPSILON_DECONV),
+        py::arg("psf_max_shift")=(bool)(true),
+        py::arg("verbose")=(bool)(false),
+        py::arg("optimization")=(bool)(false),
+        py::arg("residual_file_name")=(std::string)(""),
+        py::arg("fwhm_param")=(float)(0.),
+        py::arg("convergence_param")=(float)(1.),
+        py::arg("regul_param")=(float)(0.),
+        py::arg("first_guess")=(std::string)(""),
+        py::arg("icf_filename")=(std::string)(""),
+        py::arg("rms_map")=(std::string)(""),
+        py::arg("kill_last_scale")=(bool)(false),
+        py::arg("positive_constraint")=(bool)(false),
+        py::arg("keep_positiv_sup")=(bool)(false),
+        py::arg("sup_isol")=(bool)(false),
+        py::arg("pas_codeur")=(float)(-1),
+        py::arg("sigma_gauss")=(float)(-1),
+        py::arg("mean_gauss")=(float)(-1)
+      );
 }
