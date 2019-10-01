@@ -135,5 +135,7 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("pas_codeur")=(float)(-1),
         py::arg("sigma_gauss")=(float)(-1),
         py::arg("mean_gauss")=(float)(-1)
-      );
+      )
+      .def("info", &MRDeconvolve::Info)
+      .def("deconvolve", &MRDeconvolve::Deconvolve, py::arg("arr"), py::arg("psf"));
 }
