@@ -108,7 +108,7 @@ PYBIND11_MODULE(pysparse, module)
     .def(py::init<int, int, int, int, float, int, int, float, int, float, bool,
                 bool, bool, std::string, float, float, float, std::string, std::string,
                 std::string, bool, bool, bool, bool, float, float, float>(),
-        py::arg("type_of_deconvolution")=(int)(8),
+        py::arg("type_of_deconvolution")=(int)(3),
         py::arg("type_of_multiresolution_transform")=(int)(2),
         py::arg("type_of_filters")=(int)(1),
         py::arg("number_of_undecimated_scales")=(int)(-1),
