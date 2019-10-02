@@ -40,3 +40,16 @@ class Filter():
         if self.data is None:
             raise AttributeError("The data must be filtered first !")
         self.data.show()
+
+class Deconvolve():
+    def __init__(self, **kwargs):
+        self.data = None
+        self.deconv = pysparse.MRDeconvolve(**kwargs)
+
+    def deconvolve(self, img, psf):
+        self.data = pysap.Image(data=self.deconv.deconvolve(img, psf))
+
+    def show(self):  # pragma: no cover
+        if self.data is None:
+            raise AttributeError("The data must be deconvolved first !")
+        self.data.show()
