@@ -106,7 +106,7 @@ PYBIND11_MODULE(pysparse, module)
 
   py::class_<MRDeconvolve>(module, "MRDeconvolve")
     .def(py::init<int, int, int, int, float, int, int, float, int, float, bool,
-                bool, bool, std::string, float, float, float, std::string, std::string,
+                bool, bool, float, float, float, std::string, std::string,
                 std::string, bool, bool, bool, bool, float, float, float>(),
         py::arg("type_of_deconvolution")=(int)(3),
         py::arg("type_of_multiresolution_transform")=(int)(2),
@@ -121,7 +121,6 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("psf_max_shift")=(bool)(true),
         py::arg("verbose")=(bool)(false),
         py::arg("optimization")=(bool)(false),
-        py::arg("residual_file_name")=(std::string)(""),
         py::arg("fwhm_param")=(float)(0.),
         py::arg("convergence_param")=(float)(1.),
         py::arg("regul_param")=(float)(0.),
@@ -129,12 +128,12 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("icf_filename")=(std::string)(""),
         py::arg("rms_map")=(std::string)(""),
         py::arg("kill_last_scale")=(bool)(false),
-        py::arg("positive_constraint")=(bool)(false),
+        py::arg("positive_constraint")=(bool)(true),
         py::arg("keep_positiv_sup")=(bool)(false),
         py::arg("sup_isol")=(bool)(false),
-        py::arg("pas_codeur")=(float)(-1),
-        py::arg("sigma_gauss")=(float)(-1),
-        py::arg("mean_gauss")=(float)(-1)
+        py::arg("pas_codeur")=(float)(1),
+        py::arg("sigma_gauss")=(float)(0),
+        py::arg("mean_gauss")=(float)(0)
       )
       .def("info", &MRDeconvolve::Info)
       .def("deconvolve", &MRDeconvolve::Deconvolve, py::arg("arr"), py::arg("psf"));

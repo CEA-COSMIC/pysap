@@ -30,8 +30,7 @@ class MRDeconvolve
                 float epsilon = DEFAULT_EPSILON_DECONV,
                 bool psf_max_shift = true,
                 bool verbose = false,
-                bool optimization=false, 
-                std::string residual_file_name = "",
+                bool optimization=false,
                 float fwhm_param = 0.,
                 float convergence_param = 1.,
                 float regul_param = 0.,
@@ -39,15 +38,17 @@ class MRDeconvolve
                 std::string icf_filename = "",
                 std::string rms_map = "",
                 bool kill_last_scale=false,
-                bool positive_constraint=false,
+                bool positive_constraint=true,
                 bool keep_positiv_sup=false,
                 bool sup_isol=false,
-                float pas_codeur = -1, //FIXME: find default values 
-                float sigma_gauss = -1,
-                float mean_gauss = -1);
+                float pas_codeur = 1, 
+                float sigma_gauss = 0,
+                float mean_gauss = 0);
 
                 void Info();
                 py::array_t<float> Deconvolve(py::array_t<float>& arr, py::array_t<float>& psf);
+                void DeconvInit();
+                void NoiseModelInit();
 
     private:
         float convergence_param;
@@ -66,7 +67,6 @@ class MRDeconvolve
         bool psf_max_shift;
         bool verbose;
         bool optimization;
-        std::string residual_file_name;
         float fwhm_param;
         float pas_codeur;
         float sigma_gauss;
@@ -74,6 +74,8 @@ class MRDeconvolve
         int number_of_scales;
         float epsilon;
 
+        MRDeconv CDec;
+        MRNoiseModel model_data;
         bool gauss_conv = false;
         bool use_nsigma = false;
         type_sb_filter sb_filter = F_MALLAT_7_9;
@@ -89,8 +91,7 @@ MRDeconvolve::MRDeconvolve(int type_of_deconvolution, int type_of_multiresolutio
                 int type_of_filters, int number_of_undecimated_scales, float sigma_noise,
                 int type_of_noise, int number_of_scales, float nsigma, int number_of_iterations,
                 float epsilon, bool psf_max_shift, bool verbose, bool optimization, 
-                std::string residual_file_name, float fwhm_param,
-                float convergence_param, float regul_param, std::string first_guess,
+                float fwhm_param, float convergence_param, float regul_param, std::string first_guess,
                 std::string icf_filename, std::string rms_map, bool kill_last_scale,
                 bool positive_constraint, bool keep_positiv_sup, bool sup_isol,
                 float pas_codeur, float sigma_gauss, float mean_gauss)
@@ -111,7 +112,6 @@ MRDeconvolve::MRDeconvolve(int type_of_deconvolution, int type_of_multiresolutio
                     this->psf_max_shift = psf_max_shift;
                     this->optimization = optimization;
                     this->verbose = verbose;
-                    this->residual_file_name = residual_file_name;
                     this->number_of_scales = number_of_scales;
                     this->fwhm_param = fwhm_param;
                     this->pas_codeur = pas_codeur;
@@ -152,7 +152,7 @@ MRDeconvolve::MRDeconvolve(int type_of_deconvolution, int type_of_multiresolutio
                     if (sigma_noise != 0.)
                         this->stat_noise = NOISE_GAUSSIAN;
                     
-                    if (this->sigma_gauss != -1 && this->pas_codeur != -1 && this->mean_gauss != -1)
+                    if (this->sigma_gauss != 0 && this->pas_codeur != 1 && this->mean_gauss != 0)
                     {
                         this->stat_noise = NOISE_POISSON;
                         this->sigma_noise = 1.;
@@ -229,68 +229,27 @@ void MRDeconvolve::Info()
     if (this->kill_last_scale)
         cout << "Kill last scale " << endl;
     cout << "Fwhm = " << this->fwhm_param << endl;
-    if (this->residual_file_name != "")
-    cout << "Image file name : " << this->residual_file_name << endl;
 }
-py::array_t<float> MRDeconvolve::Deconvolve(py::array_t<float>& arr, py::array_t<float>& psf)
+
+void MRDeconvolve::DeconvInit()
 {
-    //c++ code
-    int b, k;
-    Ifloat Result;
-    Ifloat Resi;
-    fitsstruct Header;
-    //char Cmd[256];
-    Ifloat Guess, Ima_ICF;
+    this->CDec.KillLastScale = (Bool)this->kill_last_scale;
+    this->CDec.PositivConstraint = (Bool)this->positive_constraint;
+    this->CDec.DecMethod = this->deconv;
+    this->CDec.PsfMaxShift = (Bool)this->psf_max_shift;
+    this->CDec.Noise_Ima = this->sigma_noise;
+    this->CDec.MaxIter = this->number_of_iterations;
+    this->CDec.EpsCvg = this->epsilon;
+    this->CDec.IterCvg = this->convergence_param;
+    this->CDec.GaussConv = (Bool)this->gauss_conv;
+    this->CDec.Fwhm = this->fwhm_param;
+    this->CDec.OptimParam = (Bool)this->optimization;
+    this->CDec.Verbose = (Bool)this->verbose;
+    this->CDec.RegulParam = this->regul_param;
+}
 
-    lm_check(LIC_MR1); //what is this?
-
-    if (this->verbose)
-        Info();
-
-    /* read input image */
-    MRDeconv CDec;
-    CDec.Imag = array2image_2d(arr);
-    CDec.Psf = array2image_2d(psf);
-
-    //io_read_ima_float(Name_Imag_In, CDec.Imag, &Header);
-    //io_read_ima_float(Name_Psf_In, CDec.Psf);
-    //Header.origin = Cmd;
-
-    if (this->first_guess != "")
-        io_read_ima_float(to_char(this->first_guess), Guess);
-    if (this->icf_filename != "")
-        io_read_ima_float(to_char(this->icf_filename), Ima_ICF);
-
-    CDec.KillLastScale = (Bool)this->kill_last_scale;
-    CDec.PositivConstraint = (Bool)this->positive_constraint;
-    CDec.DecMethod = this->deconv;
-    CDec.PsfMaxShift = (Bool)this->psf_max_shift;
-    CDec.Noise_Ima = this->sigma_noise;
-    CDec.MaxIter = this->number_of_iterations;
-    CDec.EpsCvg = this->epsilon;
-    CDec.IterCvg = this->convergence_param;
-    CDec.GaussConv = (Bool)this->gauss_conv;
-    CDec.Fwhm = this->fwhm_param;
-    CDec.OptimParam = (Bool)this->optimization;
-    CDec.Verbose = (Bool)this->verbose;
-    CDec.RegulParam = this->regul_param;
-
-    Ifloat *Pt_G = NULL;
-    if (this->first_guess != "")
-        Pt_G = &Guess;
-    Ifloat *Pt_ICF = NULL;
-    if (this->icf_filename != "")
-        Pt_ICF = &Ima_ICF;
-
-    //DECONVOLUTION
-    if (verbose)
-        cout << " Start the deconvolution ... " << endl;
-    CDec.StatNoise = this->stat_noise;
-
-    // noise model class initialization
-
-    MRNoiseModel model_data;
-    // noise model class initialization
+void MRDeconvolve::NoiseModelInit()
+{
     FilterAnaSynt FAS;
     FilterAnaSynt *PtrFAS = NULL;
 
@@ -303,38 +262,71 @@ py::array_t<float> MRDeconvolve::Deconvolve(py::array_t<float>& arr, py::array_t
     model_data.alloc(this->stat_noise, CDec.Imag.nl(), CDec.Imag.nc(),this->number_of_scales,
                         this->transform, PtrFAS, NORM_L1, this->number_of_undecimated_scales);
 
-    int nbr_band = model_data.nbr_band();
-
-    model_data.OnlyPositivDetect = (Bool)this->keep_positiv_sup;
     if (this->sigma_noise > FLOAT_EPSILON)
         model_data.SigmaNoise = this->sigma_noise;
+    
+    int nbr_band = model_data.nbr_band();
+
     if (this->nsigma != DEFAULT_N_SIGMA)
     {
-            for (b=0; b < nbr_band; b++)
+            for (int b = 0; b < nbr_band; b++)
             model_data.NSigma[b] = this->nsigma;
     }
+
+    model_data.OnlyPositivDetect = (Bool)this->keep_positiv_sup;
     model_data.NiterSigmaClip = 1;
     model_data.SizeBlockSigmaNoise = DEFAULT_SIZE_BLOCK_SIG;
     model_data.CCD_Gain = this->pas_codeur;
     model_data.CCD_ReadOutSigma = this->sigma_gauss;
     model_data.CCD_ReadOutMean = this->mean_gauss;
+
     if (this->sup_isol)
         model_data.SupIsol = True;
-    if (this->rms_map != "")
-    {
+
+    if (this->rms_map != "") {
         model_data.UseRmsMap = True;
         io_read_ima_float(to_char(this->rms_map), model_data.RmsMap);
     }
-    CDec.ModelData = &model_data;    
+}
 
-    CDec.im_deconv(Pt_G, Pt_ICF);
+py::array_t<float> MRDeconvolve::Deconvolve(py::array_t<float>& arr, py::array_t<float>& psf)
+{
+    Ifloat Guess, Ima_ICF;
 
-    //io_write_ima_float(Name_Imag_Out, CDec.Obj, &Header);
+    //outputs information
+    if (this->verbose)
+        Info();
 
-    if (this->residual_file_name != "")
-        io_write_ima_float(to_char(this->residual_file_name), CDec.Resi, &Header);   //FIXME: empty header du coup !!
+    //read input image 
+    this->CDec.Imag = array2image_2d(arr);
+    this->CDec.Psf = array2image_2d(psf);
 
-    return image2array_2d(CDec.Obj);
+    //read additional files
+    Ifloat *Pt_G = NULL;
+    Ifloat *Pt_ICF = NULL;
+
+    if (this->first_guess != "") {
+        io_read_ima_float(to_char(this->first_guess), Guess);
+        Pt_G = &Guess;
+    }
+    if (this->icf_filename != "") {
+        io_read_ima_float(to_char(this->icf_filename), Ima_ICF);
+        Pt_ICF = &Ima_ICF;
+    }
+    
+    //deconvolution class initialization
+    DeconvInit();
+    this->CDec.StatNoise = this->stat_noise;
+    if (verbose)
+        cout << " Start the deconvolution ... " << endl;
+    
+    //noise model class initialization
+    NoiseModelInit();
+    this->CDec.ModelData = &model_data;
+
+    //deconvolution
+    this->CDec.im_deconv(Pt_G, Pt_ICF);
+    return image2array_2d(this->CDec.Obj);
 }
 
 
