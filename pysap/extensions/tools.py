@@ -125,10 +125,9 @@ def mr_deconv(
     if (regul_param != 0):
         cmd += ["-G", regul_param]
 
-    '''
     for key, value in [
             ("-P", suppress_positive_constraint),
-            #("-S", do_not_auto_shift_max_psf),
+            ("-S", no_auto_shift_max_psf),
             ("-p", detect_only_positive_structure),
             ("-k", suppress_isolated_pixels),
             ("-K", suppress_last_scale),
@@ -147,7 +146,7 @@ def mr_deconv(
             ("-O", optimization)]:
         if value is not None:
             cmd += [key, value]
-    '''
+
     cmd += [in_image, in_psf, out_image]
 
     # Execute the command

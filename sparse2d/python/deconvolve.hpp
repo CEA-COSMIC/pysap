@@ -201,7 +201,7 @@ MRDeconvolve::MRDeconvolve(int type_of_deconvolution, int type_of_multiresolutio
                     if ((this->transform != TO_UNDECIMATED_MALLAT) && (this->transform != TO_MALLAT) && (type_of_filters != 1))
                         throw std::invalid_argument("Error: option type_of_filters is only valid with Mallat transform ...");
 
-                    if ((convergence_param != 1.) && (this->regul_param > 1.))
+                    if ((convergence_param == 1.) && (this->regul_param > 1.))
                         this->convergence_param = 1. / (2. * this->regul_param);
                 }
 

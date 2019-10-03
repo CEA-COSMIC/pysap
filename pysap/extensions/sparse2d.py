@@ -33,6 +33,24 @@ class Filter():
     """
     def __init__(self, **kwargs):
         """ Define the filter.
+
+        Parameters
+        ----------
+
+        type_of_filtering: int
+        coef_detection_method: int
+        type_of_multiresolution_transform: float
+        type_of_filters: float
+        type_of_non_orthog_filters: float
+        sigma_noise: float
+        type_of_noise: int
+        number_of_scales: int
+        iter_max: double
+        epsilon: float
+        verbose: Boolean
+        tab_n_sigma: ndarray
+        suppress_isolated_pixels: Boolean
+
         """
         self.data = None
         self.flt = pysparse.MRFilters(**kwargs)
@@ -61,6 +79,36 @@ class Deconvolve():
     """
     def __init__(self, **kwargs):
         """ Define the deconvolution.
+
+        Parameters
+        ----------
+
+        type_of_deconvolution: int
+        type_of_multiresolution_transform: int
+        type_of_filters: int
+        number_of_undecimated_scales: int
+        sigma_noise: float
+        type_of_noise: int
+        number_of_scales: int
+        nsigma: float
+        number_of_iterations: int
+        epsilon: float
+        psf_max_shift: bool
+        verbose: bool
+        optimization: bool
+        fwhm_param: float
+        convergence_param: float
+        regul_param: float
+        first_guess: string
+        icf_filename: string
+        rms_map: string
+        kill_last_scale: bool
+        positive_constraint: bool
+        keep_positiv_sup: bool
+        sup_isol: bool
+        pas_codeur: float
+        sigma_gauss: float
+        mean_gauss: float
         """
         self.data = None
         self.deconv = pysparse.MRDeconvolve(**kwargs)
