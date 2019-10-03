@@ -246,26 +246,16 @@ void MRDeconvolve::DeconvInit()
     this->CDec.OptimParam = (Bool)this->optimization;
     this->CDec.Verbose = (Bool)this->verbose;
     this->CDec.RegulParam = this->regul_param;
+    this->CDec.StatNoise = this->stat_noise;
 }
 
 void MRDeconvolve::NoiseModelInit()
 {
-    FilterAnaSynt FAS;
-    FilterAnaSynt *PtrFAS = NULL;
-
-    if ((this->transform == TO_MALLAT) || (this->transform == TO_UNDECIMATED_MALLAT)) {
-        FAS.Verbose = (Bool)this->verbose;
-        FAS.alloc(this->sb_filter);
-        PtrFAS = &FAS;
-    }
-
-    model_data.alloc(this->stat_noise, CDec.Imag.nl(), CDec.Imag.nc(),this->number_of_scales,
-                        this->transform, PtrFAS, NORM_L1, this->number_of_undecimated_scales);
+    int nbr_band = model_data.nbr_band();
+    model_data.OnlyPositivDetect = (Bool)this->keep_positiv_sup;
 
     if (this->sigma_noise > FLOAT_EPSILON)
         model_data.SigmaNoise = this->sigma_noise;
-    
-    int nbr_band = model_data.nbr_band();
 
     if (this->nsigma != DEFAULT_N_SIGMA)
     {
@@ -273,7 +263,6 @@ void MRDeconvolve::NoiseModelInit()
             model_data.NSigma[b] = this->nsigma;
     }
 
-    model_data.OnlyPositivDetect = (Bool)this->keep_positiv_sup;
     model_data.NiterSigmaClip = 1;
     model_data.SizeBlockSigmaNoise = DEFAULT_SIZE_BLOCK_SIG;
     model_data.CCD_Gain = this->pas_codeur;
@@ -292,6 +281,8 @@ void MRDeconvolve::NoiseModelInit()
 py::array_t<float> MRDeconvolve::Deconvolve(py::array_t<float>& arr, py::array_t<float>& psf)
 {
     Ifloat Guess, Ima_ICF;
+    Ifloat *Pt_G = NULL;
+    Ifloat *Pt_ICF = NULL;
 
     //outputs information
     if (this->verbose)
@@ -302,30 +293,38 @@ py::array_t<float> MRDeconvolve::Deconvolve(py::array_t<float>& arr, py::array_t
     this->CDec.Psf = array2image_2d(psf);
 
     //read additional files
-    Ifloat *Pt_G = NULL;
-    Ifloat *Pt_ICF = NULL;
-
     if (this->first_guess != "") {
         io_read_ima_float(to_char(this->first_guess), Guess);
-        Pt_G = &Guess;
+        if (this->first_guess != "") Pt_G = &Guess;
     }
     if (this->icf_filename != "") {
         io_read_ima_float(to_char(this->icf_filename), Ima_ICF);
         Pt_ICF = &Ima_ICF;
     }
-    
+
     //deconvolution class initialization
     DeconvInit();
-    this->CDec.StatNoise = this->stat_noise;
-    if (verbose)
+
+    if (this->verbose)
         cout << " Start the deconvolution ... " << endl;
     
     //noise model class initialization
+    FilterAnaSynt FAS;
+    FilterAnaSynt *PtrFAS = NULL;
+
+    if ((this->transform == TO_MALLAT) || (this->transform == TO_UNDECIMATED_MALLAT)) {
+        FAS.Verbose = (Bool)this->verbose;
+        FAS.alloc(this->sb_filter);
+        PtrFAS = &FAS;
+    }
+    model_data.alloc(this->stat_noise, CDec.Imag.nl(), CDec.Imag.nc(),this->number_of_scales,
+                        this->transform, PtrFAS, NORM_L1, this->number_of_undecimated_scales);
     NoiseModelInit();
     this->CDec.ModelData = &model_data;
 
     //deconvolution
     this->CDec.im_deconv(Pt_G, Pt_ICF);
+
     return image2array_2d(this->CDec.Obj);
 }
 

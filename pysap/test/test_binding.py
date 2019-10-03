@@ -295,7 +295,8 @@ class TestWarpAndBinding(unittest.TestCase):
             self.assertFalse(diff.all())
 
     def test_deconv_poisson(self):
-        deconv = sp.Deconvolve(type_of_noise=2)
+        deconv = sp.Deconvolve(type_of_multiresolution_transform=14,
+                               type_of_noise=2)
         data = self.deconv_images[0].data
         psf = self.deconv_images[1].data
         deconv.deconvolve(data, psf)
@@ -309,6 +310,7 @@ class TestWarpAndBinding(unittest.TestCase):
             pysap.io.save(psf, in_psf)
 
             pysap.extensions.mr_deconv(in_image, in_psf, out_file,
+                                       type_of_multiresolution_transform=14,
                                        type_of_noise=2)
             image = numpy.copy(pysap.io.load(out_file))
             diff = deconv.data.data - image
@@ -332,6 +334,34 @@ class TestWarpAndBinding(unittest.TestCase):
             pysap.extensions.mr_deconv(in_image, in_psf, out_file,
                                        type_of_deconvolution=1,
                                        type_of_multiresolution_transform=20)
+            image = numpy.copy(pysap.io.load(out_file))
+            diff = deconv.data.data - image
+            self.assertFalse(diff.all())
+
+    def test_deconv_u3_d5_n2_p_g5(self):
+        deconv = sp.Deconvolve(number_of_undecimated_scales=3,
+                               type_of_deconvolution=5,
+                               number_of_scales=2,
+                               positive_constraint=False,
+                               sigma_noise=5.)
+        data = self.deconv_images[0].data
+        psf = self.deconv_images[1].data
+        deconv.deconvolve(data, psf)
+        image = 0
+        # deconvolve with wrapper
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            in_psf = os.path.join(tmpdir, "in_psf.fits")
+            out_file = os.path.join(tmpdir, "out.fits")
+            pysap.io.save(data, in_image)
+            pysap.io.save(psf, in_psf)
+
+            pysap.extensions.mr_deconv(in_image, in_psf, out_file,
+                                       number_of_undecimated_scales=3,
+                                       type_of_deconvolution=5,
+                                       number_of_scales=2,
+                                       suppress_positive_constraint=False,
+                                       sigma=5.)
             image = numpy.copy(pysap.io.load(out_file))
             diff = deconv.data.data - image
             self.assertFalse(diff.all())
