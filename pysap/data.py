@@ -97,7 +97,7 @@ SAMPLE_DATE_FILES = {
     },
     "astro-ngc2997": {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/blob/"
-                + "master/pysap-data/ngc2997.fits"),
+                "master/pysap-data/ngc2997.fits"),
         "md5sum": None
     }
 }
