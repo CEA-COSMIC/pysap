@@ -104,20 +104,30 @@ def mr_deconv(
     """ Wrap the Sparse2d 'mr_deconv'.
     """
     # Generate the command
-    cmd = [
-        "mr_deconv",
-        "-d", type_of_deconvolution,
-        "-t", type_of_multiresolution_transform,
-        "-T", type_of_filters,
-        "-m", type_of_noise,
-        "-n", number_of_scales,
-        "-s", nsigma,
-        "-i", number_of_iterations,
-        "-e", epsilon,
-        "-G", regul_param]
+    cmd = ["mr_deconv"]
+
+    if (type_of_deconvolution != 3):
+        cmd += ["-d", type_of_deconvolution]
+    if (type_of_multiresolution_transform != 2):
+        cmd += ["-t", type_of_multiresolution_transform]
+    if (type_of_filters != 1):
+        cmd += ["-T", type_of_filters]
+    if (type_of_noise != 1):
+        cmd += ["-m", type_of_noise]
+    if (number_of_scales != 4):
+        cmd += ["-n", number_of_scales]
+    if (nsigma != 3):
+        cmd += ["-s", nsigma]
+    if (number_of_iterations != 500):
+        cmd += ["-i", number_of_iterations]
+    if (epsilon != 0.001):
+        cmd += ["-e", epsilon]
+    if (regul_param != 0):
+        cmd += ["-G", regul_param]
+
     for key, value in [
             ("-P", suppress_positive_constraint),
-            ("-S", do_not_auto_shift_max_psf),
+            ("-S", no_auto_shift_max_psf),
             ("-p", detect_only_positive_structure),
             ("-k", suppress_isolated_pixels),
             ("-K", suppress_last_scale),
@@ -136,6 +146,7 @@ def mr_deconv(
             ("-O", optimization)]:
         if value is not None:
             cmd += [key, value]
+
     cmd += [in_image, in_psf, out_image]
 
     # Execute the command
