@@ -72,13 +72,13 @@ SAMPLE_DATE_FILES = {
         "md5sum": "19983e6003ae94487d03131f4bacae2e"
     },
     "2d-mri": {
-        "url":("https://github.com/CEA-COSMIC/pysap-data/raw/"
-               "master/pysap-data/example_mri_ref_image_2d.npy"),
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_ref_image_2d.npy"),
         "md5sum": None
     },
     "cartesian-mri-mask": {
-        "url":("http://github.com/CEA-COSMIC/pysap-data/raw/"
-               "master/pysap-data/example_mri_cartesian_mask_2d.npy"),
+        "url": ("http://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_cartesian_mask_2d.npy"),
         "md5sum": None
     },
     "mri-mask": {
