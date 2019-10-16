@@ -27,7 +27,7 @@ before_install:
     - ./miniconda.sh -b -p $HOME/miniconda
     - export PATH=$HOME/miniconda/bin:$PATH
     - hash -r
-    - conda update --yes conda
+    - conda update --all -y
     - conda info -a
     - sudo apt install -y libnfft3-dev
 
