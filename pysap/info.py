@@ -92,3 +92,7 @@ EXTRA_REQUIRES = {
         # "python-pypipe>=0.0.1"
     }
 }
+PLUGINS = [
+    "pysap-astro==0.0.0",
+    "pysap-mri==0.1.1"
+]
