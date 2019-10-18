@@ -1,6 +1,0 @@
-.. AUTO-GENERATED FILE -- DO NOT EDIT!
-
-:orphan:
-
-.. automodule:: pysap.base.loaders.loader_base
-
