@@ -71,6 +71,16 @@ SAMPLE_DATE_FILES = {
                 "BrainPhantom512.nii.gz"),
         "md5sum": "19983e6003ae94487d03131f4bacae2e"
     },
+    "2d-mri": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_ref_image_2d.npy"),
+        "md5sum": None
+    },
+    "cartesian-mri-mask": {
+        "url": ("http://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_cartesian_mask_2d.npy"),
+        "md5sum": None
+    },
     "mri-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "mask_BrainPhantom512.nii.gz"),
@@ -96,7 +106,7 @@ SAMPLE_DATE_FILES = {
         "md5sum": None
     },
     "astro-ngc2997": {
-        "url": ("https://github.com/CEA-COSMIC/pysap-data/blob/"
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/ngc2997.fits"),
         "md5sum": None
     }
