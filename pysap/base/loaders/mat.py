@@ -33,8 +33,8 @@ class MAT(LoaderBase):
         image_field: str, default 'metadata'
             the name of the data field that contains the image metadata.
 
-        Return
-        ------
+        Returns
+        -------
         image: Image
             the loaded image.
         """
