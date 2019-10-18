@@ -1,0 +1,92 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+API documentation of PYSAP
+===========================
+
+This is the classes and functions reference in pysap. Please refer to the gallery for further details, as the class and function raw specifications may not be enough to give full guidelines on their uses.
+
+.. rst-class:: documentation-contents
+
+  **Contents**:
+    * `pysap <pysap.html>`_
+    * `pysap.base <pysap.base.html>`_
+    * `pysap.plugins <pysap.plugins.html>`_
+    * `pysap.apps <pysap.apps.html>`_
+    * `pysap.extensions <pysap.extensions.html>`_
+    * `pysap.plotting <pysap.plotting.html>`_
+    * `pysap.base.loaders <pysap.base.loaders.html>`_
+
+.. raw:: html
+
+    <!-- Block section -->
+
+    <div class='container-fluid'>
+
+    <div class='float-left'>
+
+    <div class='row'>
+
+    <div class='col-md-4'>
+    <h3><a href='pysap.html'>
+    pysap
+    </a></h3>
+    <blockquote>
+        <p>pySap is a Python package related to sparsity and its application in
+    astronomical data analysis. This package is based on the 'sparse2d' C++ library
+    that allows sparse decomposition, denoising and deconvolution.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pysap.base.html'>
+    pysap.base
+    </a></h3>
+    <blockquote>
+        <p>This module defines common structures for astronomical and neuroimaging
+    datasets.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pysap.plugins.html'>
+    pysap.plugins
+    </a></h3>
+    <blockquote>
+        <p>This module defines all the declared external plugins.
+    External plugins must all be decalared in the 'REQUIRES' varaible, and named
+    as pysap-&lt;modname&gt; whare &lt;modname&gt; can be imported.</p>    </blockquote>
+    </div>
+
+    </div>
+    <div class='row'>    <div class='col-md-4'>
+    <h3><a href='pysap.apps.html'>
+    pysap.apps
+    </a></h3>
+    <blockquote>
+        <p>Module that provides a graphical application to execute functions.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pysap.extensions.html'>
+    pysap.extensions
+    </a></h3>
+    <blockquote>
+        <p>This module contains a wrapping of the 'sparse2d' C++ library
+    that allows fast sparse decomposition, denoising and deconvolution.</p>    </blockquote>
+    </div>
+    <div class='col-md-4'>
+    <h3><a href='pysap.plotting.html'>
+    pysap.plotting
+    </a></h3>
+    <blockquote>
+        <p>This module defines common vizualisation tools.</p>    </blockquote>
+    </div>
+
+    </div>
+    <div class='row'>    <div class='col-md-4'>
+    <h3><a href='pysap.base.loaders.html'>
+    pysap.base.loaders
+    </a></h3>
+    <blockquote>
+        <p>This module defines common loaders to deal with astronomical and
+    neuroimaging datasets.</p>    </blockquote>
+    </div>
+
+    </div>
+    </div>
+    </div>

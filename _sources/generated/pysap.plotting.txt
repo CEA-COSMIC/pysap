@@ -1,0 +1,38 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+:orphan:
+
+API documentation of *pysap.plotting*
+======================================
+
+ This module defines common vizualisation tools.
+
+
+.. raw:: html
+
+    <br/>    <!-- Block section -->
+    <table border='1' class='docutils' style='width:100%'>
+    <colgroup><col width='25%'/><col width='75%'/></colgroup>
+    <tbody valign='top'>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plotting.image.html'><em>pysap.plotting.image</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-even'>
+    <td><a class='reference internal' href='pysap.plotting.transform.html'><em>pysap.plotting.transform</em></a></td>
+    <td>
+    
+    </td>
+    </tr>
+    <tr class='row-odd'>
+    <td><a class='reference internal' href='pysap.plotting.utils.html'><em>pysap.plotting.utils</em></a></td>
+    <td>
+        <p>Module with usefull plottinting utility functions.</p>
+    </td>
+    </tr>
+    </tbody>
+
+
+    </table>

@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+  
+    <title>PYSAP &mdash; python-pySAP</title>
+  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" media="screen" />
+
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="python-pySAP" href="../../index.html" />
+  
+   
+       <script type="text/javascript" src="../../_static/sidebar.js"></script>
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="../../_static/js/angular.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var app = angular.module("navApp", []);
+    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
+      $scope.isActive = function (viewLocation) {
+        var rel = $window.location.pathname.split("/")
+        rel = rel[rel.length - 1]
+        rel = rel.split(".")[0]
+        var active = (viewLocation === rel);
+        return active;};
+    }]);
+  </script>
+
+  </head>
+  <body role="document"><div class="banner">
+  <div class="container-fluid banner-container">
+    <div class="row banner-inner">
+      <div class="col-xs-4">
+        <img alt="Logo" src="../../_static/pysap.png">
+      </div>
+      <div class="col-xs-8">
+            <p>PYthon Sparse data Analysis Package</p>
+      </div>
+    </div>  
+  </div>
+</div><nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+        </a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('index') }"><a href="../../index.html">Home</a></li>
+        <li ng-class="{ active: isActive('installation') }"><a href="../../generated/installation.html">Installation</a></li>
+        <li ng-class="{ active: isActive('gallery') }"><a href="../gallery.html">Gallery</a></li>
+        <li ng-class="{ active: isActive('documentation') }"><a href="../../generated/documentation.html">API documentation</a></li>
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	        <li><a href="../../generated/pysap.html">Pysap</a></li>
+<li><a href="../../generated/pysap.base.html">Pysap.base</a></li>
+<li><a href="../../generated/pysap.plugins.html">Pysap.plugins</a></li>
+<li><a href="../../generated/pysap.apps.html">Pysap.apps</a></li>
+<li><a href="../../generated/pysap.extensions.html">Pysap.extensions</a></li>
+<li><a href="../../generated/pysap.plotting.html">Pysap.plotting</a></li>
+<li><a href="../../generated/pysap.base.loaders.html">Pysap.base.loaders</a></li>
+          </ul>
+        </li>-->
+        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="content-wrapper">
+    <div class="sphinxsidebar">
+      <div class="sphinxsidebarwrapper">
+
+        <!-- info setup -->
+          <p class="doc-version">
+           This documentation is for pysap <strong>version 0.0.3</strong>
+          </p>
+        <p class="citing">
+          If you use the software, please do not hesitate to 
+          <a &mdash; <a href="https://github.com/CEA-COSMIC/pysap">
+          Report a Bug</a>.
+        </p>
+
+      <!-- toc tree -->
+      <ul>
+<li><a class="reference internal" href="#">Galaxy Image Denoising</a><ul>
+<li><a class="reference internal" href="#import-dependencies">Import Dependencies</a></li>
+<li><a class="reference internal" href="#generate-noisy-observation">Generate noisy observation</a></li>
+<li><a class="reference internal" href="#deconvolve">Deconvolve</a></li>
+<li><a class="reference internal" href="#residual">Residual</a></li>
+</ul>
+</li>
+</ul>
+
+
+      </div>
+    </div>
+  
+
+  <div class="content">
+      
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="galaxy-image-denoising">
+<span id="sphx-glr-auto-gallery-astro-galaxy-denoising-py"></span><h1>Galaxy Image Denoising<a class="headerlink" href="#galaxy-image-denoising" title="Permalink to this headline">¶</a></h1>
+<p>Credit: S. Farrens</p>
+<p>In this tutorial we will remove the noise from an example galaxy image.</p>
+<div class="section" id="import-dependencies">
+<h2>Import Dependencies<a class="headerlink" href="#import-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Import functions from PySAP and ModOpt.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysap</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <span class="n">get_sample_data</span>
+<span class="kn">from</span> <span class="nn">pysap.plugins.astro.denoising.denoise</span> <span class="kn">import</span> <span class="n">denoise</span>
+<span class="kn">from</span> <span class="nn">modopt.signal.noise</span> <span class="kn">import</span> <span class="n">add_noise</span>
+</pre></div>
+</div>
+<p>Load the image of galaxy NGC2997</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">galaxy</span> <span class="o">=</span> <span class="n">get_sample_data</span><span class="p">(</span><span class="s1">&#39;astro-ngc2997&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Show the clean galaxy image</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">galaxy</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generate-noisy-observation">
+<h2>Generate noisy observation<a class="headerlink" href="#generate-noisy-observation" title="Permalink to this headline">¶</a></h2>
+<p>Convolve the image with a point spread function (PSF) using the <cite>convolve</cite>
+function. Then add random Gaussian noise with standard deviation 0.0005
+using the <cite>add_noise</cite> function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">obs_data</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">galaxy</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a PySAP image object</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">image_obs</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obs_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Show the noisy galaxy image</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">image_obs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deconvolve">
+<h2>Deconvolve<a class="headerlink" href="#deconvolve" title="Permalink to this headline">¶</a></h2>
+<p>Use the <cite>sparse_deconv_condatvu</cite> function to deconvolve the noisy image and
+set the maximum number of iterations to 3000.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">denoise_data</span> <span class="o">=</span> <span class="n">denoise</span><span class="p">(</span><span class="n">obs_data</span><span class="p">,</span> <span class="n">n_scales</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a PySAP image object for the result</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">image_rec</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">denoise_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Show the deconvolved galaxy image</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">image_rec</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="residual">
+<h2>Residual<a class="headerlink" href="#residual" title="Permalink to this headline">¶</a></h2>
+<p>Create a PySAP image object for the residual</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">residual</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">galaxy</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">denoise_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Show the residual</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">residual</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer docutils container">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/galaxy_denoising.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">galaxy_denoising.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/galaxy_denoising.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">galaxy_denoising.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature">Gallery generated by Sphinx-Gallery</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+    <div class="clearer">
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+    &copy; 2019, 
+Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
+Samuel Farrens &lt;samuel.farrens@cea.fr&gt;
+Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
+Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
+ &lt;antoine.grigis@cea.fr&gt;.
+</div>
+  </body>
+</html>

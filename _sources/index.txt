@@ -1,0 +1,33 @@
+..  pysap documentation master file
+
+
+
+=====
+pySAP
+=====
+
+pySAP is a Python package related to sparsity and its application in
+astronomical or mediacal data analysis.
+This package binds the 'sparse2d' C++ library
+that allows sparse decomposition, denoising and deconvolution.
+
+
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    generated/installation
+    generated/documentation
+
+
+=======
+Search
+=======
+
+:ref:`search`
+
+
+
+
+
