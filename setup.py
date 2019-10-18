@@ -22,8 +22,10 @@ from setuptools.command.test import test as TestCommand
 from setuptools.command.install import install
 from importlib import import_module
 try:
-    from pip import main as pip_main
+    from pip._internal.main import main as pip_main
 except ImportError:
+    import warnings
+    warnings.warn("pybind11 install using needs pip to 19.3 or above. This will be an error in future")
     from pip._internal import main as pip_main
 
 
