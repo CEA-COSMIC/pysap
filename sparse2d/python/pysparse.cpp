@@ -149,4 +149,5 @@ PYBIND11_MODULE(pysparse, module)
       )
     .def("info", &MR2D1D::Info)
     .def("transform", &MR2D1D::Transform, py::arg("cube"));
+    //.def("reconstruct", &MR2D1D::Reconstruct, py::arg("mr"));
 }
