@@ -19,7 +19,7 @@
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP
 
-.. |Doc| https://readthedocs.org/projects/pisap/badge/?version=latest
+.. |Doc| image:: https://readthedocs.org/projects/pisap/badge/?version=latest
 .. _Doc: https://pisap.readthedocs.io/en/latest/?badge=latest
 
 
