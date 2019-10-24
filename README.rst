@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_ |CircleCI|_
+|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_ |CircleCI|_ |Doc|_
 
 .. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
@@ -21,6 +21,9 @@
 
 .. |CircleCI| image:: https://circleci.com/gh/CEA-COSMIC/pysap.svg?style=svg
 .. _CircleCI: https://circleci.com/gh/CEA-COSMIC/pysap
+
+.. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
+.. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
 
 
 pySAP
