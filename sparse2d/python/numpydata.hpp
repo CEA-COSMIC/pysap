@@ -83,15 +83,17 @@ fltarray array2image_3d(py::array_t<float> &array){
   if (array.ndim() != 3)
     throw std::runtime_error("Input should be 2-D NumPy array");
 
+  // array.transpose();
   auto buffer = array.request();
   float *pointer = (float *) buffer.ptr;
 
-  fltarray image(array.shape(0), array.shape(1), array.shape(2));
+  fltarray image(array.shape(2), array.shape(1), array.shape(0));
 
-  for (int i=0; i<array.shape(0); i++) {
+  for (int i=0; i<array.shape(2); i++) {
     for (int j=0; j<array.shape(1); j++) {
-      for (int k=0; k<array.shape(2); k++){
-        image(i, j, k) = pointer[k + array.shape(2) * (j + i * array.shape(1))];
+      for (int k=0; k<array.shape(0); k++){
+        image(i, j, k) = pointer[i + array.shape(2) * (j + k * array.shape(1))];
+        // image(i, j, k) = pointer[k + array.shape(2) * (j + i * array.shape(1))];
       }
     }
   }
