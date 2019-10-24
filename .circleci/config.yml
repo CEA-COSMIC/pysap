@@ -22,6 +22,7 @@ jobs:
             sudo -E apt-get -yq update
             sudo apt install -y cmake
             sudo apt install -y gcc
+            sudo apt install -y libnfft3-dev
       - run:
           name: Install dependencies
           command: |
@@ -36,6 +37,7 @@ jobs:
           name: Running CircleCI tests
           command: |
             . venv/bin/activate
+            pip install pynfft
             pip install pysap-mri
             pip install pysap-astro
             pip install -e .
