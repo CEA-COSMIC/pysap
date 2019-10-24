@@ -16,9 +16,14 @@ jobs:
             - v1-dependencies-{{ checksum "doc/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: sudo -E apt-get -yq update
-      - run:
-          name: install dependencies
+      - run: 
+          name: Install system packages
+          command: |
+            sudo -E apt-get -yq update
+            sudo apt install -y cmake
+            sudo apt install -y gcc
+      -run:
+          name: Install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
@@ -28,7 +33,7 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "doc/requirements.txt" }}
       - run:
-          name: running CircleCI tests
+          name: Running CircleCI tests
           command: |
             . venv/bin/activate
             pip install -e .
