@@ -36,6 +36,7 @@ jobs:
           name: Running CircleCI tests
           command: |
             . venv/bin/activate
+            pip install pysap-mri
             pip install -e .
             python .circleci/test_script.py
       - store_artifacts:
