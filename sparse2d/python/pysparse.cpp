@@ -16,6 +16,8 @@ for details.
 #include "filter.hpp"
 #include "deconvolve.hpp"
 #include "mr_2d1d.hpp"
+// #include "mr2d1d.hpp"
+
 
 // Defines a python module which will be named "pysparse"
 PYBIND11_MODULE(pysparse, module)
@@ -140,14 +142,13 @@ PYBIND11_MODULE(pysparse, module)
       .def("deconvolve", &MRDeconvolve::Deconvolve, py::arg("arr"), py::arg("psf"));
 
       py::class_<MR2D1D>(module, "MR2D1D")
-    .def(py::init< int, bool, bool, int, int>(),
-        py::arg("type_of_multiresolution_transform")=(int)(14),
+    .def(py::init< bool, int, bool, bool, int, int >(),
+        py::arg("reverse")=(bool)(False),
+        py::arg("type_of_transform")=(int)(14),
         py::arg("normalize")=(bool)(False),
         py::arg("verbose")=(bool)(False),
-        py::arg("number_of_scales_2D")=(int)(5),
-        py::arg("number_of_scales")=(int)(4)
+        py::arg("NbrScale2d")=(int)(5),
+        py::arg("Nbr_Plan")=(int)(4)
       )
-    .def("info", &MR2D1D::Info)
-    .def("transform", &MR2D1D::Transform, py::arg("cube"));
-    //.def("reconstruct", &MR2D1D::Reconstruct, py::arg("mr"));
+    .def("transform", &MR2D1D::transform, py::arg("Name_Cube_in"), py::arg("Name_Out"));
 }

@@ -74,6 +74,7 @@ class Filter():
             raise AttributeError("The data must be filtered first !")
         self.data.show()
 
+
 class Deconvolve():
     """ Define the structure that will be used to
         store the deconvolution result.
@@ -132,6 +133,7 @@ class Deconvolve():
         if self.data is None:
             raise AttributeError("The data must be deconvolved first !")
         self.data.show()
+
 
 class MR2D1D():
     """ Define the structure that will be used to
