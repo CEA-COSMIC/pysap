@@ -89,3 +89,4 @@ Please refer to the |link-to-pyqt| for issues regarding the installation of
 
   <a href="http://www.pyqtgraph.org/"
   target="_blank">PyQtGraph homepage</a>
+
