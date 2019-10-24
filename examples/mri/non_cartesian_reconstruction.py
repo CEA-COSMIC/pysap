@@ -37,8 +37,8 @@ kspace_loc = radial_mask.data
 mask = pysap.Image(data=convert_locations_to_mask(kspace_loc, image.shape))
 
 # View Input
-image.show()
-mask.show()
+# image.show()
+# mask.show()
 
 #############################################################################
 # Generate the kspace
@@ -58,7 +58,7 @@ grid2D = np.meshgrid(grid_space, grid_space)
 grid_soln = gridded_inverse_fourier_transform_nd(kspace_loc, kspace_obs,
                                                  tuple(grid2D), 'linear')
 image_rec0 = pysap.Image(data=grid_soln)
-image_rec0.show()
+# image_rec0.show()
 base_ssim = ssim(image_rec0, image)
 print('The Base SSIM is : ' + str(base_ssim))
 
@@ -92,6 +92,6 @@ x_final, costs, metrics = sparse_rec_fista(
     atol=1e-4,
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
-image_rec.show()
+# image_rec.show()
 recon_ssim = ssim(image_rec, image)
 print('The Reconstruction SSIM is : ' + str(recon_ssim))

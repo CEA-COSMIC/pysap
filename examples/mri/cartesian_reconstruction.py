@@ -33,8 +33,8 @@ image = get_sample_data('2d-mri')
 mask = get_sample_data("cartesian-mri-mask")
 
 # View Input
-image.show()
-mask.show()
+# image.show()
+# mask.show()
 
 #############################################################################
 # Generate the kspace
@@ -54,7 +54,7 @@ kspace_data = fourier_op.op(image)
 # Zero order solution
 image_rec0 = pysap.Image(data=fourier_op.adj_op(kspace_data),
                          metadata=image.metadata)
-image_rec0.show()
+# image_rec0.show()
 
 # Calculate SSIM
 base_ssim = ssim(image_rec0, image)
@@ -91,7 +91,7 @@ x_final, costs, metrics = sparse_rec_fista(
     atol=1e-4,
     verbose=1)
 image_rec = pysap.Image(data=np.abs(x_final))
-image_rec.show()
+# image_rec.show()
 # Calculate SSIM
 recon_ssim = ssim(image_rec, image)
 print('The Reconstruction SSIM is : ' + str(recon_ssim))
