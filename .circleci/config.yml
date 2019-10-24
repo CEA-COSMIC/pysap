@@ -40,6 +40,7 @@ jobs:
             pip install Cython
             pip install git+https://github.com/ghisvail/pyNFFT
             pip install pysap-mri
+            pip install sf_tools
             pip install pysap-astro
             pip install -e .
             python .circleci/test_script.py
