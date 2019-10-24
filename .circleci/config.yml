@@ -37,7 +37,7 @@ jobs:
           name: Running CircleCI tests
           command: |
             . venv/bin/activate
-            pip install pynfft
+            pip install git+https://github.com/ghisvail/pyNFFT
             pip install pysap-mri
             pip install pysap-astro
             pip install -e .
