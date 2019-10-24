@@ -22,7 +22,7 @@ jobs:
             sudo -E apt-get -yq update
             sudo apt install -y cmake
             sudo apt install -y gcc
-      -run:
+      - run:
           name: Install dependencies
           command: |
             python3 -m venv venv
