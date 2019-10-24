@@ -37,6 +37,7 @@ jobs:
           command: |
             . venv/bin/activate
             pip install pysap-mri
+            pip install pysap-astro
             pip install -e .
             python .circleci/test_script.py
       - store_artifacts:
