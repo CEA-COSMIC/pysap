@@ -9,9 +9,6 @@
 
 #include "numpydata.hpp"
 
-/****************************************************************************/
-#define TESTIND 1
-
 class MR2D1D {
   int Nx, Ny, Nz;
   MultiResol *Tab;
@@ -37,7 +34,6 @@ class MR2D1D {
   Bool Verbose;
   Bool Normalize=False;       // normalize data in
   
-  int mr_io_fill_header(fitsfile *fptr);
   public:
         int NbrScale2d;
         int Nbr_Plan;
@@ -54,8 +50,8 @@ class MR2D1D {
        int size_band_nz(int s2d, int s1d) const { return TabSizeBandNz(s2d, s1d);}
        float & operator() (int s2, int s1, int i, int j, int k) const;
        fltarray get_band(int s2, int s1);
-       void write(char *Name);
-       void transform(py::array_t<float> Name_Cube_In, char *Name_Out);
+       py::array_t<float> write();
+       py::array_t<float>  transform(py::array_t<float> Name_Cube_In);
     //    ~MR2D1D() { delete [] TabBand;}
 };
 
@@ -83,132 +79,17 @@ MR2D1D::MR2D1D (bool reverse, int type_of_transform,bool normalize,bool verbose,
     if ((Nbr_Plan <= 0) || (Nbr_Plan > MAX_SCALE_1D))
         throw std::invalid_argument("bad number of scales: "+std::to_string(Nbr_Plan));
 } 
-/****************************************************************************/
-
-static void mr_io_name (char *File_Name_In, char *File_Name_Out)
-{
-    int L;
-
-    strcpy (File_Name_Out, File_Name_In);
-
-    L = strlen (File_Name_In);
-    if ((L < 3) || (File_Name_In[L-1] != 'r')
-                || (File_Name_In[L-2] != 'm')
-                || (File_Name_In[L-3] != '.'))
-    {
-        strcat (File_Name_Out, ".mr");
-    }
-}
 
 /****************************************************************************/
 
-/*--------------------------------------------------------------------------*/
-static void PrintError( int status)
+py::array_t<float>  MR2D1D::write()
 {
-    /*****************************************************/
-    /* Print out cfitsio error messages and exit program */
-    /*****************************************************/
-
-    char status_str[FLEN_STATUS], errmsg[FLEN_ERRMSG];
-  
-    if (status)
-      fprintf(stderr, "\n*** Error occurred during program execution ***\n");
-
-    ffgerr(status, status_str);        /* get the error status description */
-    fprintf(stderr, "\nstatus = %d: %s\n", status, status_str);
-
-    if ( ffgmsg(errmsg) )  /* get first message; null if stack is empty */
-    {
-         fprintf(stderr, "\nError message stack:\n");
-         fprintf(stderr, " %s\n", errmsg);
-
-         while ( ffgmsg(errmsg) )  /* get remaining messages */
-             fprintf(stderr, " %s\n", errmsg);
-    }
-
-    exit( status );       /* terminate the program, returning error status */
-}
-
-/*--------------------------------------------------------------------------*/
-
-int MR2D1D::mr_io_fill_header( fitsfile *fptr)
-{
-    int status = 0; // this means OK for cfitsio !!!
-    /*****************************************************/
-        /* write optional keyword to the header */
-    /*****************************************************/
-
-    // cout << " DDDD " << (long) NbrBand2D << " " << (long)NbrBand1D << endl;
-
-    if ( ffpkyj(fptr, "Nx", (long)Nx,"Nx of the input cube",&status))
-        PrintError( status );  
-    if ( ffpkyj(fptr,"Ny",(long)Ny,"Ny of the input cube",&status))
-        PrintError( status );  
-    if ( ffpkyj(fptr,"Nz",(long)Nz,"Nz of the input cube",&status))
-        PrintError( status );  
-    if ( ffpkyj(fptr, "NSCALE2D", (long) NbrScale2D, "Number of bands 2D", &status))
-        PrintError( status );  
-    if ( ffpkyj(fptr, "NSCALE1D", (long)NbrScale1D, "Number of bands 1D", &status))
-        PrintError( status );  
-    if ( ffpkyj(fptr, "Type_Tra", (long) WT2D.Type_Transform, 
-                            (char*)StringTransform(WT2D.Type_Transform), &status))
-        PrintError( status );  
-    return(status);
-} 
-
-/****************************************************************************/
-
-void  MR2D1D::write(char *Name)
-{
-    char filename[256];
-    Ifloat Ima;
-    fitsfile *fptr;    
-    int status;
-    int simple;
-    int bitpix;
-    long naxis=0;
-    long naxes[4];
-    long nelements;
-    long group = 1;  /* group to write in the fits file, 1= first group */
-    long firstpixel = 1;    /* first pixel to write (begin with 1) */
-    Ifloat Aux;
-    
-    /* we keep mr as extension even if its fits ! */
-    mr_io_name (Name, filename);
-
-    #if DEBUG_IO  
-        cout << "Write on " << filename << endl;
-    #endif
-
-    FILE *FEXIST = fopen(filename, "rb");
-    if (FEXIST)
-    {
-        fclose(FEXIST);
-        remove(filename);               /* Delete old file if it already exists */
-    }
-
-    status = 0;         /* initialize status before calling fitsio routines */
-
-        /* open the file */
-    if ( ffinit(&fptr, filename, &status) )     /* create the new FITS file */
-        PrintError( status );           /* call PrintError if error occurs */
-                                                                                
-    /* write  the header */
-    simple   = True;
-    bitpix   =  -32;   /* 32-bit real pixel values      */
-    long pcount   =   0;  /* no group parameters */
-    long gcount   =   1;  /* only a single image/group */
-    int  extend   =   False;
-    naxis = 1;
-
-    
     int Nelem=2;
     for (int s=0; s < NbrBand2D; s++)
     for (int s1=0; s1 < NbrBand1D; s1++) 
     {
         Nelem += 3 +  TabSizeBandNx(s,s1)*TabSizeBandNy(s,s1)*TabSizeBandNz(s,s1);
-    } 
-    // cout << " NELEM = " << Nelem << endl;
+    }
     fltarray Data(Nelem);
     int ind=2;
     Data(0) = NbrBand2D;
@@ -226,22 +107,13 @@ void  MR2D1D::write(char *Name)
         for (int j=0;  j < TabSizeBandNy(s,s1); j++) 
         for (int i=0;  i < TabSizeBandNx(s,s1); i++) Data(ind++) = (*this)(s,s1,i,j,k);
   }
-  // cout << " DATAOK = " <<   endl;
-  naxes[0] = ind;
-  
- // write first header part (parameters)
- if ( ffphpr(fptr,simple,bitpix,naxis,naxes,pcount,gcount,extend,&status) )
-     PrintError( status );          /* call PrintError if error occurs */
-  
-   // write the header of the multiresolution file
-  mr_io_fill_header(fptr);
- 
- nelements = ind;
- if ( ffppre(fptr, group, firstpixel, nelements, Data.buffer(), &status) )
-              PrintError( status );  
-     
-  /* close the FITS file */
-  if ( ffclos(fptr, &status) )  PrintError( status ); 
+  int count = 0;
+  py::list result;
+  float *buff = Data.buffer();
+    for (int i=0; i<Nelem; i++) {
+        result.append(buff[i]);
+    }
+    return result;
 }
 
 /****************************************************************************/
@@ -375,7 +247,6 @@ void MR2D1D::perform_transform (fltarray &Data)
 
 /****************************************************************************/
 
-
 void MR2D1D::recons (fltarray &Data)
 {
      //    MR2D1D WT;
@@ -425,34 +296,18 @@ void MR2D1D::recons (fltarray &Data)
 
 /*********************************************************************/
  
-void MR2D1D::transform(py::array_t<float> Name_Cube_In, char *Name_Out)
+py::array_t<float>  MR2D1D::transform(py::array_t<float> Name_Cube_In)
 {
     fltarray Dat;
-    /* Get command line arguments, open input file(s) if necessary */
    fitsstruct Header;   
         if (Verbose == True)
         {
-           cout << "Filename in = " << Name_Cube_In << endl;
-           cout << "Filename out = " << Name_Out  << endl;
            cout << "Transform = " << StringTransform((type_transform) Transform) << endl;
            cout << "NbrScale2d = " << this->NbrScale2d<< endl;
            cout << "NbrScale1d = " << this->Nbr_Plan<< endl;
         }
     
-    //    io_3d_read_data(Name_Cube_In, Dat, &Header);
        Dat = array2image_3d(Name_Cube_In);
-cout << "THE ARRAY: " << std::endl;
-
-    for (int i=0; i<Dat.nx(); i++) {
-    for (int j=0; j<Dat.ny(); j++) {
-      for (int k=0; k<Dat.nz(); k++){
-        cout << "[" << Dat(i, j, k) << "] ";
-      }
-      cout <<std::endl;
-    }
-    cout <<std::endl;
-  }
- 
        int Nx = Dat.nx();
        int Ny = Dat.ny();
        int Nz = Dat.nz();
@@ -476,7 +331,7 @@ cout << "THE ARRAY: " << std::endl;
        WT.perform_transform (Dat);
 
        if (Verbose == True)cout << "Write result ...  " << endl;
-       WT.write(Name_Out);
+       auto res = WT.write();
               
        if (Verbose == True)
        {
@@ -488,5 +343,6 @@ cout << "THE ARRAY: " << std::endl;
             Band = WT.get_band(s2, s1);
             cout << "  Sigma = " << Band.sigma() << " Min = " << Band.min() << " Max = " << Band.max() << endl;
         }
-       }  
+       }
+       return res;  
 }

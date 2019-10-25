@@ -164,7 +164,7 @@ class MR2D1D():
         data: ndarray
             the input data.
         """
-        self.cube = utils.flatten(self.trf.transform(data))[0]
+        self.cube = self.trf.transform(data)
 
     def reconstruct(self, data):
         """ Execute the reconstructiom operation.
@@ -174,4 +174,4 @@ class MR2D1D():
         data: ndarray
             the input data.
         """
-        self.recons = self.trf.reconstruct(data)
+        # self.recons = self.trf.reconstruct(data)
