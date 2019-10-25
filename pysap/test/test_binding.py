@@ -32,10 +32,10 @@ class TestWarpAndBinding(unittest.TestCase):
     def setUp(self):
         """ Get the data from the server.
         """
+        self.mr_image = get_sample_data(dataset_name="multiresolution")
         self.images = [
             get_sample_data(dataset_name="mri-slice-nifti"),
-            get_sample_data(dataset_name="astro-ngc2997"),
-            get_sample_data(dataset_name="multiresolution")
+            get_sample_data(dataset_name="astro-ngc2997")
             ]
         self.deconv_images = [
             get_sample_data(dataset_name="astro-galaxy"),
@@ -420,14 +420,14 @@ class TestWarpAndBinding(unittest.TestCase):
             self.assertFalse(diff.all())
 
     def test_mr2d1d_init(self):
-        data = self.images[2].data
+        data = self.mr_image.data
 
         mr = sp.MR2D1D()
         mr.transform(data)
         assert(mr.cube is not None)
 
     def test_mr2d1d_output_val(self):
-        data = self.images[2].data
+        data = self.mr_image.data
 
         mr = sp.MR2D1D(type_of_transform=2)
         mr.transform(data)
@@ -444,7 +444,7 @@ class TestWarpAndBinding(unittest.TestCase):
         assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
 
     def test_mr2d1d_normalized(self):
-        data = self.images[2].data
+        data = self.mr_image.data
 
         mr = sp.MR2D1D(normalize=True)
         mr.transform(data)
@@ -460,7 +460,7 @@ class TestWarpAndBinding(unittest.TestCase):
         assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
 
     def test_mr2d1d_scales(self):
-        data = self.images[2].data
+        data = self.mr_image.data
 
         mr = sp.MR2D1D(NbrScale2d=2, Nbr_Plan=6)
         mr.transform(data)

@@ -10,6 +10,7 @@
 #include "numpydata.hpp"
 
 class MR2D1D {
+    bool is_transform;
   int Nx, Ny, Nz;
   MultiResol *Tab;
   int NbrScale2D;
@@ -39,10 +40,13 @@ class MR2D1D {
         int Nbr_Plan;
         type_transform  Transform;
         Bool Reverse;
+        fltarray result;
+
        MR2D1D (bool reverse=false, int type_of_transform=(int)TO_MALLAT,bool normalize=false,bool verbose=false, int NbrScale2d=5, int Nbr_Plan=4);
+
        void alloc(int iNx, int iNy, int iNz, type_transform Trans2D, int Ns2D, int Ns1D);
        void perform_transform (fltarray &Data);
-       void recons (fltarray &Data);
+
        int nbr_band_2d () const { return NbrBand2D;}
        int nbr_band_1d () const { return NbrBand1D;}
        int size_band_nx(int s2d, int s1d) const { return TabSizeBandNx(s2d, s1d);}
@@ -51,8 +55,9 @@ class MR2D1D {
        float & operator() (int s2, int s1, int i, int j, int k) const;
        fltarray get_band(int s2, int s1);
        py::array_t<float> write();
+
+       py::array_t<float> reconstruct(py::array_t<float> data);
        py::array_t<float>  transform(py::array_t<float> Name_Cube_In);
-    //    ~MR2D1D() { delete [] TabBand;}
 };
 
 /****************************************************************************/
@@ -67,6 +72,8 @@ MR2D1D::MR2D1D (bool reverse, int type_of_transform,bool normalize,bool verbose,
     this->Nbr_Plan = Nbr_Plan;
     NbrScale2D = NbrScale2d;
     NbrScale1D = Nbr_Plan;
+    is_transform=false;
+    result = NULL;
 
     if ((type_of_transform > 0) && (type_of_transform <= NBR_TRANSFORM+1)) 
         Transform = (type_transform) (type_of_transform-1);
@@ -79,42 +86,6 @@ MR2D1D::MR2D1D (bool reverse, int type_of_transform,bool normalize,bool verbose,
     if ((Nbr_Plan <= 0) || (Nbr_Plan > MAX_SCALE_1D))
         throw std::invalid_argument("bad number of scales: "+std::to_string(Nbr_Plan));
 } 
-
-/****************************************************************************/
-
-py::array_t<float>  MR2D1D::write()
-{
-    int Nelem=2;
-    for (int s=0; s < NbrBand2D; s++)
-    for (int s1=0; s1 < NbrBand1D; s1++) 
-    {
-        Nelem += 3 +  TabSizeBandNx(s,s1)*TabSizeBandNy(s,s1)*TabSizeBandNz(s,s1);
-    }
-    fltarray Data(Nelem);
-    int ind=2;
-    Data(0) = NbrBand2D;
-    Data(1) = NbrBand1D;
-    
-    // Ifloat Band;
-    for (int s=0; s < NbrBand2D; s++)
-    for (int s1=0; s1 < NbrBand1D; s1++) 
-    {
-        Data(ind++) = TabSizeBandNx(s,s1);
-        Data(ind++) = TabSizeBandNy(s,s1);
-        Data(ind++) = TabSizeBandNz(s,s1);
-        
-        for (int k=0;  k < TabSizeBandNz(s,s1); k++) 
-        for (int j=0;  j < TabSizeBandNy(s,s1); j++) 
-        for (int i=0;  i < TabSizeBandNx(s,s1); i++) Data(ind++) = (*this)(s,s1,i,j,k);
-  }
-  int count = 0;
-  py::list result;
-  float *buff = Data.buffer();
-    for (int i=0; i<Nelem; i++) {
-        result.append(buff[i]);
-    }
-    return result;
-}
 
 /****************************************************************************/
 
@@ -247,102 +218,153 @@ void MR2D1D::perform_transform (fltarray &Data)
 
 /****************************************************************************/
 
-void MR2D1D::recons (fltarray &Data)
+py::array_t<float> MR2D1D::reconstruct(py::array_t<float> data)
 {
-     //    MR2D1D WT;
-    //    WT.read(Name_Cube_In);
-    //    WT.recons (Dat);
- 
-    //    if (Verbose == True) cout << "Write result ...  " << endl;
-    //    fits_write_fltarr(Name_Out, Dat);
-   if ((Data.nx() != Nx) || (Data.ny() != Ny) || (Data.nz() != Nz)) Data.resize(Nx, Ny, Nz); 
-   int i,j,b,z;
-   Nx = Data.nx();
-   Ny = Data.ny();
-   Nz = Data.nz();
-   Ifloat Frame(Ny, Nx);
-   fltarray Vect(Nz);
-     
-   // 1D wt 
-   if (NbrBand1D >= 2)
-   {
-      for (b=0; b < NbrBand2D; b++)
-      for (i=0; i < WT2D.size_band_nl(b); i++)
-      for (j=0; j < WT2D.size_band_nc(b); j++) 
-      {
-         // for (z=0; z < Nz; z++) Vect(z) = TabBand[b](j,i,z);
-	z = 0;
-        for (int b1=0; b1 < NbrBand1D; b1++)
-        for (int p=0; p < WT1D.size_scale_np (b1); p++) WT1D(b1,p) = TabBand[b](j,i,z++); 
-         Vect.init();
-	 WT1D.recons(Vect);
-         for (z=0; z < Nz; z++) TabBand[b](j,i,z) = Vect(z);
-     }
-   }
-   
-   // 2D wt 
-   for (z=0; z < Nz; z++)
-   {
-      for (b=0; b < NbrBand2D; b++)
-      {
-         for (i=0; i < WT2D.size_band_nl(b); i++)
-	 for (j=0; j < WT2D.size_band_nc(b); j++) WT2D(b,i,j) = TabBand[b](j,i,z);
-      }   
-      WT2D.recons(Frame);
-      for (i=0; i < Ny; i++)
-      for (j=0; j < Nx; j++) Data(j,i,z) = Frame(i,j);
-   }
+    int nelements = len(data);
+
+    fltarray Tab = array2image_3d(data);
+
+    int ind=2;
+    for (int s=0; s <NbrBand2D; s++) 
+    for (int s1=0; s1 < NbrBand1D; s1++)
+    {
+       int Nxb = (int) Tab(ind++);
+       int Nyb = (int) Tab(ind++);
+       int Nzb = (int) Tab(ind++);
+       for (int k=0;  k < Nzb; k++) 
+       for (int j=0;  j < Nyb; j++)
+       for (int i=0;  i < Nxb; i++)
+            (*this)(s,s1,i,j,k) = Tab(ind++);
+    }
+
+    cout << NbrBand2D << std::endl;
+    cout << NbrBand1D << std::endl;
+
+
+    fltarray Data(Nx, Ny, Nz);
+    int i,j,b,z;
+    
+    Nx = Data.nx();
+    Ny = Data.ny();
+    Nz = Data.nz();
+    Ifloat Frame(Ny, Nx);
+    fltarray Vect(Nz);
+
+    // 1D wt 
+    if (NbrBand1D >= 2)
+    {
+        for (b=0; b < NbrBand2D; b++)
+        for (i=0; i < WT2D.size_band_nl(b); i++)
+        for (j=0; j < WT2D.size_band_nc(b); j++) 
+        {
+            z = 0;
+            for (int b1=0; b1 < NbrBand1D; b1++)
+            for (int p=0; p < WT1D.size_scale_np (b1); p++)
+                WT1D(b1,p) = TabBand[b](j,i,z++); 
+            Vect.init();
+            WT1D.recons(Vect);
+            for (z=0; z < Nz; z++)
+                TabBand[b](j,i,z) = Vect(z);
+        }
+    }
+
+    // 2D wt 
+    for (z=0; z < Nz; z++)
+    {
+        for (b=0; b < NbrBand2D; b++)
+        {
+            for (i=0; i < WT2D.size_band_nl(b); i++)
+            for (j=0; j < WT2D.size_band_nc(b); j++)
+                WT2D(b,i,j) = TabBand[b](j,i,z);
+        }   
+        WT2D.recons(Frame);
+        for (i=0; i < Ny; i++)
+        for (j=0; j < Nx; j++)
+            Data(j,i,z) = Frame(i,j);
+    }
+
+    // for (i=0; i < Ny; i++)
+    //     for (j=0; j < Nx; j++)
+    //         cout << "[" << Data(j,i,z) << "]";
+    //     std::cout << std::endl;
+
+    return image2array_3d(Data);
 }
 
 /*********************************************************************/
  
-py::array_t<float>  MR2D1D::transform(py::array_t<float> Name_Cube_In)
+py::array_t<float> MR2D1D::transform(py::array_t<float> Name_Cube_In)
 {
+    is_transform=true;
     fltarray Dat;
-   fitsstruct Header;   
-        if (Verbose == True)
-        {
-           cout << "Transform = " << StringTransform((type_transform) Transform) << endl;
-           cout << "NbrScale2d = " << this->NbrScale2d<< endl;
-           cout << "NbrScale1d = " << this->Nbr_Plan<< endl;
-        }
-    
-       Dat = array2image_3d(Name_Cube_In);
-       int Nx = Dat.nx();
-       int Ny = Dat.ny();
-       int Nz = Dat.nz();
-       if (Verbose == True) cout << "Nx = " << Dat.nx() << " Ny = " << Dat.ny() << " Nz = " << Dat.nz() << endl;
-     //Nx = 2 Ny = 3 Nz = 4
-       if (Normalize == True)
-       {
-         double Mean = Dat.mean();
-         double Sigma = Dat.sigma();
-         for (int i=0;i<Nx;i++)
-         for (int j=0;j<Ny;j++)
-         for (int k=0;k<Nz;k++) Dat(i,j,k) = (Dat(i,j,k)-Mean)/Sigma;
-       }    
-    
-   
-       MR2D1D WT;
-       if (Verbose == True) cout << "Alloc ...  " << endl;
-       WT.alloc(Nx, Ny, Nz, Transform, NbrScale2d, Nbr_Plan);
+    fitsstruct Header;   
+    if (Verbose)
+    {
+        cout << "Transform = " << StringTransform((type_transform) Transform) << endl;
+        cout << "NbrScale2d = " << this->NbrScale2d<< endl;
+        cout << "NbrScale1d = " << this->Nbr_Plan<< endl;
+    }
 
-       if (Verbose == True) cout << "Transform ...  " << endl;
-       WT.perform_transform (Dat);
+    Dat = array2image_3d(Name_Cube_In);
+    Nx = Dat.nx();
+    Ny = Dat.ny();
+    Nz = Dat.nz();
+    if (Verbose)
+        cout << "Nx = " << Dat.nx() << " Ny = " << Dat.ny() << " Nz = " << Dat.nz() << endl;
+    if (Normalize)
+    {
+        double Mean = Dat.mean();
+        double Sigma = Dat.sigma();
+        for (int i=0;i<Nx;i++)
+        for (int j=0;j<Ny;j++)
+        for (int k=0;k<Nz;k++) Dat(i,j,k) = (Dat(i,j,k)-Mean)/Sigma;
+    }    
 
-       if (Verbose == True)cout << "Write result ...  " << endl;
-       auto res = WT.write();
-              
-       if (Verbose == True)
-       {
-          for (int s2 = 0; s2 < WT.nbr_band_2d (); s2++)
-        for (int s1 = 0; s1 < WT.nbr_band_1d (); s1++)
+    MR2D1D WT;
+    if (Verbose == True) cout << "Alloc ...  " << endl;
+    alloc(Nx, Ny, Nz, Transform, NbrScale2d, Nbr_Plan);
+
+    if (Verbose == True) cout << "Transform ...  " << endl;
+    perform_transform (Dat);
+            
+    if (Verbose)
+    {
+        for (int s2 = 0; s2 < nbr_band_2d (); s2++)
+        for (int s1 = 0; s1 < nbr_band_1d (); s1++)
         {
-            cout << "  Band " << s2 << ", " << s1 << ": " << " Nx = " << WT.size_band_nx(s2,s1) << ", Ny = " << WT.size_band_ny(s2,s1) <<  ", Nz = " << WT.size_band_nz(s2,s1) << endl;
+            cout << "  Band " << s2 << ", " << s1 << ": " << " Nx = " << size_band_nx(s2,s1) << ", Ny = " << WT.size_band_ny(s2,s1) <<  ", Nz = " << WT.size_band_nz(s2,s1) << endl;
             fltarray Band;
-            Band = WT.get_band(s2, s1);
+            Band = get_band(s2, s1);
             cout << "  Sigma = " << Band.sigma() << " Min = " << Band.min() << " Max = " << Band.max() << endl;
         }
-       }
-       return res;  
+    }
+
+    int Nelem=2;
+    for (int s=0; s < NbrBand2D; s++)
+    for (int s1=0; s1 < NbrBand1D; s1++) 
+        Nelem += 3 +  TabSizeBandNx(s,s1)*TabSizeBandNy(s,s1)*TabSizeBandNz(s,s1);
+    fltarray Data(Nelem);
+    int ind=2;
+    Data(0) = NbrBand2D;
+    Data(1) = NbrBand1D;
+    
+    // Ifloat Band;
+    for (int s=0; s < NbrBand2D; s++)
+    for (int s1=0; s1 < NbrBand1D; s1++) 
+    {
+        Data(ind++) = TabSizeBandNx(s,s1);
+        Data(ind++) = TabSizeBandNy(s,s1);
+        Data(ind++) = TabSizeBandNz(s,s1);
+        
+        for (int k=0;  k < TabSizeBandNz(s,s1); k++) 
+        for (int j=0;  j < TabSizeBandNy(s,s1); j++) 
+        for (int i=0;  i < TabSizeBandNx(s,s1); i++) Data(ind++) = (*this)(s,s1,i,j,k);
+    }
+
+    py::list result;
+    float *buff = Data.buffer();
+    for (int i=0; i<Nelem; i++) {
+        result.append(buff[i]);
+    }
+    return result;
 }

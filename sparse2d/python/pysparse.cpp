@@ -150,5 +150,6 @@ PYBIND11_MODULE(pysparse, module)
         py::arg("NbrScale2d")=(int)(5),
         py::arg("Nbr_Plan")=(int)(4)
       )
-    .def("transform", &MR2D1D::transform, py::arg("Name_Cube_in"));
+    .def("transform", &MR2D1D::transform, py::arg("Name_Cube_in"))
+    .def("reconstruct", &MR2D1D::reconstruct, py::arg("data"));
 }
