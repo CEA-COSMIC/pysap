@@ -174,4 +174,4 @@ class MR2D1D():
         data: ndarray
             the input data.
         """
-        # self.recons = self.trf.reconstruct(data)
+        self.recons = self.trf.reconstruct(data)

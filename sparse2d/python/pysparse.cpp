@@ -142,14 +142,13 @@ PYBIND11_MODULE(pysparse, module)
       .def("deconvolve", &MRDeconvolve::Deconvolve, py::arg("arr"), py::arg("psf"));
 
       py::class_<MR2D1D>(module, "MR2D1D")
-    .def(py::init< bool, int, bool, bool, int, int >(),
-        py::arg("reverse")=(bool)(False),
+    .def(py::init<int, bool, bool, int, int >(),
         py::arg("type_of_transform")=(int)(14),
         py::arg("normalize")=(bool)(False),
         py::arg("verbose")=(bool)(False),
         py::arg("NbrScale2d")=(int)(5),
         py::arg("Nbr_Plan")=(int)(4)
       )
-    .def("transform", &MR2D1D::transform, py::arg("Name_Cube_in"))
-    .def("reconstruct", &MR2D1D::reconstruct, py::arg("data"));
+    .def("transform", &MR2D1D::Transform, py::arg("Name_Cube_in"))
+    .def("reconstruct", &MR2D1D::Reconstruct, py::arg("data"));
 }
