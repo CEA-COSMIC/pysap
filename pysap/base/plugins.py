@@ -62,8 +62,7 @@ class PluginsMetaImportHook(object):
          of the module/package that was requested.
         """
         # Load the module
-        module = imp.load_module(name, self.file, self.filename,
-                                 self.stuff)
+        module = imp.load_module(name, self.file, self.filename, self.stuff)
         if self.file:
             self.file.close()
 

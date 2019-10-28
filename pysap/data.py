@@ -220,9 +220,7 @@ class ResumeURLOpener(FancyURLopener):
     partial file is being sent, which is fine in this case.
     Do nothing with this error.
 
-    Note
-    ----
-    This was adapted from:
+    Note: This was adapted from:
     http://code.activestate.com/recipes/83208-resuming-download-of-a-file/
     """
     def __init__(self):
@@ -253,10 +251,8 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
     download_fname: str
         absolute path to the downloaded file.
 
-    Notes
-    -----
-    If, for any reason, the download procedure fails, all downloaded files are
-    removed.
+    Note: If, for any reason, the download procedure fails, all downloaded
+    files are removed.
     """
     # Create the download directory if necessary
     if not os.path.exists(data_dir):

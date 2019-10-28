@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_
+|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_ |Doc|_
 
 .. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
@@ -18,6 +18,9 @@
 
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP
+
+.. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
+.. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
 
 
 pySAP

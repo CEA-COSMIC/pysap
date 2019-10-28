@@ -30,8 +30,8 @@ class FITS(LoaderBase):
         path: str
             the path to the image to be loaded.
 
-        Return
-        ------
+        Returns
+        -------
         image: Image
             the loaded image.
         """
