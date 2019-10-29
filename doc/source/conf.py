@@ -27,6 +27,10 @@ sys.path.insert(0, installdir)
 
 if LooseVersion(sphinx.__version__) < LooseVersion("1"):
     raise RuntimeError("Need sphinx >= 1 for autodoc to work correctly.")
+if LooseVersion(sphinx.__version__) < LooseVersion("1.8"):
+    sphinx_math = "sphinx.ext.pngmath"
+else:
+    sphinx_math = "sphinx.ext.imgmath"
 
 # -- General configuration --------------------------------------------------
 
@@ -44,7 +48,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
     "sphinx.ext.coverage",
-    "sphinx.ext.imgmath",
+    sphinx_math,
     "sphinx.ext.ifconfig",
     "sphinx.ext.autosummary",
     "sphinx.ext.viewcode",
@@ -116,7 +120,8 @@ release = version
 # for source files.
 exclude_patterns = [
     "examples",
-    templates_path,
+    templates_path[0],
+    templates_path[1],
     os.path.join("scikit-learn", "static", "ML_MAPS_README.rst")]
 
 # The reST default role (used for this markup: `text`) to use for all
@@ -149,7 +154,7 @@ pygments_style = "sphinx"
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = "scikit-learn"
+html_theme = "azmind"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
