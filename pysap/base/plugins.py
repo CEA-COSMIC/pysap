@@ -57,9 +57,9 @@ class PluginsMetaImportHook(object):
         return self
 
     def load_module(self, name):
-        """ This method is called by Python if PluginsMetaImportHook
+        """ This method is called by Python if the class
         'find_module' does not return None. 'name' is the fully-qualified name
-         of the module/package that was requested.
+        of the module/package that was requested.
         """
         # Load the module
         module = imp.load_module(name, self.file, self.filename, self.stuff)
