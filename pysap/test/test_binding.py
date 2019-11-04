@@ -32,6 +32,7 @@ class TestWarpAndBinding(unittest.TestCase):
     def setUp(self):
         """ Get the data from the server.
         """
+        self.mr_image = get_sample_data(dataset_name="multiresolution")
         self.images = [
             get_sample_data(dataset_name="mri-slice-nifti"),
             get_sample_data(dataset_name="astro-ngc2997")
@@ -417,6 +418,83 @@ class TestWarpAndBinding(unittest.TestCase):
             image = numpy.copy(pysap.io.load(out_file))
             diff = deconv.data.data - image
             self.assertFalse(diff.all())
+
+    def test_mr2d1d_init(self):
+        data = self.mr_image.data
+
+        mr = sp.MR2D1D()
+        mr.transform(data)
+        assert(mr.cube is not None)
+
+    def test_mr2d1d_output_val(self):
+        data = self.mr_image.data
+
+        mr = sp.MR2D1D(type_of_transform=2)
+        mr.transform(data)
+
+        # use wrapper
+        im_wrap = 0
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.mr")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr2d1d_trans(in_image, out_file,
+                                          type_of_multiresolution_transform=2)
+            im_wrap = numpy.copy(pysap.io.load(out_file))
+        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+
+    def test_mr2d1d_normalized(self):
+        data = self.mr_image.data
+
+        mr = sp.MR2D1D(normalize=True)
+        mr.transform(data)
+
+        # use wrapper
+        im_wrap = 0
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.mr")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr2d1d_trans(in_image, out_file, normalize=True)
+            im_wrap = numpy.copy(pysap.io.load(out_file))
+        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+
+    def test_mr2d1d_scales(self):
+        data = self.mr_image.data
+
+        mr = sp.MR2D1D(NbrScale2d=2, Nbr_Plan=6)
+        mr.transform(data)
+
+        # use wrapper
+        im_wrap = 0
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.mr")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr2d1d_trans(in_image, out_file,
+                                          number_of_scales_2D=2,
+                                          number_of_scales_1D=6)
+            im_wrap = numpy.copy(pysap.io.load(out_file))
+        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+
+    def test_mr2d1d_recons(self):
+        data = self.mr_image.data
+        mr = sp.MR2D1D()
+        mr.transform(data)
+        mr.reconstruct(mr.cube)
+
+        # use wrapper
+        im_wrap = 0
+        with pysap.TempDir(isap=True) as tmpdir:
+            in_image = os.path.join(tmpdir, "in.fits")
+            out_file = os.path.join(tmpdir, "out.mr")
+            pysap.io.save(data, in_image)
+            pysap.extensions.mr2d1d_trans(in_image, out_file)
+            # transformed = numpy.copy(pysap.io.load(out_file))
+            pysap.extensions.mr2d1d_trans(out_file, "recons.fits",
+                                          reverse=True)
+            im_wrap = numpy.copy(pysap.io.load("recons.fits"))
+        assert(numpy.isclose(mr.recons, im_wrap, atol=0.00001).all())
 
 
 if __name__ == "__main__":

@@ -67,36 +67,48 @@ py::array_t<float> image2array_3d(const fltarray &image){
   for (int i=0; i<image.nx(); i++) {
     for (int j=0; j<image.ny(); j++) {
       for(int k=0; k<image.nz(); k++){
-        pointer[k + image.nz() * (j + i * image.ny())] = image(i, j, k);
+        pointer[i + image.nx() * (j + k * image.ny())] = image(i, j, k);
       }
     }
   }
 
-  array.resize({image.nx(), image.ny(), image.nz()});
+  array.resize({image.nz(), image.ny(), image.nx()});
 
   return array;
 }
 
 // Helper function for fast 3D arrat to image conversion
-fltarray array2image_3d(py::array_t<float> &array){
+fltarray array2image_3d(py::array_t<float> &array) {
 
-  if (array.ndim() != 3)
-    throw std::runtime_error("Input should be 2-D NumPy array");
+  if (array.ndim() == 3)
+  {
+    auto buffer = array.request();
+    float *pointer = (float *) buffer.ptr;
 
-  auto buffer = array.request();
-  float *pointer = (float *) buffer.ptr;
+    fltarray image(array.shape(2), array.shape(1), array.shape(0));
 
-  fltarray image(array.shape(0), array.shape(1), array.shape(2));
-
-  for (int i=0; i<array.shape(0); i++) {
-    for (int j=0; j<array.shape(1); j++) {
-      for (int k=0; k<array.shape(2); k++){
-        image(i, j, k) = pointer[k + array.shape(2) * (j + i * array.shape(1))];
+    for (int i=0; i<array.shape(2); i++) {
+      for (int j=0; j<array.shape(1); j++) {
+        for (int k=0; k<array.shape(0); k++){
+          image(i, j, k) = pointer[i + array.shape(2) * (j + k * array.shape(1))];
+        }
       }
     }
+    return image;
   }
+  else if (array.ndim() == 1)
+  {
+      fltarray image(len(array));
 
-  return image;
+      auto buffer = array.request();
+      float *pointer = (float *) buffer.ptr;
+
+      for (int i = 0; i < len(array); ++i)
+          image(i) = pointer[i];
+      return image;
+  }
+  else
+    throw std::runtime_error("Input should be 3-D NumPy array");
 }
 
 #endif

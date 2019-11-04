@@ -13,9 +13,11 @@ import warnings
 
 # Package import
 import pysap
+import pysap.base.utils as utils
 
 from pysap.base.transform import MetaRegister  # for the metaclass
 from pysap.base import image
+
 
 try:
     import pysparse
@@ -114,7 +116,7 @@ class Deconvolve():
         self.deconv = pysparse.MRDeconvolve(**kwargs)
 
     def deconvolve(self, img, psf):
-        """ Execute the filter operation.
+        """ Execute the deconvolution operation.
 
         Parameters
         ----------
@@ -131,3 +133,46 @@ class Deconvolve():
         if self.data is None:
             raise AttributeError("The data must be deconvolved first !")
         self.data.show()
+
+
+class MR2D1D():
+    """ Define the structure that will be used to
+        store the MR2D1D transform and reconstruction
+        results.
+    """
+    def __init__(self, **kwargs):
+        """ Define the transform.
+
+        Parameters
+        ----------
+
+        type_of_multiresolution_transform: int
+        normalize: bool
+        verbose: bool
+        number_of_scales_2D: int
+        number_of_scales: int
+
+        """
+        self.cube = None
+        self.recons = None
+        self.trf = pysparse.MR2D1D(**kwargs)
+
+    def transform(self, data):
+        """ Execute the transform operation.
+
+        Parameters
+        ----------
+        data: ndarray
+            the input data.
+        """
+        self.cube = self.trf.transform(data)
+
+    def reconstruct(self, data):
+        """ Execute the reconstructiom operation.
+
+        Parameters
+        ----------
+        data: ndarray
+            the input data.
+        """
+        self.recons = self.trf.reconstruct(data)

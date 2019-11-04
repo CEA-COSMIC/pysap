@@ -109,6 +109,11 @@ SAMPLE_DATE_FILES = {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/ngc2997.fits"),
         "md5sum": None
+    },
+    "multiresolution": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/gen.mr"),
+        "md5sum": None
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pysap")
