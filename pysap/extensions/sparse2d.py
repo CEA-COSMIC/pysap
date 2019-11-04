@@ -116,7 +116,7 @@ class Deconvolve():
         self.deconv = pysparse.MRDeconvolve(**kwargs)
 
     def deconvolve(self, img, psf):
-        """ Execute the filter operation.
+        """ Execute the deconvolution operation.
 
         Parameters
         ----------
@@ -137,7 +137,8 @@ class Deconvolve():
 
 class MR2D1D():
     """ Define the structure that will be used to
-        store the deconvolution result.
+        store the MR2D1D transform and reconstruction
+        results.
     """
     def __init__(self, **kwargs):
         """ Define the transform.

@@ -16,7 +16,6 @@ for details.
 #include "filter.hpp"
 #include "deconvolve.hpp"
 #include "mr_2d1d.hpp"
-// #include "mr2d1d.hpp"
 
 
 // Defines a python module which will be named "pysparse"

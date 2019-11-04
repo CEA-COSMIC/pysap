@@ -68,7 +68,6 @@ py::array_t<float> image2array_3d(const fltarray &image){
     for (int j=0; j<image.ny(); j++) {
       for(int k=0; k<image.nz(); k++){
         pointer[i + image.nx() * (j + k * image.ny())] = image(i, j, k);
-        // pointer[k + image.nz() * (j + i * image.ny())] = image(i, j, k);
       }
     }
   }
@@ -92,7 +91,6 @@ fltarray array2image_3d(py::array_t<float> &array) {
       for (int j=0; j<array.shape(1); j++) {
         for (int k=0; k<array.shape(0); k++){
           image(i, j, k) = pointer[i + array.shape(2) * (j + k * array.shape(1))];
-          // image(i, j, k) = pointer[k + array.shape(2) * (j + i * array.shape(1))];
         }
       }
     }
