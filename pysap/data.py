@@ -86,6 +86,11 @@ SAMPLE_DATE_FILES = {
                 "mask_BrainPhantom512.nii.gz"),
         "md5sum": "078760d89e737e69b5578d47e368c42f"
     },
+    "2d-poisson-disk-mask": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/2d_cartesian_poisson_disk.npy"),
+        "md5sum": None
+    },
     "astro-fits": {
         "url": "ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits",
         "md5sum": None
