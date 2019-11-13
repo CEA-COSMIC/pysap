@@ -27,7 +27,6 @@ Available transform from pywt are:
 """
 
 # System import
-from __future__ import print_function, absolute_import
 import os
 import warnings
 
@@ -223,7 +222,7 @@ def pywt_class_factory(func, name, destination_module_globals):
         the wavelet name we want to instanciate.
     """
     # Define the transform class name
-    class_name = name
+    class_name = name.replace(".", "")
 
     # Define the trsform class parameters
     class_parameters = {

@@ -12,21 +12,13 @@ A module that privides the utility functions to download toy datasets.
 """
 
 # System import
-from __future__ import print_function
 import os
 import sys
 import copy
-if sys.version_info[:2] >= (3, 0):
-    from urllib.request import FancyURLopener
-    from urllib.request import urlopen
-    from urllib.request import urlparse
-    from urllib.request import HTTPError
-else:
-    from urllib import FancyURLopener
-    from urllib2 import urlopen
-    from urllib2 import urlparse
-    urlparse = urlparse.urlparse
-    from urllib2 import HTTPError
+from urllib.request import FancyURLopener
+from urllib.request import urlopen
+from urllib.request import urlparse
+from urllib.request import HTTPError
 import urllib
 import time
 import shutil
@@ -79,14 +71,29 @@ SAMPLE_DATE_FILES = {
                 "BrainPhantom512.nii.gz"),
         "md5sum": "19983e6003ae94487d03131f4bacae2e"
     },
+    "2d-mri": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_ref_image_2d.npy"),
+        "md5sum": None
+    },
+    "cartesian-mri-mask": {
+        "url": ("http://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/example_mri_cartesian_mask_2d.npy"),
+        "md5sum": None
+    },
     "mri-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "mask_BrainPhantom512.nii.gz"),
         "md5sum": "078760d89e737e69b5578d47e368c42f"
     },
+    "2d-poisson-disk-mask": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/2d_cartesian_poisson_disk.npy"),
+        "md5sum": None
+    },
     "astro-fits": {
         "url": "ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits",
-        "md5sum": "1371f06a3b7fe5588ec4823dd9f2ccad"
+        "md5sum": None
     },
     "astro-mask": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -101,6 +108,16 @@ SAMPLE_DATE_FILES = {
     "astro-psf": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "example_psf_image.npy"),
+        "md5sum": None
+    },
+    "astro-ngc2997": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/ngc2997.fits"),
+        "md5sum": None
+    },
+    "multiresolution": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/gen.mr"),
         "md5sum": None
     }
 }
@@ -208,9 +225,7 @@ class ResumeURLOpener(FancyURLopener):
     partial file is being sent, which is fine in this case.
     Do nothing with this error.
 
-    Note
-    ----
-    This was adapted from:
+    Note: This was adapted from:
     http://code.activestate.com/recipes/83208-resuming-download-of-a-file/
     """
     def __init__(self):
@@ -241,10 +256,8 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
     download_fname: str
         absolute path to the downloaded file.
 
-    Notes
-    -----
-    If, for any reason, the download procedure fails, all downloaded files are
-    removed.
+    Note: If, for any reason, the download procedure fails, all downloaded
+    files are removed.
     """
     # Create the download directory if necessary
     if not os.path.exists(data_dir):
@@ -313,10 +326,7 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
             local_file = open(temp_fname, "wb")
         # Get the total file size
         try:
-            if sys.version_info[:2] >= (3, 0):
-                total_size = data.info().get_all("Content-Length")[0].strip()
-            else:
-                total_size = data.info().getheader("Content-Length").strip()
+            total_size = data.info().get_all("Content-Length")[0].strip()
             total_size = int(total_size) + bytes_so_far
         except Exception as e:
             if verbose > 0:

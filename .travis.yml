@@ -2,47 +2,38 @@ sudo: required
 dist: trusty
 language: python
 
-python:
-    - "2.7"
-    - "3.4"
-    - "3.5"
-    - "3.6"
+matrix:
+    include:
+        - python: 3.5
+        - python: 3.6
+        - python: 3.7
+          dist: xenial
+          sudo: true
 
 before_install:
     - sudo apt-get update
     - sudo updatedb
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-      else
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-      fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
-        export CPLUS_INCLUDE_PATH=/usr/include/python3.4m;
-      fi
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.5.6/include/python3.5m;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.6.3/include/python3.6m;
       fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.7" ]; then
+        export CPLUS_INCLUDE_PATH=/opt/python/3.7.1/include/python3.7m;
+      fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
     - export PATH=$HOME/miniconda/bin:$PATH
     - hash -r
-    - conda update --yes conda
+    - conda update --all -y
     - conda info -a
     - sudo apt install -y libnfft3-dev
 
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
-    - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then
-        pip install mock;
-      fi
-    - conda install --yes numpy scipy matplotlib
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        pip install future;
-      fi
     - locate pyconfig.h
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
@@ -57,29 +48,27 @@ install:
     - pip install coverage
     - pip install coveralls
     - pip install pycodestyle
-    - pip install scikit-learn==0.20
+    - pip install scikit-learn
     - pip install nibabel
     - pip install progressbar2
-    - pip install astropy==2.0.8
+    - pip install astropy
     - pip install PyWavelets
+    - pip install matplotlib
     - pip install modopt
-    - pip install git+https://github.com/CEA-COSMIC/pysap-mri@master
-    - pip install git+https://github.com/CEA-COSMIC/pysap-astro@master
+    - pip install pysap-mri
+    - pip install pysap-astro
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
-    - if [ $TRAVIS_PYTHON_VERSION == "2.7" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-2.7/extern/bin;
-      fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.4" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.4/extern/bin;
-      fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.6/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.7" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.7/extern/bin;
       fi
 
 script:

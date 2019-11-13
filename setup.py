@@ -9,7 +9,6 @@
 
 
 # System import
-from __future__ import print_function
 import os
 import re
 import sys
@@ -20,10 +19,13 @@ from distutils.version import LooseVersion
 from setuptools.command.build_ext import build_ext
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
+from setuptools.command.install import install
 from importlib import import_module
 try:
-    from pip import main as pip_main
+    from pip._internal.main import main as pip_main
 except ImportError:
+    import warnings
+    warnings.warn("pybind11 install using needs pip to 19.3 or above. This will be an error in future")
     from pip._internal import main as pip_main
 
 
@@ -39,14 +41,9 @@ pkgdata = {
         os.path.join("test", "*.json"),
         os.path.join("apps", "*.json")]
 }
-if sys.version_info >= (3, 0):
-    scripts = [
-        os.path.join("pysap", "apps", "pysapview3")
-    ]
-else:
-    scripts = [
-        os.path.join("pysap", "apps", "pysapview")
-    ]
+scripts = [
+    os.path.join("pysap", "apps", "pysapview3")
+]
 
 # Workaround
 if "--release" in sys.argv:
@@ -65,19 +62,19 @@ class CMakeExtension(Extension):
         self.sourcedir = os.path.abspath(sourcedir)
 
 
+def pipinstall(package_list, options=[]):
+    """ Pip install PyPi packages.
+    """
+
+    if not isinstance(package_list, list) or not isinstance(options, list):
+        raise TypeError('preinstall inputs must be of type list.')
+
+    pip_main(['install'] + options + package_list)
+
+
 class CMakeBuild(build_ext):
     """ Define a cmake build extension.
     """
-
-    @staticmethod
-    def _preinstall(package_list, options=[]):
-        """ Pre-install PyPi packages before running cmake.
-        """
-
-        if not isinstance(package_list, list) or not isinstance(options, list):
-            raise TypeError('preinstall inputs must be of type list.')
-
-        pip_main(['install'] + options + package_list)
 
     def _set_pybind_path(self):
         """ Set path to Pybind11 include directory.
@@ -90,14 +87,10 @@ class CMakeBuild(build_ext):
         """
 
         # Set preinstall requirements
-        preinstall_list = ['pybind11']
-
-        # Add macOS specific requirements
-        if platform.system() == 'Darwin':
-            preinstall_list += release_info["MACOS_REQUIRES"]
+        preinstall_list = release_info["PREINSTALL_REQUIRES"]
 
         # Preinstall packages
-        self._preinstall(preinstall_list)
+        pipinstall(preinstall_list)
 
         # Set Pybind11 path
         self._set_pybind_path()
@@ -111,8 +104,8 @@ class CMakeBuild(build_ext):
                 ", ".join(e.name for e in self.extensions))
         cmake_version = LooseVersion(re.search(r"version\s*([\d.]+)",
                                      out.decode()).group(1))
-        if cmake_version < "2.8.0":
-            raise RuntimeError("CMake >= 2.8.0 is required.")
+        if cmake_version < "3.0.0":
+            raise RuntimeError("CMake >= 3.0.0 is required.")
 
         # Build extensions
         for ext in self.extensions:
@@ -184,6 +177,19 @@ class HybridTestCommand(TestCommand):
         subprocess.call(["./*_test"], cwd=test_dir, shell=True)
 
 
+class PluginBuild(install):
+    """ Install Plugins
+
+    Install plugins from PyPi following PySAP build.
+
+    """
+
+    def run(self):
+
+        pipinstall(release_info["PLUGINS"])
+        install.run(self)
+
+
 # Write setup
 setup(
     name=release_info["NAME"],
@@ -205,6 +211,7 @@ setup(
         "pysparse", sourcedir=os.path.join("sparse2d", "python"))],
     cmdclass={
         "build_ext": CMakeBuild,
-        "test": HybridTestCommand
+        "test": HybridTestCommand,
+        "install": PluginBuild
     }
 )

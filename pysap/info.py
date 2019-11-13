@@ -35,17 +35,13 @@ SUMMARY = """
     * an accces to 'sparse2d' using a wrapping or a binding strategy.
     * a user graphical interface to play with the provided functions.
 """
-long_description = """
-=====
-pySAP
-=====
-
-pySAP is a Python package related to sparsity and its application in
-astronomical or mediacal data analysis.
-This package binds the 'sparse2d' C++ library
-that allows sparse decomposition, denoising and deconvolution.
-"""
-
+long_description = (
+    "pySAP\n\n"
+    "pySAP is a Python package related to sparsity and its application in"
+    "astronomical or mediacal data analysis.\n"
+    "This package binds the 'sparse2d' C++ library"
+    "that allows sparse decomposition, denoising and deconvolution.\n"
+)
 # Main setup parameters
 NAME = "python-pySAP"
 ORGANISATION = "CEA"
@@ -71,20 +67,19 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
 REQUIRES = [
-    "scipy>=0.18.0",
-    "numpy>=1.11.0",
-    "matplotlib>=2.0.0",
-    "future>=0.16.0",
-    "astropy==2.0.8",
-    "nibabel>=2.1.0",
+    "scipy>=1.3.0",
+    "numpy>=1.16.4",
+    "matplotlib>=3.0.0",
+    "astropy>=3.0.0",
+    "nibabel>=2.3.2",
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",
-    "modopt>=1.1.5",
+    "modopt>=1.4.0",
     "scikit-learn>=0.19.1",
-    "PyWavelets>=1.0.0",
-    "pybind11>=2.2.4"
+    "PyWavelets>=1.0.0"
 ]
-MACOS_REQUIRES = [
+PREINSTALL_REQUIRES = [
+    "pybind11>=2.3.0",
     "pyqt5>=5.12.2"
 ]
 EXTRA_REQUIRES = {
@@ -93,3 +88,7 @@ EXTRA_REQUIRES = {
         # "python-pypipe>=0.0.1"
     }
 }
+PLUGINS = [
+    "pysap-astro==0.0.0",
+    "pysap-mri==0.1.1"
+]

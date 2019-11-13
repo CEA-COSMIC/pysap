@@ -12,7 +12,6 @@ Wavelet transform base module.
 """
 
 # System import
-from __future__ import division, print_function, absolute_import
 from pprint import pprint
 import uuid
 import os
@@ -221,7 +220,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         """
         if self.verbose > 0 and self._data is not None:
             print("[info] Replacing existing input data array.")
-        if not all([e == data.shape[0] for e in data.shape]):
+        # Ensure that the shape is square except when the family is pywt
+        if self.__family__ != 'pywt' and \
+                not all([e == data.shape[0] for e in data.shape]):
             raise ValueError("Expect a square shape data.")
         if data.ndim != self.data_dim:
             raise ValueError("This wavelet can only be applied on {0}D "

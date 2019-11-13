@@ -104,6 +104,7 @@ MRTransform::MRTransform(
       default:
          throw std::invalid_argument("Error: bad parameter bord.");
     }
+    this->bord = I_CONT;
     this->type_of_multiresolution_transform = type_of_multiresolution_transform;
     this->type_of_lifting_transform = type_of_lifting_transform;
     this->number_of_scales = number_of_scales;
