@@ -31,10 +31,10 @@ before_install:
 
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
+    - source activate testenv
     - pip install --upgrade pip
     - python --version
     - pip --version
-    - source activate testenv
     - locate pyconfig.h
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
