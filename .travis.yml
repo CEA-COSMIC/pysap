@@ -38,8 +38,8 @@ install:
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
-    - pip install nose, nose-exclude
-    - pip install coverage, coveralls
+    - pip install nose nose-exclude
+    - pip install coverage coveralls
     - pip install pycodestyle
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
