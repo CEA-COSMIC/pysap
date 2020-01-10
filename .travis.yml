@@ -1,5 +1,5 @@
 sudo: required
-dist: trusty
+dist: xenial
 language: python
 
 matrix:
@@ -7,8 +7,6 @@ matrix:
         - python: 3.5
         - python: 3.6
         - python: 3.7
-          dist: xenial
-          sudo: true
 
 before_install:
     - sudo apt-get update
@@ -34,29 +32,18 @@ before_install:
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
+    - pip install --upgrade pip
+    - python --version
+    - pip --version
     - locate pyconfig.h
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
-    - pip install pybind11
-    - pip install cython
-    - pip install git+https://github.com/ghisvail/pyNFFT.git
-    - pip install nose
-    - pip install nose-exclude
-    - pip install coverage
-    - pip install coveralls
+    - pip install nose nose-exclude
+    - pip install coverage coveralls
     - pip install pycodestyle
-    - pip install scikit-learn
-    - pip install nibabel
-    - pip install progressbar2
-    - pip install astropy
-    - pip install PyWavelets
-    - pip install matplotlib
-    - pip install modopt
-    - pip install pysap-mri
-    - pip install pysap-astro
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
