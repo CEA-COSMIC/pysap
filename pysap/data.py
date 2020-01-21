@@ -56,9 +56,9 @@ SAMPLE_DATE_FILES = {
         "image_field": "samples"
     },
     "mri-radial-samples": {
-        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                "samples_radial_GA_nc64_512.npy"),
-        "md5sum": "07b006ef003b825086880a663dfcdb6d"
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/samples_radial_GA_nc64_ns512.npy"),
+        "md5sum": None,
     },
     "mri-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
