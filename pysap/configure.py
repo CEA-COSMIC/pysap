@@ -57,7 +57,7 @@ def _check_python_versions():
 
 
 def info():
-    """ Dispaly some usefull information about the package.
+    """ Display some useful information about the package.
 
     Returns
     -------

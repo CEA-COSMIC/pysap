@@ -8,7 +8,7 @@
 ##########################################################################
 
 """
-A module that privides the utility functions to download toy datasets.
+A module that provides the utility functions to download toy datasets.
 """
 
 # System import

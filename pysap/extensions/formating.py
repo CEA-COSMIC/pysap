@@ -162,7 +162,7 @@ def flatten_undecimated_n_bands(cube, trf):
 
     Parameters
     ----------
-    cube: np.ndarray, the cube that containes the decomposition
+    cube: np.ndarray, the cube that contains the decomposition
     coefficients.
 
     Returns
@@ -176,12 +176,12 @@ def flatten_decimated_1_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
     'flatten_decimated_1_bands' concern the 'cube' where it's actually a
     2d-array like
-    the classic wavelet 2d-transform of 1 bands. It has the same formating
+    the classic wavelet 2d-transform of 1 bands. It has the same formatting
     than the 3 bands but the 'v' and 'h' bands or set to 0.
 
     Parameters
     ----------
-    cube: np.ndarray, the cube that containes the decomposition
+    cube: np.ndarray, the cube that contains the decomposition
     coefficients.
 
     Returns
@@ -204,7 +204,7 @@ def flatten_decimated_3_bands(cube, trf):
 
     Parameters
     ----------
-    cube: np.ndarray, the cube that containes the decomposition
+    cube: np.ndarray, the cube that contains the decomposition
     coefficients.
 
     Returns
@@ -228,7 +228,7 @@ def flatten_vector(cube, trf):
 
     Parameters
     ----------
-    cube: np.ndarray, the cube that containes the decomposition
+    cube: np.ndarray, the cube that contains the decomposition
     coefficients.
 
     Returns
@@ -257,12 +257,12 @@ def flatten_decimated_feauveau(cube, trf):
 
     Parameters
     ----------
-    cube: np.ndarray, the cube that containes the decomposition
+    cube: np.ndarray, the cube that contains the decomposition
     coefficients.
 
     Returns
     -------
-    data: np.ndarray, the flatten 'cube'.
+    data: np.ndarray, the flattened 'cube'.
     """
     pieces = []
     for i in range(trf.nb_scale-1):
@@ -285,7 +285,7 @@ def inflated_undecimated_n_bands(trf):
 
     Parameters
     ----------
-    vector: np.ndarray, the vector that containes the decomposition
+    vector: np.ndarray, the vector that contains the decomposition
     coefficients.
 
     Returns
@@ -303,7 +303,7 @@ def inflated_decimated_1_bands(trf):
 
     Parameters
     ----------
-    vector: np.ndarray, the vector that containes the decomposition
+    vector: np.ndarray, the vector that contains the decomposition
     coefficients.
 
     Returns
@@ -329,7 +329,7 @@ def inflated_decimated_3_bands(trf):
 
     Parameters
     ----------
-    vector: np.ndarray, the vector that containes the decomposition
+    vector: np.ndarray, the vector that contains the decomposition
     coefficients.
 
     Returns
@@ -356,7 +356,7 @@ def inflated_vector(trf):
 
     Parameters
     ----------
-    vector np.ndarray, the vector that containes the decomposition
+    vector np.ndarray, the vector that contains the decomposition
     coefficients.
 
     Returns
@@ -391,7 +391,7 @@ def inflated_decimated_feauveau(trf):
 
     Parameters
     ----------
-    vector: np.ndarray, the vector that containes the decomposition
+    vector: np.ndarray, the vector that contains the decomposition
     coefficients.
 
     Returns

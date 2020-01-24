@@ -147,7 +147,7 @@ class CMakeBuild(build_ext):
 class HybridTestCommand(TestCommand):
     """ Define custom mix Python/C++ test runner.
 
-    We will execute both Python unittest tests and C++ Catch tests.
+    We will execute both Python unit test tests and C++ Catch tests.
     """
     def distutils_dir_name(self, dname):
         """ Returns the name of a distutils build directory.

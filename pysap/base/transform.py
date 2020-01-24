@@ -302,7 +302,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         return self._analysis_header
 
     def _get_info(self):
-        """ Return the transformation information. This iformation is only
+        """ Return the transformation information. This information is only
         available when using the Python bindings.
         """
         if hasattr(self.trf, "info"):
@@ -319,7 +319,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
     @classmethod
     def bands_shapes(cls, bands_lengths, ratio=None):
-        """ Return the different bands associated shapes given there lengths.
+        """ Return the different bands associated shapes given their lengths.
 
         Parameters
         ----------

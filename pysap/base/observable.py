@@ -22,7 +22,7 @@ class Observable(object):
     """
 
     def __init__(self, signals):
-        """ Initilize the Observable class.
+        """ Initialize the Observable class.
 
         Parameters
         ----------
@@ -57,14 +57,14 @@ class Observable(object):
 
     def remove_observer(self, signal, observer):
         """ Remove an observer from the object.
-        Raise an eception if the signal is not allowed.
+        Raise an exception if the signal is not allowed.
 
         Parameters
         ----------
         signal: str
             a valid signal.
         observer: @func
-            an obervation function to be removed.
+            an observation function to be removed.
         """
         self._is_allowed_event(signal)
         self._remove_observer(signal, observer)
@@ -134,14 +134,14 @@ class Observable(object):
                 signal, type(self)))
 
     def _add_observer(self, signal, observer):
-        """ Assocaite an observer to a valid signal.
+        """ Associate an observer to a valid signal.
 
         Parameters
         ----------
         signal: str
             a valid signal.
         observer: @func
-            an obervation function.
+            an observation function.
         """
         if observer not in self._observers[signal]:
             self._observers[signal].append(observer)
@@ -154,7 +154,7 @@ class Observable(object):
         signal: str
             a valid signal.
         observer: @func
-            an obervation function to be removed.
+            an observation function to be removed.
         """
         if observer in self._observers[signal]:
             self._observers[signal].remove(observer)

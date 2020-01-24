@@ -1,14 +1,14 @@
 """
-Anstronomic/Neuroimaging common structure overview
+Astronomic/Neuro-imaging common structure overview
 ==================================================
 
 Credit: A Grigis
 
 pysap is a Python package related to sparsity and its application in
-astronomical or mediacal data analysis. This package also bind the 'sparse2d'
+astronomical or medical data analysis. This package also binds the 'sparse2d'
 C++ library that allows fast and extended sparse decomposition, denoising and
 deconvolution. It is accessible to everybody, and is reusable in various
-contexts. The project is hosted on github: https://github.com/CEA-COSMIC/pysap.
+contexts. The project is hosted on Github: https://github.com/CEA-COSMIC/pysap.
 
 First checks
 ------------
@@ -72,7 +72,7 @@ print(image.data.dtype)
 #
 # The package provides also a common interface to the ISAP C++ software
 # developped by the COSMOSTAT lab and PyWavelet. The code is optimzed and give
-# access to many decompsition strategies. All the decompositions
+# access to many decomposition strategies. All the decompositions
 # have been declared in a registery:
 
 from pprint import pprint

@@ -168,7 +168,7 @@ class MR2D1D():
         self.cube = self.trf.transform(data)
 
     def reconstruct(self, data):
-        """ Execute the reconstructiom operation.
+        """ Execute the reconstruction operation.
 
         Parameters
         ----------

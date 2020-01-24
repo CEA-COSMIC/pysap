@@ -7,7 +7,7 @@
 # for details.
 ##########################################################################
 
-""" This module defines common vizualisation tools.
+""" This module defines common visualisation tools.
 """
 
 from .image import plot_data

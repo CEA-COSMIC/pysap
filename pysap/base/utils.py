@@ -8,7 +8,7 @@
 ##########################################################################
 
 """
-Modules that defines usefull tools.
+Modules that defines useful tools.
 """
 
 # Third party import

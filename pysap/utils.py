@@ -191,7 +191,7 @@ U| |_  u   |_"_|  <\___ \/    | |    \/ _ \/
 
 def condatvu_logo():
     """ Return a nice ascii logo for the CONDAT-VU optimization using the
-    dansing font.
+    dance font.
 
     Returns
     -------
