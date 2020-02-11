@@ -45,10 +45,9 @@ SAMPLE_DATE_FILES = {
         "dtype": numpy.complex
     },
     "2d-pmri": {
-        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                "orange_phantom_pmri_images.npy"),
-        "md5sum": "b5cbfe5bb46a050ccc66cab244bf478e",
-        "dtype": numpy.complex
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/CartesianRefrence2DpMRI.npy"),
+        "md5sum": None,
     },
     "mri-radial-3d-samples": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
@@ -57,9 +56,9 @@ SAMPLE_DATE_FILES = {
         "image_field": "samples"
     },
     "mri-radial-samples": {
-        "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
-                "samples_radial_GA_nc64_512.npy"),
-        "md5sum": "07b006ef003b825086880a663dfcdb6d"
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/samples_radial_GA_nc64_ns512.npy"),
+        "md5sum": None,
     },
     "mri-nifti": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
