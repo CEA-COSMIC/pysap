@@ -94,4 +94,4 @@ Please refer to the |link-to-pyqt| for issues regarding the installation of
 Contributing
 ============
 
-If you want to contribute to pySAP, be sure to review the [contribution guidelines](CONTRIBUTING.md) and follow to the [code of conduct](CODE_OF_CONDUCT.md).
+If you want to contribute to pySAP, be sure to review the [contribution guidelines](./CONTRIBUTING.md) and follow to the [code of conduct](.CODE_OF_CONDUCT.md).
