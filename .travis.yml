@@ -1,14 +1,17 @@
-sudo: required
-dist: trusty
 language: python
+dist: xenial
+sudo: required
+
+os:
+  - linux
+  - osx
 
 matrix:
     include:
         - python: 3.5
         - python: 3.6
         - python: 3.7
-          dist: xenial
-          sudo: true
+        - python: 3.8
 
 before_install:
     - sudo apt-get update
@@ -22,6 +25,9 @@ before_install:
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.7" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.7.1/include/python3.7m;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.8" ]; then
+        export CPLUS_INCLUDE_PATH=/opt/python/3.8.0/include/python3.8m;
       fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
@@ -40,23 +46,9 @@ install:
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
-    - pip install pybind11
     - pip install cython
     - pip install git+https://github.com/ghisvail/pyNFFT.git
-    - pip install nose
-    - pip install nose-exclude
-    - pip install coverage
-    - pip install coveralls
-    - pip install pycodestyle
-    - pip install scikit-learn
-    - pip install nibabel
-    - pip install progressbar2
-    - pip install astropy
-    - pip install PyWavelets
-    - pip install matplotlib
-    - pip install modopt
-    - pip install pysap-mri
-    - pip install pysap-astro
+    - pip install nose nose-exclude coverage coveralls pycodestyle
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
@@ -69,6 +61,9 @@ install:
       fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.7" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.7/extern/bin;
+      fi
+    - if [ $TRAVIS_PYTHON_VERSION == "3.8" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.8/extern/bin;
       fi
 
 script:
