@@ -25,7 +25,8 @@ try:
     from pip._internal.main import main as pip_main
 except ImportError:
     import warnings
-    warnings.warn("pybind11 install using needs pip to 19.3 or above. This will be an error in future")
+    warnings.warn("pybind11 install using needs pip to 19.3 or above. "
+                  "This will be an error in the future")
     from pip._internal import main as pip_main
 
 
@@ -86,11 +87,8 @@ class CMakeBuild(build_ext):
         """ Redifine the run method.
         """
 
-        # Set preinstall requirements
-        preinstall_list = release_info["PREINSTALL_REQUIRES"]
-
         # Preinstall packages
-        pipinstall(preinstall_list)
+        pipinstall(release_info["PREINSTALL_REQUIRES"])
 
         # Set Pybind11 path
         self._set_pybind_path()
@@ -110,6 +108,9 @@ class CMakeBuild(build_ext):
         # Build extensions
         for ext in self.extensions:
             self.build_extension(ext)
+
+        # Install plugins
+        pipinstall(release_info["PLUGINS"])
 
     def build_extension(self, ext):
         """ Build extension with cmake.
@@ -177,19 +178,6 @@ class HybridTestCommand(TestCommand):
         subprocess.call(["./*_test"], cwd=test_dir, shell=True)
 
 
-class PluginBuild(install):
-    """ Install Plugins
-
-    Install plugins from PyPi following PySAP build.
-
-    """
-
-    def run(self):
-
-        pipinstall(release_info["PLUGINS"])
-        install.run(self)
-
-
 # Write setup
 setup(
     name=release_info["NAME"],
@@ -212,6 +200,5 @@ setup(
     cmdclass={
         "build_ext": CMakeBuild,
         "test": HybridTestCommand,
-        "install": PluginBuild
     }
 )
