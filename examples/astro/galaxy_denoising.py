@@ -28,7 +28,7 @@ galaxy = get_sample_data('astro-ngc2997')
 #############################################################################
 # Show the clean galaxy image
 
-galaxy.show()
+# galaxy.show()
 
 #############################################################################
 # Generate noisy observation
@@ -48,7 +48,7 @@ image_obs = Image(data=np.abs(obs_data))
 #############################################################################
 # Show the noisy galaxy image
 
-image_obs.show()
+# image_obs.show()
 
 #############################################################################
 # Deconvolve
@@ -67,7 +67,7 @@ image_rec = Image(data=np.abs(denoise_data))
 #############################################################################
 # Show the deconvolved galaxy image
 
-image_rec.show()
+# image_rec.show()
 
 #############################################################################
 # Residual
@@ -80,4 +80,4 @@ residual = Image(data=np.abs(galaxy.data - denoise_data))
 #############################################################################
 # Show the residual
 
-residual.show()
+# residual.show()

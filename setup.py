@@ -21,13 +21,6 @@ from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.install import install
 from importlib import import_module
-try:
-    from pip._internal.main import main as pip_main
-except ImportError:
-    import warnings
-    warnings.warn("pybind11 install using needs pip to 19.3 or above. "
-                  "This will be an error in the future")
-    from pip._internal import main as pip_main
 
 
 # Package information
@@ -63,14 +56,14 @@ class CMakeExtension(Extension):
         self.sourcedir = os.path.abspath(sourcedir)
 
 
-def pipinstall(package_list, options=[]):
+def pipinstall(package_list):
     """ Pip install PyPi packages.
     """
 
-    if not isinstance(package_list, list) or not isinstance(options, list):
+    if not isinstance(package_list, list):
         raise TypeError('preinstall inputs must be of type list.')
-
-    pip_main(['install'] + options + package_list)
+    for package in package_list:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 
 class CMakeBuild(build_ext):

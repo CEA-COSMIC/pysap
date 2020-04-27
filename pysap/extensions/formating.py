@@ -155,38 +155,38 @@ def set_ht(A, a):
 
 def flatten_undecimated_n_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
-        'flatten_undecimated_n_bands' concern the 'cube' where each layer
-        correspond to a
-        undecimated band. We can have multiple bands per scale, which lead to
-        nb_scale * nb_band_per_scale for one dimension.
+    'flatten_undecimated_n_bands' concern the 'cube' where each layer
+    correspond to a
+    undecimated band. We can have multiple bands per scale, which lead to
+    nb_scale * nb_band_per_scale for one dimension.
 
-        Parameters
-        ----------
-        cube: np.ndarray, the cube that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    cube: np.ndarray, the cube that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     return np.copy(cube.flatten())
 
 
 def flatten_decimated_1_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
-        'flatten_decimated_1_bands' concern the 'cube' where it's actually a
-        2d-array like
-        the classic wavelet 2d-transform of 1 bands. It has the same formating
-        than the 3 bands but the 'v' and 'h' bands or set to 0.
+    'flatten_decimated_1_bands' concern the 'cube' where it's actually a
+    2d-array like
+    the classic wavelet 2d-transform of 1 bands. It has the same formating
+    than the 3 bands but the 'v' and 'h' bands or set to 0.
 
-        Parameters
-        ----------
-        cube: np.ndarray, the cube that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    cube: np.ndarray, the cube that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
     for i in range(trf.nb_scale-1):
@@ -198,18 +198,18 @@ def flatten_decimated_1_bands(cube, trf):
 
 def flatten_decimated_3_bands(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
-        'flatten_decimated_3_bands' concern the 'cube' where it's actually
-        a 2d-array like
-        the classic wavelet 2d-transform of 3 bands.
+    'flatten_decimated_3_bands' concern the 'cube' where it's actually
+    a 2d-array like
+    the classic wavelet 2d-transform of 3 bands.
 
-        Parameters
-        ----------
-        cube: np.ndarray, the cube that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    cube: np.ndarray, the cube that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
     for i in range(trf.nb_scale-1):
@@ -223,17 +223,17 @@ def flatten_decimated_3_bands(cube, trf):
 
 def flatten_vector(cube, trf):
     """ Flatten the decomposition coefficients from a 'cube' to a vector.
-        'flatten_vector' concern the 'curvelet-cube' where it's already
-        a vector.
+    'flatten_vector' concern the 'curvelet-cube' where it's already
+    a vector.
 
-        Parameters
-        ----------
-        cube: np.ndarray, the cube that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    cube: np.ndarray, the cube that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     metadata_len = 1 + trf.nb_scale + 2 * trf.nb_band_per_scale.sum()
     data = np.zeros(len(cube) - metadata_len)
@@ -252,17 +252,17 @@ def flatten_vector(cube, trf):
 
 def flatten_decimated_feauveau(cube, trf):
     """ Flatten decomposition coefficients from a 'cube' to a vector.
-        'flatten_decimated_feauveau' concern the 'cube' where it's the Feauveau
-        decimated...
+    'flatten_decimated_feauveau' concern the 'cube' where it's the Feauveau
+    decimated...
 
-        Parameters
-        ----------
-        cube: np.ndarray, the cube that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    cube: np.ndarray, the cube that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     pieces = []
     for i in range(trf.nb_scale-1):
@@ -279,36 +279,36 @@ def flatten_decimated_feauveau(cube, trf):
 
 def inflated_undecimated_n_bands(trf):
     """ Inflated the decomposition coefficients from a vector to a 'cube'.
-        'inflated_undecimated_n_bands' concern the vector where each layer
-        correspond to a undecimated band. We can have multiple bands per scale,
-        which lead to nb_scale * nb_band_per_scale for one dimension.
+    'inflated_undecimated_n_bands' concern the vector where each layer
+    correspond to a undecimated band. We can have multiple bands per scale,
+    which lead to nb_scale * nb_band_per_scale for one dimension.
 
-        Parameters
-        ----------
-        vector: np.ndarray, the vector that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    vector: np.ndarray, the vector that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     return np.copy(trf._analysis_data.reshape(trf._analysis_shape))
 
 
 def inflated_decimated_1_bands(trf):
     """ Inflated the decomposition coefficients from a vector to a 'cube'.
-        'inflated_decimated_1_bands' concern the vector where it's actually a
-        2d-array like the classic wavelet 2d-transform of 1 bands. It has the
-        same formating than the 3 bands but the 'v' and 'h' bands or set to 0.
+    'inflated_decimated_1_bands' concern the vector where it's actually a
+    2d-array like the classic wavelet 2d-transform of 1 bands. It has the
+    same formating than the 3 bands but the 'v' and 'h' bands or set to 0.
 
-        Parameters
-        ----------
-        vector: np.ndarray, the vector that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    vector: np.ndarray, the vector that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     cube = np.zeros(trf._analysis_shape, dtype=trf._analysis_data.dtype)
     tmp = cube
@@ -324,17 +324,17 @@ def inflated_decimated_1_bands(trf):
 
 def inflated_decimated_3_bands(trf):
     """ Inflated the decomposition coefficients from a vector to a 'cube'.
-        'inflated_decimated_3_bands' concern the vector where it's actually a
-        2d-array like the classic wavelet 2d-transform of 3 bands.
+    'inflated_decimated_3_bands' concern the vector where it's actually a
+    2d-array like the classic wavelet 2d-transform of 3 bands.
 
-        Parameters
-        ----------
-        vector: np.ndarray, the vector that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    vector: np.ndarray, the vector that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     cube = np.zeros(trf._analysis_shape, dtype=trf._analysis_data.dtype)
     tmp = cube
@@ -352,15 +352,16 @@ def inflated_decimated_3_bands(trf):
 
 def inflated_vector(trf):
     """ Inflated the decomposition coefficients from a vector to a 'cube'.
-        'inflated_vector' concern the vector where it's encode a curvelet
-        Parameters
-        ----------
-        vector np.ndarray, the vector that containes the decomposition
-        coefficients.
+    'inflated_vector' concern the vector where it's encode a curvelet
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Parameters
+    ----------
+    vector np.ndarray, the vector that containes the decomposition
+    coefficients.
+
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     metadata_len = 1 + trf.nb_scale + 2 * trf.nb_band_per_scale.sum()
     cube = np.zeros(len(trf._analysis_data) + metadata_len)
@@ -385,17 +386,17 @@ def inflated_vector(trf):
 
 def inflated_decimated_feauveau(trf):
     """ Inflated the decomposition coefficients from a vector to a 'cube'.
-        'inflated_decimated_feauveau' concern the vector where it's the
-        Feauveau decimated...
+    'inflated_decimated_feauveau' concern the vector where it's the
+    Feauveau decimated...
 
-        Parameters
-        ----------
-        vector: np.ndarray, the vector that containes the decomposition
-        coefficients.
+    Parameters
+    ----------
+    vector: np.ndarray, the vector that containes the decomposition
+    coefficients.
 
-        Return:
-        --------
-        data: np.ndarray, the flatten 'cube'.
+    Returns
+    -------
+    data: np.ndarray, the flatten 'cube'.
     """
     cube = np.zeros(trf._analysis_shape, dtype=trf._analysis_data.dtype)
     tmp = cube

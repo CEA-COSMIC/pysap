@@ -40,15 +40,24 @@ before_install:
 install:
     - conda create -n testenv --yes pip python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
+    - pip install --upgrade pip
+    - python --version
+    - pip --version
     - locate pyconfig.h
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
+<<<<<<< HEAD
     - pip install cython
     - pip install git+https://github.com/ghisvail/pyNFFT.git
     - pip install nose nose-exclude coverage coveralls pycodestyle
+=======
+    - pip install nose nose-exclude
+    - pip install coverage coveralls
+    - pip install pycodestyle
+>>>>>>> bddc2bea19ace37b768aebb592515e19061ada6d
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
     - ldd $TRAVIS_BUILD_DIR/install/pysparse.so

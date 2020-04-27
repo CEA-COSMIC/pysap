@@ -1,5 +1,5 @@
 
-|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_
+|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |PyPi|_ |Doc|_ |CircleCI|_
 
 .. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
@@ -18,6 +18,13 @@
 
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP
+
+.. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
+.. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
+
+.. |CircleCI| image:: https://circleci.com/gh/CEA-COSMIC/pysap.svg?style=svg
+.. _CircleCI: https://circleci.com/gh/CEA-COSMIC/pysap
+
 
 
 pySAP
@@ -83,3 +90,8 @@ Please refer to the |link-to-pyqt| for issues regarding the installation of
 
   <a href="http://www.pyqtgraph.org/"
   target="_blank">PyQtGraph homepage</a>
+
+Contributing
+============
+
+If you want to contribute to pySAP, be sure to review the [contribution guidelines](./CONTRIBUTING.md) and follow to the [code of conduct](.CODE_OF_CONDUCT.md).

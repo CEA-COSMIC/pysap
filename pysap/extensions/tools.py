@@ -266,3 +266,30 @@ def mr3d_filter(
     # Execute the command
     process = Sparse2dWrapper(verbose=verbose)
     process(cmd)
+
+
+def mr2d1d_trans(
+        in_image, out_image,
+        type_of_multiresolution_transform=14, number_of_scales_2D=5,
+        number_of_scales_1D=4, normalize=False, verbose=False, reverse=False):
+    """ Wrap the Sparse2d 'mr21d_trans'.
+    """
+    # WARNING: relative path with ~  doesn't work, use absolute path from /home
+    # Generate the command
+    cmd = [
+        "mr2d1d_trans",
+        "-t", type_of_multiresolution_transform,
+        "-n", number_of_scales_2D,
+        "-N", number_of_scales_1D]
+    for key, value in [
+            ("-M", normalize),
+            ("-v", verbose),
+            ("-r", reverse)]:
+        if value:
+            cmd.append(key)
+
+    cmd += [in_image, out_image]
+
+    # Execute the command
+    process = Sparse2dWrapper(verbose=verbose)
+    out = process(cmd)
