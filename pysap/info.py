@@ -35,17 +35,13 @@ SUMMARY = """
     * an accces to 'sparse2d' using a wrapping or a binding strategy.
     * a user graphical interface to play with the provided functions.
 """
-long_description = """
-=====
-pySAP
-=====
-
-pySAP is a Python package related to sparsity and its application in
-astronomical or mediacal data analysis.
-This package binds the 'sparse2d' C++ library
-that allows sparse decomposition, denoising and deconvolution.
-"""
-
+long_description = (
+    "pySAP\n\n"
+    "pySAP is a Python package related to sparsity and its application in"
+    "astronomical or mediacal data analysis.\n"
+    "This package binds the 'sparse2d' C++ library"
+    "that allows sparse decomposition, denoising and deconvolution.\n"
+)
 # Main setup parameters
 NAME = "python-pySAP"
 ORGANISATION = "CEA"
@@ -73,8 +69,8 @@ PROVIDES = ["pysap"]
 REQUIRES = [
     "scipy>=1.3.0",
     "numpy>=1.16.4",
-    "matplotlib>=3.0.0",
-    "astropy>=3.0.0",
+    "matplotlib>=3.0.0,<3.0.3",  # TODO remove the top
+    "astropy>=3.0.0,<4.0",       # TODO remove 4.0 once stable
     "nibabel>=2.3.2",
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",

@@ -28,4 +28,4 @@ from pysap.utils import AVAILABLE_TRANSFORMS
 
 
 # Display a welcome message
-print(info())
+# print(info())

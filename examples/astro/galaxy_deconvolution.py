@@ -33,7 +33,7 @@ psf = get_sample_data('astro-psf')
 #############################################################################
 # Show the clean galaxy image
 
-galaxy.show()
+# galaxy.show()
 
 #############################################################################
 # Generate noisy observation
@@ -53,7 +53,7 @@ image_obs = Image(data=np.abs(obs_data))
 #############################################################################
 # Show the noisy galaxy image
 
-image_obs.show()
+# image_obs.show()
 
 #############################################################################
 # Deconvolve
@@ -72,7 +72,7 @@ image_rec = Image(data=np.abs(deconv_data))
 #############################################################################
 # Show the deconvolved galaxy image
 
-image_rec.show()
+# image_rec.show()
 
 #############################################################################
 # Residual
@@ -85,4 +85,4 @@ residual = Image(data=np.abs(galaxy.data - deconv_data))
 #############################################################################
 # Show the residual
 
-residual.show()
+# residual.show()

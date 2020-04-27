@@ -45,7 +45,7 @@ image = get_sample_data("astro-fits")
 print(image.shape, image.spacing, image.data_type)
 pprint(image.metadata)
 print(image.data.dtype)
-image.show()
+# image.show()
 
 #############################################################################
 # Import neuroimaging data
@@ -64,7 +64,7 @@ image.scroll_axis = 2
 print(image.shape, image.spacing, image.data_type)
 pprint(image.metadata)
 print(image.data.dtype)
-image.show()
+# image.show()
 
 #############################################################################
 # Decompose/recompose an image using a fast ISAP/C++ based transform
@@ -93,9 +93,9 @@ transform_klass = pysap.load_transform("db3")
 transform = transform_klass(nb_scale=4, verbose=1, padding_mode="symmetric")
 transform.data = image
 transform.analysis()
-transform.show()
+# transform.show()
 rec_image = transform.synthesis()
-rec_image.show()
+# rec_image.show()
 
 #############################################################################
 # We illustrate the the decompose/recompose using a 'FastCurveletTransform'
@@ -106,6 +106,6 @@ transform_klass = pysap.load_transform("FastCurveletTransform")
 transform = transform_klass(nb_scale=4, verbose=1, padding_mode="zero")
 transform.data = image
 transform.analysis()
-transform.show()
+# transform.show()
 rec_image = transform.synthesis()
-rec_image.show()
+# rec_image.show()
