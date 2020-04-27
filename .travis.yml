@@ -1,17 +1,32 @@
 language: python
-dist: xenial
 sudo: required
-
-os:
-  - linux
-  - osx
 
 matrix:
     include:
-        - python: 3.5
-        - python: 3.6
-        - python: 3.7
-        - python: 3.8
+        - os: linux
+          dist: xenial
+          python: 3.5
+        - os: linux
+          dist: xenial
+          python: 3.6
+        - os: linux
+          dist: xenial
+          python: 3.7
+        - os: linux
+          dist: xenial
+          python: 3.8
+        - os: osx
+          osx_image: xcode11.3
+          python: 3.5
+        - os: osx
+          osx_image: xcode11.3
+          python: 3.6
+        - os: osx
+          osx_image: xcode11.3
+          python: 3.7
+        - os: osx
+          osx_image: xcode11.3
+          python: 3.8
 
 before_install:
     - sudo apt-get update
