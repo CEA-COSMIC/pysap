@@ -68,7 +68,7 @@ install:
     - pip install --upgrade pip
     - python --version
     - pip --version
-    - locate pyconfig.h
+    - if [ $TRAVIS_OS_NAME = 'linux' ]; then locate pyconfig.h; fi
     - mkdir -p $HOME/.local/share/pysap
     - git clone https://github.com/CEA-COSMIC/pysap-data.git $HOME/.local/share/pysap/pysap-data
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
@@ -79,7 +79,10 @@ install:
     - pip install nose nose-exclude coverage coveralls pycodestyle
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
-    - ldd $TRAVIS_BUILD_DIR/install/pysparse.so
+    - if [ $TRAVIS_OS_NAME = 'osx' ];
+      then otool -L $TRAVIS_BUILD_DIR/install/pysparse.so;
+      else ldd $TRAVIS_BUILD_DIR/install/pysparse.so;
+      fi
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
