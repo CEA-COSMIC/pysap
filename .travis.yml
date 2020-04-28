@@ -83,6 +83,7 @@ before_install:
     - conda update --all -y;
     - conda info -a
     - if [ $TRAVIS_OS_NAME = 'linux' ]; then sudo apt install -y libnfft3-dev; fi
+    - if [ $TRAVIS_OS_NAME = 'osx' ]; then echo "backend: TkAgg" >> $HOME/.matplotlib/matplotlibrc; fi
 
 install:
     - if [ $TRAVIS_OS_NAME = 'osx' ];
