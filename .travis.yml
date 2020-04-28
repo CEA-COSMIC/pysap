@@ -84,6 +84,7 @@ before_install:
     - conda info -a
     - if [ $TRAVIS_OS_NAME = 'linux' ]; then sudo apt install -y libnfft3-dev; fi
     - if [ $TRAVIS_OS_NAME = 'osx' ]; then echo "backend':' TkAgg" > matplotlibrc; fi
+    - if [ $TRAVIS_OS_NAME = 'osx' ]; then export MACOSX_DEPLOYMENT_TARGET=11.3; fi
 
 install:
     - if [ $TRAVIS_OS_NAME = 'osx' ];
