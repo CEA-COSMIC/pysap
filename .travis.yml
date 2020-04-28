@@ -33,9 +33,12 @@ matrix:
           env: PYTHON_VERSION=3.8
 
 before_install:
-    - sudo apt-get update
-    - sudo updatedb
-    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    - if [ $TRAVIS_OS_NAME = 'linux' ]; sudo apt-get update; fi
+    - if [ $TRAVIS_OS_NAME = 'linux' ]; sudo sudo updatedb update; fi
+    - if [ $TRAVIS_OS_NAME = 'osx' ];
+      then curl https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh;
+      else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
     - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export CPLUS_INCLUDE_PATH=/opt/python/3.5.6/include/python3.5m;
       fi
@@ -54,7 +57,7 @@ before_install:
     - hash -r
     - conda update --all -y
     - conda info -a
-    - sudo apt install -y libnfft3-dev
+    - if [ $TRAVIS_OS_NAME = 'linux' ]; sudo apt install -y libnfft3-dev; fi
 
 install:
     - if [ $TRAVIS_OS_NAME = 'osx' ];
