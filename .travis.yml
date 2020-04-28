@@ -74,8 +74,8 @@ install:
     - ln -s $HOME/.local/share/pysap/pysap-data/pysap-data/* $HOME/.local/share/pysap
     - rm $HOME/.local/share/pysap/__init__.py
     - ls -l $HOME/.local/share/pysap
-    - pip install cython
-    - pip install git+https://github.com/ghisvail/pyNFFT.git
+    - pip install cython numpy
+    - if [ $TRAVIS_OS_NAME = 'linux' ]; then pip install git+https://github.com/ghisvail/pyNFFT.git; fi
     - pip install nose nose-exclude coverage coveralls pycodestyle
     - pip install -b $TRAVIS_BUILD_DIR/build -t $TRAVIS_BUILD_DIR/install --no-clean --no-deps .
     - ls $TRAVIS_BUILD_DIR/install
