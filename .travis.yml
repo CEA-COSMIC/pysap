@@ -55,10 +55,7 @@ before_install:
     - ./miniconda.sh -b -p $HOME/miniconda
     - export PATH=$HOME/miniconda/bin:$PATH
     - hash -r
-    - if [ $TRAVIS_OS_NAME = 'osx' ];
-      then conda update conda;
-      else conda update --all -y;
-      fi
+    - conda update --all -y;
     - conda info -a
     - if [ $TRAVIS_OS_NAME = 'linux' ]; then sudo apt install -y libnfft3-dev; fi
 
