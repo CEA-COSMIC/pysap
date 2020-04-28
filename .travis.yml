@@ -1,6 +1,15 @@
 language: python
 sudo: required
 
+addons:
+  homebrew:
+    packages: &macos_packages
+      - cmake
+      - pkgconfig
+      - cfitsio
+      - libomp
+    update: true
+
 matrix:
     include:
         - os: linux
@@ -19,18 +28,34 @@ matrix:
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.5
+          addons:
+            homebrew:
+              packages:
+                - *macos_packages
         - os: osx
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.6
+          addons:
+            homebrew:
+              packages:
+                - *macos_packages
         - os: osx
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.7
+          addons:
+            homebrew:
+              packages:
+                - *macos_packages
         - os: osx
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.8
+          addons:
+            homebrew:
+              packages:
+                - *macos_packages
 
 before_install:
     - if [ $TRAVIS_OS_NAME = 'linux' ]; then sudo apt-get update; fi
