@@ -40,11 +40,9 @@ PySAP (Python Sparse data Analysis Package) is a Python module for **sparse data
   <a href="https://github.com/CosmoStat/Sparse2D"
   target="_blank">Sparse2D</a>
 
-.. image:: ./doc/images/schema.jpg
-   :height: 300px
-   :width: 300px
-   :alt: PySAP Schema
-   :align: center
+.. raw:: html
+
+  <img src="./doc/images/schema.jpg" width="250px">
 
 This package is the result of the COSMIC project, which is a collaboration between
 the CEA Neurospin UNATI and CEA CosmoStat laboratories.
