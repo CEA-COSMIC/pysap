@@ -25,7 +25,6 @@
 .. |CircleCI| image:: https://circleci.com/gh/CEA-COSMIC/pysap.svg?style=svg
 .. _CircleCI: https://circleci.com/gh/CEA-COSMIC/pysap
 
-
 PySAP
 ======
 
@@ -33,12 +32,19 @@ PySAP (Python Sparse data Analysis Package) is a Python module for **sparse data
 
 * A common API for astronomical and neuroimaging datasets.
 * Access to |link-to-sparse2d| executables with both wrappers and bindings.
+* Access to application specific plugins.
 * A graphical user interface to play with the provided functions.
 
 .. |link-to-sparse2d| raw:: html
 
   <a href="https://github.com/CosmoStat/Sparse2D"
   target="_blank">Sparse2D</a>
+
+.. image:: ./doc/images/schema.jpg
+   :height: 300px
+   :width: 300px
+   :alt: PySAP Schema
+   :align: center
 
 This package is the result of the COSMIC project, which is a collaboration between
 the CEA Neurospin UNATI and CEA CosmoStat laboratories.
@@ -49,6 +55,7 @@ Important links
 
 - Official source code repo: https://github.com/cea-cosmic/pysap
 - API documentation (last stable release): https://python-pysap.readthedocs.io/
+- PySAP paper: https://arxiv.org/abs/1910.08465
 
 
 Dependencies
