@@ -111,17 +111,29 @@ install:
       else ldd $TRAVIS_BUILD_DIR/install/pysparse.so;
       fi
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
-    - if [ $TRAVIS_PYTHON_VERSION == "3.5" || $PYTHON_VERSION == "3.5" ]; then
+    - if [ $TRAVIS_PYTHON_VERSION == "3.5" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.5/extern/bin;
       fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.6" || $PYTHON_VERSION == "3.6" ]; then
+    - if [ $TRAVIS_PYTHON_VERSION == "3.6" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.6/extern/bin;
       fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.7" || $PYTHON_VERSION == "3.7" ]; then
+    - if [ $TRAVIS_PYTHON_VERSION == "3.7" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.7/extern/bin;
       fi
-    - if [ $TRAVIS_PYTHON_VERSION == "3.8" || $PYTHON_VERSION == "3.8" ]; then
+    - if [ $TRAVIS_PYTHON_VERSION == "3.8" ]; then
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.linux-x86_64-3.8/extern/bin;
+      fi
+    - if [ $PYTHON_VERSION == "3.5" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.5/extern/bin;
+      fi
+    - if [ $PYTHON_VERSION == "3.6" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.6/extern/bin;
+      fi
+    - if [ $PYTHON_VERSION == "3.7" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.7/extern/bin;
+      fi
+    - if [ $PYTHON_VERSION == "3.8" ]; then
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.8/extern/bin;
       fi
 
 script:
