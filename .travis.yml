@@ -14,10 +14,6 @@ matrix:
   include:
     - os: linux
       dist: xenial
-      python: 3.5
-      name: "Linux Xenial Python 3.5"
-    - os: linux
-      dist: xenial
       python: 3.6
       name: "Linux Xenial Python 3.6"
     - os: linux
@@ -28,15 +24,6 @@ matrix:
       dist: xenial
       python: 3.8
       name: "Linux Xenial Python 3.8"
-    - os: osx
-      osx_image: xcode11.3
-      language: shell
-      env: PYTHON_VERSION=3.5
-      name: "macOS 10.14 Python 3.5"
-      addons:
-        homebrew:
-          packages:
-            - *macos_packages
     - os: osx
       osx_image: xcode11.3
       language: shell

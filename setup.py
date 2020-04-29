@@ -63,7 +63,8 @@ def pipinstall(package_list):
     if not isinstance(package_list, list):
         raise TypeError('preinstall inputs must be of type list.')
     for package in package_list:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+        subprocess.check_call([sys.executable, "-m", "pip", "install",
+                               package])
 
 
 class CMakeBuild(build_ext):
