@@ -15,19 +15,24 @@ matrix:
         - os: linux
           dist: xenial
           python: 3.5
+          name: "Linux Xenial Python 3.5"
         - os: linux
           dist: xenial
           python: 3.6
+          name: "Linux Xenial Python 3.6"
         - os: linux
           dist: xenial
           python: 3.7
+          name: "Linux Xenial Python 3.7"
         - os: linux
           dist: xenial
           python: 3.8
+          name: "Linux Xenial Python 3.8"
         - os: osx
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.5
+          name: "macOS 10.14 Python 3.5"
           addons:
             homebrew:
               packages:
@@ -36,6 +41,7 @@ matrix:
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.6
+          name: "macOS 10.14 Python 3.6"
           addons:
             homebrew:
               packages:
@@ -44,6 +50,7 @@ matrix:
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.7
+          name: "macOS 10.14 Python 3.7"
           addons:
             homebrew:
               packages:
@@ -52,6 +59,7 @@ matrix:
           osx_image: xcode11.3
           language: shell
           env: PYTHON_VERSION=3.8
+          name: "macOS 10.14 Python 3.8"
           addons:
             homebrew:
               packages:
@@ -127,13 +135,13 @@ install:
         export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.5/extern/bin;
       fi
     - if [ $PYTHON_VERSION == "3.6" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.6/extern/bin;
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.9-x86_64-3.6/extern/bin;
       fi
     - if [ $PYTHON_VERSION == "3.7" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.7/extern/bin;
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.9-x86_64-3.7/extern/bin;
       fi
     - if [ $PYTHON_VERSION == "3.8" ]; then
-        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.6-x86_64-3.8/extern/bin;
+        export PATH=$PATH:$TRAVIS_BUILD_DIR/build/temp.macosx-10.9-x86_64-3.8/extern/bin;
       fi
 
 script:
