@@ -13,8 +13,8 @@
 .. |Python37| image:: https://img.shields.io/badge/python-3.7-blue.svg
 .. _Python37: https://badge.fury.io/py/python-pySAP
 
-.. |Python35| image:: https://img.shields.io/badge/python-3.8-blue.svg
-.. _Python35: https://badge.fury.io/py/python-pySAP
+.. |Python38| image:: https://img.shields.io/badge/python-3.8-blue.svg
+.. _Python38: https://badge.fury.io/py/python-pySAP
 
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP
@@ -64,7 +64,7 @@ new issue.
 .. |link-to-modopt| raw:: html
 
   <a href="https://github.com/CEA-COSMIC/ModOpt"
-  target="_blank">PyQtGraph homepage</a>
+  target="_blank">ModOpt</a>
 
 2. PySAP also requires the installation of the following third party software packages:
 
