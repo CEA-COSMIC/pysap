@@ -10,7 +10,7 @@
 # Module current version
 version_major = 0
 version_minor = 0
-version_micro = 3
+version_micro = 4
 
 # Expected by setup.py: string of form "X.Y.Z"
 __version__ = "{0}.{1}.{2}".format(version_major, version_minor, version_micro)
@@ -69,8 +69,8 @@ PROVIDES = ["pysap"]
 REQUIRES = [
     "scipy>=1.3.0",
     "numpy>=1.16.4",
-    "matplotlib>=3.0.0,<3.0.3",  # TODO remove the top
-    "astropy>=3.0.0,<4.0",       # TODO remove 4.0 once stable
+    "matplotlib>=3.0.0",
+    "astropy>=3.0.0",
     "nibabel>=2.3.2",
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",
