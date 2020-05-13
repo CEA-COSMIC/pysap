@@ -102,7 +102,7 @@ install:
       fi
     - export PYTHONPATH=$TRAVIS_BUILD_DIR/install:$PYTHONPATH
     - export PATH=$PATH:$(cd $TRAVIS_BUILD_DIR/build/temp.*/extern/bin; pwd)
-    - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then pip install astropy<=4.0.0; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then pip install "astropy<4.0"; fi
 
 script:
     - python setup.py nosetests
