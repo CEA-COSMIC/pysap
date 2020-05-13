@@ -1,11 +1,14 @@
 
-|Travis|_ |Coveralls|_ |Python36|_ |Python37|_ |Python38|_ |PyPi|_ |Doc|_ |CircleCI|_
+|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |Python38|_ |PyPi|_ |Doc|_ |CircleCI|_
 
 .. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
 .. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
 
 .. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
 .. _Coveralls: https://coveralls.io/github/CEA-COSMIC/pysap
+
+.. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
+.. _Python35: https://badge.fury.io/py/python-pySAP
 
 .. |Python36| image:: https://img.shields.io/badge/python-3.6-blue.svg
 .. _Python36: https://badge.fury.io/py/python-pySAP
