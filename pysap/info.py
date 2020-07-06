@@ -75,12 +75,12 @@ REQUIRES = [
     "pyqtgraph>=0.10.0",
     "progressbar2>=3.34.3",
     "modopt>=1.4.0",
-    "scikit-learn>=0.19.1",
     "PyWavelets>=1.0.0"
 ]
 PREINSTALL_REQUIRES = [
     "pybind11>=2.3.0",
     "pyqt5>=5.12.2"
+    "scikit-learn>=0.19.1",
 ]
 EXTRA_REQUIRES = {
     "gui": {

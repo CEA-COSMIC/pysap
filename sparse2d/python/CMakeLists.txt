@@ -48,6 +48,8 @@ project(pysparse)
 
   # Custom modules
   include(BuildCfitsIO)
+  get_filename_component(SPARSE2D_INSTALL_DIR ${PYTHON_EXECUTABLE}i DIRECTORY)
+  message(STATUS "Binary output path : ${SPARSE2D_INSTALL_DIR}")
   include(BuildSparse2D)
 
   # Includes

@@ -11,14 +11,13 @@ ExternalProject_Add(sparse2d
     # GIT_TAG master
     DEPENDS cfitsio
     CONFIGURE_COMMAND cmake ../sparse2d
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/extern
+        -DCMAKE_INSTALL_PREFIX=${SPARSE2D_INSTALL_DIR}/..
         -DCFITSIO_INCLUDE_DIRS=${cfitsio_INCLUDE_DIR}
         -DCFITSIO_LIBRARY_DIRS=${cfitsio_LIBRARY_DIR}
         -DCFITSIO_LIBRARIES=${cfitsio_LIBRARIES}
         -DCMAKE_BUILD_TYPE=RELEASE
     BUILD_COMMAND make install
         -j8
-    INSTALL_COMMAND ""
     BUILD_IN_SOURCE 0
     )
 
