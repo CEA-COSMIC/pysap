@@ -170,3 +170,27 @@ If you want to contribute to pySAP, be sure to review the `contribution guidelin
 .. _contribution guidelines: ./CONTRIBUTING.md
 
 .. _code of conduct: ./CODE_OF_CONDUCT.md
+
+
+Citation
+========
+
+If you use PySAP in a scientific publication, we would appreciate citations to the following paper:
+|link-to-paper|
+
+.. |link-to-paper| raw:: html
+
+  <a href="https://www.sciencedirect.com/science/article/pii/S2213133720300561 "target="_blank">
+  PySAP: Python Sparse Data Analysis Package for multidisciplinary image processing, S. Farrens et al., Astronomy and Computing 32, 2020 </a>
+
+The bibtex citation is the following:
+k::
+  @Article{farrens2020pysap,
+    title={{PySAP: Python Sparse Data Analysis Package for multidisciplinary image processing}},
+    author={Farrens, S and Grigis, A and El Gueddari, L and Ramzi, Z and Chaithya, GR and Starck, S and Sarthou, B and Cherkaoui, H and Ciuciu, P and Starck, J-L},
+    journal={Astronomy and Computing},
+    volume={32},
+    pages={100402},
+    year={2020},
+    publisher={Elsevier}
+  }
