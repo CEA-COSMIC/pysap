@@ -63,7 +63,8 @@ def pipinstall(package_list):
     if not isinstance(package_list, list):
         raise TypeError('preinstall inputs must be of type list.')
     for package in package_list:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+        subprocess.check_call([sys.executable, "-m", "pip", "install",
+                               package])
 
 
 class CMakeBuild(build_ext):
@@ -80,11 +81,8 @@ class CMakeBuild(build_ext):
         """ Redifine the run method.
         """
 
-        # Set preinstall requirements
-        preinstall_list = release_info["PREINSTALL_REQUIRES"]
-
         # Preinstall packages
-        pipinstall(preinstall_list)
+        pipinstall(release_info["PREINSTALL_REQUIRES"])
 
         # Set Pybind11 path
         self._set_pybind_path()
@@ -104,6 +102,9 @@ class CMakeBuild(build_ext):
         # Build extensions
         for ext in self.extensions:
             self.build_extension(ext)
+
+        # Install plugins
+        pipinstall(release_info["PLUGINS"])
 
     def build_extension(self, ext):
         """ Build extension with cmake.
@@ -171,19 +172,6 @@ class HybridTestCommand(TestCommand):
         subprocess.call(["./*_test"], cwd=test_dir, shell=True)
 
 
-class PluginBuild(install):
-    """ Install Plugins
-
-    Install plugins from PyPi following PySAP build.
-
-    """
-
-    def run(self):
-
-        pipinstall(release_info["PLUGINS"])
-        install.run(self)
-
-
 # Write setup
 setup(
     name=release_info["NAME"],
@@ -206,6 +194,5 @@ setup(
     cmdclass={
         "build_ext": CMakeBuild,
         "test": HybridTestCommand,
-        "install": PluginBuild
     }
 )

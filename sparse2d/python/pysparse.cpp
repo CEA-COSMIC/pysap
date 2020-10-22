@@ -16,7 +16,7 @@ for details.
 #include "filter.hpp"
 #include "deconvolve.hpp"
 #include "mr_2d1d.hpp"
-
+#include "starlet.hpp"
 
 // Defines a python module which will be named "pysparse"
 PYBIND11_MODULE(pysparse, module)
@@ -150,4 +150,15 @@ PYBIND11_MODULE(pysparse, module)
       )
     .def("transform", &MR2D1D::Transform, py::arg("Name_Cube_in"))
     .def("reconstruct", &MR2D1D::Reconstruct, py::arg("data"));
+    
+      py::class_<MRStarlet>(module, "MRStarlet")
+    .def(py::init<int, bool, int, int >(),
+        py::arg("bord")=(int)(0),
+        py::arg("gen2")=(bool)(False),
+        py::arg("nb_procs")=(int)(0),
+        py::arg("verbose")=(int)(0)
+     )
+    .def("transform", &MRStarlet::transform, py::arg("arr"), py::arg("ns"))
+    .def("recons", &MRStarlet::recons, py::arg("mr_data"),py::arg("adjoint")=(bool)(0))
+    .def("info", &MRStarlet::info);
 }

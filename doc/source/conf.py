@@ -21,7 +21,8 @@ if "PYTHONPATH" in env:
     env["PYTHONPATH"] = env["PYTHONPATH"] + ":" + installdir
 else:
     env["PYTHONPATH"] = installdir
-cmd = ["sphinxdoc", "-v 2", "-p",  installdir, "-n", "pysap", "-o", ".."]
+cmd = ["sphinxdoc", "-v 2", "-p",  installdir, "-n", "pysap", "-o", "..",
+       "-i", "python-pySAP"]
 subprocess.check_call(cmd, env=env)
 sys.path.insert(0, installdir)
 
