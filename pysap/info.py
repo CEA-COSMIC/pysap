@@ -73,7 +73,7 @@ REQUIRES = [
     "astropy==4.2.1",
     "nibabel==3.2.1",
     "pyqtgraph==0.12.0",
-    "progressbar2==3.51.1",
+    "progressbar2==3.53.1",
     "modopt==1.5.0",
     "scikit-learn==0.24.1",
     "PyWavelets==1.1.1"
