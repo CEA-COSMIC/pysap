@@ -10,7 +10,7 @@
 # Module current version
 version_major = 0
 version_minor = 0
-version_micro = 4
+version_micro = 5
 
 # Expected by setup.py: string of form "X.Y.Z"
 __version__ = "{0}.{1}.{2}".format(version_major, version_minor, version_micro)
@@ -67,20 +67,20 @@ ISRELEASE = True
 VERSION = __version__
 PROVIDES = ["pysap"]
 REQUIRES = [
-    "scipy>=1.3.0",
-    "numpy>=1.16.4",
-    "matplotlib>=3.0.0",
-    "astropy>=3.0.0",
-    "nibabel>=2.3.2",
-    "pyqtgraph>=0.10.0",
-    "progressbar2>=3.34.3",
-    "modopt>=1.4.0",
-    "scikit-learn>=0.19.1",
-    "PyWavelets>=1.0.0"
+    "scipy==1.5.4",
+    "numpy==1.19.5",
+    "matplotlib==3.3.4",
+    "astropy==4.1",
+    "nibabel==3.2.1",
+    "pyqtgraph==0.11.1",
+    "progressbar2==3.53.1",
+    "modopt==1.5.0",
+    "scikit-learn==0.24.1",
+    "PyWavelets==1.1.1"
 ]
 PREINSTALL_REQUIRES = [
-    "pybind11>=2.3.0",
-    "pyqt5>=5.12.2"
+    "pybind11==2.6.2",
+    "pyqt5==5.15.4"
 ]
 EXTRA_REQUIRES = {
     "gui": {
