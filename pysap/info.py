@@ -69,7 +69,7 @@ PROVIDES = ["pysap"]
 REQUIRES = [
     "scipy==1.5.4",
     "numpy==1.19.5",
-    "matplotlib==3.4.1",
+    "matplotlib==3.4.0",
     "astropy==4.2.1",
     "nibabel==3.2.1",
     "pyqtgraph==0.12.0",
