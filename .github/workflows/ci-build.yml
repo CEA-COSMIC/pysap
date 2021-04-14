@@ -36,7 +36,7 @@ jobs:
           conda list
           python --version
 
-      - name: Install MacOS Dependencies
+      - name: Install macOS Dependencies
         shell: bash -l {0}
         if: runner.os == 'macOS'
         run: |
@@ -104,7 +104,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           auto-activate-base: false
 
-      - name: Install MacOS Dependencies
+      - name: Install macOS Dependencies
         shell: bash -l {0}
         if: runner.os == 'macOS'
         run: |
