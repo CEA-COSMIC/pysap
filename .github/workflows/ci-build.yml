@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+     - develop
+     - master
+     - main
+
+jobs:
+  test-full:
+    name: Full Test Suite
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.8]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Conda with Python ${{ matrix.python-version }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+
+      - name: Check Conda
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          python --version
+
+      - name: Install MacOS Dependencies
+        shell: bash -l {0}
+        if: runner.os == 'macOS'
+        run: |
+          brew install libomp
+
+      - name: Install Package Dependencies
+        shell: bash -l {0}
+        run: |
+          python --version
+          python -m pip install --upgrade pip
+          python -m pip install nose nose-exclude coverage coveralls pycodestyle
+          python -m pip install twine
+
+      - name: Run Tests
+        shell: bash -l {0}
+        run: |
+          python setup.py nosetests
+          pycodestyle pysap --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E722,E741,W503,W504,W605"
+          pycodestyle examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E741,W503,W504,W605"
+
+      - name: Save Test Results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-results-${{ matrix.os }}-${{ matrix.python-version }}
+          path: pytest.xml
+
+      - name: Check Distribution
+        shell: bash -l {0}
+        run: |
+          python setup.py sdist
+          twine check dist/*
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.xml
+          flags: unittests
+
+  test-basic:
+    name: Basic Test Suite
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.6, 3.7, 3.9]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Conda with Python ${{ matrix.python-version }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+
+      - name: Install MacOS Dependencies
+        shell: bash -l {0}
+        if: runner.os == 'macOS'
+        run: |
+          brew install libomp
+
+      - name: Install Package Dependencies
+        shell: bash -l {0}
+        run: |
+          python --version
+          python -m pip install --upgrade pip
+          python -m pip install nose nose-exclude coverage coveralls pycodestyle
+
+      - name: Run Tests
+        shell: bash -l {0}
+        run: |
+          python setup.py nosetests
