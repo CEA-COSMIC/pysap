@@ -11,7 +11,7 @@
 import sys
 import re
 import os
-import imp
+import importlib
 
 
 class PluginsMetaImportHook(object):
@@ -47,7 +47,7 @@ class PluginsMetaImportHook(object):
         # Find the sub module and build the module path
         # TODO: use importlib.util.find_spec for Python >= 3.5 only
         try:
-            self.file, self.filename, self.stuff = imp.find_module(
+            self.file, self.filename, self.stuff = importlib.find_module(
                 self.sub_name, path)
             self.path = [self.filename]
         except ImportError:
@@ -62,7 +62,12 @@ class PluginsMetaImportHook(object):
         of the module/package that was requested.
         """
         # Load the module
-        module = imp.load_module(name, self.file, self.filename, self.stuff)
+        module = importlib.load_module(
+            name,
+            self.file,
+            self.filename,
+            self.stuff
+        )
         if self.file:
             self.file.close()
 
