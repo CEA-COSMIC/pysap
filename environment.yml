@@ -2,35 +2,19 @@ name: pysap
 channels:
   - conda-forge
 dependencies:
-  - python=3.6
-  - scipy>=1.0.0
-  - numpy>=1.11.0
-  - matplotlib>=2.1.2
-  - future>=0.16.0
-  - astropy==2.0.4
-  - pyqtgraph>=0.10.0
-  - progressbar2>=3.34.3
-  - PySide>=1.2.2
-  - ipython
-  - ipywidgets
-  - cython
-  - jupyter
-  - notebook
-  - docutils
-  - pep8
-  - pytest
-  - pytest-cov
-  - readline
-  - setuptools
-  - sphinx
-  - sphinx_rtd_theme
-  - sphinx-automodapi
-  - sphinxcontrib
-  - sphinxcontrib-websupport
-  - wheel
-  - yaml
-  - zlib
+  - python=3.8
+  - astropy==4.1
+  - matplotlib==3.3.4
+  - numpy==1.19.5
+  - pip
   - pip:
-      - pytest_runner
-      - nibabel
-      - modopt
+    - joblib==1.0.1
+    - modopt==1.5.0
+    - nibabel==3.2.1
+    - progressbar2==3.53.1
+    - pyqtgraph==0.11.1
+    - PyWavelets==1.1.1
+    - scikit-image==0.17.2
+    - scikit-learn==0.24.1
+    - scipy==1.5.4
+    - sf_tools==2.0.4
