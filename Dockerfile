@@ -18,8 +18,6 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/CEA-COSMIC/pysap.git && \
     cd pysap && \
-    git fetch origin pull/150/head:pr-150 && \
-    git checkout pr-150 && \
     conda env create -f environment.yml
 
 ENV PATH /opt/conda/envs/pysap/bin:$PATH
