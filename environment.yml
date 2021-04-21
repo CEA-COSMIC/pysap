@@ -5,6 +5,7 @@ dependencies:
   - python=3.8
   - jupyter==1.0.0
   - matplotlib==3.3.4
+  - pynfft==1.3.2
   - pip
   - pip:
     - astropy==4.1
