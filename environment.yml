@@ -3,16 +3,15 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - astropy==4.1
   - jupyter==1.0.0
   - matplotlib==3.3.4
-  - numpy==1.19.5
-  - tensorflow==2.0.0
   - pip
   - pip:
+    - astropy==4.1
     - joblib==1.0.1
     - modopt==1.5.0
     - nibabel==3.2.1
+    - numpy==1.19.5
     - progressbar2==3.53.1
     - pyqtgraph==0.11.1
     - PyWavelets==1.1.1
@@ -20,4 +19,5 @@ dependencies:
     - scikit-learn==0.24.1
     - scipy==1.5.4
     - sf_tools==2.0.4
+    - tensorflow==2.4.1
     - termcolor==1.1.0
