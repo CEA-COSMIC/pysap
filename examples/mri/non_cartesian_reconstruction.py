@@ -15,17 +15,17 @@ and the acquisition cartesian scheme.
 """
 
 # Package import
-from mri.numerics.fourier import NFFT
-from mri.numerics.reconstruct import sparse_rec_fista
-from mri.numerics.utils import generate_operators
-from mri.numerics.utils import convert_locations_to_mask
-from mri.parallel_mri.extract_sensitivity_maps import \
+from mri.operators import NonCartesianFFT, WaveletUD2
+from mri.operators.utils import convert_locations_to_mask, \
     gridded_inverse_fourier_transform_nd
+from mri.reconstructors import SingleChannelReconstructor
 import pysap
 from pysap.data import get_sample_data
 
 # Third party import
 from modopt.math.metrics import ssim
+from modopt.opt.linear import Identity
+from modopt.opt.proximity import SparseThreshold
 import numpy as np
 
 # Loading input data
@@ -49,7 +49,8 @@ mask = pysap.Image(data=convert_locations_to_mask(kspace_loc, image.shape))
 # We then reconstruct the zero order solution as a baseline
 
 # Get the locations of the kspace samples and the associated observations
-fourier_op = NFFT(samples=kspace_loc, shape=image.shape)
+fourier_op = NonCartesianFFT(samples=kspace_loc, shape=image.shape,
+                             implementation='cpu')
 kspace_obs = fourier_op.op(image.data)
 
 # Gridded solution
@@ -69,28 +70,25 @@ print('The Base SSIM is : ' + str(base_ssim))
 # We now want to refine the zero order solution using a FISTA optimization.
 # The cost function is set to Proximity Cost + Gradient Cost
 
-# Generate operators
-gradient_op, linear_op, prox_op, cost_op = generate_operators(
-    data=kspace_obs,
-    wavelet_name="sym8",
-    samples=kspace_loc,
-    mu=6 * 1e-7,
-    nb_scales=4,
-    non_cartesian=True,
-    uniform_data_shape=image.shape,
-    gradient_space="synthesis")
-
-# Start the FISTA reconstruction
-max_iter = 200
-x_final, costs, metrics = sparse_rec_fista(
-    gradient_op=gradient_op,
+# Setup the operators
+linear_op = WaveletUD2(
+    wavelet_id=24,
+    nb_scale=4,
+)
+regularizer_op = SparseThreshold(Identity(), 6 * 1e-7, thresh_type="soft")
+# Setup Reconstructor
+reconstructor = SingleChannelReconstructor(
+    fourier_op=fourier_op,
     linear_op=linear_op,
-    prox_op=prox_op,
-    cost_op=cost_op,
-    lambda_init=1.0,
-    max_nb_of_iter=max_iter,
-    atol=1e-4,
-    verbose=1)
+    regularizer_op=regularizer_op,
+    gradient_formulation='synthesis',
+    verbose=1,
+)
+x_final, costs, metrics = reconstructor.reconstruct(
+    kspace_data=kspace_obs,
+    optimization_alg='fista',
+    num_iterations=200,
+)
 image_rec = pysap.Image(data=np.abs(x_final))
 # image_rec.show()
 recon_ssim = ssim(image_rec, image)
