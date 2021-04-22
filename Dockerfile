@@ -16,8 +16,9 @@ RUN apt-get update && \
     apt-get install -y cmake && \
     apt-get clean
 
-RUN git clone https://github.com/CEA-COSMIC/pysap.git && \
-    cd pysap && \
+RUN git clone https://github.com/CEA-COSMIC/pysap.git
+
+RUN cd pysap && \
     conda env create -f environment.yml
 
 ENV PATH /opt/conda/envs/pysap/bin:$PATH

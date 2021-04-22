@@ -191,14 +191,14 @@ version of PySAP pre-installed. To install the image run:
 
 .. code-block:: bash
 
-  $ docker pull ...
+  $ docker pull ceacosmic/pysap
 
 A Jupyter notebook can be launched using the Docker image as a backend and with
 access to the users current working directory as follows:
 
 .. code-block:: bash
 
-  $ docker run -p 8888:8888 -v ${PWD}:/home pysap
+  $ docker run -p 8888:8888 -v ${PWD}:/home ceacosmic/pysap
 
 macOS
 -----
