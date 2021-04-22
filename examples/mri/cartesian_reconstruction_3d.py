@@ -1,37 +1,40 @@
 """
-Neuroimaging cartesian reconstruction
-=====================================
+3D Neuroimaging cartesian reconstruction
+========================================
 
-Author: Chaithya G R
+Author: LElgueddari
 
-In this tutorial we will reconstruct an MRI image from the sparse kspace
+In this tutorial we will reconstruct an MRI image from the sparse 3D kspace
 measurements.
 
 Import neuroimaging data
 ------------------------
 
-We use the toy datasets available in pysap, more specifically a 2D brain slice
+We use the toy datasets available in pysap, more specifically the 3D orange
 and the cartesian acquisition scheme.
 """
 
 # Package import
+from modopt.math.metrics import ssim
 from mri.operators import FFT, WaveletN
 from mri.operators.utils import convert_mask_to_locations
 from mri.reconstructors import SingleChannelReconstructor
-import pysap
 from pysap.data import get_sample_data
+import pysap
 
 # Third party import
-from modopt.opt.proximity import SparseThreshold
 from modopt.opt.linear import Identity
-from modopt.math.metrics import ssim
+from modopt.opt.proximity import SparseThreshold
 import numpy as np
 
-# Loading input data
-image = get_sample_data('2d-mri')
+# Loading input data and convert it into a single channel using Sum-Of-Squares
+image = get_sample_data('3d-pmri')
+image.data = np.sqrt(np.sum(np.abs(image.data)**2, axis=0))
 
 # Obtain K-Space Cartesian Mask
-mask = get_sample_data("cartesian-mri-mask")
+mask = get_sample_data("2d-poisson-disk-mask")
+mask.data = np.repeat(np.expand_dims(mask.data, axis=-1), image.shape[-1],
+                      axis=-1)
 
 # View Input
 # image.show()
@@ -41,7 +44,7 @@ mask = get_sample_data("cartesian-mri-mask")
 # Generate the kspace
 # -------------------
 #
-# From the 2D brain slice and the acquisition mask, we retrospectively
+# From the 3D Orange volume and the acquisition mask, we retrospectively
 # undersample the k-space using a cartesian acquisition mask
 # We then reconstruct the zero order solution as a baseline
 
@@ -69,8 +72,13 @@ print(base_ssim)
 # The cost function is set to Proximity Cost + Gradient Cost
 
 # Setup the operators
-linear_op = WaveletN(wavelet_name="sym8", nb_scales=4)
-regularizer_op = SparseThreshold(Identity(), 2 * 1e-7, thresh_type="soft")
+linear_op = WaveletN(
+    wavelet_name="sym8",
+    nb_scales=4,
+    dim=3,
+    padding_mode="periodization",
+)
+regularizer_op = SparseThreshold(Identity(), 2 * 1e-11, thresh_type="soft")
 # Setup Reconstructor
 reconstructor = SingleChannelReconstructor(
     fourier_op=fourier_op,
