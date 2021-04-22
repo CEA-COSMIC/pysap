@@ -1,14 +1,11 @@
 
-|Travis|_ |Coveralls|_ |Python35|_ |Python36|_ |Python37|_ |Python38|_ |PyPi|_ |Doc|_ |CircleCI|_
+|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_
 
-.. |Travis| image:: https://travis-ci.org/CEA-COSMIC/pysap.svg?branch=master
-.. _Travis: https://travis-ci.org/CEA-COSMIC/pysap
+.. |CI| image:: https://github.com/CEA-COSMIC/pysap/workflows/CI/badge.svg
+.. _CI: https://github.com/CEA-COSMIC/modopt/actions?query=workflow%3ACI
 
-.. |Coveralls| image:: https://coveralls.io/repos/CEA-COSMIC/pysap/badge.svg?branch=master&service=github
-.. _Coveralls: https://coveralls.io/github/CEA-COSMIC/pysap
-
-.. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://badge.fury.io/py/python-pySAP
+.. |Codecov| image:: https://codecov.io/gh/CEA-COSMIC/pysap/branch/master/graph/badge.svg?token=XHJIQXV7AX
+.. _Codecov: https://codecov.io/gh/CEA-COSMIC/pysap
 
 .. |Python36| image:: https://img.shields.io/badge/python-3.6-blue.svg
 .. _Python36: https://badge.fury.io/py/python-pySAP
@@ -19,14 +16,14 @@
 .. |Python38| image:: https://img.shields.io/badge/python-3.8-blue.svg
 .. _Python38: https://badge.fury.io/py/python-pySAP
 
+.. |Python39| image:: https://img.shields.io/badge/python-3.9-blue.svg
+.. _Python39: https://badge.fury.io/py/python-pySAP
+
 .. |PyPi| image:: https://badge.fury.io/py/python-pySAP.svg
 .. _PyPi: https://badge.fury.io/py/python-pySAP
 
 .. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
 .. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
-
-.. |CircleCI| image:: https://circleci.com/gh/CEA-COSMIC/pysap.svg?style=svg
-.. _CircleCI: https://circleci.com/gh/CEA-COSMIC/pysap
 
 PySAP
 ======
@@ -35,7 +32,7 @@ PySAP (Python Sparse data Analysis Package) is a Python module for **sparse data
 
 * A common API for astronomical and neuroimaging datasets.
 * Access to |link-to-sparse2d| executables with both wrappers and bindings.
-* Access to application specific plugins.
+* Access to application specific plug-ins.
 * A graphical user interface to play with the provided functions.
 
 .. |link-to-sparse2d| raw:: html
@@ -50,14 +47,12 @@ PySAP (Python Sparse data Analysis Package) is a Python module for **sparse data
 This package is the result of the COSMIC project, which is a collaboration between
 the CEA Neurospin UNATI and CEA CosmoStat laboratories.
 
-
 Important links
 ===============
 
 - Official source code repo: https://github.com/cea-cosmic/pysap
 - API documentation (last stable release): https://python-pysap.readthedocs.io/
 - PySAP paper: https://arxiv.org/abs/1910.08465
-
 
 Dependencies
 ============
@@ -76,26 +71,46 @@ new issue.
 
 2. PySAP also requires the installation of the following third party software packages:
 
-* astropy
-* matplotlib
-* nibabel
-* numpy
-* scipy
-* progressbar2
-* pyqtgraph
-* PyWavelets
-* scikit-learn
+* scipy [==1.5.4]
+* numpy [==1.19.5]
+* matplotlib [==3.3.4]
+* astropy [==4.1]
+* nibabel [==3.2.1]
+* pyqtgraph [==0.11.1]
+* progressbar2 [==3.53.1]
+* scikit-learn [==0.24.1]
+* pybind11 [==2.6.2]
+* pyqt5 [==5.15.4]
+* PyWavelets [==1.1.1]
 
+Plug-Ins
+========
+
+PySAP currently supports the following plug-ins:
+
+* |link-to-pysap-astro| [==0.0.1]
+* |link-to-pysap-mri| [==0.3.0]
+
+.. |link-to-pysap-astro| raw:: html
+
+  <a href="https://github.com/CEA-COSMIC/pysap-astro"
+  target="_blank">PySAP-Astro</a>
+
+.. |link-to-pysap-mri| raw:: html
+
+  <a href="https://github.com/CEA-COSMIC/pysap-mri"
+  target="_blank">PySAP-MRI</a>
 
 Installation
 ============
 
 The installation of PySAP has been extensively tested on Ubuntu and macOS, however
-we cannot guarantee it will work on every operating system (e.g. Windows).
+we cannot guarantee it will work on every operating system (e.g. Windows). A Docker
+image is available (see below) for those unable to install PySAP directly.
 
 If you encounter any installation issues be sure to go through the following steps before opening a new issue:
 
-1. Check that that all of the installed all the dependencies listed above have been installed.
+1. Check that that all of the installed all the dependencies listed above have been correctly installed.
 2. Read through all of the documentation provided, including the troubleshooting suggestions.
 3. Check if you problem has already been addressed in a previous issue.
 
@@ -143,6 +158,42 @@ or:
   $ python setup.py develop
 
 As before, use the ``--user`` option if needed.
+
+Conda Environment
+-----------------
+
+A a conda ``environment.yml`` file is provided to facilitate the installation of
+the required PySAP dependencies along with some optional dependencies that
+provide additional features. To build the environment run:
+
+.. code-block:: bash
+
+  $ conda env create -f environment.yml
+
+Then to activate the environment run:
+
+.. code-block:: bash
+
+  $ conda activate pysap
+
+Finally, install PySAP following the previous instructions.
+
+Docker Image
+------------
+
+A PySAP Docker image is available via DockerHub that includes the latest stable
+version of PySAP pre-installed. To install the image run:
+
+.. code-block:: bash
+
+  $ docker pull ...
+
+A Jupyter notebook can be launched using the Docker image as a backend and with
+access to the users current working directory as follows:
+
+.. code-block:: bash
+
+  $ docker run -p 8888:8888 -v ${PWD}:/home pysap
 
 macOS
 -----
