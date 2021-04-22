@@ -2,7 +2,7 @@
 |CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_
 
 .. |CI| image:: https://github.com/CEA-COSMIC/pysap/workflows/CI/badge.svg
-.. _CI: https://github.com/CEA-COSMIC/modopt/actions?query=workflow%3ACI
+.. _CI: https://github.com/CEA-COSMIC/pysap/actions?query=workflow%3ACI
 
 .. |Codecov| image:: https://codecov.io/gh/CEA-COSMIC/pysap/branch/master/graph/badge.svg?token=XHJIQXV7AX
 .. _Codecov: https://codecov.io/gh/CEA-COSMIC/pysap
@@ -44,8 +44,13 @@ PySAP (Python Sparse data Analysis Package) is a Python module for **sparse data
 
   <img src="./doc/images/schema.jpg" width="250px">
 
-This package is the result of the COSMIC project, which is a collaboration between
+This package is the result of the |link-to-cosmic| project, which is a collaboration between
 the CEA Neurospin UNATI and CEA CosmoStat laboratories.
+
+.. |link-to-cosmic| raw:: html
+
+  <a href="http://cosmic.cosmostat.org/"
+  target="_blank">COSMIC</a>
 
 Important links
 ===============
@@ -110,9 +115,9 @@ image is available (see below) for those unable to install PySAP directly.
 
 If you encounter any installation issues be sure to go through the following steps before opening a new issue:
 
-1. Check that that all of the installed all the dependencies listed above have been correctly installed.
+1. Check that that all the dependencies listed above have been correctly installed.
 2. Read through all of the documentation provided, including the troubleshooting suggestions.
-3. Check if you problem has already been addressed in a previous issue.
+3. Check if your problem has already been addressed in a previous issue.
 
 Further instructions are available |link-to-install|.
 
@@ -176,7 +181,7 @@ Then to activate the environment run:
 
   $ conda activate pysap
 
-Finally, install PySAP following the previous instructions.
+Finally, install PySAP following the instructions above.
 
 Docker Image
 ------------
