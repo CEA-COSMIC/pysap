@@ -1,5 +1,5 @@
 
-|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_ |Docker|
+|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_ |Docker|_
 
 .. |CI| image:: https://github.com/CEA-COSMIC/pysap/workflows/CI/badge.svg
 .. _CI: https://github.com/CEA-COSMIC/pysap/actions?query=workflow%3ACI
