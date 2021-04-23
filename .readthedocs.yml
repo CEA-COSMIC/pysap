@@ -12,7 +12,5 @@ sphinx:
 
 formats: []
 
-python:
-  version: 3.6
-  install:
-    - requirements: doc/requirements.txt
+conda:
+  environment: environment.yml
