@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-results-${{ matrix.os }}-${{ matrix.python-version }}
-          path: pytest.xml
+          path: nosetests.xml
 
       - name: Run Examples
         continue-on-error: true
