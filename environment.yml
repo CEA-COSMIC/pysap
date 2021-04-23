@@ -21,3 +21,4 @@ dependencies:
     - scipy==1.5.4
     - sf_tools==2.0.4
     - termcolor==1.1.0
+    - git+https://github.com/AGrigis/pysphinxdoc.git
