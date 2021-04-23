@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 |CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_ |Docker|_
-=======
-|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_
->>>>>>> 702e8433dafbee023563005385423d2c406a0aed
 
 .. |CI| image:: https://github.com/CEA-COSMIC/pysap/workflows/CI/badge.svg
 .. _CI: https://github.com/CEA-COSMIC/pysap/actions?query=workflow%3ACI
@@ -29,12 +25,9 @@
 .. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
 .. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
 
-<<<<<<< HEAD
 .. |Docker| image:: https://img.shields.io/docker/cloud/build/ceacosmic/pysap
 .. _Docker: https://hub.docker.com/r/ceacosmic/pysap
 
-=======
->>>>>>> 702e8433dafbee023563005385423d2c406a0aed
 PySAP
 ======
 
@@ -105,15 +98,9 @@ PySAP currently supports the following plug-ins:
 
 * |link-to-pysap-astro| [==0.0.1]
 * |link-to-pysap-mri| [==0.3.0]
-<<<<<<< HEAD
 
 .. |link-to-pysap-astro| raw:: html
 
-=======
-
-.. |link-to-pysap-astro| raw:: html
-
->>>>>>> 702e8433dafbee023563005385423d2c406a0aed
   <a href="https://github.com/CEA-COSMIC/pysap-astro"
   target="_blank">PySAP-Astro</a>
 
