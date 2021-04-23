@@ -1,5 +1,5 @@
 
-|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_
+|CI|_ |Codecov|_ |Python36|_ |Python37|_ |Python38|_ |Python39|_ |PyPi|_ |Doc|_ |Docker|
 
 .. |CI| image:: https://github.com/CEA-COSMIC/pysap/workflows/CI/badge.svg
 .. _CI: https://github.com/CEA-COSMIC/pysap/actions?query=workflow%3ACI
@@ -24,6 +24,9 @@
 
 .. |Doc| image:: https://readthedocs.org/projects/python-pysap/badge/?version=latest
 .. _Doc: https://python-pysap.readthedocs.io/en/latest/?badge=latest
+
+.. |Docker| image:: https://img.shields.io/docker/cloud/build/ceacosmic/pysap
+.. _Docker: https://hub.docker.com/r/ceacosmic/pysap
 
 PySAP
 ======
