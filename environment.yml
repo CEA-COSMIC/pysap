@@ -10,7 +10,7 @@ dependencies:
   - pip:
     - astropy==4.1
     - joblib==1.0.1
-    - modopt==1.5.0
+    - modopt==1.5.1
     - nibabel==3.2.1
     - numpy==1.19.5
     - progressbar2==3.53.1
