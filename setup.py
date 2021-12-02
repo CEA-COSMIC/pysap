@@ -20,6 +20,7 @@ from setuptools.command.build_ext import build_ext
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.install import install
+from setuptools.command.develop import develop
 from importlib import import_module
 
 
@@ -103,9 +104,6 @@ class CMakeBuild(build_ext):
         for ext in self.extensions:
             self.build_extension(ext)
 
-        # Install plugins
-        pipinstall(release_info["PLUGINS"])
-
     def build_extension(self, ext):
         """ Build extension with cmake.
         """
@@ -172,6 +170,67 @@ class HybridTestCommand(TestCommand):
         subprocess.call(["./*_test"], cwd=test_dir, shell=True)
 
 
+class CommandMixin:
+    user_options = [
+        ('noplugins', None, 'Do not install any PySAP plug-ins'),
+        ('only=', None, 'Only install the specified PySAP plug-ins')
+    ]
+
+    def check_plugins(self):
+
+        allowed_plugins = [
+            _plugin.split('==')[0] for _plugin in release_info['PLUGINS']
+        ]
+
+        print('\nAvailable PySAP plug-ins: {0}\n'.format(allowed_plugins))
+
+        for plugin in self.only:
+            if plugin not in allowed_plugins:
+                raise ValueError(
+                    '{0} is not currently a valid PySAP plug-in'.format(plugin)
+                )
+
+    def initialize_options(self):
+        super().initialize_options()
+        self.noplugins = False
+        self.only = None
+
+    def finalize_options(self):
+        self.noplugins = bool(self.noplugins)
+        if isinstance(self.only, str):
+            self.only = self.only.split(',')
+            self.check_plugins()
+        super().finalize_options()
+
+    def run(self):
+
+        super().run()
+
+        # Install plugins
+        plugins = release_info['PLUGINS']
+        if self.only:
+            plugins = self.only
+        elif self.noplugins:
+            plugins = 'None'
+
+        if plugins and plugins != 'None':
+            pipinstall(plugins)
+
+        print('\nPySAP plug-ins installed: {0}\n'.format(plugins))
+
+
+class InstallCommand(CommandMixin, install):
+    user_options = (
+        getattr(install, 'user_options', []) + CommandMixin.user_options
+    )
+
+
+class DevelopCommand(CommandMixin, develop):
+    user_options = (
+        getattr(develop, 'user_options', []) + CommandMixin.user_options
+    )
+
+
 # Write setup
 setup(
     name=release_info["NAME"],
@@ -190,9 +249,11 @@ setup(
     package_data=pkgdata,
     scripts=scripts,
     ext_modules=[CMakeExtension(
-        "pysparse", sourcedir=os.path.join("sparse2d", "python"))],
+        'pysparse', sourcedir=os.path.join('sparse2d', 'python'))],
     cmdclass={
-        "build_ext": CMakeBuild,
-        "test": HybridTestCommand,
+        'install': InstallCommand,
+        'develop': DevelopCommand,
+        'build_ext': CMakeBuild,
+        'test': HybridTestCommand,
     }
 )
