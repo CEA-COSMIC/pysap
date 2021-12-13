@@ -9,6 +9,7 @@
 
 
 # System import
+import atexit
 import os
 import re
 import sys
@@ -20,7 +21,6 @@ from setuptools.command.build_ext import build_ext
 from setuptools import setup, find_packages, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.install import install
-from setuptools.command.develop import develop
 from importlib import import_module
 
 
@@ -41,18 +41,61 @@ scripts = [
 ]
 
 # Workaround
+rm_args = []
 if '--release' in sys.argv:
-    sys.argv.remove('--release')
+    rm_args.append('--release')
     scripts = [
         os.path.join('pysap', 'apps', 'pysapview3'),
         os.path.join('pysap', 'apps', 'pysapview')
     ]
 
-# Optional install of Sparse2D
+# Optional install of Sparse2D, default option is to build Sparse2D
 build_sparse2d = True
 if '--nosparse2d' in sys.argv:
-    sys.argv.remove('--nosparse2d')
+    rm_args.append('--nosparse2d')
     build_sparse2d = False
+
+# Optional install of PySAP plug-ins, default option is to install all plug-ins
+no_plugins = False
+if '--noplugins' in sys.argv:
+    rm_args.append('--noplugins')
+    no_plugins = True
+
+only_plugins = []
+for arg in sys.argv:
+    if '--only' in arg:
+        rm_args.append(arg)
+        only_plugins = arg.split('--only=')[1].split(',')
+
+# Clean up system arguments
+for arg in rm_args:
+    sys.argv.remove(arg)
+
+
+def check_plugins(plugin_list):
+    """Check if requested plug-ins exist."""
+
+    if not isinstance(plugin_list, list):
+        raise TypeError('Plug-in list must be of type list.')
+
+    pysap_plugins = dict([
+        _plugin.split('==') for _plugin in release_info['PLUGINS']
+    ])
+    allowed_plugins = pysap_plugins.keys()
+
+    only_pinned = []
+    for plugin in plugin_list:
+        if plugin not in allowed_plugins:
+            raise ValueError(
+                '"{0}" is not currently a valid PySAP plug-in'.format(plugin)
+                + '\nAvailable PySAP plug-ins are: '
+                + '{0}\n'.format(list(allowed_plugins))
+            )
+        only_pinned.append(
+            '{0}=={1}'.format(plugin, pysap_plugins[plugin])
+        )
+
+    return only_pinned
 
 
 def pipinstall(package_list):
@@ -67,74 +110,26 @@ def pipinstall(package_list):
         )
 
 
-class CommandMixin:
-    """Shared Installation Commands."""
+def install_plugins():
+    """Install Plug-Ins."""
 
-    user_options = [
-        ('noplugins', None, 'Do not install any PySAP plug-ins'),
-        ('only=', None, 'Only install the specified PySAP plug-ins')
-    ]
+    plugin_list = release_info['PLUGINS']
+    if only_plugins:
+        plugin_list = check_plugins(only_plugins)
+    elif no_plugins:
+        plugin_list = []
 
-    def check_plugins(self):
-        """Check if requested plug-ins exist."""
+    pipinstall(plugin_list)
 
-        pysap_plugins = dict([
-            _plugin.split('==') for _plugin in release_info['PLUGINS']
-        ])
-        allowed_plugins = pysap_plugins.keys()
-
-        print('\nAvailable PySAP plug-ins: {0}\n'.format(allowed_plugins))
-
-        self.only_pinned = []
-        for plugin in self.only:
-            if plugin not in allowed_plugins:
-                raise ValueError(
-                    '{0} is not currently a valid PySAP plug-in'.format(plugin)
-                )
-            self.only_pinned.append(
-                '{0}=={1}'.format(plugin, pysap_plugins[plugin])
-            )
-
-    def initialize_options(self):
-        super().initialize_options()
-        self.noplugins = False
-        self.only = None
-
-    def finalize_options(self):
-        self.noplugins = bool(self.noplugins)
-        if isinstance(self.only, str):
-            self.only = self.only.split(',')
-            self.check_plugins()
-        super().finalize_options()
-
-    def run(self):
-        super().run()
-
-        # Install plugins
-        plugins = release_info['PLUGINS']
-        if self.only:
-            plugins = self.only_pinned
-        elif self.noplugins:
-            plugins = 'None'
-
-        if plugins and plugins != 'None':
-            pipinstall(plugins)
-
-        print('\nPySAP plug-ins installed: {0}\n'.format(plugins))
+    print('\nPySAP plug-ins installed: {0}\n'.format(plugin_list))
 
 
-class InstallCommand(CommandMixin, install):
-    """Custom Install Command."""
-    user_options = (
-        getattr(install, 'user_options', []) + CommandMixin.user_options
-    )
+class CustomInstall(install):
+    """Custom Install Class."""
 
-
-class DevelopCommand(CommandMixin, develop):
-    """Custom Develop Command."""
-    user_options = (
-        getattr(develop, 'user_options', []) + CommandMixin.user_options
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        atexit.register(install_plugins)
 
 
 class CMakeExtension(Extension):
@@ -166,8 +161,8 @@ class CMakeBuild(build_ext):
             out = subprocess.check_output(['cmake', '--version'])
         except OSError:
             raise RuntimeError(
-                'CMake must be installed to build the following extensions: ' +
-                ', '.join(e.name for e in self.extensions)
+                'CMake must be installed to build the following extensions: '
+                + ', '.join(e.name for e in self.extensions)
             )
         cmake_version = LooseVersion(
             re.search(r'version\s*([\d.]+)', out.decode()).group(1)
@@ -265,10 +260,7 @@ class HybridTestCommand(TestCommand):
 
 # Set default values for ext_modules and cmdclass
 ext_modules = None
-cmdclass = {
-    'install': InstallCommand,
-    'develop': DevelopCommand,
-}
+cmdclass = {'install': CustomInstall}
 
 # Add Sparse2D build commands
 if build_sparse2d:

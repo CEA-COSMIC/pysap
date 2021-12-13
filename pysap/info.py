@@ -16,11 +16,13 @@ version_micro = 5
 __version__ = '{0}.{1}.{2}'.format(version_major, version_minor, version_micro)
 
 # Expected by setup.py: the status of the project
-CLASSIFIERS = ['Development Status :: 1 - Planning',
-               'Environment :: Console',
-               'Operating System :: OS Independent',
-               'Programming Language :: Python',
-               'Topic :: Scientific/Engineering']
+CLASSIFIERS = [
+    'Development Status :: 1 - Planning',
+    'Environment :: Console',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Topic :: Scientific/Engineering',
+]
 
 # Project descriptions
 description = """
@@ -76,11 +78,11 @@ REQUIRES = [
     'progressbar2>=3.53.1',
     'modopt==1.5.1',
     'scikit-learn>=0.24.1',
-    'PyWavelets>=1.1.1'
+    'PyWavelets>=1.1.1',
 ]
 PREINSTALL_REQUIRES = [
     'pybind11==2.6.2',
-    'pyqt5==5.15.4'
+    'pyqt5==5.15.4',
 ]
 EXTRA_REQUIRES = {
     'gui': {
@@ -90,5 +92,5 @@ EXTRA_REQUIRES = {
 }
 PLUGINS = [
     'pysap-astro==0.0.1',
-    'pysap-mri==0.3.0'
+    'pysap-mri==0.3.0',
 ]
