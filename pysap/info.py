@@ -25,9 +25,7 @@ CLASSIFIERS = [
 ]
 
 # Project descriptions
-description = """
-PYthon Sparse data Analysis Package
-"""
+description = 'Python Sparse data Analysis Package'
 SUMMARY = """
 .. container:: summary-carousel
 
@@ -38,14 +36,14 @@ SUMMARY = """
     * a user graphical interface to play with the provided functions.
 """
 long_description = (
-    'pySAP\n\n'
-    'pySAP is a Python package related to sparsity and its application in'
+    'PySAP\n\n'
+    'PySAP is a Python package related to sparsity and its application in'
     'astronomical or mediacal data analysis.\n'
     'This package binds the "sparse2d" C++ library'
     'that allows sparse decomposition, denoising and deconvolution.\n'
 )
 # Main setup parameters
-NAME = 'python-pySAP'
+NAME = 'python-PySAP'
 ORGANISATION = 'CEA'
 MAINTAINER = 'Antoine Grigis'
 MAINTAINER_EMAIL = 'antoine.grigis@cea.fr'
