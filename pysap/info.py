@@ -74,7 +74,7 @@ REQUIRES = [
     'nibabel>=3.2.1',
     'pyqtgraph>=0.11.1',
     'progressbar2>=3.53.1',
-    'modopt==1.5.1',
+    'modopt>=1.5.1',
     'scikit-learn>=0.24.1',
     'PyWavelets>=1.1.1',
 ]
