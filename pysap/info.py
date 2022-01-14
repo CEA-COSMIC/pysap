@@ -10,7 +10,7 @@
 # Module current version
 version_major = 0
 version_minor = 0
-version_micro = 5
+version_micro = 6
 
 # Expected by setup.py: string of form "X.Y.Z"
 __version__ = '{0}.{1}.{2}'.format(version_major, version_minor, version_micro)
@@ -29,10 +29,10 @@ description = 'Python Sparse data Analysis Package'
 SUMMARY = """
 .. container:: summary-carousel
 
-    pySAP is a Python module for **sparse data analysis** that offers:
+    PySAP is a Python module for **sparse data analysis** that offers:
 
     * a common API for astronomical and neuroimaging datasets.
-    * an accces to 'sparse2d' using a wrapping or a binding strategy.
+    * an accces to 'Sparse2D' using a wrapping or a binding strategy.
     * a user graphical interface to play with the provided functions.
 """
 long_description = (
