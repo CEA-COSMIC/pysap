@@ -91,4 +91,5 @@ EXTRA_REQUIRES = {
 PLUGINS = [
     'pysap-astro==0.0.1',
     'pysap-mri==0.4.0',
+    'pysap-etomo==0.0.1',
 ]
