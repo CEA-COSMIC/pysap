@@ -180,7 +180,7 @@ In some cases it may be necessary to modify the unit tests, but this should be c
 
 ### Coverage
 
-Coverage tests are implemented via [Coveralls](https://coveralls.io/). These tests will fail if the coverage, *i.e.* the number of lines of code covered by unit tests, decreases. When submitting new code in a PR, contributors should aim to write appropriate unit tests. If the coverage drops significantly moderators may request unit tests be added before the PR is merged.
+Coverage tests are implemented via [Codecov](https://about.codecov.io/). These tests will fail if the coverage, *i.e.* the number of lines of code covered by unit tests, decreases. When submitting new code in a PR, contributors should aim to write appropriate unit tests. If the coverage drops significantly moderators may request unit tests be added before the PR is merged.
 
 ### Style Guide
 

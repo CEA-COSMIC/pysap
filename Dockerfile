@@ -9,12 +9,12 @@ ARG CC=gcc-8
 ARG CXX=g++-8
 ARG CPLUS_INCLUDE_PATH=/opt/conda/envs/pysap/include/python3.8/
 
-RUN apt-get update && \
-    apt-get install -y gcc-8 g++-8 && \
-    apt-get install -y libgl1 && \
-    apt-get install -y libnfft3-dev && \
-    apt-get install -y cmake && \
-    apt-get clean
+RUN apt update && \
+    apt install -y gcc-8 g++-8 && \
+    apt install -y libgl1 && \
+    apt install -y libnfft3-dev && \
+    apt install -y cmake && \
+    apt clean
 
 RUN git clone https://github.com/CEA-COSMIC/pysap.git
 
