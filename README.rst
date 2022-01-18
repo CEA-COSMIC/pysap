@@ -258,10 +258,12 @@ Please refer to the |link-to-pyqt| for issues regarding the installation of
 Windows
 -------
 
-Help with installation on Windows is available `here`_.
+Help with installation on Windows on |link-to-windows-help|.
 
-.. _here: https://gist.github.com/chaithyagr/4104df91fbebf44fce1589e96baa6eda
+.. |link-to-windows-help| raw:: html
 
+  <a href="https://gist.github.com/chaithyagr/4104df91fbebf44fce1589e96baa6eda"
+  target="_blank">this Gist</a>
 
 Contributing
 ============
