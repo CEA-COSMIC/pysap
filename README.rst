@@ -105,7 +105,7 @@ PySAP currently supports the following plug-ins:
   <a href="https://github.com/CEA-COSMIC/pysap-astro"
   target="_blank">PySAP-Astro</a>
 
-.. |link-to-pysap-astro| raw:: html
+.. |link-to-pysap-etomo| raw:: html
 
   <a href="https://github.com/CEA-COSMIC/pysap-etomo"
   target="_blank">PySAP-ETomo</a>
