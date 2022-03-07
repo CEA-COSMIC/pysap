@@ -41,3 +41,59 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.xml
           flags: unittests
+
+api:
+  name: Deploy API Documentation
+  needs: coverage
+  runs-on: ubuntu-latest
+  if: success()
+
+  env:
+    root: https://github.com/CEA-COSMIC/
+    tag: /archive/refs/tags/
+    vastro: 0.0.1
+    vetomo: 0.0.1
+    vmri: 0.4.0
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Conda with Python 3.8
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: 3.8
+        auto-activate-base: false
+
+    - name: Install dependencies
+      shell: bash -l {0}
+      run: |
+        conda install -c conda-forge pandoc
+        python -m pip install --upgrade pip
+        python -m pip install -r docs/requirements.txt
+        python -m pip install .
+
+    - name: Download plug-ins
+      shell: bash -l {0}
+      run: |
+        wget ${root}pysap-astro${tag}v${vastro}.tar.gz -O pysap-astro.tar.gz
+        wget ${root}pysap-etomo${tag}v${vetomo}.tar.gz -O pysap-etomo.tar.gz
+        wget ${root}pysap-mri${tag}v${vmri}.tar.gz -O pysap-mri.tar.gz
+        for file in *.tar.gz; do tar xzf "$file"; done
+        rm *.tar.gz
+
+    - name: Build API documentation
+      shell: bash -l {0}
+      run: |
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vastro}/astro
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vetomo}/etomo
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vmri}/mri
+        sphinx-build -E docs/source docs/_build
+
+    - name: Deploy API documentation
+      uses: peaceiris/actions-gh-pages@v3.5.9
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build

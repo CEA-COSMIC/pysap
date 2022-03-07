@@ -8,7 +8,7 @@ The steps detailed in this document were last tested for **macOS 10.14.2**.
 
 
 Contents
-========
+--------
 
 1. `Requirements`_
 
@@ -17,13 +17,12 @@ Contents
 
 2. `Troubleshooting`_
 
-   1. `Python 3`_
-   2. `PyQtGraph`_
-   3. `Matplotlib`_
-   4. `CFITSIO`_
+   1. `PyQtGraph`_
+   2. `Matplotlib`_
+   3. `CFITSIO`_
 
 Requirements
-============
+------------
 
 The following packages are required in order to build PySAP:
 
@@ -36,7 +35,7 @@ The following packages are required in order to build PySAP:
 
 
 Xcode Command Line Tools
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 An essential first step for any developer working on macOS is to install the command line tools. This can be done as follows
 
@@ -45,7 +44,7 @@ An essential first step for any developer working on macOS is to install the com
   xcode-select --install
 
 Homebrew
---------
+^^^^^^^^
 
 The above listed requirements can be readily installed on macOS using |link-to-brew|.
 
@@ -71,12 +70,12 @@ Therefore, before installing PySAP, you should export the environment variables 
 If you encounter problems re-compiling PySAP following an OS update it may be necessary to uninstall Homebrew and repeat these steps.
 
 Troubleshooting
-===============
+---------------
 
 The following subsections propose solutions to some known issues.
 
 PyQtGraph
----------
+^^^^^^^^^
 
 Some issues may arise at runtime with regards to the installation of ``pyqtgraph``. The
 easiest solution to this problem is to install the package using |link-to-conda|.
@@ -104,7 +103,7 @@ See the |link-to-pyqt| for further help.
   target="_blank">PyQtGraph homepage</a>
 
 Matplotlib
-----------
+^^^^^^^^^^
 
 If you see the following error or something similar
 
@@ -121,7 +120,7 @@ simply create a ``matplotlibrc`` file and specify a backend.
   echo "backend: Agg" >> ~/.matplotlib/matplotlibrc
 
 CFITSIO
--------
+^^^^^^^
 
 If you encounter this error
 
