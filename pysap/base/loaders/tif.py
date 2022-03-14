@@ -16,7 +16,7 @@ from skimage.io import imread, imsave
 
 
 class TIF(LoaderBase):
-    """ Define the '.tif' file loader.
+    """Define the '.tif' file loader.
     """
     allowed_extensions = [".tif"]
 
@@ -27,7 +27,7 @@ class TIF(LoaderBase):
         ----------
         path: str
             the path to the data to be loaded.
-        meta_field: str, default 'metadata'
+        as_gray: bool, default False (display image in RGB by default)
             
 
         Returns
@@ -42,7 +42,7 @@ class TIF(LoaderBase):
                      data=_array)
 
     def save(self, image, outpath, check_contrast=True):
-        """ A method that save the image in TIF format.
+        """A method that save the image in TIF format.
 
         Parameters
         ----------
@@ -50,5 +50,7 @@ class TIF(LoaderBase):
             the image to be saved.
         outpath: str
             the path where the the image will be saved.
+        check_contrast: bool, optional
+            Check for low contrast and print warning (default: True).
         """
         imsave(outpath, image.data, check_contrast)
