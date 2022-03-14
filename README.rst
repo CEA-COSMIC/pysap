@@ -79,17 +79,17 @@ new issue.
 
 2. PySAP also requires the installation of the following third party software packages:
 
-* scipy [==1.5.4]
-* numpy [==1.19.5]
-* matplotlib [==3.3.4]
-* astropy [==4.1]
-* nibabel [==3.2.1]
-* pyqtgraph [==0.11.1]
-* progressbar2 [==3.53.1]
-* scikit-learn [==0.24.1]
+* scipy [>=1.5.4]
+* numpy [>=1.19.5]
+* matplotlib [>=3.3.4]
+* astropy [>=4.1]
+* nibabel [>=3.2.1]
+* pyqtgraph [>=0.11.1]
+* progressbar2 [>=3.53.1]
+* scikit-learn [>=0.24.1]
 * pybind11 [==2.6.2]
 * pyqt5 [==5.15.4]
-* PyWavelets [==1.1.1]
+* PyWavelets [>=1.1.1]
 
 Plug-Ins
 ========
@@ -97,12 +97,18 @@ Plug-Ins
 PySAP currently supports the following plug-ins:
 
 * |link-to-pysap-astro| [==0.0.1]
-* |link-to-pysap-mri| [==0.3.0]
+* |link-to-pysap-etomo| [==0.0.1]
+* |link-to-pysap-mri| [==0.4.0]
 
 .. |link-to-pysap-astro| raw:: html
 
   <a href="https://github.com/CEA-COSMIC/pysap-astro"
   target="_blank">PySAP-Astro</a>
+
+.. |link-to-pysap-etomo| raw:: html
+
+  <a href="https://github.com/CEA-COSMIC/pysap-etomo"
+  target="_blank">PySAP-ETomo</a>
 
 .. |link-to-pysap-mri| raw:: html
 
@@ -113,7 +119,7 @@ Installation
 ============
 
 The installation of PySAP has been extensively tested on Ubuntu and macOS, however
-we cannot guarantee it will work on every operating system (e.g. Windows). A Docker
+we cannot guarantee it will work on every operating system. A Docker
 image is available (see below) for those unable to install PySAP directly.
 
 If you encounter any installation issues be sure to go through the following steps before opening a new issue:
@@ -157,15 +163,43 @@ and run:
 
 .. code-block:: bash
 
-  $ python setup.py install
+  $ pip install .
 
 or:
 
 .. code-block:: bash
 
-  $ python setup.py develop
+  $ python setup.py install
 
 As before, use the ``--user`` option if needed.
+
+Custom Installation
+-------------------
+
+The following options can be passed when running ``python setup.py install``:
+
+* ``--noplugins`` : Install PySAP without any plug-ins
+* ``--only=<PLUG-IN NAME>`` : Install PySAP with only the specified plug-in names (comma separated)
+* ``--nosparse2d`` : Install PySAP without building Sparse2D
+
+For example, to install PySAP with only the Etomo plug-in and without Sparse2D
+you would run the following.
+
+.. code-block:: bash
+
+  $ python setup.py install --nosparse2d --only=pysap-etomo
+
+Note that these options can also be invoked when installing with ``pip`` using
+the ``--install-option="<OPTION>"`` option.
+
+.. code-block:: bash
+
+  $ pip install . --install-option="--noplugins"
+
+However, this will disable the use of wheels and make take significantly longer
+to build all of the dependencies. Therefore, when installing PySAP this way it
+is recommended to pre-install all the required dependencies or use the Conda
+environment provided.
 
 Conda Environment
 -----------------
@@ -220,6 +254,16 @@ Please refer to the |link-to-pyqt| for issues regarding the installation of
 
   <a href="http://www.pyqtgraph.org/"
   target="_blank">PyQtGraph homepage</a>
+
+Windows
+-------
+
+Help with installation on Windows on |link-to-windows-help|.
+
+.. |link-to-windows-help| raw:: html
+
+  <a href="https://gist.github.com/chaithyagr/4104df91fbebf44fce1589e96baa6eda"
+  target="_blank">this Gist</a>
 
 Contributing
 ============

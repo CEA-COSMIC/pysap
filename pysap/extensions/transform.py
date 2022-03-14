@@ -38,7 +38,11 @@ from pysap.extensions import ISAP_UNFLATTEN
 try:
     import pysparse
 except ImportError:
-    warnings.warn("Sparse2d python bindings not found, use binaries.")
+    warnings.warn(
+        'Sparse2D Python bindings not found. Any call to a Sparse2D transform '
+        + 'or a plug-in method that uses a Sparse2D transform will result in '
+        + 'an error.'
+    )
     pysparse = None
 
 # Third party import

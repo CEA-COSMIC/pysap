@@ -15,6 +15,7 @@ ExternalProject_Add(sparse2d
         -DCFITSIO_INCLUDE_DIRS=${cfitsio_INCLUDE_DIR}
         -DCFITSIO_LIBRARY_DIRS=${cfitsio_LIBRARY_DIR}
         -DCFITSIO_LIBRARIES=${cfitsio_LIBRARIES}
+        -DCMAKE_CXX_FLAGS="-std=c++14"
         -DCMAKE_BUILD_TYPE=RELEASE
     BUILD_COMMAND make install
         -j8
