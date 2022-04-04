@@ -118,7 +118,7 @@ SAMPLE_DATE_FILES = {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/gen.mr"),
         "md5sum": None
-    }
+    },
     "eels-gst-2d-etomo": {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/EELS_GST_4_5_ali.tif"),
