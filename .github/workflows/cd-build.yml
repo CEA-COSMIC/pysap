@@ -88,8 +88,8 @@ api:
       run: |
         sphinx-apidoc -t docs/_templates -feTMo docs/source pysap
         sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vastro}/astro
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vetomo}/etomo
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-${vmri}/mri
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-etomo-${vetomo}/etomo
+        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-mri-${vmri}/mri
         sphinx-build -E docs/source docs/_build
 
     - name: Deploy API documentation
