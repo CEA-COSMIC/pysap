@@ -1,5 +1,5 @@
-Usage examples
-==============
+MRI Examples
+------------
 
 .. contents:: **Contents**
     :local:

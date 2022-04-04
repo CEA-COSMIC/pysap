@@ -27,6 +27,7 @@
   :titlesonly:
   :caption: Examples
 
+  examples
   notebooks
 
 .. toctree::

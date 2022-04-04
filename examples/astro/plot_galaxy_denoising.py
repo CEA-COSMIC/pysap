@@ -1,8 +1,7 @@
+# -*- coding: utf-8 -*-
 """
 Galaxy Image Denoising
 ======================
-
-Credit: S. Farrens
 
 In this tutorial we will remove the noise from an example galaxy image.
 
@@ -14,6 +13,7 @@ Import functions from PySAP and ModOpt.
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 from pysap import Image
 from pysap.data import get_sample_data
 from pysap.plugins.astro.denoising.denoise import denoise
@@ -24,19 +24,18 @@ from modopt.signal.noise import add_noise
 
 galaxy = get_sample_data('astro-ngc2997')
 
-
 #############################################################################
 # Show the clean galaxy image
 
-# galaxy.show()
+plt.imshow(galaxy)
+plt.show()
 
 #############################################################################
 # Generate noisy observation
 # --------------------------
 #
-# Convolve the image with a point spread function (PSF) using the `convolve`
-# function. Then add random Gaussian noise with standard deviation 0.0005
-# using the `add_noise` function.
+# Add random Gaussian noise with standard deviation 100 using the `add_noise`
+# function.
 
 obs_data = add_noise(galaxy.data, sigma=100)
 
@@ -48,11 +47,12 @@ image_obs = Image(data=np.abs(obs_data))
 #############################################################################
 # Show the noisy galaxy image
 
-# image_obs.show()
+plt.imshow(image_obs)
+plt.show()
 
 #############################################################################
-# Deconvolve
-# ----------
+# Denoise
+# -------
 #
 # Use the `sparse_deconv_condatvu` function to deconvolve the noisy image and
 # set the maximum number of iterations to 3000.
@@ -67,7 +67,8 @@ image_rec = Image(data=np.abs(denoise_data))
 #############################################################################
 # Show the deconvolved galaxy image
 
-# image_rec.show()
+plt.imshow(image_rec)
+plt.show()
 
 #############################################################################
 # Residual
@@ -80,4 +81,5 @@ residual = Image(data=np.abs(galaxy.data - denoise_data))
 #############################################################################
 # Show the residual
 
-# residual.show()
+plt.imshow(residual)
+plt.show()

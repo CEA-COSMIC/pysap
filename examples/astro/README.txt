@@ -1,2 +1,2 @@
-Astro use cases
----------------
+Astro Examples
+--------------

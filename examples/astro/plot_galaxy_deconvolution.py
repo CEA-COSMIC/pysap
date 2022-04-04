@@ -15,6 +15,7 @@ Import functions from PySAP and ModOpt.
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 from pysap import Image
 from pysap.data import get_sample_data
 from pysap.plugins.astro.deconvolution.deconvolve import sparse_deconv_condatvu
@@ -53,7 +54,7 @@ image_obs = Image(data=np.abs(obs_data))
 #############################################################################
 # Show the noisy galaxy image
 
-# image_obs.show()
+plt.imshow(image_obs)
 
 #############################################################################
 # Deconvolve
@@ -72,7 +73,7 @@ image_rec = Image(data=np.abs(deconv_data))
 #############################################################################
 # Show the deconvolved galaxy image
 
-# image_rec.show()
+plt.imshow(image_rec)
 
 #############################################################################
 # Residual
@@ -85,4 +86,4 @@ residual = Image(data=np.abs(galaxy.data - deconv_data))
 #############################################################################
 # Show the residual
 
-# residual.show()
+plt.imshow(residual)

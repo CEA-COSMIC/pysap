@@ -1,6 +1,3 @@
-pySAP usage examples
-====================
-
 .. contents:: **Contents**
     :local:
     :depth: 1
@@ -8,4 +5,4 @@ pySAP usage examples
 Structure use cases
 -------------------
 
-Introductory examples that teach how to use the pysap structure.
+Introductory examples that teach how to use the PySAP structure.

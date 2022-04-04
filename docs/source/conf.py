@@ -39,6 +39,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinx_gallery.gen_gallery',
     'sphinxawesome_theme',
     'sphinxcontrib.bibtex',
     'myst_parser',
@@ -82,6 +83,18 @@ pygments_style = 'default'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# Sphinx Gallery
+sphinx_gallery_conf = {
+    'examples_dirs': '../../examples',
+    'gallery_dirs': 'auto_examples',
+    'download_all_examples': False,
+    'show_signature': False,
+    'image_srcset': ["2x"],
+    'reference_url': {
+        'pysap': None,
+    },
+}
 
 # -- Options for HTML output ----------------------------------------------
 
