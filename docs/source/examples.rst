@@ -1,4 +1,4 @@
-PySAP Examples
-==============
+.. toctree::
+    :maxdepth: 0
 
-.. include:: auto_examples/index.rst
+    auto_examples/index

@@ -28,7 +28,6 @@
   :caption: Examples
 
   examples
-  notebooks
 
 .. toctree::
   :hidden:
