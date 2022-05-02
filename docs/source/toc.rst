@@ -27,7 +27,14 @@
   :titlesonly:
   :caption: Examples
 
-  examples
+  auto_examples/index
+
+.. toctree::
+  :hidden:
+  :titlesonly:
+  :caption: Related Projects
+
+  ModOpt <https://cea-cosmic.github.io/ModOpt/>
 
 .. toctree::
   :hidden:
