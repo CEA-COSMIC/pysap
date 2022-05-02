@@ -28,7 +28,6 @@ class TIF(LoaderBase):
         path: str
             the path to the data to be loaded.
         as_gray: bool, default False (display image in RGB by default)
-            
 
         Returns
         -------
