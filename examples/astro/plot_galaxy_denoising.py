@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pysap import Image
 from pysap.data import get_sample_data
-from pysap.plugins.astro.denoising.denoise import denoise
+from astro.denoising.denoise import denoise
 from modopt.signal.noise import add_noise
 
 #############################################################################

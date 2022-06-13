@@ -93,6 +93,9 @@ sphinx_gallery_conf = {
     'image_srcset': ["2x"],
     'reference_url': {
         'pysap': None,
+        'astro': None,
+        'etomo': None,
+        'mri': None
     },
     'thumbnail_size': (500, 500),
     'compress_images': ('images', 'thumbnails'),
@@ -258,7 +261,8 @@ intersphinx_mapping = {
         (
             'https://github.com/GPflow/tensorflow-intersphinx/'
             + 'raw/master/tf2_py_objects.inv')
-    )
+    ),
+    'modopt': ('https://cea-cosmic.github.io/ModOpt/', None),
 
 }
 

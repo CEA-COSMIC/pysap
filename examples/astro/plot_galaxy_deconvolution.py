@@ -18,7 +18,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pysap import Image
 from pysap.data import get_sample_data
-from pysap.plugins.astro.deconvolution.deconvolve import sparse_deconv_condatvu
+from astro.deconvolution.deconvolve import sparse_deconv_condatvu
 from modopt.signal.noise import add_noise
 from modopt.math.convolve import convolve
 
