@@ -16,11 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Conda with Python 3.8
+      - name: Set up Conda with Python 3.9
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          python-version: 3.8
+          python-version: 3.9
           auto-activate-base: false
 
       - name: Install Package Dependencies
@@ -49,21 +49,20 @@ api:
   if: success()
 
   env:
-    root: https://github.com/CEA-COSMIC/
-    tag: /archive/refs/tags/
-    vastro: 0.0.1
-    vetomo: 0.0.1
-    vmri: 0.4.0
+    gh_root: https://github.com/CEA-COSMIC/
+    tag_path: /archive/refs/tags/
+    plugins: pysap-astro==v0.0.1 pysap-etomo==v0.0.1 pysap-mri==v0.4.0
+    sphinx_opts: -t docs/_templates -feTMo docs/source
 
   steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Conda with Python 3.8
+    - name: Set up Conda with Python 3.9
       uses: conda-incubator/setup-miniconda@v2
       with:
         auto-update-conda: true
-        python-version: 3.8
+        python-version: 3.9
         auto-activate-base: false
 
     - name: Install dependencies
@@ -77,19 +76,23 @@ api:
     - name: Download plug-ins
       shell: bash -l {0}
       run: |
-        wget ${root}pysap-astro${tag}v${vastro}.tar.gz -O pysap-astro.tar.gz
-        wget ${root}pysap-etomo${tag}v${vetomo}.tar.gz -O pysap-etomo.tar.gz
-        wget ${root}pysap-mri${tag}v${vmri}.tar.gz -O pysap-mri.tar.gz
+        for _plugin in ${plugins}; do
+          plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+          plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
+          wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
+        done
         for file in *.tar.gz; do tar xzf "$file"; done
         rm *.tar.gz
 
     - name: Build API documentation
       shell: bash -l {0}
       run: |
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-astro-*/astro
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-etomo-*/etomo
-        sphinx-apidoc -t docs/_templates -feTMo docs/source pysap-mri-*/mri
+        sphinx-apidoc ${sphinx_opts} pysap
+        for _plugin in ${plugins}; do
+          plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+          package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
+          sphinx-apidoc ${sphinx_opts} ${plugin_name}-*/${package_name}
+        done
         sphinx-build -E docs/source docs/_build
 
     - name: Deploy API documentation
