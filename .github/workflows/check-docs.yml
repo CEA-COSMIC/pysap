@@ -1,0 +1,78 @@
+name: Check Docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      use_plugins:
+        description: 'Build API Docs with Plug-Ins'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  
+  api:
+    name: Check API Documentation
+    runs-on: ubuntu-latest
+
+    env:
+      gh_root: https://github.com/CEA-COSMIC/
+      tag_path: /archive/refs/tags/
+      use_plugins: ${{ inputs.use_plugins }}
+      plugins: pysap-astro==v0.0.1 pysap-etomo==v0.0.1 pysap-mri==v0.4.0
+      sphinx_opts: -t docs/_templates -feTMo docs/source
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Conda with Python 3.9
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: 3.9
+          auto-activate-base: false
+
+      - name: Install dependencies
+        shell: bash -l {0}
+        run: |
+          conda install -c conda-forge pandoc
+          python -m pip install --upgrade pip
+          python -m pip install -r docs/requirements.txt
+          python -m pip install .
+
+      - name: Download plug-ins
+        shell: bash -l {0}
+        if: ${{ env.use_plugins == true }}
+        run: |
+          for _plugin in ${plugins}; do
+            plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+            plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
+            wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
+          done
+          for file in *.tar.gz; do tar xzf "$file"; done
+          rm *.tar.gz
+
+      - name: Build plug-in source files
+        shell: bash -l {0}
+        if: ${{ env.use_plugins == true }}
+        run: |
+          for _plugin in ${plugins}; do
+            plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+            package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
+            sphinx-apidoc ${sphinx_opts} ${plugin_name}-*/${package_name}
+          done
+
+      - name: Build API documentation
+        shell: bash -l {0}
+        run: |
+          sphinx-apidoc ${sphinx_opts} pysap
+          sphinx-build -E docs/source docs/_build
+
+      - name: Archive API build
+        uses: actions/upload-artifact@v2
+        with:
+          name: api-docs
+          retention-days: 14
+          path: |
+            docs/_build
