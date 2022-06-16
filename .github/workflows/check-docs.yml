@@ -1,4 +1,4 @@
-name: Check Docs
+name: Check Docs Manually
 
 on:
   workflow_dispatch:

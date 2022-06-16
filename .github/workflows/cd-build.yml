@@ -75,6 +75,7 @@ api:
 
     - name: Download plug-ins
       shell: bash -l {0}
+      if: ${{ inputs.use_plugins }}
       run: |
         for _plugin in ${plugins}; do
           plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -84,16 +85,23 @@ api:
         for file in *.tar.gz; do tar xzf "$file"; done
         rm *.tar.gz
 
-    - name: Build API documentation
+    - name: Build PySAP source files
       shell: bash -l {0}
+      run: sphinx-apidoc ${sphinx_opts} pysap
+
+    - name: Build plug-in source files
+      shell: bash -l {0}
+      if: ${{ inputs.use_plugins }}
       run: |
-        sphinx-apidoc ${sphinx_opts} pysap
         for _plugin in ${plugins}; do
           plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
           package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
           sphinx-apidoc ${sphinx_opts} ${plugin_name}-*/${package_name}
         done
-        sphinx-build -E docs/source docs/_build
+
+    - name: Build API documentation
+      shell: bash -l {0}
+      run: sphinx-build -E docs/source docs/_build
 
     - name: Deploy API documentation
       uses: peaceiris/actions-gh-pages@v3.5.9
