@@ -10,7 +10,7 @@ on:
         type: boolean
 
 jobs:
-  
+
   api:
     name: Check API Documentation
     runs-on: ubuntu-latest
@@ -18,7 +18,6 @@ jobs:
     env:
       gh_root: https://github.com/CEA-COSMIC/
       tag_path: /archive/refs/tags/
-      use_plugins: ${{ inputs.use_plugins }}
       plugins: pysap-astro==v0.0.1 pysap-etomo==v0.0.1 pysap-mri==v0.4.0
       sphinx_opts: -t docs/_templates -feTMo docs/source
 
@@ -43,7 +42,7 @@ jobs:
 
       - name: Download plug-ins
         shell: bash -l {0}
-        if: ${{ env.use_plugins == true }}
+        if: ${{ github.event.inputs.use_plugins == 'true' }}
         run: |
           for _plugin in ${plugins}; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -54,8 +53,8 @@ jobs:
           rm *.tar.gz
 
       - name: Build plug-in source files
-        shell: bash -l {0}
-        if: ${{ env.use_plugins == true }}
+        shell: bash -xl {0}
+        if: ${{ github.event.inputs.use_plugins == 'true' }}
         run: |
           for _plugin in ${plugins}; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
