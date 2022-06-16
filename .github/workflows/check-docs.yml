@@ -5,7 +5,7 @@ on:
     inputs:
       use_plugins:
         description: 'Build API Docs with Plug-Ins'
-        required: false
+        required: true
         default: true
         type: boolean
 
@@ -42,7 +42,7 @@ jobs:
 
       - name: Download plug-ins
         shell: bash -l {0}
-        if: ${{ github.event.inputs.use_plugins == 'true' }}
+        if: ${{ inputs.use_plugins }}
         run: |
           for _plugin in ${plugins}; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -52,9 +52,13 @@ jobs:
           for file in *.tar.gz; do tar xzf "$file"; done
           rm *.tar.gz
 
+      - name: Build PySAP source files
+        shell: bash -l {0}
+        run: sphinx-apidoc ${sphinx_opts} pysap
+
       - name: Build plug-in source files
-        shell: bash -xl {0}
-        if: ${{ github.event.inputs.use_plugins == 'true' }}
+        shell: bash -l {0}
+        if: ${{ inputs.use_plugins }}
         run: |
           for _plugin in ${plugins}; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -64,9 +68,7 @@ jobs:
 
       - name: Build API documentation
         shell: bash -l {0}
-        run: |
-          sphinx-apidoc ${sphinx_opts} pysap
-          sphinx-build -E docs/source docs/_build
+        run: sphinx-build -E docs/source docs/_build
 
       - name: Archive API build
         uses: actions/upload-artifact@v2
