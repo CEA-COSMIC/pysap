@@ -3,8 +3,13 @@ name: Check Docs Manually
 on:
   workflow_dispatch:
     inputs:
-      use_plugins:
+      build_plugins:
         description: 'Build API Docs with Plug-Ins'
+        required: true
+        default: true
+        type: boolean
+      build_examples:
+        description: 'Build API Docs with Examples'
         required: true
         default: true
         type: boolean
@@ -18,7 +23,6 @@ jobs:
     env:
       gh_root: https://github.com/CEA-COSMIC/
       tag_path: /archive/refs/tags/
-      plugins: pysap-astro==v0.0.1 pysap-etomo==v0.0.1 pysap-mri==v0.4.0
       sphinx_opts: -t docs/_templates -feTMo docs/source
 
     steps:
@@ -42,15 +46,25 @@ jobs:
 
       - name: Download plug-ins
         shell: bash -l {0}
-        if: ${{ inputs.use_plugins }}
+        if: ${{ inputs.build_plugins }}
         run: |
-          for _plugin in ${plugins}; do
+          while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
             plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
             wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
-          done
+          done < plugins.txt
           for file in *.tar.gz; do tar xzf "$file"; done
           rm *.tar.gz
+
+      - name: Extract plug-in examples
+        shell: bash -l {0}
+        if: ${{ inputs.build_examples }}
+        run: |
+          while read _plugin; do
+            plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+            package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
+            cp -r ${plugin_name}-*/examples examples/${package_name} || echo "Warning: no examples found for ${plugin_name}"
+          done < plugins.txt
 
       - name: Build PySAP source files
         shell: bash -l {0}
@@ -58,13 +72,13 @@ jobs:
 
       - name: Build plug-in source files
         shell: bash -l {0}
-        if: ${{ inputs.use_plugins }}
+        if: ${{ inputs.build_plugins }}
         run: |
-          for _plugin in ${plugins}; do
+          while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
             package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
             sphinx-apidoc ${sphinx_opts} ${plugin_name}-*/${package_name}
-          done
+          done < plugins.txt
 
       - name: Build API documentation
         shell: bash -l {0}

@@ -1,0 +1,3 @@
+pysap-astro==v0.0.1
+pysap-etomo==v0.0.1
+pysap-mri==v0.4.0
