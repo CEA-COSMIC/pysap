@@ -40,6 +40,11 @@ scripts = [
     os.path.join('pysap', 'apps', 'pysapview3')
 ]
 
+# Source PySAP plug-ins
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'plugins.txt')) as f:
+    pysap_plugins = f.read().splitlines()
+
 # Workaround
 rm_args = []
 if '--release' in sys.argv:
@@ -79,7 +84,7 @@ def check_plugins(plugin_list):
         raise TypeError('Plug-in list must be of type list.')
 
     pysap_plugins = dict([
-        _plugin.split('==') for _plugin in release_info['PLUGINS']
+        _plugin.split('==') for _plugin in pysap_plugins
     ])
     allowed_plugins = pysap_plugins.keys()
 
@@ -113,7 +118,7 @@ def pipinstall(package_list):
 def install_plugins():
     """Install Plug-Ins."""
 
-    plugin_list = release_info['PLUGINS']
+    plugin_list = pysap_plugins
     if only_plugins:
         plugin_list = check_plugins(only_plugins)
     elif no_plugins:
