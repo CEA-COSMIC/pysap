@@ -76,6 +76,7 @@ REQUIRES = [
     'progressbar2>=3.53.1',
     'modopt>=1.5.1',
     'scikit-learn>=0.24.1',
+    'scikit-image>=0.17.2',
     'PyWavelets>=1.1.1',
 ]
 PREINSTALL_REQUIRES = [
