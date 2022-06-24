@@ -1,3 +1,5 @@
+:class: full-width
+
 .. image:: ../images/logo.png
   :width: 50%
   :alt: PySAP logo

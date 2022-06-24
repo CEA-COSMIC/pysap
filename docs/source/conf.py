@@ -39,9 +39,9 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinx_copybutton',
     'sphinx_gallery.gen_gallery',
     'sphinxcontrib.bibtex',
-    'myst_parser',
     'numpydoc',
 ]
 
@@ -108,14 +108,18 @@ html_theme = 'sphinx_book_theme'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {
-#     "nav_include_hidden": True,
-#     "show_nav": True,
-#     "show_breadcrumbs": True,
-#     "breadcrumbs_separator": "/",
-#     "show_prev_next": True,
-#     "show_scrolltop": True,
-# }
+html_theme_options = {
+    'repository_url': 'https://github.com/CEA-COSMIC/pysap',
+    'repository_branch': 'develop',
+    'use_issues_button': True,
+    'use_download_button': False,
+    'use_repository_button': True,
+    'use_edit_page_button': True,
+    'path_to_docs': 'docs/source',
+    'home_page_in_toc': True,
+    'logo_only': True,
+    'home_page_in_toc': False,
+}
 html_collapsible_definitions = True
 html_awesome_headerlinks = True
 # html_permalinks_icon = (
@@ -130,8 +134,7 @@ html_awesome_headerlinks = True
 # )
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = '{0} v{1}'.format(project, version)
-# html_title = ''
+html_title = f'{project} v{version}'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
