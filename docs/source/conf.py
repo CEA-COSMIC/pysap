@@ -94,7 +94,6 @@ sphinx_gallery_conf = {
         'etomo': None,
         'mri': None
     },
-    'thumbnail_size': (500, 500),
     'compress_images': ('images', 'thumbnails'),
 }
 
@@ -102,36 +101,17 @@ sphinx_gallery_conf = {
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-# html_theme = 'sphinxawesome_theme'
 html_theme = 'sphinx_book_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {
-#     "nav_include_hidden": True,
-#     "show_nav": True,
-#     "show_breadcrumbs": True,
-#     "breadcrumbs_separator": "/",
-#     "show_prev_next": True,
-#     "show_scrolltop": True,
-# }
 html_collapsible_definitions = True
 html_awesome_headerlinks = True
-# html_permalinks_icon = (
-#     '<svg xmlns="http://www.w3.org/2000/svg" '
-#     'viewBox="0 0 24 24">'
-#     '<path d="M3.9 12c0-1.71 1.39-3.1 '
-#     "3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 "
-#     "5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 "
-#     "13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 "
-#     "3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 "
-#     '5-5s-2.24-5-5-5z"/></svg>'
-# )
+
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 html_title = '{0} v{1}'.format(project, version)
-# html_title = ''
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
@@ -158,6 +138,9 @@ html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = True
+
+html_static_path = ['_static']
+html_css_files = ['custom.css']
 
 # -- Intersphinx Mapping ----------------------------------------------
 
