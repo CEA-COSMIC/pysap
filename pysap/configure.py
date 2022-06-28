@@ -31,7 +31,7 @@ def _check_python_versions():
 
     Returns
     -------
-    versions: dict with 2-uplet
+    dict
         the minimum required version and the installed version for each module.
         '?' means no package found.
     """

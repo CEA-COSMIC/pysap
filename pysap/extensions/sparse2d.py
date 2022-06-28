@@ -50,7 +50,7 @@ class Filter():
         iter_max: double
         epsilon: float
         verbose: Boolean
-        tab_n_sigma: ndarray
+        tab_n_sigma: numpy.ndarray
         suppress_isolated_pixels: Boolean
 
         """
@@ -62,7 +62,7 @@ class Filter():
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         """
         self.data = pysap.Image(data=self.flt.filter(data))
@@ -120,9 +120,9 @@ class Deconvolve():
 
         Parameters
         ----------
-        img: ndarray
+        img: numpy.ndarray
             the input image.
-        psf: ndarray
+        psf: numpy.ndarray
             the input psf
         """
         self.data = pysap.Image(data=self.deconv.deconvolve(img, psf))
@@ -162,7 +162,7 @@ class MR2D1D():
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         """
         self.cube = self.trf.transform(data)
@@ -172,7 +172,7 @@ class MR2D1D():
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         """
         self.recons = self.trf.reconstruct(data)

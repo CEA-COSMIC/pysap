@@ -257,11 +257,14 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
 
     Returns
     -------
-    download_fname: str
+    str
         absolute path to the downloaded file.
 
-    Note: If, for any reason, the download procedure fails, all downloaded
+    Notes
+    -----
+    If, for any reason, the download procedure fails, all downloaded
     files are removed.
+
     """
     # Create the download directory if necessary
     if not os.path.exists(data_dir):

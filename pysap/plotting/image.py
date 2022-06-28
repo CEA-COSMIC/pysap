@@ -19,7 +19,7 @@ def plot_data(data, scroll_axis=2):
 
     Parameters
     ----------
-    data: array
+    data: numpy.ndarray
         the data to be displayed.
     scroll_axis: int (optional, default 2)
         the scroll axis for 3d data.

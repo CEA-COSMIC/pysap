@@ -30,7 +30,7 @@ class MAT(LoaderBase):
             the path to the data to be loaded.
         image_field: str, default 'image'
             the name of the data field that contains the image array.
-        image_field: str, default 'metadata'
+        meta_field: str, default 'metadata'
             the name of the data field that contains the image metadata.
 
         Returns
@@ -58,7 +58,7 @@ class MAT(LoaderBase):
             the path where the the image will be saved.
         image_field: str, default 'image'
             the name of the data field that contains the image array.
-        image_field: str, default 'metadata'
+        meta_field: str, default 'metadata'
             the name of the data field that contains the image metadata.
         """
         data = {

@@ -19,9 +19,9 @@ def plot_transform(transform, scales=None, multiview=False):
 
     Parameters
     ----------
-    transform: WaveletTransformBase derived instance
+    transform: WaveletTransformBase
         a wavelet decomposition.
-    scales: list of int, default None
+    scales: list, default None
         the desired scales, if None compute at all scales.
     multiview: bool, default False
         if True use a slider to select a specific band.

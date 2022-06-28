@@ -13,17 +13,17 @@ Wavelet transform module.
 Available 2D transform from ISAP are:
 
 - to get the full list of builtin wavelets' names just use the pysap.wavelist
-  with 'isap-2d' as the family argument.
+  with ``isap-2d`` as the family argument.
 
 Available 3D transform from ISAP are:
 
 - to get the full list of builtin wavelets' names just use the pysap.wavelist
-  with 'isap-3d' as the family argument.
+  with ``isap-3d`` as the family argument.
 
 Available transform from pywt are:
 
 - to get the full list of builtin wavelets' names just use the pysap.wavelist
-  with 'pywt' as the family argument.
+  with ``pywt`` as the family argument.
 """
 
 # System import
@@ -61,7 +61,7 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         nb_scale: int
             the number of scale of the decomposition that includes the
@@ -104,15 +104,14 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        data: nd-array
+        data: numpy.ndarray
             a real array to be decomposed.
 
         Returns
         -------
-        analysis_data: nd_array
-            the decomposition coefficients.
-        analysis_header: dict
-            the decomposition associated information.
+        numpy.ndarray
+            The decomposition coefficients and associated information
+
         """
         if self.is_decimated:
             coeffs = pywt.wavedecn(data, self.trf, mode=self.padding_mode,
@@ -131,14 +130,14 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        analysis_data: list of nd-array
-            the wavelet coefficients array.
+        analysis_data: list
+            the wavelet coefficients array
         analysis_header: dict
-            the wavelet decomposition parameters.
+            the wavelet decomposition parameters
 
         Returns
         -------
-        data: nd-array
+        numpy.ndarray
             the reconstructed data array.
         """
         coeffs = self._organize_pywt(analysis_data, analysis_header)
@@ -154,15 +153,14 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        coeffs: list of dict or ndarray
+        coeffs: list or numpy.ndarray
             the pywt input coefficents.
 
         Returns
         -------
-        data: list of ndarray
-            the organized coefficients.
-        info: list
-            the pywt transform information.
+        tuple
+            the organized coefficients and the pywt transform information
+
         """
         if not isinstance(coeffs, list):
             coeffs = [coeffs]
@@ -186,14 +184,14 @@ class PyWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        data: list of ndarray
+        data: list
             the organized coefficients.
         info: list
             the pywt transform information.
 
         Returns
         -------
-        coeffs: list
+        list
             the pywt input coefficents.
         """
         coeffs = []
@@ -220,10 +218,11 @@ def pywt_class_factory(func, name, destination_module_globals):
 
     Parameters
     ----------
-    func: @function
-        the wavelet transform function.
+    func: callable
+        the wavelet transform function
     name: str
-        the wavelet name we want to instanciate.
+        the wavelet name we want to instanciate
+
     """
     # Define the transform class name
     class_name = name.replace(".", "")
@@ -231,7 +230,7 @@ def pywt_class_factory(func, name, destination_module_globals):
     # Define the trsform class parameters
     class_parameters = {
         "__module__": destination_module_globals["__name__"],
-        "_id":  destination_module_globals["__name__"] + "." + class_name,
+        "_id": destination_module_globals["__name__"] + "." + class_name,
         "_pywt_name": name,
         "_pywt_func": func
     }
@@ -268,7 +267,7 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         nb_scale: int
             the number of scale of the decomposition that includes the
@@ -327,18 +326,17 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        data: nd-array
+        data: numpy.ndarray
             a real array to be decomposed.
         kwargs: dict (optional)
             the parameters that will be passed to
-            'pysap.extensions.mr_tansform'.
+            ``pysap.extensions.mr_tansform``.
 
         Returns
         -------
-        analysis_data: nd_array
-            the decomposition coefficients.
-        analysis_header: dict
-            the decomposition associated information.
+        numpy.ndarray
+            The decomposition coefficients and associated information
+
         """
         # Update ISAP parameters
         kwargs["type_of_multiresolution_transform"] = self.isap_transform_id
@@ -382,15 +380,16 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         Parameters
         ----------
-        analysis_data: list of nd-array
-            the wavelet coefficients array.
+        analysis_data: list
+            the wavelet coefficients array
         analysis_header: dict
-            the wavelet decomposition parameters.
+            the wavelet decomposition parameters
 
         Returns
         -------
-        data: nd-array
-            the reconstructed data array.
+        numpy.ndarray
+            the reconstructed data array
+
         """
         # Use subprocess to execute binaries
         if self.use_wrapping:
@@ -458,25 +457,30 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         Returns
         -------
-        bands_names: list of str
-            the name of the different bands.
-        flatten_fct: int
-            a function used to reorganize the ISAP decomposition coefficients,
-            see 'pysap/extensions/formating.py' module for more details.
-        unflatten_fct: callable
-            a function used to reorganize the decomposition coefficients using
-            ISAP convention, see 'pysap/extensions/formating.py' module for
-            more details.
-        is_decimated: bool
-            True if the decomposition include a decimation of the
-            band number of coefficients.
-        nb_band_per_scale: ndarray (<nb_scale>, )
-            vector of int holding the number of band per scale.
-        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
-            array holding the length between two bands of the data
-            vector per scale.
-        bands_shapes: list of list of 2-uplet (<nb_scale>, <nb_band_per_scale>)
-            structure holding the shape of each bands at each scale.
+        tuple
+            bands_names: list of str
+                the name of the different bands.
+            flatten_fct: int
+                a function used to reorganize the ISAP decomposition
+                coefficients, see ``pysap/extensions/formating.py`` module for
+                more details.
+            unflatten_fct: callable
+                a function used to reorganize the decomposition coefficients
+                using ISAP convention, see ``pysap/extensions/formating.py``
+                module for more details.
+            is_decimated: bool
+                True if the decomposition include a decimation of the
+                band number of coefficients.
+            nb_band_per_scale: numpy.ndarray ``(<nb_scale>, )``
+                vector of int holding the number of band per scale.
+            bands_lengths: numpy.ndarray
+                ``(<nb_scale>, max(<nb_band_per_scale>, 0))``
+                array holding the length between two bands of the data
+                vector per scale.
+            bands_shapes: list of list of 2-uplet
+                ``(<nb_scale>, <nb_band_per_scale>)``
+                structure holding the shape of each bands at each scale.
+
         """
         if nb_band == 1:
             bands_names = ["a"]
@@ -517,25 +521,30 @@ class ISAPWaveletTransformBase(WaveletTransformBase):
 
         Returns
         -------
-        bands_names: list of str
-            the name of the different bands.
-        flatten_fct: int
-            a function used to reorganize the ISAP decomposition coefficients,
-            see 'pysap/extensions/formating.py' module for more details.
-        unflatten_fct: callable
-            a function used to reorganize the decomposition coefficients using
-            ISAP convention, see 'pysap/extensions/formating.py' module for
-            more details.
-        is_decimated: bool
-            True if the decomposition include a decimation of the
-            band number of coefficients.
-        nb_band_per_scale: ndarray (<nb_scale>, )
-            vector of int holding the number of band per scale.
-        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
-            array holding the length between two bands of the data
-            vector per scale.
-        bands_shapes: list of list of 2-uplet (<nb_scale>, <nb_band_per_scale>)
-            structure holding the shape of each bands at each scale.
+        tuple
+            bands_names: list of str
+                the name of the different bands.
+            flatten_fct: int
+                a function used to reorganize the ISAP decomposition
+                coefficients, see ``pysap/extensions/formating.py`` module for
+                more details.
+            unflatten_fct: callable
+                a function used to reorganize the decomposition coefficients
+                using ISAP convention, see ``pysap/extensions/formating.py``
+                module for more details.
+            is_decimated: bool
+                True if the decomposition include a decimation of the
+                band number of coefficients.
+            nb_band_per_scale: numpy.ndarray ``(<nb_scale>, )``
+                vector of int holding the number of band per scale.
+            bands_lengths: numpy.ndarray
+                ``(<nb_scale>, max(<nb_band_per_scale>, 0))``
+                array holding the length between two bands of the data
+                vector per scale.
+            bands_shapes: list of list of 2-uplet
+                ``(<nb_scale>, <nb_band_per_scale>)``
+                structure holding the shape of each bands at each scale.
+
         """
         if nb_band == 1:
             bands_names = ["a"]
