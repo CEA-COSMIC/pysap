@@ -49,7 +49,7 @@ class Observable(object):
         ----------
         signal: str
             a valid signal.
-        observer: @func
+        observer: callable
             a function that will be called when the signal is emitted.
         """
         self._is_allowed_signal(signal)
@@ -63,7 +63,7 @@ class Observable(object):
         ----------
         signal: str
             a valid signal.
-        observer: @func
+        observer: callable
             an obervation function to be removed.
         """
         self._is_allowed_event(signal)
@@ -140,7 +140,7 @@ class Observable(object):
         ----------
         signal: str
             a valid signal.
-        observer: @func
+        observer: callable
             an obervation function.
         """
         if observer not in self._observers[signal]:
@@ -153,7 +153,7 @@ class Observable(object):
         ----------
         signal: str
             a valid signal.
-        observer: @func
+        observer: callable
             an obervation function to be removed.
         """
         if observer in self._observers[signal]:

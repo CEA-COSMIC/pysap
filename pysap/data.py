@@ -118,6 +118,11 @@ SAMPLE_DATA_FILES = {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/gen.mr"),
         "md5sum": None
+    },
+    "eels-gst-2d-etomo": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/EELS_GST_4_5_ali.tif"),
+        "md5sum": None
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pysap")
@@ -252,11 +257,14 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
 
     Returns
     -------
-    download_fname: str
+    str
         absolute path to the downloaded file.
 
-    Note: If, for any reason, the download procedure fails, all downloaded
+    Notes
+    -----
+    If, for any reason, the download procedure fails, all downloaded
     files are removed.
+
     """
     # Create the download directory if necessary
     if not os.path.exists(data_dir):
