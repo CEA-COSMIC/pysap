@@ -55,7 +55,7 @@ def save(image, path, **kwargs):
 
     Parameters
     ----------
-    image: Image or ndarray
+    image: Image or numpy.ndarray
         the data to be saved.
     path: str
         the destination file.

@@ -1,52 +1,24 @@
-name: CD
+name: Check Docs Manually
 
 on:
-  push:
-    branches:
-     - master
-     - main
+  workflow_dispatch:
+    inputs:
+      build_plugins:
+        description: 'Build API Docs with Plug-Ins'
+        required: true
+        default: true
+        type: boolean
+      build_examples:
+        description: 'Build API Docs with Examples'
+        required: true
+        default: true
+        type: boolean
 
 jobs:
 
-  coverage:
-    name: Deploy Coverage Results
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Conda with Python 3.9
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          auto-update-conda: true
-          python-version: 3.9
-          auto-activate-base: false
-
-      - name: Install Package Dependencies
-        shell: bash -l {0}
-        run: |
-          python --version
-          python -m pip install --upgrade pip
-          python -m pip install nose nose-exclude coverage pycodestyle
-
-      - name: Run Tests
-        shell: bash -l {0}
-        run: |
-          python setup.py nosetests
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage.xml
-          flags: unittests
-
   api:
-    name: Deploy API Documentation
-    needs: coverage
+    name: Check API Documentation
     runs-on: ubuntu-latest
-    if: success()
 
     env:
       gh_root: https://github.com/CEA-COSMIC/
@@ -112,8 +84,10 @@ jobs:
         shell: bash -l {0}
         run: sphinx-build -E docs/source docs/_build
 
-      - name: Deploy API documentation
-        uses: peaceiris/actions-gh-pages@v3.5.9
+      - name: Archive API build
+        uses: actions/upload-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/_build
+          name: api-docs
+          retention-days: 14
+          path: |
+            docs/_build

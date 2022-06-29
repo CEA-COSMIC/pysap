@@ -64,7 +64,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        data: ndarray
+        data: numpy.ndarray
             the input data.
         nb_scale: int
             the number of scale of the decomposition that includes the
@@ -123,7 +123,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Returns
         -------
-        coeffs: ndarray or list of ndarray
+        coeffs: numpy.ndarray or list
             the analysis coefficients.
         """
         # Convert given index to generic scale/band index
@@ -168,7 +168,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         ----------
         given: tuple
             the scale and band indices.
-        array: ndarray
+        array: numpy.ndarray
             the specific scale/band data as an array.
         """
         # Check that we have a valid given index
@@ -215,7 +215,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        data: nd-array or pysap.Image
+        data: numpy.ndarray or pysap.Image
             input data/signal.
         """
         if self.verbose > 0 and self._data is not None:
@@ -247,7 +247,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Returns
         -------
-        data: nd-array
+        data: numpy.ndarray
             input data/signal.
         """
         return self._data
@@ -257,7 +257,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        analysis_data: lsit of nd-array
+        analysis_data: list
             decomposition coefficients array.
         """
         if self.verbose > 0 and self._analysis_data is not None:
@@ -273,7 +273,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Returns
         -------
-        analysis_data: nd-array
+        analysis_data: numpy.ndarray
             decomposition coefficients array.
         """
         return self._analysis_data
@@ -323,10 +323,10 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
+        bands_lengths: numpy.ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
             array holding the length between two bands of the data
             vector per scale.
-        ratio: ndarray, default None
+        ratio: numpy.ndarray, default None
             a array containing ratios for eeach scale and each band.
 
         Returns
@@ -490,7 +490,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             index of the scale.
         band: int
             index of the band.
-        analysis_data: nd-array (N, )
+        analysis_data: numpy.ndarray (N, )
             the analysis buffer.
 
         Returns
@@ -521,9 +521,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             index of the scale.
         band: int
             index of the band.
-        analysis_data: nd-array (N, )
+        analysis_data: numpy.ndarray (N, )
             the analysis buffer.
-        band_data: nd-array (M, M)
+        band_data: numpy.ndarray (M, M)
             the band data to be added in the analysis buffer.
 
         Returns
@@ -563,9 +563,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
         is_decimated: bool
             True if the decomposition include a decimation of the
             band number of coefficients.
-        nb_band_per_scale: ndarray (<nb_scale>, )
+        nb_band_per_scale: numpy.ndarray (<nb_scale>, )
             vector of int holding the number of band per scale.
-        bands_lengths: ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
+        bands_lengths: numpy.ndarray (<nb_scale>, max(<nb_band_per_scale>, 0))
             array holding the length between two bands of the data
             vector per scale.
         bands_shapes: list of list of 2-uplet (<nb_scale>, <nb_band_per_scale>)
@@ -581,9 +581,9 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Attributes
         ----------
-        scales_lengths: ndarray (<nb_scale>, )
+        scales_lengths: numpy.ndarray (<nb_scale>, )
             the length of each band.
-        scales_padds: ndarray (<nb_scale> + 1, )
+        scales_padds: numpy.ndarray (<nb_scale> + 1, )
             the index of the data associated to each scale.
         """
         if self.bands_lengths is None:
@@ -598,7 +598,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        data: nd-array
+        data: numpy.ndarray
             a real array to be decomposed.
         kwargs: dict (optional)
             the parameters that will be passed to
@@ -606,7 +606,7 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Returns
         -------
-        analysis_data: nd_array
+        analysis_data: numpy.ndarray
             the decomposition coefficients.
         analysis_header: dict
             the decomposition associated information.
@@ -619,14 +619,14 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
 
         Parameters
         ----------
-        analysis_data: list of nd-array
+        analysis_data: list of numpy.ndarray
             the wavelet coefficients array.
         analysis_header: dict
             the wavelet decomposition parameters.
 
         Returns
         -------
-        data: nd-array
+        data: numpy.ndarray
             the reconstructed data array.
         """
         raise NotImplementedError("Abstract method should not be declared "

@@ -100,12 +100,12 @@ def flatten(x):
 
     Parameters
     ----------
-    x: list of ndarray or ndarray
+    x: list or numpy.ndarray
         the input dataset.
 
     Returns
     -------
-    y: ndarray 1D
+    y: numpy.ndarray 1D
         the flatten input list of array.
     shape: list of uplet
         the input list of array structure.
@@ -131,14 +131,14 @@ def unflatten(y, shape):
 
     Parameters
     ----------
-    y: ndarray 1D
+    y: numpy.ndarray 1D
         a flattened input array.
     shape: list of uplet
         the output structure information.
 
     Returns
     -------
-    x: list of ndarray
+    x: list
         the unflattened dataset.
     """
     # Unflatten the dataset
