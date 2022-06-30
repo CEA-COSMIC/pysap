@@ -57,17 +57,17 @@ PySAP
 
   .. centered:: |pysap-astro-image| |blank-space| |pysap-etomo-image| |blank-space| |pysap-mri-image|
 
-.. |pysap-astro-image| image:: ../images/pysap-astro.jpg
+.. |pysap-astro-image| image:: ../images/banner-astro.jpg
   :width: 30%
   :alt: PySAP-Astro
   :target: astro.html
 
-.. |pysap-etomo-image| image:: ../images/pysap-etomo.jpg
+.. |pysap-etomo-image| image:: ../images/banner-etomo.jpg
   :width: 30%
   :alt: PySAP-ETomo
   :target: etomo.html
 
-.. |pysap-mri-image| image:: ../images/pysap-mri.jpg
+.. |pysap-mri-image| image:: ../images/banner-mri.jpg
   :width: 30%
   :alt: PySAP-MRI
   :target: mri.html
