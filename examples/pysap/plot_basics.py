@@ -67,11 +67,11 @@ print(image.data.dtype)
 # image.show()  ## uncomment to visualise this object
 
 # %%
-# Decompose/recompose an image using a fast ISAP/C++ based transform
+# Decompose/recompose an image using a fast Sparse2D based transform
 # ------------------------------------------------------------------
 #
 # PySAP includes Python bindings for the Sparse2D C++ library of wavelet
-# transforms developped at the COSMOSTAT lab. PySAP also uses the
+# transforms developped at the CosmoStat lab. PySAP also uses the
 # PyWavelet package. The code is optimsed and provides access to many
 # image decompsition strategies.
 #

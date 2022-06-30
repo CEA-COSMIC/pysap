@@ -35,11 +35,18 @@ Structure
 
 PySAP is comprised of several core modules, namely:
 
+
+.. figure:: https://cea-cosmic.github.io/ModOpt/_images/modopt_logo.png
+  :figclass: margin
+  :width: 60%
+  :alt: ModOpt
+  :target: https://cea-cosmic.github.io/ModOpt
+
 - |link-to-sparse2d|: a collection of sparse image transforms written in C++
 - |link-to-modopt|: a library of modular optimisation algorithms
 - Application-specific plug-ins
 
-PySAP provides python bindings to the C++ libraries, shared tools and a common
+PySAP provides Python bindings to the C++ libraries, shared tools and a common
 interface for all of the plug-ins.
 
 Plug-ins

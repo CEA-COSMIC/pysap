@@ -9,7 +9,7 @@ Quickstart Tutorial
 Basics
 ------
 
-You can import the PySAP package as follows:
+You can import the PySAP package as follows.
 
 .. code-block:: python
 

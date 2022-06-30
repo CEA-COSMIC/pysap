@@ -19,7 +19,7 @@ project = 'pysap'
 mdata = metadata(f'python-{project}')
 author = mdata['Author']
 version = mdata['Version']
-copyright = '20202, {}'.format(author)
+copyright = f'2022, {author}'
 gh_user = 'CEA-COSMIC'
 
 # If your documentation needs a minimal Sphinx version, state it here.

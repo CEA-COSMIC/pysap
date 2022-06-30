@@ -5,7 +5,8 @@ Installation
 
   The installation of PySAP has been extensively tested on Ubuntu and macOS,
   however we cannot guarantee it will work on every operating system. A Docker
-  image is available (see below) for those unable to install PySAP directly.
+  image is available (`see below <#docker-image>`_) for those unable to install
+  PySAP directly.
 
   If you encounter any installation issues be sure to go through the following
   steps before opening a new issue:
@@ -14,12 +15,12 @@ Installation
      correctly installed.
   2. Read through all of the documentation provided, including the
      troubleshooting suggestions.
-  3. Check if your problem has already been addressed in a previous issue.
+  3. Check if your problem has already been addressed in a previous |link-to-issues|.
 
 Basic installation
 ------------------
 
-You can install the latest release of PySAP from |link-to-pypi| as follows:
+You can install the latest release of PySAP from |link-to-pypi| as follows.
 
 .. tip::
   :class: margin
@@ -38,17 +39,17 @@ Developers
 ----------
 
 Developers are recommend to clone the repository and build the package locally.
-To build PySAP locally run:
+To build PySAP locally run the following.
 
 .. code-block:: bash
 
   pip install .
 
-or:
+Alternatively, you can also run the following.
 
 .. code-block:: bash
 
-  python install install
+  python setup.py install
 
 Custom installation
 -------------------
@@ -57,15 +58,15 @@ Custom installation
   :class: margin
 
   These options can also be invoked when installing with pip using the
-  ``--install-option="<OPTION>"`` option. e.g.:
+  ``--install-option="<OPTION>"`` option. For example,
 
   .. code-block:: bash
 
     pip install . --install-option="--noplugins"
 
-  However, this will disable the use of wheels and make take significantly
+  However, this will disable the use of wheels and may take significantly
   longer to build all of the dependencies. Therefore, when installing PySAP
-  this way it is recommended to pre-install all the required dependencies or
+  this way, it is recommended to pre-install all the required dependencies or
   use the Conda environment provided.
 
 The following options can be passed when running ``python setup.py install``:
@@ -96,13 +97,14 @@ Conda environment
 
 A a |link-to-conda| ``environment.yml`` file is provided to facilitate the
 installation of the required PySAP dependencies along with some optional
-dependencies that provide additional features. To build the environment run:
+dependencies that provide additional features. To build the environment run the
+following.
 
 .. code-block:: bash
 
   conda env create -f environment.yml
 
-Then to activate the environment run:
+Then to activate the environment run the following.
 
 .. code-block:: bash
 
@@ -119,15 +121,16 @@ Finally, install PySAP following the instructions above.
 Docker image
 ------------
 
-A PySAP |link-to-docker| image is available via DockerHub that includes the
-latest stable version of PySAP pre-installed. To install the image run:
+A PySAP |link-to-docker| image is available via |link-to-dockerhub| that
+includes the latest stable version of PySAP pre-installed. To install the image
+run the following.
 
 .. code-block:: bash
 
   docker pull ceacosmic/pysap
 
 A Jupyter notebook can be launched using the Docker image as a backend and with
-access to the users current working directory as follows:
+access to the user's current working directory as follows.
 
 .. code-block:: bash
 
@@ -175,8 +178,8 @@ have been installed.
 
     xcode-select --install
 
-The easiest way to install CMake and add OpenMP support Clang on macOS is to
-install the following packages using |link-to-homebrew|:
+The easiest way to install CMake and add OpenMP support for Clang on macOS is
+to install the following packages using |link-to-homebrew|.
 
 .. code:: bash
 
@@ -202,6 +205,9 @@ Windows
 PySAP is not actively supported or developed on Windows, however some tips are
 provided in |link-to-windows|.
 
+.. |link-to-issues| raw:: html
+
+  <a href="https://github.com/CEA-COSMIC/pysap/issues" target="_blank">issue</a>
 
 .. |link-to-pypi| raw:: html
 
@@ -219,6 +225,10 @@ provided in |link-to-windows|.
 .. |link-to-docker| raw:: html
 
   <a href="https://www.docker.com/" target="_blank">Docker</a>
+
+.. |link-to-dockerhub| raw:: html
+
+  <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>
 
 .. |link-to-homebrew| raw:: html
 
