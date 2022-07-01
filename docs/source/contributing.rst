@@ -1,7 +1,7 @@
 Contributing
 ============
 
-PySAP is fully open-source and as such we welcome external contributions.
+PySAP is fully open source and as such we welcome external contributions.
 Please read our |link-to-contrib| for details on how to contribute to the
 development of this package.
 

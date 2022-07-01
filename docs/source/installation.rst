@@ -228,7 +228,8 @@ provided in |link-to-windows|.
 
 .. |link-to-dockerhub| raw:: html
 
-  <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>
+  <a href="https://hub.docker.com/repository/docker/ceacosmic/pysap"
+  target="_blank">Docker Hub</a>
 
 .. |link-to-homebrew| raw:: html
 
