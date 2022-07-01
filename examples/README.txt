@@ -12,9 +12,11 @@ PySAP Examples
 Here we provide examples of how to run PySAP for various different
 applications.
 
-It is recommended that you read through the
-`installation <../installation.html>`_ instructions and the
-`quickstart <../quickstart.html>`_ tutorial before running these examples.
+.. seealso::
+
+  It is recommended that you read through the
+  `installation <../installation.html>`_ instructions and the
+  `quickstart <../quickstart.html>`_ tutorial before running these examples.
 
 .. |link-to-jupyter| raw:: html
 

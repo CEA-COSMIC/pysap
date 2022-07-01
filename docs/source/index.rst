@@ -76,7 +76,7 @@ PySAP
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-.. note::
+.. seealso::
   :class: full-width
 
   See our gallery of `examples <auto_examples/index.html>`_ for specific

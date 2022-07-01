@@ -1,7 +1,7 @@
 Quickstart Tutorial
 ===================
 
-.. note::
+.. seealso::
 
   See our gallery of `examples <auto_examples/index.html>`_ for specific
   applications of PySAP.
