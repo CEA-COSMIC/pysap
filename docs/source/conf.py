@@ -183,4 +183,5 @@ intersphinx_mapping = {
 # -- BibTeX Setting  ----------------------------------------------
 
 bibtex_bibfiles = ['refs.bib', 'my_ref.bib']
-bibtex_default_style = 'alpha'
+bibtex_default_style = 'plain'
+bibtex_reference_style = 'author_year'

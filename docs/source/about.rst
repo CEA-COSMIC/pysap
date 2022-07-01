@@ -19,7 +19,7 @@ as part of |link-to-cosmic|, a multi-disciplinary collaboration between
 experts in astrophysical image processing. The package was designed to provide
 state-of-the-art signal processing tools for a variety of imaging domains such
 as astronomy, electron tomography and magnetic resonance imaging (MRI). The
-first release of PySAP was presented in :cite:`farrens:2020`.
+first release of PySAP was presented in :cite:t:`farrens:2020`.
 
 Structure
 ---------
