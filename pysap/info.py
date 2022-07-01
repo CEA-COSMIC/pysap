@@ -55,13 +55,8 @@ URL = 'https://github.com/CEA-COSMIC/pysap'
 DOWNLOAD_URL = 'https://github.com/CEA-COSMIC/pysap'
 LICENSE = 'CeCILL-B'
 CLASSIFIERS = CLASSIFIERS
-AUTHOR = """
-Antoine Grigis <antoine.grigis@cea.fr>
-Samuel Farrens <samuel.farrens@cea.fr>
-Jean-Luc Starck <jl.stark@cea.fr>
-Philippe Ciuciu <philippe.ciuciu@cea.fr>
-"""
-AUTHOR_EMAIL = 'antoine.grigis@cea.fr'
+AUTHOR = 'The PySAP Team'
+AUTHOR_EMAIL = 'samuel.farrens@cea.fr'
 PLATFORMS = 'Linux,OSX'
 ISRELEASE = True
 VERSION = __version__

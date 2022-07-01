@@ -7,7 +7,6 @@
 
   about
   installation
-  macos_install
   dependencies
   quickstart
 
@@ -35,6 +34,7 @@
   :caption: Related Projects
 
   ModOpt <https://cea-cosmic.github.io/ModOpt/>
+  Sparse2D <https://github.com/CosmoStat/Sparse2D>
 
 .. toctree::
   :hidden:
