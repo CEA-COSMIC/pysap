@@ -117,6 +117,7 @@ html_theme_options = {
     'home_page_in_toc': True,
     'logo_only': True,
     'home_page_in_toc': False,
+    'extra_navbar': "<p></p>",
 }
 html_collapsible_definitions = True
 html_awesome_headerlinks = True
