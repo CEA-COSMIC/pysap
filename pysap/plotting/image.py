@@ -9,8 +9,15 @@
 
 # System import
 import numpy
-from pyqtgraph.Qt import QtGui
-import pyqtgraph
+
+try:
+    import pyqtgraph
+    from pyqtgraph.Qt import QtGui
+except ImportError:  # pragma: no cover
+    pyqt_found = False
+else:
+    pyqt_found = True
+
 
 
 def plot_data(data, scroll_axis=2):
@@ -23,7 +30,19 @@ def plot_data(data, scroll_axis=2):
         the data to be displayed.
     scroll_axis: int (optional, default 2)
         the scroll axis for 3d data.
+
+    Notes
+    -----
+    This function is deprecated and will be removed in a future release.
+
     """
+    if not pyqt_found:
+        raise ImportError(
+            'To use this deprecated function you will need to install '
+            + 'pyqtgraph manually. Note that the current implementation '
+            + 'is not compatible with PyQT v6.'
+        )
+
     # Check input parameters
     if data.ndim not in range(1, 4):
         raise ValueError("Unsupported data dimension.")

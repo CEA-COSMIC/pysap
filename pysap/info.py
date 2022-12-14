@@ -72,7 +72,6 @@ REQUIRES = [
     'matplotlib>=3.3.4',
     'astropy>=4.1',
     'nibabel>=3.2.1',
-    'pyqtgraph>=0.11.1',
     'progressbar2>=3.53.1',
     'modopt>=1.5.1',
     'scikit-learn>=0.24.1',
@@ -81,11 +80,4 @@ REQUIRES = [
 ]
 PREINSTALL_REQUIRES = [
     'pybind11==2.6.2',
-    'pyqt5==5.15.4',
 ]
-EXTRA_REQUIRES = {
-    'gui': {
-        'PySide>=1.2.2',
-        # 'python-pypipe>=0.0.1'
-    }
-}

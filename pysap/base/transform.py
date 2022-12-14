@@ -15,7 +15,7 @@ Wavelet transform base module.
 from pprint import pprint
 import uuid
 import os
-import warnings
+from warnings import warn
 
 # Package import
 import pysap
@@ -352,6 +352,13 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
     def show(self):
         """ Display the different bands at the different decomposition scales.
         """
+        warn(
+            'The show method has been deprecated and will be removed in a '
+            + 'future release. In the future Please use the Transform.data '
+            + 'and/or Transform.analysis_data attributes and your plotting '
+            + 'package of choice.',
+            FutureWarning
+        )
         plot_transform(self)
 
     def analysis(self, **kwargs):

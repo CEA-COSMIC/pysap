@@ -9,6 +9,7 @@
 
 # System import
 import numpy
+from warnings import warn
 
 # Package import
 from .observable import Observable
@@ -88,6 +89,12 @@ class Image(Observable):
     def show(self):
         """ Display the image data.
         """
+        warn(
+            'The show method has been deprecated and will be removed in a '
+            + 'future release. In the future Please use the Image.data '
+            + 'attribute and your plotting package of choice.',
+            FutureWarning
+        )
         plot_data(self.data, scroll_axis=self._scroll_axis)
 
     def modified(self):
