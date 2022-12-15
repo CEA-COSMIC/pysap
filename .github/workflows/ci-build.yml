@@ -40,7 +40,8 @@ jobs:
         shell: bash -l {0}
         if: runner.os == 'macOS'
         run: |
-          brew install libomp
+          brew tap sfarrens/sf
+          brew install bigmac libomp
 
       - name: Install Package Dependencies
         shell: bash -l {0}
