@@ -56,7 +56,9 @@ jobs:
       - name: Install PySAP
         run: |
           python -m pip install .
+          python -c "import pysparse"
           python -c "import pysap; print(pysap.info())"
+          pip show python-pysap | xargs ls
 
       - name: Run Tests
         run: |
@@ -132,8 +134,10 @@ jobs:
 
       - name: Install PySAP
         run: |
-          python setup.py install
+          python -m pip install .
+          python -c "import pysparse"
           python -c "import pysap; print(pysap.info())"
+          pip show python-pysap | xargs ls
 
       - name: Run Tests
         run: |
