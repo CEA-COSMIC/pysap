@@ -132,7 +132,7 @@ jobs:
 
       - name: Install PySAP
         run: |
-          python -m pip install .
+          python setup.py install
           python -c "import pysap; print(pysap.info())"
 
       - name: Run Tests
