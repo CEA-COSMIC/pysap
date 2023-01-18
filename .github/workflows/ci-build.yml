@@ -50,26 +50,27 @@ jobs:
         run: |
           python --version
           python -m pip install --upgrade pip
-          python -m pip install nose nose-exclude coverage pycodestyle
+          python -m pip install -r develop.txt
           python -m pip install twine
+
+      - name: Install PySAP
+        run: |
+          python -m pip install .
 
       - name: Run Tests
         run: |
-          python setup.py nosetests
-          pycodestyle pysap --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E722,E741,W503,W504,W605"
-          pycodestyle examples --ignore="E121,E123,E126,E226,E24,E704,E402,E731,E741,W503,W504,W605"
+          python -m pytest
 
       - name: Save Test Results
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-results-${{ matrix.os }}-${{ matrix.python-version }}
-          path: nosetests.xml
+          path: pytest.xml
 
       - name: Run Examples
         continue-on-error: true
         run: |
-          python -m pip install .
           python pysap/test/test_examples.py
 
       - name: Check Distribution
@@ -120,8 +121,12 @@ jobs:
         run: |
           python --version
           python -m pip install --upgrade pip
-          python -m pip install nose nose-exclude coverage pycodestyle
+          python -m pip install -r develop.txt
+
+      - name: Install PySAP
+        run: |
+          python -m pip install .
 
       - name: Run Tests
         run: |
-          python setup.py nosetests
+          python -m pytest
