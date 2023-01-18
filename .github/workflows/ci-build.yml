@@ -61,7 +61,6 @@ jobs:
         run: |
           python -c "import pysparse"
           python -c "import pysap; print(pysap.info())"
-          pip show python-pysap | xargs ls
 
       - name: Run Tests
         run: |
@@ -129,6 +128,11 @@ jobs:
           brew tap sfarrens/sf
           brew install bigmac libomp
 
+      - name: Set Linux Environment Variables
+        if: runner.os == 'Linux'
+        run: |
+          echo "LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
       - name: Install Package Dependencies
         run: |
           python --version
@@ -143,7 +147,6 @@ jobs:
         run: |
           python -c "import pysparse"
           python -c "import pysap; print(pysap.info())"
-          pip show python-pysap | xargs ls
 
       - name: Run Tests
         run: |
