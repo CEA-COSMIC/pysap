@@ -33,7 +33,7 @@ class PluginsMetaImportHook(object):
         package/module-finding code kicks in.
         """
         # Use this loader only on registered modules
-        match = re.match("pysap\.plugins\.(.*)", name)
+        match = re.match(r"pysap\.plugins\.(.*)", name)
         if match is None:
             return None
         name = match.groups()[0]

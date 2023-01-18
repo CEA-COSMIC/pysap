@@ -19,7 +19,6 @@ else:
     pyqt_found = True
 
 
-
 def plot_data(data, scroll_axis=2):
     """ Plot an image associated data.
     Currently support on 1D, 2D or 3D data.
