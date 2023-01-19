@@ -37,7 +37,7 @@ def plot_transform(transform, scales=None, multiview=False):
     This function is deprecated and will be removed in a future release.
 
     """
-    if not pyqt_found:
+    if not PYQT_FOUND:
         raise ImportError(
             'To use this deprecated function you will need to install '
             + 'pyqtgraph manually. Note that the current implementation '
