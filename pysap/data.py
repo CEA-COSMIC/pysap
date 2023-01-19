@@ -42,7 +42,7 @@ SAMPLE_DATE_FILES = {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "orange_phantom_3d_pmri_images.npy"),
         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
-        "dtype": numpy.complex
+        "dtype": numpy.complex_
     },
     "2d-pmri": {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
@@ -300,9 +300,10 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
     # Test if the dataset has been released
     try:
         urlopen(url)
-    except:
+    except Exception as exc:
         raise ValueError(
-            "The '{0}' dataset has not been released yet.".format(url))
+            "The '{0}' dataset has not been released yet.".format(url)
+        ) from exc
 
     # Start downloading dataset
     local_file = None

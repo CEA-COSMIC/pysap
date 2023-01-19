@@ -50,7 +50,7 @@ def _check_python_versions():
             mod_name = "pywt"
         try:
             mod_install_version = importlib.import_module(mod_name).__version__
-        except:
+        except ImportError:
             mod_install_version = "?"
         versions[mod_name] = (operator + mod_min_version, mod_install_version)
     return versions
