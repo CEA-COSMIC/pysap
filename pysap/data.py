@@ -300,9 +300,10 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
     # Test if the dataset has been released
     try:
         urlopen(url)
-    except Exception:
+    except Exception as exc:
         raise ValueError(
-            "The '{0}' dataset has not been released yet.".format(url))
+            "The '{0}' dataset has not been released yet.".format(url)
+        ) from exc
 
     # Start downloading dataset
     local_file = None

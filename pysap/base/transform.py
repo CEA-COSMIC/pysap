@@ -356,7 +356,8 @@ class WaveletTransformBase(with_metaclass(MetaRegister)):
             'The show method has been deprecated and will be removed in a '
             + 'future release. In the future Please use the Transform.data '
             + 'and/or Transform.analysis_data attributes and your plotting '
-            + 'package of choice.',
+            + 'package of choice. To use this deprecated function you will '
+            + 'need to install pyqtgraph manually.',
             FutureWarning
         )
         plot_transform(self)

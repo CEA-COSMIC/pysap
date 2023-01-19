@@ -18,27 +18,17 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.10"]
 
-    defaults:
-      run:
-        shell: bash -el {0}
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Conda with Python ${{ matrix.python-version }}
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
-          auto-activate-base: false
-          activate-environment: pysap
 
-      - name: Check Conda
-        run: |
-          conda info
-          conda list
-          python --version
+      - name: Check Python Version
+        run: python --version
 
       - name: Install macOS Dependencies
         if: runner.os == 'macOS'
@@ -48,14 +38,12 @@ jobs:
 
       - name: Install Package Dependencies
         run: |
-          python --version
           python -m pip install --upgrade pip
           python -m pip install -r develop.txt
           python -m pip install twine
 
       - name: Install PySAP
-        run: |
-          python -m pip install .
+        run: python -m pip install .
 
       - name: Check PySAP Installation
         run: |
@@ -63,8 +51,7 @@ jobs:
           python -c "import pysap; print(pysap.info())"
 
       - name: Run Tests
-        run: |
-          python -m pytest
+        run: python -m pytest
 
       - name: Save Test Results
         if: always()
@@ -75,8 +62,7 @@ jobs:
 
       - name: Run Examples
         continue-on-error: true
-        run: |
-          python pysap/test/test_examples.py
+        run: python pysap/test/test_examples.py
 
       - name: Check Distribution
         run: |
@@ -100,38 +86,23 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.7", "3.8", "3.9"]
 
-    defaults:
-      run:
-        shell: bash -el {0}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Conda with Python ${{ matrix.python-version }}
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
-          auto-activate-base: false
-          activate-environment: pysap
 
-      - name: Check Conda
-        run: |
-          conda info
-          conda list
-          python --version
+      - name: Check Python Version
+        run: python --version
 
       - name: Install macOS Dependencies
         if: runner.os == 'macOS'
         run: |
           brew tap sfarrens/sf
           brew install bigmac libomp
-
-      - name: Set Linux Environment Variables
-        if: runner.os == 'Linux'
-        run: |
-          echo "LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
       - name: Install Package Dependencies
         run: |
@@ -140,8 +111,7 @@ jobs:
           python -m pip install -r develop.txt
 
       - name: Install PySAP
-        run: |
-          python -m pip install .
+        run: python -m pip install .
 
       - name: Check PySAP Installation
         run: |
@@ -149,5 +119,4 @@ jobs:
           python -c "import pysap; print(pysap.info())"
 
       - name: Run Tests
-        run: |
-          python -m pytest
+        run: python -m pytest

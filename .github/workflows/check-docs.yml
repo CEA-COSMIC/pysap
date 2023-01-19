@@ -29,23 +29,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Conda with Python 3.9
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          auto-update-conda: true
-          python-version: 3.9
-          auto-activate-base: false
+          python-version: ${{ matrix.python-version }}
+
+      - name: Check Python Version
+        run: python --version
 
       - name: Install dependencies
-        shell: bash -l {0}
         run: |
-          conda install -c conda-forge pandoc
           python -m pip install --upgrade pip
+          python -m pip install pandoc
           python -m pip install -r docs/requirements.txt
           python -m pip install .
 
       - name: Download plug-ins
-        shell: bash -l {0}
         if: ${{ inputs.build_plugins }}
         run: |
           while read _plugin; do
@@ -57,7 +56,6 @@ jobs:
           rm *.tar.gz
 
       - name: Extract plug-in examples
-        shell: bash -l {0}
         if: ${{ inputs.build_examples }}
         run: |
           while read _plugin; do
@@ -67,11 +65,9 @@ jobs:
           done < plugins.txt
 
       - name: Build PySAP source files
-        shell: bash -l {0}
         run: sphinx-apidoc ${sphinx_opts} pysap
 
       - name: Build plug-in source files
-        shell: bash -l {0}
         if: ${{ inputs.build_plugins }}
         run: |
           while read _plugin; do
@@ -81,7 +77,6 @@ jobs:
           done < plugins.txt
 
       - name: Build API documentation
-        shell: bash -l {0}
         run: sphinx-build -E docs/source docs/_build
 
       - name: Archive API build
@@ -89,5 +84,4 @@ jobs:
         with:
           name: api-docs
           retention-days: 14
-          path: |
-            docs/_build
+          path: docs/_build

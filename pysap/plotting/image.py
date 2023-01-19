@@ -14,9 +14,9 @@ try:
     import pyqtgraph
     from pyqtgraph.Qt import QtGui
 except ImportError:  # pragma: no cover
-    pyqt_found = False
+    PYQT_FOUND = False
 else:
-    pyqt_found = True
+    PYQT_FOUND = True
 
 
 def plot_data(data, scroll_axis=2):
@@ -35,7 +35,7 @@ def plot_data(data, scroll_axis=2):
     This function is deprecated and will be removed in a future release.
 
     """
-    if not pyqt_found:
+    if not PYQT_FOUND:
         raise ImportError(
             'To use this deprecated function you will need to install '
             + 'pyqtgraph manually. Note that the current implementation '

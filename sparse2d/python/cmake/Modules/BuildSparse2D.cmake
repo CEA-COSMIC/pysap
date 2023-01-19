@@ -10,7 +10,7 @@ ExternalProject_Add(sparse2d
     PREFIX sparse2d
     GIT_REPOSITORY https://github.com/CosmoStat/Sparse2D.git
     # GIT_TAG v${sparse2dVersion}
-    GIT_TAG pysap_build
+    GIT_TAG master
     CONFIGURE_COMMAND cmake ../sparse2d
         -DCMAKE_INSTALL_PREFIX=${SPARSE2D_INSTALL_DIR}/..
         -DCMAKE_BUILD_TYPE=RELEASE

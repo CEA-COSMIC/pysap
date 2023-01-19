@@ -12,7 +12,8 @@ import os
 import numpy
 import sys
 import time
-from unittest import TestCase, skip
+import pytest
+from unittest import TestCase
 
 
 # Package import
@@ -160,7 +161,7 @@ class TestWarpAndBinding(TestCase):
         flt = sp.Filter()
         data = numpy.copy(self.images[0])
         flt.filter(data)
-        assert (flt.data is not None)
+        assert flt.data is not None
 
     def test_filter_default(self):
         # filter with binding
@@ -274,7 +275,7 @@ class TestWarpAndBinding(TestCase):
         data = self.deconv_images[0].data
         psf = self.deconv_images[1].data
         deconv.deconvolve(data, psf)
-        assert (deconv.data is not None)
+        assert deconv.data is not None
 
     def test_deconv_default(self):
         deconv = sp.Deconvolve()
@@ -339,7 +340,10 @@ class TestWarpAndBinding(TestCase):
             diff = deconv.data.data - image
             self.assertFalse(diff.all())
 
-    @skip("Raises segmentation fault, issue open to resolve.")
+    @pytest.mark.xfail(
+        run=False,
+        reason="Raises segmentation fault, Sparse2D issue open to resolve."
+    )
     def test_deconv_u3_d5_n2_p_g5(self):
         deconv = sp.Deconvolve(number_of_undecimated_scales=3,
                                type_of_deconvolution=5,
@@ -425,9 +429,9 @@ class TestWarpAndBinding(TestCase):
 
         mr = sp.MR2D1D()
         mr.transform(data)
-        assert (mr.cube is not None)
+        assert mr.cube is not None
 
-    @skip("Test fails, issue open to resolve.")
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_output_val(self):
         data = self.mr_image.data
 
@@ -449,7 +453,7 @@ class TestWarpAndBinding(TestCase):
             err_msg='Incorrect mr2d1d output.',
         )
 
-    @skip("Test fails, issue open to resolve.")
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_normalized(self):
         data = self.mr_image.data
 
@@ -471,7 +475,7 @@ class TestWarpAndBinding(TestCase):
             err_msg='Incorrect mr2d1d normalized.',
         )
 
-    @skip("Test fails, issue open to resolve.")
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_scales(self):
         data = self.mr_image.data
 

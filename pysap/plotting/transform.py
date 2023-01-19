@@ -15,9 +15,9 @@ try:
     import pyqtgraph
     from pyqtgraph.Qt import QtGui
 except ImportError:  # pragma: no cover
-    pyqt_found = False
+    PYQT_FOUND = False
 else:
-    pyqt_found = True
+    PYQT_FOUND = True
 
 
 def plot_transform(transform, scales=None, multiview=False):
