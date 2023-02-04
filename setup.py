@@ -150,9 +150,6 @@ class CMakeBuild(build_ext):
     def run(self):
         """Redefine the run method."""
 
-        # Preinstall packages
-        pipinstall(release_info['PREINSTALL_REQUIRES'])
-
         # Check that an appropriate version of cmake is installed.
         try:
             out = subprocess.check_output(['cmake', '--version'])

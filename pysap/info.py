@@ -78,6 +78,3 @@ REQUIRES = [
     'scikit-image>=0.17.2',
     'PyWavelets>=1.1.1',
 ]
-PREINSTALL_REQUIRES = [
-    'pybind11==2.6.2',
-]
