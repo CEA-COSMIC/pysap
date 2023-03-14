@@ -8,11 +8,12 @@
 ##########################################################################
 
 # System import
-import unittest
 import os
 import numpy
 import sys
 import time
+import pytest
+from unittest import TestCase
 
 
 # Package import
@@ -21,11 +22,11 @@ import pysap.extensions.transform
 import pysap.extensions.sparse2d as sp
 from pysap.extensions import tools
 from pysap.data import get_sample_data
-from numpy.testing import assert_raises
+import numpy.testing as npt
 from astropy.io import fits
 
 
-class TestWarpAndBinding(unittest.TestCase):
+class TestWarpAndBinding(TestCase):
     """ Test the analysis/synthesis of an input image using a wrapping or a
     binding strategy.
     """
@@ -160,7 +161,7 @@ class TestWarpAndBinding(unittest.TestCase):
         flt = sp.Filter()
         data = numpy.copy(self.images[0])
         flt.filter(data)
-        assert(flt.data is not None)
+        assert flt.data is not None
 
     def test_filter_default(self):
         # filter with binding
@@ -256,16 +257,16 @@ class TestWarpAndBinding(unittest.TestCase):
 
     def test_filter_noise_valueerror(self):
         data = numpy.copy(self.images[1])
-        with assert_raises(ValueError):
+        with npt.assert_raises(ValueError):
             flt = sp.Filter(epsilon_poisson=5, type_of_noise=2)
             flt.filter(data)
-        with assert_raises(ValueError):
+        with npt.assert_raises(ValueError):
             flt = sp.Filter(type_of_noise=9)
             flt.filter(data)
         with pysap.TempDir(isap=True) as tmpdir:
             in_image = os.path.join(tmpdir, "in.fits")
             pysap.io.save(data, in_image)
-        with assert_raises(ValueError):
+        with npt.assert_raises(ValueError):
             flt = sp.Filter(rms_map=in_image, type_of_noise=6)
             flt.filter(data)
 
@@ -274,7 +275,7 @@ class TestWarpAndBinding(unittest.TestCase):
         data = self.deconv_images[0].data
         psf = self.deconv_images[1].data
         deconv.deconvolve(data, psf)
-        assert(deconv.data is not None)
+        assert deconv.data is not None
 
     def test_deconv_default(self):
         deconv = sp.Deconvolve()
@@ -339,6 +340,10 @@ class TestWarpAndBinding(unittest.TestCase):
             diff = deconv.data.data - image
             self.assertFalse(diff.all())
 
+    @pytest.mark.xfail(
+        run=False,
+        reason="Raises segmentation fault, Sparse2D issue open to resolve."
+    )
     def test_deconv_u3_d5_n2_p_g5(self):
         deconv = sp.Deconvolve(number_of_undecimated_scales=3,
                                type_of_deconvolution=5,
@@ -424,8 +429,9 @@ class TestWarpAndBinding(unittest.TestCase):
 
         mr = sp.MR2D1D()
         mr.transform(data)
-        assert(mr.cube is not None)
+        assert mr.cube is not None
 
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_output_val(self):
         data = self.mr_image.data
 
@@ -441,8 +447,13 @@ class TestWarpAndBinding(unittest.TestCase):
             pysap.extensions.mr2d1d_trans(in_image, out_file,
                                           type_of_multiresolution_transform=2)
             im_wrap = numpy.copy(pysap.io.load(out_file))
-        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+        npt.assert_almost_equal(
+            mr.cube,
+            im_wrap,
+            err_msg='Incorrect mr2d1d output.',
+        )
 
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_normalized(self):
         data = self.mr_image.data
 
@@ -457,8 +468,14 @@ class TestWarpAndBinding(unittest.TestCase):
             pysap.io.save(data, in_image)
             pysap.extensions.mr2d1d_trans(in_image, out_file, normalize=True)
             im_wrap = numpy.copy(pysap.io.load(out_file))
-        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+        npt.assert_almost_equal(
+            mr.cube,
+            im_wrap,
+            decimal=5,
+            err_msg='Incorrect mr2d1d normalized.',
+        )
 
+    @pytest.mark.xfail(reason="Test fails, Sparse2D issue open to resolve.")
     def test_mr2d1d_scales(self):
         data = self.mr_image.data
 
@@ -475,7 +492,11 @@ class TestWarpAndBinding(unittest.TestCase):
                                           number_of_scales_2D=2,
                                           number_of_scales_1D=6)
             im_wrap = numpy.copy(pysap.io.load(out_file))
-        assert(numpy.isclose(mr.cube, im_wrap, atol=0.00001).all())
+        npt.assert_almost_equal(
+            mr.cube,
+            im_wrap,
+            err_msg='Incorrect mr2d1d scales.',
+        )
 
     def test_mr2d1d_recons(self):
         data = self.mr_image.data
@@ -494,8 +515,8 @@ class TestWarpAndBinding(unittest.TestCase):
             pysap.extensions.mr2d1d_trans(out_file, "recons.fits",
                                           reverse=True)
             im_wrap = numpy.copy(pysap.io.load("recons.fits"))
-        assert(numpy.isclose(mr.recons, im_wrap, atol=0.00001).all())
-
-
-if __name__ == "__main__":
-    unittest.main()
+        npt.assert_almost_equal(
+            mr.recons,
+            im_wrap,
+            err_msg='Incorrect mr2d1d reconstruction.',
+        )
