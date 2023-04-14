@@ -32,7 +32,7 @@ from pysap.base.exceptions import Exception
 
 
 # Global parameters
-SAMPLE_DATE_FILES = {
+SAMPLE_DATA_FILES = {
     "dict-learn-dataset": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "training_database.npy"),
@@ -138,7 +138,7 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
     Parameters
     ----------
     dataset_name: str
-        which sample data you want, must be defined in the 'SAMPLE_DATE_FILES'
+        which sample data you want, must be defined in the 'SAMPLE_DATA_FILES'
         dictionary.
     verbose: int (optional, default 1)
         control the verbosity level.
@@ -149,11 +149,11 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
         the loaded dataset.
     """
     # First get the data url
-    dataset = copy.deepcopy(SAMPLE_DATE_FILES.get(dataset_name))
+    dataset = copy.deepcopy(SAMPLE_DATA_FILES.get(dataset_name))
     if dataset is None:
         raise Exception("No '{0}' sample data available - allowed sample data "
                         "are {1}.".format(dataset_name,
-                                          SAMPLE_DATE_FILES.keys()))
+                                          SAMPLE_DATA_FILES.keys()))
 
     # Get the resource on the web or on the local machine
     dataset["url"] = dataset["url"].format(**{"PYSAP": PACKAGEDIR})

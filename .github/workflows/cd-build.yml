@@ -88,8 +88,7 @@ jobs:
         run: |
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
-            package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
-            cp -r ${plugin_name}-*/examples examples/${package_name} || echo "Warning: no examples found for ${plugin_name}"
+            cp -r ${plugin_name}-*/examples examples/${plugin_name} || echo "Warning: no examples found for ${plugin_name}"
           done < plugins.txt
 
       - name: Build PySAP source files

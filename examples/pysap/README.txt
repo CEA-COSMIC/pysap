@@ -1,6 +1,7 @@
 .. _basic_examples:
 
-Basic Examples
+Basic examples
 --------------
 
-Introductory examples that teach how to use the PySAP structure.
+This section provides some introductory examples that demonstrate how use some
+of the core features of PySAP.
