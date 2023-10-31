@@ -12,11 +12,11 @@ dependencies:
   - pynufft>=2021.2.1
   - pip
   - pip:
-    - astropy>=4.1
+    - astropy>=5.1
     - joblib>=1.0.1
-    - modopt>=1.5.1
+    - modopt>=1.6.1
     - nibabel>=3.2.1
-    - numpy>=1.19.5
+    - numpy>=1.20
     - progressbar2>=3.53.1
     - PyWavelets>=1.1.1
     - scikit-image>=0.17.2
