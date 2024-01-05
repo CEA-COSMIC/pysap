@@ -83,7 +83,7 @@ jobs:
           for file in *.tar.gz; 
           do 
             tar xzf "$file";
-            pip install ${plugin_name}-*/${package_name}
+            pip install ${plugin_name}-*/.
           done
           rm *.tar.gz
 
