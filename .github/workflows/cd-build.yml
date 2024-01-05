@@ -74,7 +74,6 @@ jobs:
           python -m pip install .
 
       - name: Download plug-ins
-        if: ${{ inputs.build_plugins }}
         run: |
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -85,7 +84,6 @@ jobs:
           rm *.tar.gz
 
       - name: Extract plug-in examples
-        if: ${{ inputs.build_examples }}
         run: |
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
@@ -96,7 +94,6 @@ jobs:
         run: sphinx-apidoc ${sphinx_opts} pysap
 
       - name: Build plug-in source files
-        if: ${{ inputs.build_plugins }}
         run: |
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
