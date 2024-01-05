@@ -11,6 +11,7 @@ jobs:
   coverage:
     name: Deploy Coverage Results
     runs-on: ubuntu-latest
+    
 
     steps:
       - name: Checkout
@@ -19,7 +20,7 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.10
 
       - name: Check Python Version
         run: python --version
