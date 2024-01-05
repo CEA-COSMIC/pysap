@@ -32,7 +32,7 @@ from pysap.base.exceptions import Exception
 
 
 # Global parameters
-SAMPLE_DATE_FILES = {
+SAMPLE_DATA_FILES = {
     "dict-learn-dataset": {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "training_database.npy"),
@@ -42,7 +42,7 @@ SAMPLE_DATE_FILES = {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "orange_phantom_3d_pmri_images.npy"),
         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
-        "dtype": numpy.complex
+        "dtype": numpy.complex_
     },
     "2d-pmri": {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
@@ -118,6 +118,11 @@ SAMPLE_DATE_FILES = {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
                 "master/pysap-data/gen.mr"),
         "md5sum": None
+    },
+    "eels-gst-2d-etomo": {
+        "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"
+                "master/pysap-data/EELS_GST_4_5_ali.tif"),
+        "md5sum": None
     }
 }
 DATADIR = os.path.join(os.path.expanduser("~"), ".local", "share", "pysap")
@@ -133,7 +138,7 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
     Parameters
     ----------
     dataset_name: str
-        which sample data you want, must be defined in the 'SAMPLE_DATE_FILES'
+        which sample data you want, must be defined in the 'SAMPLE_DATA_FILES'
         dictionary.
     verbose: int (optional, default 1)
         control the verbosity level.
@@ -144,11 +149,11 @@ def get_sample_data(dataset_name, datadir=DATADIR, verbose=1):
         the loaded dataset.
     """
     # First get the data url
-    dataset = copy.deepcopy(SAMPLE_DATE_FILES.get(dataset_name))
+    dataset = copy.deepcopy(SAMPLE_DATA_FILES.get(dataset_name))
     if dataset is None:
         raise Exception("No '{0}' sample data available - allowed sample data "
                         "are {1}.".format(dataset_name,
-                                          SAMPLE_DATE_FILES.keys()))
+                                          SAMPLE_DATA_FILES.keys()))
 
     # Get the resource on the web or on the local machine
     dataset["url"] = dataset["url"].format(**{"PYSAP": PACKAGEDIR})
@@ -252,11 +257,14 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
 
     Returns
     -------
-    download_fname: str
+    str
         absolute path to the downloaded file.
 
-    Note: If, for any reason, the download procedure fails, all downloaded
+    Notes
+    -----
+    If, for any reason, the download procedure fails, all downloaded
     files are removed.
+
     """
     # Create the download directory if necessary
     if not os.path.exists(data_dir):
@@ -292,9 +300,10 @@ def download_file(url, data_dir, resume=True, overwrite=False, verbose=0):
     # Test if the dataset has been released
     try:
         urlopen(url)
-    except:
+    except Exception as exc:
         raise ValueError(
-            "The '{0}' dataset has not been released yet.".format(url))
+            "The '{0}' dataset has not been released yet.".format(url)
+        ) from exc
 
     # Start downloading dataset
     local_file = None

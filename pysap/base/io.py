@@ -17,10 +17,11 @@ from pysap.base.loaders import FITS
 from pysap.base.loaders import NIFTI
 from pysap.base.loaders import npBinary
 from pysap.base.loaders import MAT
+from pysap.base.loaders import TIF
 
 # Global parameters
 # > define all the available loaders
-LOADERS = [FITS, NIFTI, npBinary, MAT]
+LOADERS = [FITS, NIFTI, npBinary, MAT, TIF]
 
 
 def load(path, dtype=numpy.single, **kwargs):
@@ -54,7 +55,7 @@ def save(image, path, **kwargs):
 
     Parameters
     ----------
-    image: Image or ndarray
+    image: Image or numpy.ndarray
         the data to be saved.
     path: str
         the destination file.

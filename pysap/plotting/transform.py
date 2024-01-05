@@ -9,23 +9,41 @@
 
 # System import
 import matplotlib.pyplot as plt
-from pyqtgraph.Qt import QtGui
-import pyqtgraph
 import numpy
+
+try:
+    import pyqtgraph
+    from pyqtgraph.Qt import QtGui
+except ImportError:  # pragma: no cover
+    PYQT_FOUND = False
+else:
+    PYQT_FOUND = True
 
 
 def plot_transform(transform, scales=None, multiview=False):
-    """ Display the different bands on the requested scales.
+    """Display the different bands on the requested scales.
 
     Parameters
     ----------
-    transform: WaveletTransformBase derived instance
+    transform: WaveletTransformBase
         a wavelet decomposition.
-    scales: list of int, default None
+    scales: list, default None
         the desired scales, if None compute at all scales.
     multiview: bool, default False
         if True use a slider to select a specific band.
+
+    Notes
+    -----
+    This function is deprecated and will be removed in a future release.
+
     """
+    if not PYQT_FOUND:
+        raise ImportError(
+            'To use this deprecated function you will need to install '
+            + 'pyqtgraph manually. Note that the current implementation '
+            + 'is not compatible with PyQT v6.'
+        )
+
     # Set default scales
     scales = scales or range(transform.nb_scale)
 

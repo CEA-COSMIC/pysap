@@ -18,7 +18,7 @@ def mr_transform(
         nbiter=3, type_of_filters=1, use_l2_norm=False,
         type_of_non_orthog_filters=2, number_of_undecimated_scales=None,
         verbose=False):
-    """ Wrap the Sparse2d 'mr_transform'.
+    """ Wrap the Sparse2d ``mr_transform``.
     """
     # Generate the command
     cmd = [
@@ -56,7 +56,7 @@ def mr_filter(
         sigma=None, type_of_noise=1, number_of_scales=4,
         number_of_iterations=10, epsilon=0.001, verbose=False,
         tab_n_sigma=[], suppress_isolated_pixels=False):
-    """ Wrap the Sparse2d 'mr_filter'.
+    """ Wrap the Sparse2d ``mr_filter``.
     """
     # Generate the command
     cmd = ["mr_filter"]
@@ -101,7 +101,7 @@ def mr_deconv(
         no_auto_shift_max_psf=False, detect_only_positive_structure=False,
         suppress_isolated_pixels=False, suppress_last_scale=False,
         optimization=None, regul_param=0, verbose=False):
-    """ Wrap the Sparse2d 'mr_deconv'.
+    """ Wrap the Sparse2d ``mr_deconv``.
     """
     # Generate the command
     cmd = ["mr_deconv"]
@@ -156,7 +156,7 @@ def mr_deconv(
 
 def mr_recons(
         in_mr_file, out_image, verbose=False):
-    """ Wrap the Sparse2d 'mr_recons'.
+    """ Wrap the Sparse2d ``mr_recons``.
     """
     # Generate the command
     cmd = ["mr_recons"]
@@ -170,7 +170,7 @@ def mr_recons(
 
 
 def mr3d_recons(in_mr_file, out_image, verbose=False):
-    """ Wrap the Sparse2d 'mr3d_recons'.
+    """ Wrap the Sparse2d ``mr3d_recons``.
     """
     # Generate the command
     cmd = ["mr3d_recons"]
@@ -188,7 +188,7 @@ def mr3d_transform(
         type_of_lifting_transform=3, number_of_scales=4,
         type_of_filters=1, use_l2_norm=False,
         verbose=False):
-    """ Wrap the Sparse2d 'mr3d_trans'.
+    """ Wrap the Sparse2d ``mr3d_trans``.
     """
     # Generate the command
     cmd = [
@@ -242,7 +242,7 @@ def mr3d_filter(
         sigma=None, correlated_noise=None, number_of_scales=4,
         nsigma=3,
         verbose=False):
-    """ Wrap the Sparse2d 'mr3d_filter'.
+    """ Wrap the Sparse2d ``mr3d_filter``.
     """
     # WARNING: relative path with ~  doesn't work, use absolute path from /home
     # Generate the command
@@ -272,7 +272,7 @@ def mr2d1d_trans(
         in_image, out_image,
         type_of_multiresolution_transform=14, number_of_scales_2D=5,
         number_of_scales_1D=4, normalize=False, verbose=False, reverse=False):
-    """ Wrap the Sparse2d 'mr21d_trans'.
+    """ Wrap the Sparse2d ``mr21d_trans``.
     """
     # WARNING: relative path with ~  doesn't work, use absolute path from /home
     # Generate the command

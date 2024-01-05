@@ -38,7 +38,7 @@ class NIFTI(LoaderBase):
         return Image(spacing=_image.header.get_zooms(),
                      data_type="scalar",
                      metadata={"path": path},
-                     data=_image.get_data())
+                     data=_image.get_fdata())
 
     def save(self, image, outpath):
         """ A method that save the image data and associated metadata.

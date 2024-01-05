@@ -55,13 +55,8 @@ URL = 'https://github.com/CEA-COSMIC/pysap'
 DOWNLOAD_URL = 'https://github.com/CEA-COSMIC/pysap'
 LICENSE = 'CeCILL-B'
 CLASSIFIERS = CLASSIFIERS
-AUTHOR = """
-Antoine Grigis <antoine.grigis@cea.fr>
-Samuel Farrens <samuel.farrens@cea.fr>
-Jean-Luc Starck <jl.stark@cea.fr>
-Philippe Ciuciu <philippe.ciuciu@cea.fr>
-"""
-AUTHOR_EMAIL = 'antoine.grigis@cea.fr'
+AUTHOR = 'The PySAP Team'
+AUTHOR_EMAIL = 'samuel.farrens@cea.fr'
 PLATFORMS = 'Linux,OSX'
 ISRELEASE = True
 VERSION = __version__
@@ -72,24 +67,9 @@ REQUIRES = [
     'matplotlib>=3.3.4',
     'astropy>=4.1',
     'nibabel>=3.2.1',
-    'pyqtgraph>=0.11.1',
     'progressbar2>=3.53.1',
     'modopt>=1.5.1',
     'scikit-learn>=0.24.1',
+    'scikit-image>=0.17.2',
     'PyWavelets>=1.1.1',
-]
-PREINSTALL_REQUIRES = [
-    'pybind11==2.6.2',
-    'pyqt5==5.15.4',
-]
-EXTRA_REQUIRES = {
-    'gui': {
-        'PySide>=1.2.2',
-        # 'python-pypipe>=0.0.1'
-    }
-}
-PLUGINS = [
-    'pysap-astro==0.0.1',
-    'pysap-mri==0.4.0',
-    'pysap-etomo==0.0.1',
 ]

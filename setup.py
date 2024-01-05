@@ -40,6 +40,11 @@ scripts = [
     os.path.join('pysap', 'apps', 'pysapview3')
 ]
 
+# Source PySAP plug-ins
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'plugins.txt')) as f:
+    pysap_plugins = f.read().splitlines()
+
 # Workaround
 rm_args = []
 if '--release' in sys.argv:
@@ -78,10 +83,10 @@ def check_plugins(plugin_list):
     if not isinstance(plugin_list, list):
         raise TypeError('Plug-in list must be of type list.')
 
-    pysap_plugins = dict([
-        _plugin.split('==') for _plugin in release_info['PLUGINS']
+    plugins_dict = dict([
+        _plugin.split('==') for _plugin in pysap_plugins
     ])
-    allowed_plugins = pysap_plugins.keys()
+    allowed_plugins = plugins_dict.keys()
 
     only_pinned = []
     for plugin in plugin_list:
@@ -92,7 +97,7 @@ def check_plugins(plugin_list):
                 + '{0}\n'.format(list(allowed_plugins))
             )
         only_pinned.append(
-            '{0}=={1}'.format(plugin, pysap_plugins[plugin])
+            '{0}=={1}'.format(plugin, plugins_dict[plugin])
         )
 
     return only_pinned
@@ -113,7 +118,7 @@ def pipinstall(package_list):
 def install_plugins():
     """Install Plug-Ins."""
 
-    plugin_list = release_info['PLUGINS']
+    plugin_list = pysap_plugins
     if only_plugins:
         plugin_list = check_plugins(only_plugins)
     elif no_plugins:
@@ -142,21 +147,10 @@ class CMakeExtension(Extension):
 class CMakeBuild(build_ext):
     """Define a cmake build extension."""
 
-    def _set_pybind_path(self):
-        """Set path to Pybind11 include directory."""
-
-        self.pybind_path = getattr(import_module('pybind11'), 'get_include')()
-
     def run(self):
-        """Redifine the run method."""
+        """Redefine the run method."""
 
-        # Preinstall packages
-        pipinstall(release_info['PREINSTALL_REQUIRES'])
-
-        # Set Pybind11 path
-        self._set_pybind_path()
-
-        # Check cmake is installed and is sufficiently new.
+        # Check that an appropriate version of cmake is installed.
         try:
             out = subprocess.check_output(['cmake', '--version'])
         except OSError:
@@ -167,8 +161,8 @@ class CMakeBuild(build_ext):
         cmake_version = LooseVersion(
             re.search(r'version\s*([\d.]+)', out.decode()).group(1)
         )
-        if cmake_version < '3.0.0':
-            raise RuntimeError('CMake >= 3.0.0 is required.')
+        if cmake_version < '3.12.0':
+            raise RuntimeError('CMake >= 3.12.0 is required.')
 
         # Build extensions
         for ext in self.extensions:
@@ -178,11 +172,11 @@ class CMakeBuild(build_ext):
         """Build extension with cmake."""
         # Define cmake arguments
         extdir = os.path.abspath(
-            os.path.dirname(self.get_ext_fullpath(ext.name)))
+            os.path.dirname(self.get_ext_fullpath(ext.name))
+        )
         cmake_args = [
             '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
             '-DPYTHON_EXECUTABLE=' + sys.executable,
-            '-DPYBIND11_INCLUDE_DIR=' + self.pybind_path
         ]
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
@@ -283,7 +277,6 @@ setup(
     url=release_info['URL'],
     packages=find_packages(exclude='doc'),
     platforms=release_info['PLATFORMS'],
-    extras_require=release_info['EXTRA_REQUIRES'],
     install_requires=release_info['REQUIRES'],
     package_data=pkgdata,
     scripts=scripts,
