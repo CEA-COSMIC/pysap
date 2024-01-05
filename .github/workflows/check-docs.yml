@@ -54,10 +54,11 @@ jobs:
           done < plugins.txt
           for file in *.tar.gz; do 
             tar xzf "$file";
-            ls;
-            ls ${plugin_name}-*/.;
-            python -m pip install ${plugin_name}-*/.
           done
+          while read _plugin; do
+            plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
+            python -m pip install ${plugin_name}-*/.
+          done < plugins.txt
           rm *.tar.gz
 
       - name: Extract plug-in examples
