@@ -80,9 +80,8 @@ jobs:
             plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
             wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
           done < plugins.txt
-          for file in *.tar.gz; 
-          do 
-            tar xzf "$file";
+          for file in *.tar.gz; do 
+            tar xzf "$file"
             python -m pip install ${plugin_name}-*/.
           done
           rm *.tar.gz
