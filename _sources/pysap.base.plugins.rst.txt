@@ -1,0 +1,7 @@
+pysap.base.plugins
+------------------
+
+.. automodule:: pysap.base.plugins
+   :members:
+   :undoc-members:
+   :show-inheritance:

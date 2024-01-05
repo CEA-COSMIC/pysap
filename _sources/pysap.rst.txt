@@ -1,0 +1,31 @@
+pysap
+=====
+
+
+.. automodule:: pysap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.apps
+   pysap.base
+   pysap.extensions
+   pysap.plotting
+   pysap.plugins
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.configure
+   pysap.data
+   pysap.info
+   pysap.utils

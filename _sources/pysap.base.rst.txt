@@ -1,0 +1,30 @@
+pysap.base
+==========
+
+
+.. automodule:: pysap.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.base.loaders
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.base.exceptions
+   pysap.base.image
+   pysap.base.io
+   pysap.base.observable
+   pysap.base.plugins
+   pysap.base.transform
+   pysap.base.utils

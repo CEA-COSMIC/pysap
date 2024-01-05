@@ -1,0 +1,1056 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pysap.base.transform &#8212; pysap v0.0.6</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pysap.base.utils" href="pysap.base.utils.html" />
+    <link rel="prev" title="pysap.base.plugins" href="pysap.base.plugins.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="pysap.html">
+   pysap
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="pysap.base.html">
+     pysap.base
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="auto_examples/index.html">
+   PySAP Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="auto_examples/pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2Fpysap.base.transform.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/edit/develop/docs/source/pysap.base.transform.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>pysap.base.transform</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="module-pysap.base.transform">
+<span id="pysap-base-transform"></span><h1>pysap.base.transform<a class="headerlink" href="#module-pysap.base.transform" title="Permalink to this headline">#</a></h1>
+<p>Wavelet transform base module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysap.base.transform.MetaRegister">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MetaRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#MetaRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.MetaRegister" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></p>
+<p>Simple Python metaclass registry pattern.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.MetaRegister.REGISTRY">
+<span class="sig-name descname"><span class="pre">REGISTRY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ATrou3D':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.ATrou3D'&gt;,</span> <span class="pre">'BiOrthogonalTransform3D':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.BiOrthogonalTransform3D'&gt;,</span> <span class="pre">'BsplineWaveletTransformATrousAlgorithm':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.BsplineWaveletTransformATrousAlgorithm'&gt;,</span> <span class="pre">'DecompositionOnScalingFunction':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.DecompositionOnScalingFunction'&gt;,</span> <span class="pre">'FastCurveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.FastCurveletTransform'&gt;,</span> <span class="pre">'FeauveauWaveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.FeauveauWaveletTransform'&gt;,</span> <span class="pre">'FeauveauWaveletTransformWithoutUndersampling':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling'&gt;,</span> <span class="pre">'HaarWaveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.HaarWaveletTransform'&gt;,</span> <span class="pre">'HalfPyramidalTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.HalfPyramidalTransform'&gt;,</span> <span class="pre">'IsotropicAndCompactSupportWaveletInFourierSpace':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace'&gt;,</span> <span class="pre">'LineColumnWaveletTransform1D1D':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.LineColumnWaveletTransform1D1D'&gt;,</span> <span class="pre">'LinearWaveletTransformATrousAlgorithm':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.LinearWaveletTransformATrousAlgorithm'&gt;,</span> <span class="pre">'MallatWaveletTransform79Filters':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MallatWaveletTransform79Filters'&gt;,</span> <span class="pre">'MeyerWaveletsCompactInFourierSpace':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MeyerWaveletsCompactInFourierSpace'&gt;,</span> <span class="pre">'MixedHalfPyramidalWTAndMedianMethod':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod'&gt;,</span> <span class="pre">'MixedWTAndPMTMethod':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MixedWTAndPMTMethod'&gt;,</span> <span class="pre">'MorphologicalMedianTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MorphologicalMedianTransform'&gt;,</span> <span class="pre">'MorphologicalMinmaxTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MorphologicalMinmaxTransform'&gt;,</span> <span class="pre">'MorphologicalPyramidalMinmaxTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.MorphologicalPyramidalMinmaxTransform'&gt;,</span> <span class="pre">'NonOrthogonalUndecimatedTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.NonOrthogonalUndecimatedTransform'&gt;,</span> <span class="pre">'OnLine44AndOnColumn53':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.OnLine44AndOnColumn53'&gt;,</span> <span class="pre">'OnLine53AndOnColumn44':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.OnLine53AndOnColumn44'&gt;,</span> <span class="pre">'PyramidalBsplineWaveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalBsplineWaveletTransform'&gt;,</span> <span class="pre">'PyramidalLaplacian':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalLaplacian'&gt;,</span> <span class="pre">'PyramidalLinearWaveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalLinearWaveletTransform'&gt;,</span> <span class="pre">'PyramidalMedianTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalMedianTransform'&gt;,</span> <span class="pre">'PyramidalWaveletTransformInFourierSpaceAlgo1':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1'&gt;,</span> <span class="pre">'PyramidalWaveletTransformInFourierSpaceAlgo2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2'&gt;,</span> <span class="pre">'UndecimatedBiOrthogonalTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.UndecimatedBiOrthogonalTransform'&gt;,</span> <span class="pre">'UndecimatedDiadicWaveletTransform':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.UndecimatedDiadicWaveletTransform'&gt;,</span> <span class="pre">'UndecimatedHaarTransformATrousAlgorithm':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm'&gt;,</span> <span class="pre">'Wavelet3DTransformViaLiftingScheme':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.Wavelet3DTransformViaLiftingScheme'&gt;,</span> <span class="pre">'WaveletTransformInFourierSpace':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.WaveletTransformInFourierSpace'&gt;,</span> <span class="pre">'WaveletTransformViaLiftingScheme':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.WaveletTransformViaLiftingScheme'&gt;,</span> <span class="pre">'bior11':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior11'&gt;,</span> <span class="pre">'bior13':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior13'&gt;,</span> <span class="pre">'bior15':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior15'&gt;,</span> <span class="pre">'bior22':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior22'&gt;,</span> <span class="pre">'bior24':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior24'&gt;,</span> <span class="pre">'bior26':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior26'&gt;,</span> <span class="pre">'bior28':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior28'&gt;,</span> <span class="pre">'bior31':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior31'&gt;,</span> <span class="pre">'bior33':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior33'&gt;,</span> <span class="pre">'bior35':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior35'&gt;,</span> <span class="pre">'bior37':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior37'&gt;,</span> <span class="pre">'bior39':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior39'&gt;,</span> <span class="pre">'bior44':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior44'&gt;,</span> <span class="pre">'bior55':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior55'&gt;,</span> <span class="pre">'bior68':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.bior68'&gt;,</span> <span class="pre">'cgau1':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau1'&gt;,</span> <span class="pre">'cgau2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau2'&gt;,</span> <span class="pre">'cgau3':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau3'&gt;,</span> <span class="pre">'cgau4':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau4'&gt;,</span> <span class="pre">'cgau5':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau5'&gt;,</span> <span class="pre">'cgau6':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau6'&gt;,</span> <span class="pre">'cgau7':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau7'&gt;,</span> <span class="pre">'cgau8':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cgau8'&gt;,</span> <span class="pre">'cmor':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.cmor'&gt;,</span> <span class="pre">'coif1':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif1'&gt;,</span> <span class="pre">'coif10':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif10'&gt;,</span> <span class="pre">'coif11':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif11'&gt;,</span> <span class="pre">'coif12':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif12'&gt;,</span> <span class="pre">'coif13':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif13'&gt;,</span> <span class="pre">'coif14':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif14'&gt;,</span> <span class="pre">'coif15':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif15'&gt;,</span> <span class="pre">'coif16':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif16'&gt;,</span> <span class="pre">'coif17':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif17'&gt;,</span> <span class="pre">'coif2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif2'&gt;,</span> <span class="pre">'coif3':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif3'&gt;,</span> <span class="pre">'coif4':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif4'&gt;,</span> <span class="pre">'coif5':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif5'&gt;,</span> <span class="pre">'coif6':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif6'&gt;,</span> <span class="pre">'coif7':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif7'&gt;,</span> <span class="pre">'coif8':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif8'&gt;,</span> <span class="pre">'coif9':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.coif9'&gt;,</span> <span class="pre">'db1':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db1'&gt;,</span> <span class="pre">'db10':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db10'&gt;,</span> <span class="pre">'db11':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db11'&gt;,</span> <span class="pre">'db12':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db12'&gt;,</span> <span class="pre">'db13':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db13'&gt;,</span> <span class="pre">'db14':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db14'&gt;,</span> <span class="pre">'db15':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db15'&gt;,</span> <span class="pre">'db16':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db16'&gt;,</span> <span class="pre">'db17':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db17'&gt;,</span> <span class="pre">'db18':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db18'&gt;,</span> <span class="pre">'db19':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db19'&gt;,</span> <span class="pre">'db2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db2'&gt;,</span> <span class="pre">'db20':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db20'&gt;,</span> <span class="pre">'db21':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db21'&gt;,</span> <span class="pre">'db22':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db22'&gt;,</span> <span class="pre">'db23':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db23'&gt;,</span> <span class="pre">'db24':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db24'&gt;,</span> <span class="pre">'db25':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db25'&gt;,</span> <span class="pre">'db26':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db26'&gt;,</span> <span class="pre">'db27':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db27'&gt;,</span> <span class="pre">'db28':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db28'&gt;,</span> <span class="pre">'db29':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db29'&gt;,</span> <span class="pre">'db3':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db3'&gt;,</span> <span class="pre">'db30':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db30'&gt;,</span> <span class="pre">'db31':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db31'&gt;,</span> <span class="pre">'db32':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db32'&gt;,</span> <span class="pre">'db33':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db33'&gt;,</span> <span class="pre">'db34':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db34'&gt;,</span> <span class="pre">'db35':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db35'&gt;,</span> <span class="pre">'db36':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db36'&gt;,</span> <span class="pre">'db37':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db37'&gt;,</span> <span class="pre">'db38':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db38'&gt;,</span> <span class="pre">'db4':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db4'&gt;,</span> <span class="pre">'db5':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db5'&gt;,</span> <span class="pre">'db6':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db6'&gt;,</span> <span class="pre">'db7':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db7'&gt;,</span> <span class="pre">'db8':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db8'&gt;,</span> <span class="pre">'db9':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.db9'&gt;,</span> <span class="pre">'dmey':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.dmey'&gt;,</span> <span class="pre">'fbsp':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.fbsp'&gt;,</span> <span class="pre">'gaus1':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus1'&gt;,</span> <span class="pre">'gaus2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus2'&gt;,</span> <span class="pre">'gaus3':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus3'&gt;,</span> <span class="pre">'gaus4':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus4'&gt;,</span> <span class="pre">'gaus5':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus5'&gt;,</span> <span class="pre">'gaus6':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus6'&gt;,</span> <span class="pre">'gaus7':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus7'&gt;,</span> <span class="pre">'gaus8':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.gaus8'&gt;,</span> <span class="pre">'haar':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.haar'&gt;,</span> <span class="pre">'mexh':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.mexh'&gt;,</span> <span class="pre">'morl':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.morl'&gt;,</span> <span class="pre">'rbio11':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio11'&gt;,</span> <span class="pre">'rbio13':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio13'&gt;,</span> <span class="pre">'rbio15':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio15'&gt;,</span> <span class="pre">'rbio22':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio22'&gt;,</span> <span class="pre">'rbio24':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio24'&gt;,</span> <span class="pre">'rbio26':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio26'&gt;,</span> <span class="pre">'rbio28':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio28'&gt;,</span> <span class="pre">'rbio31':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio31'&gt;,</span> <span class="pre">'rbio33':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio33'&gt;,</span> <span class="pre">'rbio35':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio35'&gt;,</span> <span class="pre">'rbio37':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio37'&gt;,</span> <span class="pre">'rbio39':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio39'&gt;,</span> <span class="pre">'rbio44':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio44'&gt;,</span> <span class="pre">'rbio55':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio55'&gt;,</span> <span class="pre">'rbio68':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.rbio68'&gt;,</span> <span class="pre">'shan':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.shan'&gt;,</span> <span class="pre">'sym10':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym10'&gt;,</span> <span class="pre">'sym11':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym11'&gt;,</span> <span class="pre">'sym12':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym12'&gt;,</span> <span class="pre">'sym13':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym13'&gt;,</span> <span class="pre">'sym14':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym14'&gt;,</span> <span class="pre">'sym15':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym15'&gt;,</span> <span class="pre">'sym16':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym16'&gt;,</span> <span class="pre">'sym17':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym17'&gt;,</span> <span class="pre">'sym18':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym18'&gt;,</span> <span class="pre">'sym19':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym19'&gt;,</span> <span class="pre">'sym2':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym2'&gt;,</span> <span class="pre">'sym20':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym20'&gt;,</span> <span class="pre">'sym3':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym3'&gt;,</span> <span class="pre">'sym4':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym4'&gt;,</span> <span class="pre">'sym5':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym5'&gt;,</span> <span class="pre">'sym6':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym6'&gt;,</span> <span class="pre">'sym7':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym7'&gt;,</span> <span class="pre">'sym8':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym8'&gt;,</span> <span class="pre">'sym9':</span> <span class="pre">&lt;class</span> <span class="pre">'pysap.extensions.transform.sym9'&gt;}</span></em><a class="headerlink" href="#pysap.base.transform.MetaRegister.REGISTRY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WaveletTransformBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_wrapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Data structure representing a signal wavelet decomposition.</p>
+<p>Available transforms are define in ‘pysap.transform’.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._set_data">
+<span class="sig-name descname"><span class="pre">_set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._set_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._set_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the input data array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em> or </em><em>pysap.Image</em>) – input data/signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._get_data">
+<span class="sig-name descname"><span class="pre">_get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._get_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the input data array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>data</strong> – input data/signal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._set_analysis_data">
+<span class="sig-name descname"><span class="pre">_set_analysis_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._set_analysis_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._set_analysis_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the decomposition coefficients array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>analysis_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – decomposition coefficients array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._get_analysis_data">
+<span class="sig-name descname"><span class="pre">_get_analysis_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._get_analysis_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._get_analysis_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the decomposition coefficients array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>analysis_data</strong> – decomposition coefficients array.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._set_analysis_header">
+<span class="sig-name descname"><span class="pre">_set_analysis_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_header</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._set_analysis_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._set_analysis_header" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the decomposition coefficients header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>analysis_header</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – decomposition coefficients array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._get_analysis_header">
+<span class="sig-name descname"><span class="pre">_get_analysis_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._get_analysis_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._get_analysis_header" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the decomposition coefficients header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>analysis_header</strong> – decomposition coefficients header.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._get_info">
+<span class="sig-name descname"><span class="pre">_get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._get_info" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the transformation information. This iformation is only
+available when using the Python bindings.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the input data array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>data</strong> – input data/signal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.analysis_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analysis_data</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.analysis_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the decomposition coefficients array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>analysis_data</strong> – decomposition coefficients array.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.analysis_header">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analysis_header</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.analysis_header" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the decomposition coefficients header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>analysis_header</strong> – decomposition coefficients header.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the transformation information. This iformation is only
+available when using the Python bindings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.bands_shapes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bands_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bands_lengths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.bands_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.bands_shapes" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the different bands associated shapes given there lengths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bands_lengths</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em> (</em><em>&lt;nb_scale&gt;</em><em>, </em><em>max</em><em>(</em><em>&lt;nb_band_per_scale&gt;</em><em>, </em><em>0</em><em>)</em><em>)</em>) – array holding the length between two bands of the data
+vector per scale.</p></li>
+<li><p><strong>ratio</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em>, </em><em>default None</em>) – a array containing ratios for eeach scale and each band.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bands_shapes</strong> – structure holding the shape of each bands at each scale.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.show" title="Permalink to this definition">#</a></dt>
+<dd><p>Display the different bands at the different decomposition scales.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.analysis">
+<span class="sig-name descname"><span class="pre">analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.analysis" title="Permalink to this definition">#</a></dt>
+<dd><p>Decompose a real or complex signal using ISAP.</p>
+<p>Fill the instance ‘analysis_data’ and ‘analysis_header’ parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em> (</em><em>optional</em><em>)</em>) – the parameters that will be passed to
+‘pysap.extensions.mr_tansform’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.synthesis">
+<span class="sig-name descname"><span class="pre">synthesis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.synthesis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.synthesis" title="Permalink to this definition">#</a></dt>
+<dd><p>Reconstruct a real or complex signal from the wavelet coefficients
+using ISAP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>data</strong> – the reconstructed data/signal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pysap.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.band_at">
+<span class="sig-name descname"><span class="pre">band_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.band_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.band_at" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the band at a specific scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the scale.</p></li>
+<li><p><strong>band</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the band.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>band_data</strong> – the requested band data array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nd-arry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._init_transform">
+<span class="sig-name descname"><span class="pre">_init_transform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._init_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._init_transform" title="Permalink to this definition">#</a></dt>
+<dd><p>Define the transform.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.trf">
+<span class="sig-name descname"><span class="pre">trf</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.trf" title="Permalink to this definition">#</a></dt>
+<dd><p>the transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._get_linear_band">
+<span class="sig-name descname"><span class="pre">_get_linear_band</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._get_linear_band"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._get_linear_band" title="Permalink to this definition">#</a></dt>
+<dd><p>Access the desired band data from a 1D linear analysis buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the scale.</p></li>
+<li><p><strong>band</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the band.</p></li>
+<li><p><strong>analysis_data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em> (</em><em>N</em><em>, </em><em>)</em>) – the analysis buffer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>band_data</strong> – the requested band buffer.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nd-arry (M, )</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._set_linear_band">
+<span class="sig-name descname"><span class="pre">_set_linear_band</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._set_linear_band"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._set_linear_band" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the desired band data in a 1D linear analysis buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the scale.</p></li>
+<li><p><strong>band</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – index of the band.</p></li>
+<li><p><strong>analysis_data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em> (</em><em>N</em><em>, </em><em>)</em>) – the analysis buffer.</p></li>
+<li><p><strong>band_data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a><em> (</em><em>M</em><em>, </em><em>M</em><em>)</em>) – the band data to be added in the analysis buffer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>analysis_data</strong> – the updated analysis buffer.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nd-arry (N, )</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._set_transformation_parameters">
+<span class="sig-name descname"><span class="pre">_set_transformation_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._set_transformation_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._set_transformation_parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Define the transformation class parameters.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.name" title="Permalink to this definition">#</a></dt>
+<dd><p>the name of the decomposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.bands_names">
+<span class="sig-name descname"><span class="pre">bands_names</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.bands_names" title="Permalink to this definition">#</a></dt>
+<dd><p>the name of the different bands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.flatten_fct">
+<span class="sig-name descname"><span class="pre">flatten_fct</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.flatten_fct" title="Permalink to this definition">#</a></dt>
+<dd><p>a function used to reorganize the ISAP decomposition coefficients,
+see ‘pysap/extensions/formating.py’ module for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.unflatten_fct">
+<span class="sig-name descname"><span class="pre">unflatten_fct</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.unflatten_fct" title="Permalink to this definition">#</a></dt>
+<dd><p>a function used to reorganize the decomposition coefficients using
+ISAP convention, see ‘pysap/extensions/formating.py’ module for
+more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.is_decimated">
+<span class="sig-name descname"><span class="pre">is_decimated</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.is_decimated" title="Permalink to this definition">#</a></dt>
+<dd><p>True if the decomposition include a decimation of the
+band number of coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.nb_band_per_scale">
+<span class="sig-name descname"><span class="pre">nb_band_per_scale</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.nb_band_per_scale" title="Permalink to this definition">#</a></dt>
+<dd><p>vector of int holding the number of band per scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a> (&lt;nb_scale&gt;, )</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.bands_lengths">
+<span class="sig-name descname"><span class="pre">bands_lengths</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.bands_lengths" title="Permalink to this definition">#</a></dt>
+<dd><p>array holding the length between two bands of the data
+vector per scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a> (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">bands_shapes</span></span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase.bands_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dd><p>structure holding the shape of each bands at each scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.isap_transform_id">
+<span class="sig-name descname"><span class="pre">isap_transform_id</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.isap_transform_id" title="Permalink to this definition">#</a></dt>
+<dd><p>the label of the ISAP transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._compute_transformation_parameters">
+<span class="sig-name descname"><span class="pre">_compute_transformation_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._compute_transformation_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._compute_transformation_parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute information in order to split scale/band flatten data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.scales_lengths">
+<span class="sig-name descname"><span class="pre">scales_lengths</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.scales_lengths" title="Permalink to this definition">#</a></dt>
+<dd><p>the length of each band.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a> (&lt;nb_scale&gt;, )</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase.scales_padds">
+<span class="sig-name descname"><span class="pre">scales_padds</span></span><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase.scales_padds" title="Permalink to this definition">#</a></dt>
+<dd><p>the index of the data associated to each scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a> (&lt;nb_scale&gt; + 1, )</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._analysis">
+<span class="sig-name descname"><span class="pre">_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._analysis" title="Permalink to this definition">#</a></dt>
+<dd><p>Decompose a real signal using ISAP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>numpy.ndarray</em></a>) – a real array to be decomposed.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em> (</em><em>optional</em><em>)</em>) – the parameters that will be passed to
+‘pysap.extensions.mr_tansform’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>analysis_data</strong> (<em>numpy.ndarray</em>) – the decomposition coefficients.</p></li>
+<li><p><strong>analysis_header</strong> (<em>dict</em>) – the decomposition associated information.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysap.base.transform.WaveletTransformBase._synthesis">
+<span class="sig-name descname"><span class="pre">_synthesis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_header</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysap/base/transform.html#WaveletTransformBase._synthesis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pysap.base.transform.WaveletTransformBase._synthesis" title="Permalink to this definition">#</a></dt>
+<dd><p>Reconstruct a real signal from the wavelet coefficients using ISAP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_data</strong> (<em>list of numpy.ndarray</em>) – the wavelet coefficients array.</p></li>
+<li><p><strong>analysis_header</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – the wavelet decomposition parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – the reconstructed data array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="pysap.base.plugins.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">pysap.base.plugins</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="pysap.base.utils.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">pysap.base.utils</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 05 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

@@ -1,133 +1,521 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pysap.plotting.utils &#8212; pysap v0.0.6</title>
     
-  
-    <title>PYSAP &mdash; python-pySAP</title>
-  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../../_static/css/bootstrap.min.css" media="screen" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="python-pySAP" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
-  
-   
-       <script type="text/javascript" src="../../../_static/sidebar.js"></script>
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="../../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-  <script src="../../../_static/js/angular.min.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    var app = angular.module("navApp", []);
-    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
-      $scope.isActive = function (viewLocation) {
-        var rel = $window.location.pathname.split("/")
-        rel = rel[rel.length - 1]
-        rel = rel.split(".")[0]
-        var active = (viewLocation === rel);
-        return active;};
-    }]);
-  </script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
 
+    <!-- Google Analytics -->
+    
   </head>
-  <body role="document"><div class="banner">
-  <div class="container-fluid banner-container">
-    <div class="row banner-inner">
-      <div class="col-xs-4">
-        <img alt="Logo" src="../../../_static/pysap.png">
-      </div>
-      <div class="col-xs-8">
-            <p>PYthon Sparse data Analysis Package</p>
-      </div>
-    </div>  
-  </div>
-</div><nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../../../index.html">
-        </a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
-        <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
-        <!--<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-	        <li><a href="../../../generated/pysap.html">Pysap</a></li>
-<li><a href="../../../generated/pysap.base.html">Pysap.base</a></li>
-<li><a href="../../../generated/pysap.plugins.html">Pysap.plugins</a></li>
-<li><a href="../../../generated/pysap.apps.html">Pysap.apps</a></li>
-<li><a href="../../../generated/pysap.extensions.html">Pysap.extensions</a></li>
-<li><a href="../../../generated/pysap.plotting.html">Pysap.plotting</a></li>
-<li><a href="../../../generated/pysap.base.loaders.html">Pysap.base.loaders</a></li>
-          </ul>
-        </li>-->
-        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="content-wrapper">
-    <div class="sphinxsidebar">
-      <div class="sphinxsidebarwrapper">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
 
-        <!-- info setup -->
-          <p class="doc-version">
-           This documentation is for pysap <strong>version 0.0.3</strong>
-          </p>
-        <p class="citing">
-          If you use the software, please do not hesitate to 
-          <a &mdash; <a href="https://github.com/CEA-COSMIC/pysap">
-          Report a Bug</a>.
-        </p>
+    
+    <div class="container-fluid" id="banner"></div>
 
-      <!-- toc tree -->
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../auto_examples/index.html">
+   PySAP Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
 
-      </div>
     </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
   
 
-  <div class="content">
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
       
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2F_modules/pysap/plotting/utils.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
   <h1>Source code for pysap.plotting.utils</h1><div class="highlight"><pre>
-<span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">##########################################################################</span>
 <span class="c1"># pySAP - Copyright (C) CEA, 2017 - 2018</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
@@ -144,13 +532,13 @@
 <span class="kn">import</span> <span class="nn">pysap</span>
 
 <span class="c1"># Third party import</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">img_as_float</span>
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
 
 
-<div class="viewcode-block" id="scaling"><a class="viewcode-back" href="../../../generated/pysap.plotting.utils.html#pysap.plotting.utils.scaling">[docs]</a><span class="k">def</span> <span class="nf">scaling</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;stretching&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="scaling"><a class="viewcode-back" href="../../../pysap.plotting.utils.html#pysap.plotting.utils.scaling">[docs]</a><span class="k">def</span> <span class="nf">scaling</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;stretching&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Change the image dynamic.</span>
 
 <span class="sd">    Parameters</span>
@@ -180,15 +568,15 @@
 
     <span class="c1"># Unknown method</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown normalization &#39;{0}&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown normalization &#39;</span><span class="si">{0}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
 
     <span class="n">normalize_image</span> <span class="o">=</span> <span class="n">pysap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">norm_data</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">normalize_image</span></div>
 
 
-<div class="viewcode-block" id="histogram"><a class="viewcode-back" href="../../../generated/pysap.plotting.utils.html#pysap.plotting.utils.histogram">[docs]</a><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">lower_cut</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">cumulate</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="histogram"><a class="viewcode-back" href="../../../pysap.plotting.utils.html#pysap.plotting.utils.histogram">[docs]</a><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">lower_cut</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">cumulate</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the histogram of an input dataset.</span>
 
 <span class="sd">    Parameters</span>
@@ -217,23 +605,37 @@
     <span class="k">return</span> <span class="n">hist_im</span></div>
 </pre></div>
 
-          </div>
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
         </div>
-      </div>
-
-    <div class="clearer">
     </div>
-  </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
   
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 05 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
 </div>
 
-<div class="footer">
-    &copy; 2019, 
-Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
-Samuel Farrens &lt;samuel.farrens@cea.fr&gt;
-Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
-Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
- &lt;antoine.grigis@cea.fr&gt;.
-</div>
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
   </body>
 </html>

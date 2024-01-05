@@ -1,0 +1,2595 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>PySAP Basics &#8212; pysap v0.0.6</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Contributing" href="../../contributing.html" />
+    <link rel="prev" title="PySAP Examples" href="../index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   PySAP Examples
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     PySAP Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2Fauto_examples/pysap/plot_basics.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/edit/develop/docs/source/auto_examples/pysap/plot_basics.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#first-checks">
+   First checks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-astronomical-data">
+   Import astronomical data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-neuroimaging-data">
+   Import neuroimaging data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decompose-recompose-an-image-using-a-fast-sparse2d-based-transform">
+   Decompose/recompose an image using a fast Sparse2D based transform
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>PySAP Basics</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#first-checks">
+   First checks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-astronomical-data">
+   Import astronomical data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-neuroimaging-data">
+   Import neuroimaging data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decompose-recompose-an-image-using-a-fast-sparse2d-based-transform">
+   Decompose/recompose an image using a fast Sparse2D based transform
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-pysap-plot-basics-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="pysap-basics">
+<span id="sphx-glr-auto-examples-pysap-plot-basics-py"></span><h1>PySAP Basics<a class="headerlink" href="#pysap-basics" title="Permalink to this headline">#</a></h1>
+<p><em>Code author: Antoine Grigis &lt;<a class="reference external" href="mailto:antoine&#46;grigis&#37;&#52;&#48;cea&#46;fr">antoine<span>&#46;</span>grigis<span>&#64;</span>cea<span>&#46;</span>fr</a>&gt;</em></p>
+<p>This example introduces some of the basic features of the core PySAP package
+as well as some tests to ensure that everything has been installed correctly.</p>
+<section id="first-checks">
+<h2>First checks<a class="headerlink" href="#first-checks" title="Permalink to this headline">#</a></h2>
+<p>In order to test if the <code class="docutils literal notranslate"><span class="pre">pysap</span></code> package is properly installed on your
+machine, you can check the package version.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pysap</span>
+
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pysap</span><span class="o">.</span><span class="n">__version__</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.0.6
+</pre></div>
+</div>
+<p>Now you can run the the configuration info function to see if all the
+dependencies are installed properly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysap.configure</span>
+
+<span class="nb">print</span><span class="p">(</span><a href="../../pysap.info.html#module-pysap.info" title="pysap.info" class="sphx-glr-backref-module-pysap sphx-glr-backref-type-py-module"><span class="n">pysap</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">info</span></a><span class="p">())</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>                 .|&#39;&#39;&#39;|       /.\      &#39;||&#39;&#39;&#39;|,
+                 ||          // \\      ||   ||
+&#39;||&#39;&#39;|, &#39;||  ||` `|&#39;&#39;&#39;|,    //...\\     ||...|&#39;
+ ||  ||  `|..||   .   ||   //     \\    ||
+ ||..|&#39;      ||   |...|&#39; .//       \\. .||
+ ||       ,  |&#39;
+.||        &#39;&#39;
+
+Package version: 0.0.6
+
+License: CeCILL-B
+
+Authors:
+The PySAP Team
+Dependencies:
+
+scipy          : &gt;=1.5.4   - required | 1.11.4    installed
+numpy          : &gt;=1.19.5  - required | 1.26.3    installed
+matplotlib     : &gt;=3.3.4   - required | 3.8.2     installed
+astropy        : &gt;=4.1     - required | 6.0.0     installed
+nibabel        : &gt;=3.2.1   - required | 5.2.0     installed
+progressbar2   : &gt;=3.53.1  - required | ?         installed
+modopt         : &gt;=1.5.1   - required | 1.6.1     installed
+scikit-learn   : &gt;=0.24.1  - required | ?         installed
+scikit-image   : &gt;=0.17.2  - required | ?         installed
+pywt           : &gt;=1.1.1   - required | 1.5.0     installed
+pysparse       : &gt;=0.0.1   - required | 0.1.0     installed
+</pre></div>
+</div>
+</section>
+<section id="import-astronomical-data">
+<h2>Import astronomical data<a class="headerlink" href="#import-astronomical-data" title="Permalink to this headline">#</a></h2>
+<p>PySAP provides a common interface for importing and visualising
+astronomical FITS datasets. A sample of toy datasets is provided that will be
+used in this tutorial.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysap</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
+
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;astro-fits&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image.shape" title="pysap.base.image.Image.shape" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-property"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span> <a href="../../pysap.base.image.html#pysap.base.image.Image.spacing" title="pysap.base.image.Image.spacing" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-property"><span class="n">image</span><span class="o">.</span><span class="n">spacing</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">data_type</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_basics_001.png" srcset="../../_images/sphx_glr_plot_basics_001.png, ../../_images/sphx_glr_plot_basics_001_2_0x.png 2.0x" alt="plot basics" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading data from ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/M31_128.fits...
+
+[=                   ] 6% M31_128.fits
+[==                  ] 12% M31_128.fits
+[====                ] 18% M31_128.fits
+[=====               ] 24% M31_128.fits
+[======              ] 30% M31_128.fits
+[=======             ] 36% M31_128.fits
+[========            ] 42% M31_128.fits
+[==========          ] 48% M31_128.fits
+[===========         ] 54% M31_128.fits
+[============        ] 60% M31_128.fits
+[=============       ] 66% M31_128.fits
+[===============     ] 72% M31_128.fits
+[================    ] 78% M31_128.fits
+[=================   ] 84% M31_128.fits
+[==================  ] 90% M31_128.fits
+[=================== ] 96% M31_128.fits
+[====================] 100% M31_128.fits
+Download was done in 0 minutes,  3.78 seconds
+(128, 128) [1. 1.] scalar
+{&#39;BITPIX&#39;: -64,
+ &#39;COMMENT&#39;: &quot;  and Astrophysics&#39;, volume 376, page 359; bibcode: &quot;
+            &#39;2001A&amp;A...376..359H&#39;,
+ &#39;EXTEND&#39;: True,
+ &#39;NAXIS&#39;: 2,
+ &#39;NAXIS1&#39;: 128,
+ &#39;NAXIS2&#39;: 128,
+ &#39;SIMPLE&#39;: True,
+ &#39;path&#39;: &#39;/home/runner/.local/share/pysap/M31_128.fits&#39;}
+float32
+</pre></div>
+</div>
+</section>
+<section id="import-neuroimaging-data">
+<h2>Import neuroimaging data<a class="headerlink" href="#import-neuroimaging-data" title="Permalink to this headline">#</a></h2>
+<p>PySAP also provides a common interface for importing and visualising
+neuroimaging NIFTI datasets. A sample of toy datasets is provided that will
+be used in this tutorial.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysap</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
+
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;mri-nifti&#39;</span><span class="p">)</span>
+<a href="../../pysap.base.image.html#pysap.base.image.Image.scroll_axis" title="pysap.base.image.Image.scroll_axis" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-property"><span class="n">image</span><span class="o">.</span><span class="n">scroll_axis</span></a> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image.shape" title="pysap.base.image.Image.shape" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-property"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span> <a href="../../pysap.base.image.html#pysap.base.image.Image.spacing" title="pysap.base.image.Image.spacing" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-property"><span class="n">image</span><span class="o">.</span><span class="n">spacing</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">data_type</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">metadata</span></a><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="c1"># image.show()  ## uncomment to visualise this object</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading data from ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/t1_localizer.nii.gz...
+
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 0% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 1% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[                    ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 2% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 3% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 4% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 5% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 6% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[=                   ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 7% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 8% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 9% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 10% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 11% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[==                  ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 12% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 13% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 14% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 15% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 16% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[===                 ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 17% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 18% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 19% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 20% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 21% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[====                ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 22% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 23% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 24% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 25% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 26% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[=====               ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 27% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 28% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 29% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 30% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 31% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[======              ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 32% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 33% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 34% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 35% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 36% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[=======             ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 37% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 38% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 39% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 40% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 41% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[========            ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 42% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 43% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 44% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 45% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 46% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[=========           ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 47% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 48% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 49% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 50% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 51% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[==========          ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 52% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 53% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 54% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 55% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 56% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[===========         ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 57% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 58% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 59% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 60% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 61% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[============        ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 62% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 63% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 64% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 65% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 66% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[=============       ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 67% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 68% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 69% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 70% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 71% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[==============      ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 72% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 73% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 74% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 75% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 76% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[===============     ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 77% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 78% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 79% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 80% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 81% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[================    ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 82% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 83% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 84% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 85% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 86% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[=================   ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 87% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 88% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 89% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 90% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 91% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[==================  ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 92% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 93% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 94% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 95% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 96% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[=================== ] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 97% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 98% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 99% t1_localizer.nii.gz
+[====================] 100% t1_localizer.nii.gz
+Download was done in 0 minutes,  11.77 seconds
+(240, 256, 160) [1.  1.  1.1] scalar
+{&#39;path&#39;: &#39;/home/runner/.local/share/pysap/t1_localizer.nii.gz&#39;}
+float32
+</pre></div>
+</div>
+</section>
+<section id="decompose-recompose-an-image-using-a-fast-sparse2d-based-transform">
+<h2>Decompose/recompose an image using a fast Sparse2D based transform<a class="headerlink" href="#decompose-recompose-an-image-using-a-fast-sparse2d-based-transform" title="Permalink to this headline">#</a></h2>
+<p>PySAP includes Python bindings for the Sparse2D C++ library of wavelet
+transforms developped at the CosmoStat lab. PySAP also uses the
+PyWavelet package. The code is optimsed and provides access to many
+image decompsition strategies.</p>
+<p>All the transforms available can be listed as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a>
+<span class="kn">import</span> <span class="nn">pysap</span>
+
+<a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a><span class="p">(</span><span class="n">pysap</span><span class="o">.</span><span class="n">wavelist</span><span class="p">())</span>
+<a href="https://docs.python.org/3/library/pprint.html#pprint.pprint" title="pprint.pprint" class="sphx-glr-backref-module-pprint sphx-glr-backref-type-py-function"><span class="n">pprint</span></a><span class="p">(</span><span class="n">pysap</span><span class="o">.</span><span class="n">wavelist</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;isap-3d&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;isap-2d&#39;: [&#39;BsplineWaveletTransformATrousAlgorithm&#39;,
+             &#39;DecompositionOnScalingFunction&#39;,
+             &#39;FastCurveletTransform&#39;,
+             &#39;FeauveauWaveletTransform&#39;,
+             &#39;FeauveauWaveletTransformWithoutUndersampling&#39;,
+             &#39;HaarWaveletTransform&#39;,
+             &#39;HalfPyramidalTransform&#39;,
+             &#39;IsotropicAndCompactSupportWaveletInFourierSpace&#39;,
+             &#39;LineColumnWaveletTransform1D1D&#39;,
+             &#39;LinearWaveletTransformATrousAlgorithm&#39;,
+             &#39;MallatWaveletTransform79Filters&#39;,
+             &#39;MeyerWaveletsCompactInFourierSpace&#39;,
+             &#39;MixedHalfPyramidalWTAndMedianMethod&#39;,
+             &#39;MixedWTAndPMTMethod&#39;,
+             &#39;MorphologicalMedianTransform&#39;,
+             &#39;MorphologicalMinmaxTransform&#39;,
+             &#39;MorphologicalPyramidalMinmaxTransform&#39;,
+             &#39;NonOrthogonalUndecimatedTransform&#39;,
+             &#39;OnLine44AndOnColumn53&#39;,
+             &#39;OnLine53AndOnColumn44&#39;,
+             &#39;PyramidalBsplineWaveletTransform&#39;,
+             &#39;PyramidalLaplacian&#39;,
+             &#39;PyramidalLinearWaveletTransform&#39;,
+             &#39;PyramidalMedianTransform&#39;,
+             &#39;PyramidalWaveletTransformInFourierSpaceAlgo1&#39;,
+             &#39;PyramidalWaveletTransformInFourierSpaceAlgo2&#39;,
+             &#39;UndecimatedBiOrthogonalTransform&#39;,
+             &#39;UndecimatedDiadicWaveletTransform&#39;,
+             &#39;UndecimatedHaarTransformATrousAlgorithm&#39;,
+             &#39;WaveletTransformInFourierSpace&#39;,
+             &#39;WaveletTransformViaLiftingScheme&#39;],
+ &#39;isap-3d&#39;: [&#39;ATrou3D&#39;,
+             &#39;BiOrthogonalTransform3D&#39;,
+             &#39;Wavelet3DTransformViaLiftingScheme&#39;],
+ &#39;pywt&#39;: [&#39;bior11&#39;,
+          &#39;bior13&#39;,
+          &#39;bior15&#39;,
+          &#39;bior22&#39;,
+          &#39;bior24&#39;,
+          &#39;bior26&#39;,
+          &#39;bior28&#39;,
+          &#39;bior31&#39;,
+          &#39;bior33&#39;,
+          &#39;bior35&#39;,
+          &#39;bior37&#39;,
+          &#39;bior39&#39;,
+          &#39;bior44&#39;,
+          &#39;bior55&#39;,
+          &#39;bior68&#39;,
+          &#39;cgau1&#39;,
+          &#39;cgau2&#39;,
+          &#39;cgau3&#39;,
+          &#39;cgau4&#39;,
+          &#39;cgau5&#39;,
+          &#39;cgau6&#39;,
+          &#39;cgau7&#39;,
+          &#39;cgau8&#39;,
+          &#39;cmor&#39;,
+          &#39;coif1&#39;,
+          &#39;coif10&#39;,
+          &#39;coif11&#39;,
+          &#39;coif12&#39;,
+          &#39;coif13&#39;,
+          &#39;coif14&#39;,
+          &#39;coif15&#39;,
+          &#39;coif16&#39;,
+          &#39;coif17&#39;,
+          &#39;coif2&#39;,
+          &#39;coif3&#39;,
+          &#39;coif4&#39;,
+          &#39;coif5&#39;,
+          &#39;coif6&#39;,
+          &#39;coif7&#39;,
+          &#39;coif8&#39;,
+          &#39;coif9&#39;,
+          &#39;db1&#39;,
+          &#39;db10&#39;,
+          &#39;db11&#39;,
+          &#39;db12&#39;,
+          &#39;db13&#39;,
+          &#39;db14&#39;,
+          &#39;db15&#39;,
+          &#39;db16&#39;,
+          &#39;db17&#39;,
+          &#39;db18&#39;,
+          &#39;db19&#39;,
+          &#39;db2&#39;,
+          &#39;db20&#39;,
+          &#39;db21&#39;,
+          &#39;db22&#39;,
+          &#39;db23&#39;,
+          &#39;db24&#39;,
+          &#39;db25&#39;,
+          &#39;db26&#39;,
+          &#39;db27&#39;,
+          &#39;db28&#39;,
+          &#39;db29&#39;,
+          &#39;db3&#39;,
+          &#39;db30&#39;,
+          &#39;db31&#39;,
+          &#39;db32&#39;,
+          &#39;db33&#39;,
+          &#39;db34&#39;,
+          &#39;db35&#39;,
+          &#39;db36&#39;,
+          &#39;db37&#39;,
+          &#39;db38&#39;,
+          &#39;db4&#39;,
+          &#39;db5&#39;,
+          &#39;db6&#39;,
+          &#39;db7&#39;,
+          &#39;db8&#39;,
+          &#39;db9&#39;,
+          &#39;dmey&#39;,
+          &#39;fbsp&#39;,
+          &#39;gaus1&#39;,
+          &#39;gaus2&#39;,
+          &#39;gaus3&#39;,
+          &#39;gaus4&#39;,
+          &#39;gaus5&#39;,
+          &#39;gaus6&#39;,
+          &#39;gaus7&#39;,
+          &#39;gaus8&#39;,
+          &#39;haar&#39;,
+          &#39;mexh&#39;,
+          &#39;morl&#39;,
+          &#39;rbio11&#39;,
+          &#39;rbio13&#39;,
+          &#39;rbio15&#39;,
+          &#39;rbio22&#39;,
+          &#39;rbio24&#39;,
+          &#39;rbio26&#39;,
+          &#39;rbio28&#39;,
+          &#39;rbio31&#39;,
+          &#39;rbio33&#39;,
+          &#39;rbio35&#39;,
+          &#39;rbio37&#39;,
+          &#39;rbio39&#39;,
+          &#39;rbio44&#39;,
+          &#39;rbio55&#39;,
+          &#39;rbio68&#39;,
+          &#39;shan&#39;,
+          &#39;sym10&#39;,
+          &#39;sym11&#39;,
+          &#39;sym12&#39;,
+          &#39;sym13&#39;,
+          &#39;sym14&#39;,
+          &#39;sym15&#39;,
+          &#39;sym16&#39;,
+          &#39;sym17&#39;,
+          &#39;sym18&#39;,
+          &#39;sym19&#39;,
+          &#39;sym2&#39;,
+          &#39;sym20&#39;,
+          &#39;sym3&#39;,
+          &#39;sym4&#39;,
+          &#39;sym5&#39;,
+          &#39;sym6&#39;,
+          &#39;sym7&#39;,
+          &#39;sym8&#39;,
+          &#39;sym9&#39;]}
+{&#39;isap-3d&#39;: [&#39;ATrou3D&#39;,
+             &#39;BiOrthogonalTransform3D&#39;,
+             &#39;Wavelet3DTransformViaLiftingScheme&#39;]}
+</pre></div>
+</div>
+<p>Here we illustrate the the decomposition/recomposition process using a
+Daubechies (<code class="docutils literal notranslate"><span class="pre">'db3'</span></code>) wavelet from pywt with 4 scales:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pysap</span>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
+
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;mri-slice-nifti&#39;</span><span class="p">)</span>
+<a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class"><span class="n">transform_klass</span></a> <span class="o">=</span> <span class="n">pysap</span><span class="o">.</span><span class="n">load_transform</span><span class="p">(</span><span class="s1">&#39;db3&#39;</span><span class="p">)</span>
+<a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">transform</span></a> <span class="o">=</span> <a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class"><span class="n">transform_klass</span></a><span class="p">(</span><span class="n">nb_scale</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+<a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.data" title="pysap.base.transform.WaveletTransformBase.data" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-property"><span class="n">transform</span><span class="o">.</span><span class="n">data</span></a> <span class="o">=</span> <a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a>
+<a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.analysis" title="pysap.base.transform.WaveletTransformBase.analysis" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-method"><span class="n">transform</span><span class="o">.</span><span class="n">analysis</span></a><span class="p">()</span>
+<span class="c1"># transform.show()  ## uncomment to visualise this object</span>
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_image</span></a> <span class="o">=</span> <a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.synthesis" title="pysap.base.transform.WaveletTransformBase.synthesis" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-method"><span class="n">transform</span><span class="o">.</span><span class="n">synthesis</span></a><span class="p">()</span>
+<span class="c1"># rec_image.show()  ## uncomment to visualise this object</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading data from ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/BrainPhantom512.nii.gz...
+
+[=========           ] 43% BrainPhantom512.nii.gz
+[=================   ] 86% BrainPhantom512.nii.gz
+[====================] 100% BrainPhantom512.nii.gz
+Download was done in 0 minutes,  2.95 seconds
+</pre></div>
+</div>
+<p>Here we illustrate the the decomposition/recomposition process using a
+fast curvelet transform (<code class="docutils literal notranslate"><span class="pre">'FastCurveletTransform'</span></code>) from Sparse2D with 4
+scales:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;mri-slice-nifti&#39;</span><span class="p">)</span>
+<a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class"><span class="n">transform_klass</span></a> <span class="o">=</span> <span class="n">pysap</span><span class="o">.</span><span class="n">load_transform</span><span class="p">(</span><span class="s1">&#39;FastCurveletTransform&#39;</span><span class="p">)</span>
+<a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">transform</span></a> <span class="o">=</span> <a href="../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform" title="pysap.extensions.transform.FastCurveletTransform" class="sphx-glr-backref-module-pysap-extensions-transform sphx-glr-backref-type-py-class"><span class="n">transform_klass</span></a><span class="p">(</span><span class="n">nb_scale</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zero&#39;</span><span class="p">)</span>
+<a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.data" title="pysap.base.transform.WaveletTransformBase.data" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-property"><span class="n">transform</span><span class="o">.</span><span class="n">data</span></a> <span class="o">=</span> <a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a>
+<a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.analysis" title="pysap.base.transform.WaveletTransformBase.analysis" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-method"><span class="n">transform</span><span class="o">.</span><span class="n">analysis</span></a><span class="p">()</span>
+<span class="c1"># transform.show()  ## uncomment to visualise this object</span>
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_image</span></a> <span class="o">=</span> <a href="../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.synthesis" title="pysap.base.transform.WaveletTransformBase.synthesis" class="sphx-glr-backref-module-pysap-base-transform sphx-glr-backref-type-py-method"><span class="n">transform</span><span class="o">.</span><span class="n">synthesis</span></a><span class="p">()</span>
+<span class="c1"># rec_image.show()  ## uncomment to visualise this object</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  19.145 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-pysap-plot-basics-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b50a28a1fa5aab97168b21a61e9d6d1d/plot_basics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_basics.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/7fe2d640cd96dcf64b430a56164f8f75/plot_basics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_basics.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">PySAP Examples</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../../contributing.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contributing</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 05 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

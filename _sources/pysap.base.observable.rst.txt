@@ -1,0 +1,7 @@
+pysap.base.observable
+---------------------
+
+.. automodule:: pysap.base.observable
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+pysap.extensions.wrapper
+------------------------
+
+.. automodule:: pysap.extensions.wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:

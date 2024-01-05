@@ -1,0 +1,7 @@
+pysap.extensions.formating
+--------------------------
+
+.. automodule:: pysap.extensions.formating
+   :members:
+   :undoc-members:
+   :show-inheritance:

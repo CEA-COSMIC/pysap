@@ -1,0 +1,21 @@
+pysap.base.loaders
+==================
+
+
+.. automodule:: pysap.base.loaders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.base.loaders.fits
+   pysap.base.loaders.loader_base
+   pysap.base.loaders.mat
+   pysap.base.loaders.nifti
+   pysap.base.loaders.numpy_binary
+   pysap.base.loaders.tif

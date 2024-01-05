@@ -1,0 +1,7 @@
+pysap.base.loaders.fits
+-----------------------
+
+.. automodule:: pysap.base.loaders.fits
+   :members:
+   :undoc-members:
+   :show-inheritance:

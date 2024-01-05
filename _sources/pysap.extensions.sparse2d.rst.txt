@@ -1,0 +1,7 @@
+pysap.extensions.sparse2d
+-------------------------
+
+.. automodule:: pysap.extensions.sparse2d
+   :members:
+   :undoc-members:
+   :show-inheritance:

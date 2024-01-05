@@ -1,0 +1,7 @@
+pysap.plotting.image
+--------------------
+
+.. automodule:: pysap.plotting.image
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,133 +1,521 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pysap.extensions.transform &#8212; pysap v0.0.6</title>
     
-  
-    <title>PYSAP &mdash; python-pySAP</title>
-  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../../_static/css/bootstrap.min.css" media="screen" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="python-pySAP" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
-  
-   
-       <script type="text/javascript" src="../../../_static/sidebar.js"></script>
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="../../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-  <script src="../../../_static/js/angular.min.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    var app = angular.module("navApp", []);
-    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
-      $scope.isActive = function (viewLocation) {
-        var rel = $window.location.pathname.split("/")
-        rel = rel[rel.length - 1]
-        rel = rel.split(".")[0]
-        var active = (viewLocation === rel);
-        return active;};
-    }]);
-  </script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
 
+    <!-- Google Analytics -->
+    
   </head>
-  <body role="document"><div class="banner">
-  <div class="container-fluid banner-container">
-    <div class="row banner-inner">
-      <div class="col-xs-4">
-        <img alt="Logo" src="../../../_static/pysap.png">
-      </div>
-      <div class="col-xs-8">
-            <p>PYthon Sparse data Analysis Package</p>
-      </div>
-    </div>  
-  </div>
-</div><nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../../../index.html">
-        </a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
-        <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
-        <!--<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-	        <li><a href="../../../generated/pysap.html">Pysap</a></li>
-<li><a href="../../../generated/pysap.base.html">Pysap.base</a></li>
-<li><a href="../../../generated/pysap.plugins.html">Pysap.plugins</a></li>
-<li><a href="../../../generated/pysap.apps.html">Pysap.apps</a></li>
-<li><a href="../../../generated/pysap.extensions.html">Pysap.extensions</a></li>
-<li><a href="../../../generated/pysap.plotting.html">Pysap.plotting</a></li>
-<li><a href="../../../generated/pysap.base.loaders.html">Pysap.base.loaders</a></li>
-          </ul>
-        </li>-->
-        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="content-wrapper">
-    <div class="sphinxsidebar">
-      <div class="sphinxsidebarwrapper">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
 
-        <!-- info setup -->
-          <p class="doc-version">
-           This documentation is for pysap <strong>version 0.0.3</strong>
-          </p>
-        <p class="citing">
-          If you use the software, please do not hesitate to 
-          <a &mdash; <a href="https://github.com/CEA-COSMIC/pysap">
-          Report a Bug</a>.
-        </p>
+    
+    <div class="container-fluid" id="banner"></div>
 
-      <!-- toc tree -->
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../auto_examples/index.html">
+   PySAP Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
 
-      </div>
     </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
   
 
-  <div class="content">
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
       
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2F_modules/pysap/extensions/transform.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
   <h1>Source code for pysap.extensions.transform</h1><div class="highlight"><pre>
-<span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">##########################################################################</span>
 <span class="c1"># pySAP - Copyright (C) CEA, 2017 - 2018</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
@@ -142,17 +530,17 @@
 <span class="sd">Available 2D transform from ISAP are:</span>
 
 <span class="sd">- to get the full list of builtin wavelets&#39; names just use the pysap.wavelist</span>
-<span class="sd">  with &#39;isap-2d&#39; as the family argument.</span>
+<span class="sd">  with ``isap-2d`` as the family argument.</span>
 
 <span class="sd">Available 3D transform from ISAP are:</span>
 
 <span class="sd">- to get the full list of builtin wavelets&#39; names just use the pysap.wavelist</span>
-<span class="sd">  with &#39;isap-3d&#39; as the family argument.</span>
+<span class="sd">  with ``isap-3d`` as the family argument.</span>
 
 <span class="sd">Available transform from pywt are:</span>
 
 <span class="sd">- to get the full list of builtin wavelets&#39; names just use the pysap.wavelist</span>
-<span class="sd">  with &#39;pywt&#39; as the family argument.</span>
+<span class="sd">  with ``pywt`` as the family argument.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># System import</span>
@@ -167,26 +555,30 @@
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">pysparse</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Sparse2d python bindings not found, use binaries.&quot;</span><span class="p">)</span>
-    <span class="n">pysparse</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s1">&#39;Sparse2D Python bindings not found. Any call to a Sparse2D transform &#39;</span>
+        <span class="o">+</span> <span class="s1">&#39;or a plug-in method that uses a Sparse2D transform will result in &#39;</span>
+        <span class="o">+</span> <span class="s1">&#39;an error.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">pysparse</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1"># Third party import</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">pywt</span>
 
 
-<div class="viewcode-block" id="PyWaveletTransformBase"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">PyWaveletTransformBase</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Define the structure that will be used to store the pywt results.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">PyWaveletTransformBase</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Define the structure that will be used to store the pywt results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__family__</span> <span class="o">=</span> <span class="s2">&quot;pywt&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">is_decimated</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                 <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">is_decimated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: ndarray</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            the input data.</span>
 <span class="sd">        nb_scale: int</span>
 <span class="sd">            the number of scale of the decomposition that includes the</span>
@@ -205,7 +597,7 @@
 <span class="sd">            signal-extension-modes.html for more explanations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Inheritance</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PyWaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PyWaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># pywt Wavelet transform parameters</span>
@@ -213,31 +605,30 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span>
         <span class="k">if</span> <span class="n">padding_mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pywt</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;{0}&#39; is not a valid padding mode, should be one of &quot;</span>
-                <span class="s2">&quot;{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding_mode</span><span class="p">,</span> <span class="n">pywt</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">modes</span><span class="p">))</span>
+                <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; is not a valid padding mode, should be one of &quot;</span>
+                <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding_mode</span><span class="p">,</span> <span class="n">pywt</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">modes</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">padding_mode</span> <span class="o">=</span> <span class="n">padding_mode</span>
 
-    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define the transform.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase._init_transform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase._init_transform">[docs]</a>    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define the transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pywt_func</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pywt_name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pywt_func</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pywt_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Transform not specified properly.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pywt_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pywt_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pywt_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pywt_name</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Decompose a real signal using pywt.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase._analysis"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase._analysis">[docs]</a>    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Decompose a real signal using pywt.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            a real array to be decomposed.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        analysis_data: nd_array</span>
-<span class="sd">            the decomposition coefficients.</span>
-<span class="sd">        analysis_header: dict</span>
-<span class="sd">            the decomposition associated information.</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The decomposition coefficients and associated information</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span><span class="p">:</span>
             <span class="n">coeffs</span> <span class="o">=</span> <span class="n">pywt</span><span class="o">.</span><span class="n">wavedecn</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">padding_mode</span><span class="p">,</span>
@@ -249,21 +640,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">scale_info</span><span class="p">)</span> <span class="k">for</span> <span class="n">scale_info</span> <span class="ow">in</span> <span class="n">analysis_header</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span>
+        <span class="k">return</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span></div>
 
-    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using pywt.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase._synthesis"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase._synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using pywt.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        analysis_data: list of nd-array</span>
-<span class="sd">            the wavelet coefficients array.</span>
+<span class="sd">        analysis_data: list</span>
+<span class="sd">            the wavelet coefficients array</span>
 <span class="sd">        analysis_header: dict</span>
-<span class="sd">            the wavelet decomposition parameters.</span>
+<span class="sd">            the wavelet decomposition parameters</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        numpy.ndarray</span>
 <span class="sd">            the reconstructed data array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_organize_pywt</span><span class="p">(</span><span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">)</span>
@@ -272,27 +663,26 @@
                                  <span class="n">axes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">pywt</span><span class="o">.</span><span class="n">iswtn</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">data</span></div>
 
-    <span class="k">def</span> <span class="nf">_organize_pysap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Organize the coefficients from pywt for pysap.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase._organize_pysap"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase._organize_pysap">[docs]</a>    <span class="k">def</span> <span class="nf">_organize_pysap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Organize the coefficients from pywt for pysap.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        coeffs: list of dict or ndarray</span>
+<span class="sd">        coeffs: list or numpy.ndarray</span>
 <span class="sd">            the pywt input coefficents.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        data: list of ndarray</span>
-<span class="sd">            the organized coefficients.</span>
-<span class="sd">        info: list</span>
-<span class="sd">            the pywt transform information.</span>
+<span class="sd">        tuple</span>
+<span class="sd">            the organized coefficients and the pywt transform information</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">coeffs</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span><span class="p">:</span>
             <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -304,21 +694,21 @@
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
             <span class="n">info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band_info</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">info</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">info</span></div>
 
-    <span class="k">def</span> <span class="nf">_organize_pywt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Organize the coefficients from pysap for pywt.</span>
+<div class="viewcode-block" id="PyWaveletTransformBase._organize_pywt"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyWaveletTransformBase._organize_pywt">[docs]</a>    <span class="k">def</span> <span class="nf">_organize_pywt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Organize the coefficients from pysap for pywt.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: list of ndarray</span>
+<span class="sd">        data: list</span>
 <span class="sd">            the organized coefficients.</span>
 <span class="sd">        info: list</span>
 <span class="sd">            the pywt transform information.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        coeffs: list</span>
+<span class="sd">        list</span>
 <span class="sd">            the pywt input coefficents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -334,21 +724,22 @@
             <span class="n">offset</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">band_struct</span><span class="p">)</span>
             <span class="n">coeffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band_info</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">coeffs</span></div>
+        <span class="k">return</span> <span class="n">coeffs</span></div></div>
 
 
-<div class="viewcode-block" id="pywt_class_factory"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.pywt_class_factory">[docs]</a><span class="k">def</span> <span class="nf">pywt_class_factory</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">destination_module_globals</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Dynamically create a pywt transform.</span>
+<div class="viewcode-block" id="pywt_class_factory"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.pywt_class_factory">[docs]</a><span class="k">def</span> <span class="nf">pywt_class_factory</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">destination_module_globals</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Dynamically create a pywt transform.</span>
 
 <span class="sd">    In order to make the class publicly accessible, we assign the result of</span>
 <span class="sd">    the function to a variable dynamically using globals().</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    func: @function</span>
-<span class="sd">        the wavelet transform function.</span>
+<span class="sd">    func: callable</span>
+<span class="sd">        the wavelet transform function</span>
 <span class="sd">    name: str</span>
-<span class="sd">        the wavelet name we want to instanciate.</span>
+<span class="sd">        the wavelet name we want to instanciate</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Define the transform class name</span>
     <span class="n">class_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -356,7 +747,7 @@
     <span class="c1"># Define the trsform class parameters</span>
     <span class="n">class_parameters</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;__module__&quot;</span><span class="p">:</span> <span class="n">destination_module_globals</span><span class="p">[</span><span class="s2">&quot;__name__&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;_id&quot;</span><span class="p">:</span>  <span class="n">destination_module_globals</span><span class="p">[</span><span class="s2">&quot;__name__&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">,</span>
+        <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">destination_module_globals</span><span class="p">[</span><span class="s2">&quot;__name__&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">,</span>
         <span class="s2">&quot;_pywt_name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
         <span class="s2">&quot;_pywt_func&quot;</span><span class="p">:</span> <span class="n">func</span>
     <span class="p">}</span>
@@ -376,24 +767,24 @@
         <span class="n">pywt_class_factory</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">destination_module_globals</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ISAPWaveletTransformBase"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">ISAPWaveletTransformBase</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Define the structure that will be used to store the ISAP results.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">ISAPWaveletTransformBase</span><span class="p">(</span><span class="n">WaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Define the structure that will be used to store the ISAP results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__family__</span> <span class="o">=</span> <span class="s2">&quot;isap-2d&quot;</span>
-    <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">__isap_name__</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__isap_name__</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">__isap_scale_shift__</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">__mods__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="s2">&quot;symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: ndarray</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            the input data.</span>
 <span class="sd">        nb_scale: int</span>
 <span class="sd">            the number of scale of the decomposition that includes the</span>
@@ -408,26 +799,26 @@
         <span class="c1"># ISAP Wavelet transform parameters</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;__family__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__family__</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;isap-3d&quot;</span><span class="p">,</span> <span class="p">):</span>
             <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unflatten_fct</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unflatten_fct</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">padding_mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mods__</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;{0}&#39; is not a valid padding mode, should be one of &quot;</span>
-                <span class="s2">&quot;{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding_mode</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mods__</span><span class="p">))</span>
+                <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; is not a valid padding mode, should be one of &quot;</span>
+                <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">padding_mode</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mods__</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">padding_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mods__</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">padding_mode</span><span class="p">)</span>
 
         <span class="c1"># Inheritance</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
-            <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">use_wrapping</span><span class="o">=</span><span class="n">pysparse</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">use_wrapping</span><span class="o">=</span><span class="n">pysparse</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define the transform.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase._init_transform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase._init_transform">[docs]</a>    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define the transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;type_of_multiresolution_transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
@@ -442,28 +833,27 @@
                 <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;Please define a correct dimension for data.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">trf</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;For {0}D, only the bindings work for &quot;</span>
-                                <span class="s2">&quot;now.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;For </span><span class="si">{0}</span><span class="s2">D, only the bindings work for &quot;</span>
+                                <span class="s2">&quot;now.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Decompose a real signal using ISAP.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase._analysis"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase._analysis">[docs]</a>    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Decompose a real signal using ISAP.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            a real array to be decomposed.</span>
 <span class="sd">        kwargs: dict (optional)</span>
 <span class="sd">            the parameters that will be passed to</span>
-<span class="sd">            &#39;pysap.extensions.mr_tansform&#39;.</span>
+<span class="sd">            ``pysap.extensions.mr_tansform``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        analysis_data: nd_array</span>
-<span class="sd">            the decomposition coefficients.</span>
-<span class="sd">        analysis_header: dict</span>
-<span class="sd">            the decomposition associated information.</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The decomposition coefficients and associated information</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Update ISAP parameters</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;type_of_multiresolution_transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span>
@@ -472,7 +862,7 @@
         <span class="c1"># Use subprocess to execute binaries</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="k">with</span> <span class="n">pysap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">pysap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
                 <span class="n">in_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;in.fits&quot;</span><span class="p">)</span>
                 <span class="n">out_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
                 <span class="n">pysap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">in_image</span><span class="p">)</span>
@@ -497,31 +887,32 @@
         <span class="c1"># Use Python bindings</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">double</span><span class="p">),</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-            <span class="n">analysis_header</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">double</span><span class="p">),</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">analysis_header</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">return</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span>
+        <span class="k">return</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span></div>
 
-    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using ISAP.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase._synthesis"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase._synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using ISAP.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        analysis_data: list of nd-array</span>
-<span class="sd">            the wavelet coefficients array.</span>
+<span class="sd">        analysis_data: list</span>
+<span class="sd">            the wavelet coefficients array</span>
 <span class="sd">        analysis_header: dict</span>
-<span class="sd">            the wavelet decomposition parameters.</span>
+<span class="sd">            the wavelet decomposition parameters</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        data: nd-array</span>
-<span class="sd">            the reconstructed data array.</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            the reconstructed data array</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Use subprocess to execute binaries</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
 
             <span class="n">cube</span> <span class="o">=</span> <span class="n">pysap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">analysis_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">metadata</span><span class="o">=</span><span class="n">analysis_header</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">pysap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">pysap</span><span class="o">.</span><span class="n">TempDir</span><span class="p">(</span><span class="n">isap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
                 <span class="n">in_mr_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;cube.mr&quot;</span><span class="p">)</span>
                 <span class="n">out_image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;out.fits&quot;</span><span class="p">)</span>
                 <span class="n">pysap</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">in_mr_file</span><span class="p">)</span>
@@ -533,15 +924,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">analysis_data</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">data</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Declare transformation parameters.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase._set_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase._set_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Declare transformation parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check transformation has been defined</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__isap_transform_id__</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_name__</span> <span class="ow">is</span> <span class="bp">None</span>
-                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_decimated__</span> <span class="ow">is</span> <span class="bp">None</span>
-                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_nb_bands__</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__isap_transform_id__</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_name__</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_decimated__</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_nb_bands__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
 
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ISAPWaveletTransform is not defined properly.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_name__</span>
@@ -560,16 +951,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isap_transform_id__</span>
 
         <span class="c1"># Update the default parameters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_update_default_transformation_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_default_transformation_parameters</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Add a method to tune the default transformation parameters.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Add a method to tune the default transformation parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">pass</span></div>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ISAPWaveletTransformBase.undecimated"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase.undecimated">[docs]</a>    <span class="k">def</span> <span class="nf">undecimated</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">iso_shape</span><span class="p">,</span> <span class="n">nb_band</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Compute undecimated transformation parameters.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase.undecimated"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase.undecimated">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">undecimated</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">iso_shape</span><span class="p">,</span> <span class="n">nb_band</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Compute undecimated transformation parameters.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -583,25 +974,30 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        bands_names: list of str</span>
-<span class="sd">            the name of the different bands.</span>
-<span class="sd">        flatten_fct: int</span>
-<span class="sd">            a function used to reorganize the ISAP decomposition coefficients,</span>
-<span class="sd">            see &#39;pysap/extensions/formating.py&#39; module for more details.</span>
-<span class="sd">        unflatten_fct: callable</span>
-<span class="sd">            a function used to reorganize the decomposition coefficients using</span>
-<span class="sd">            ISAP convention, see &#39;pysap/extensions/formating.py&#39; module for</span>
-<span class="sd">            more details.</span>
-<span class="sd">        is_decimated: bool</span>
-<span class="sd">            True if the decomposition include a decimation of the</span>
-<span class="sd">            band number of coefficients.</span>
-<span class="sd">        nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</span>
-<span class="sd">            vector of int holding the number of band per scale.</span>
-<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
-<span class="sd">            array holding the length between two bands of the data</span>
-<span class="sd">            vector per scale.</span>
-<span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
-<span class="sd">            structure holding the shape of each bands at each scale.</span>
+<span class="sd">        tuple</span>
+<span class="sd">            bands_names: list of str</span>
+<span class="sd">                the name of the different bands.</span>
+<span class="sd">            flatten_fct: int</span>
+<span class="sd">                a function used to reorganize the ISAP decomposition</span>
+<span class="sd">                coefficients, see ``pysap/extensions/formating.py`` module for</span>
+<span class="sd">                more details.</span>
+<span class="sd">            unflatten_fct: callable</span>
+<span class="sd">                a function used to reorganize the decomposition coefficients</span>
+<span class="sd">                using ISAP convention, see ``pysap/extensions/formating.py``</span>
+<span class="sd">                module for more details.</span>
+<span class="sd">            is_decimated: bool</span>
+<span class="sd">                True if the decomposition include a decimation of the</span>
+<span class="sd">                band number of coefficients.</span>
+<span class="sd">            nb_band_per_scale: numpy.ndarray ``(&lt;nb_scale&gt;, )``</span>
+<span class="sd">                vector of int holding the number of band per scale.</span>
+<span class="sd">            bands_lengths: numpy.ndarray</span>
+<span class="sd">                ``(&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))``</span>
+<span class="sd">                array holding the length between two bands of the data</span>
+<span class="sd">                vector per scale.</span>
+<span class="sd">            bands_shapes: list of list of 2-uplet</span>
+<span class="sd">                ``(&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)``</span>
+<span class="sd">                structure holding the shape of each bands at each scale.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nb_band</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">bands_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
@@ -610,10 +1006,10 @@
         <span class="k">elif</span> <span class="n">nb_band</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="n">bands_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;{0} bands not yet accepted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_band</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2"> bands not yet accepted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_band</span><span class="p">))</span>
         <span class="n">flatten_fct</span> <span class="o">=</span> <span class="n">ISAP_FLATTEN</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">unflatten_fct</span> <span class="o">=</span> <span class="n">ISAP_UNFLATTEN</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">is_decimated</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">nb_scale</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">nb_band_per_scale</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_band</span>
         <span class="n">bands_lengths</span> <span class="o">=</span> <span class="p">(</span>
@@ -624,9 +1020,9 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">bands_names</span><span class="p">,</span> <span class="n">flatten_fct</span><span class="p">,</span> <span class="n">unflatten_fct</span><span class="p">,</span> <span class="n">is_decimated</span><span class="p">,</span>
                 <span class="n">nb_band_per_scale</span><span class="p">,</span> <span class="n">bands_lengths</span><span class="p">,</span> <span class="n">bands_shapes</span><span class="p">)</span></div>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ISAPWaveletTransformBase.decimated"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase.decimated">[docs]</a>    <span class="k">def</span> <span class="nf">decimated</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">iso_shape</span><span class="p">,</span> <span class="n">nb_band</span><span class="p">,</span> <span class="n">scale_shift</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Compute decimated transformation parameters.</span>
+<div class="viewcode-block" id="ISAPWaveletTransformBase.decimated"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ISAPWaveletTransformBase.decimated">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">decimated</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">iso_shape</span><span class="p">,</span> <span class="n">nb_band</span><span class="p">,</span> <span class="n">scale_shift</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Compute decimated transformation parameters.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -642,25 +1038,30 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        bands_names: list of str</span>
-<span class="sd">            the name of the different bands.</span>
-<span class="sd">        flatten_fct: int</span>
-<span class="sd">            a function used to reorganize the ISAP decomposition coefficients,</span>
-<span class="sd">            see &#39;pysap/extensions/formating.py&#39; module for more details.</span>
-<span class="sd">        unflatten_fct: callable</span>
-<span class="sd">            a function used to reorganize the decomposition coefficients using</span>
-<span class="sd">            ISAP convention, see &#39;pysap/extensions/formating.py&#39; module for</span>
-<span class="sd">            more details.</span>
-<span class="sd">        is_decimated: bool</span>
-<span class="sd">            True if the decomposition include a decimation of the</span>
-<span class="sd">            band number of coefficients.</span>
-<span class="sd">        nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</span>
-<span class="sd">            vector of int holding the number of band per scale.</span>
-<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
-<span class="sd">            array holding the length between two bands of the data</span>
-<span class="sd">            vector per scale.</span>
-<span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
-<span class="sd">            structure holding the shape of each bands at each scale.</span>
+<span class="sd">        tuple</span>
+<span class="sd">            bands_names: list of str</span>
+<span class="sd">                the name of the different bands.</span>
+<span class="sd">            flatten_fct: int</span>
+<span class="sd">                a function used to reorganize the ISAP decomposition</span>
+<span class="sd">                coefficients, see ``pysap/extensions/formating.py`` module for</span>
+<span class="sd">                more details.</span>
+<span class="sd">            unflatten_fct: callable</span>
+<span class="sd">                a function used to reorganize the decomposition coefficients</span>
+<span class="sd">                using ISAP convention, see ``pysap/extensions/formating.py``</span>
+<span class="sd">                module for more details.</span>
+<span class="sd">            is_decimated: bool</span>
+<span class="sd">                True if the decomposition include a decimation of the</span>
+<span class="sd">                band number of coefficients.</span>
+<span class="sd">            nb_band_per_scale: numpy.ndarray ``(&lt;nb_scale&gt;, )``</span>
+<span class="sd">                vector of int holding the number of band per scale.</span>
+<span class="sd">            bands_lengths: numpy.ndarray</span>
+<span class="sd">                ``(&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))``</span>
+<span class="sd">                array holding the length between two bands of the data</span>
+<span class="sd">                vector per scale.</span>
+<span class="sd">            bands_shapes: list of list of 2-uplet</span>
+<span class="sd">                ``(&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)``</span>
+<span class="sd">                structure holding the shape of each bands at each scale.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nb_band</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">bands_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
@@ -675,8 +1076,8 @@
             <span class="n">flatten_fct</span> <span class="o">=</span> <span class="n">ISAP_FLATTEN</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">unflatten_fct</span> <span class="o">=</span> <span class="n">ISAP_UNFLATTEN</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;{0} bands not yet accepted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_band</span><span class="p">))</span>
-        <span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2"> bands not yet accepted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_band</span><span class="p">))</span>
+        <span class="n">is_decimated</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">nb_scale</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">nb_band_per_scale</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_band</span>
         <span class="n">bands_lengths</span> <span class="o">=</span> <span class="p">(</span>
@@ -692,145 +1093,145 @@
                 <span class="n">nb_band_per_scale</span><span class="p">,</span> <span class="n">bands_lengths</span><span class="p">,</span> <span class="n">bands_shapes</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="LinearWaveletTransformATrousAlgorithm"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.LinearWaveletTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">LinearWaveletTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Linear wavelet transform: a trous algorithm.</span>
+<div class="viewcode-block" id="LinearWaveletTransformATrousAlgorithm"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.LinearWaveletTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">LinearWaveletTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Linear wavelet transform: a trous algorithm.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;linear wavelet transform: a trous algorithm&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="BsplineWaveletTransformATrousAlgorithm"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.BsplineWaveletTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">BsplineWaveletTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Bspline wavelet transform: a trous algorithm.</span>
+<div class="viewcode-block" id="BsplineWaveletTransformATrousAlgorithm"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.BsplineWaveletTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">BsplineWaveletTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Bspline wavelet transform: a trous algorithm.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;linear wavelet transform: a trous algorithm&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="WaveletTransformInFourierSpace"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.WaveletTransformInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformInFourierSpace</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Wavelet transform in Fourier space.</span>
+<div class="viewcode-block" id="WaveletTransformInFourierSpace"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.WaveletTransformInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformInFourierSpace</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Wavelet transform in Fourier space.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;wavelet transform in Fourier space&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MorphologicalMedianTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalMedianTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalMedianTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Morphological median transform.</span>
+<div class="viewcode-block" id="MorphologicalMedianTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalMedianTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalMedianTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Morphological median transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;morphological median transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MorphologicalMinmaxTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalMinmaxTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalMinmaxTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Morphological minmax transform.</span>
+<div class="viewcode-block" id="MorphologicalMinmaxTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalMinmaxTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalMinmaxTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Morphological minmax transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;morphological minmax transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalLinearWaveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalLinearWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalLinearWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal linear wavelet transform.</span>
+<div class="viewcode-block" id="PyramidalLinearWaveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalLinearWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalLinearWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal linear wavelet transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">6</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;pyramidal linear wavelet transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalBsplineWaveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalBsplineWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalBsplineWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal bspline wavelet transform.</span>
+<div class="viewcode-block" id="PyramidalBsplineWaveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalBsplineWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalBsplineWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal bspline wavelet transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">7</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;pyramidal bspline wavelet transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalWaveletTransformInFourierSpaceAlgo1"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1">[docs]</a><span class="k">class</span> <span class="nc">PyramidalWaveletTransformInFourierSpaceAlgo1</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal wavelet transform in Fourier space: algo 1</span>
+<div class="viewcode-block" id="PyramidalWaveletTransformInFourierSpaceAlgo1"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo1">[docs]</a><span class="k">class</span> <span class="nc">PyramidalWaveletTransformInFourierSpaceAlgo1</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal wavelet transform in Fourier space: algo 1</span>
 <span class="sd">    (diff. between two resolutions).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pyramidal wavelet transform in Fourier space: algo 1 &quot;</span>
                      <span class="s2">&quot;(diff. between two resolutions)&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MeyerWaveletsCompactInFourierSpace"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MeyerWaveletsCompactInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">MeyerWaveletsCompactInFourierSpace</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Meyers wavelets (compact support in Fourier space).</span>
+<div class="viewcode-block" id="MeyerWaveletsCompactInFourierSpace"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MeyerWaveletsCompactInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">MeyerWaveletsCompactInFourierSpace</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Meyers wavelets (compact support in Fourier space).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">9</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Meyers wavelets (compact support in Fourier space)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalMedianTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalMedianTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalMedianTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal median transform (PMT).</span>
+<div class="viewcode-block" id="PyramidalMedianTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalMedianTransform">[docs]</a><span class="k">class</span> <span class="nc">PyramidalMedianTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal median transform (PMT).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;pyramidal median transform (PMT)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalLaplacian"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalLaplacian">[docs]</a><span class="k">class</span> <span class="nc">PyramidalLaplacian</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal laplacian.</span>
+<div class="viewcode-block" id="PyramidalLaplacian"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalLaplacian">[docs]</a><span class="k">class</span> <span class="nc">PyramidalLaplacian</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal laplacian.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">11</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;pyramidal laplacian&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MorphologicalPyramidalMinmaxTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalPyramidalMinmaxTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalPyramidalMinmaxTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Morphological pyramidal minmax transform.</span>
+<div class="viewcode-block" id="MorphologicalPyramidalMinmaxTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MorphologicalPyramidalMinmaxTransform">[docs]</a><span class="k">class</span> <span class="nc">MorphologicalPyramidalMinmaxTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Morphological pyramidal minmax transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">12</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;morphological pyramidal minmax transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="DecompositionOnScalingFunction"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.DecompositionOnScalingFunction">[docs]</a><span class="k">class</span> <span class="nc">DecompositionOnScalingFunction</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Decomposition on scaling function.</span>
+<div class="viewcode-block" id="DecompositionOnScalingFunction"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.DecompositionOnScalingFunction">[docs]</a><span class="k">class</span> <span class="nc">DecompositionOnScalingFunction</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Decomposition on scaling function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">13</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;decomposition on scaling function&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MallatWaveletTransform79Filters"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MallatWaveletTransform79Filters">[docs]</a><span class="k">class</span> <span class="nc">MallatWaveletTransform79Filters</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mallat&#39;s wavelet transform (7/9 filters).</span>
+<div class="viewcode-block" id="MallatWaveletTransform79Filters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MallatWaveletTransform79Filters">[docs]</a><span class="k">class</span> <span class="nc">MallatWaveletTransform79Filters</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Mallat&#39;s wavelet transform (7/9 filters).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">14</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Mallat&#39;s wavelet transform (7/9 filters)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">__isap_scale_shift__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="FeauveauWaveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.FeauveauWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">FeauveauWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Feauveau&#39;s wavelet transform.</span>
+<div class="viewcode-block" id="FeauveauWaveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.FeauveauWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">FeauveauWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Feauveau&#39;s wavelet transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">15</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Feauveau&#39;s wavelet transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">__isap_scale_shift__</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FeauveauWaveletTransform._set_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.FeauveauWaveletTransform._set_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;This transformation is not yet accessible from the wrapping, &quot;</span>
             <span class="s2">&quot;please use the Python bindings.&quot;</span><span class="p">)</span>
@@ -842,27 +1243,27 @@
         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unflatten_fct</span><span class="p">,</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">,</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span><span class="p">)</span> <span class="o">=</span> <span class="n">params</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="mi">15</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="mi">15</span></div></div>
 
 
-<div class="viewcode-block" id="FeauveauWaveletTransformWithoutUndersampling"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling">[docs]</a><span class="k">class</span> <span class="nc">FeauveauWaveletTransformWithoutUndersampling</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Feauveau&#39;s wavelet transform without undersampling.</span>
+<div class="viewcode-block" id="FeauveauWaveletTransformWithoutUndersampling"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.FeauveauWaveletTransformWithoutUndersampling">[docs]</a><span class="k">class</span> <span class="nc">FeauveauWaveletTransformWithoutUndersampling</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Feauveau&#39;s wavelet transform without undersampling.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">16</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Feauveau&#39;s wavelet transform without undersampling&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="LineColumnWaveletTransform1D1D"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.LineColumnWaveletTransform1D1D">[docs]</a><span class="k">class</span> <span class="nc">LineColumnWaveletTransform1D1D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Line Column Wavelet Transform (1D+1D).</span>
+<div class="viewcode-block" id="LineColumnWaveletTransform1D1D"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.LineColumnWaveletTransform1D1D">[docs]</a><span class="k">class</span> <span class="nc">LineColumnWaveletTransform1D1D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Line Column Wavelet Transform (1D+1D).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">17</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Line Column Wavelet Transform (1D+1D)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LineColumnWaveletTransform1D1D._set_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.LineColumnWaveletTransform1D1D._set_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;This transformation is not yet accessible from the wrapping, &quot;</span>
             <span class="s2">&quot;please use the Python bindings.&quot;</span><span class="p">)</span>
@@ -880,128 +1281,128 @@
             <span class="n">bands_lengths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="mi">17</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span> <span class="o">=</span> <span class="n">ISAP_FLATTEN</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">False</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="kc">False</span></div></div>
 
 
-<div class="viewcode-block" id="HaarWaveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.HaarWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">HaarWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Haar&#39;s wavelet transform.</span>
+<div class="viewcode-block" id="HaarWaveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.HaarWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">HaarWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Haar&#39;s wavelet transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">18</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;linear wavelet transform: a trous algorithm&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">__isap_scale_shift__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="HalfPyramidalTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.HalfPyramidalTransform">[docs]</a><span class="k">class</span> <span class="nc">HalfPyramidalTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Half-pyramidal transform.</span>
+<div class="viewcode-block" id="HalfPyramidalTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.HalfPyramidalTransform">[docs]</a><span class="k">class</span> <span class="nc">HalfPyramidalTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Half-pyramidal transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">19</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;half-pyramidal transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="MixedHalfPyramidalWTAndMedianMethod"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod">[docs]</a><span class="k">class</span> <span class="nc">MixedHalfPyramidalWTAndMedianMethod</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mixed Half-pyramidal WT and Median method (WT-HPMT).</span>
+<div class="viewcode-block" id="MixedHalfPyramidalWTAndMedianMethod"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MixedHalfPyramidalWTAndMedianMethod">[docs]</a><span class="k">class</span> <span class="nc">MixedHalfPyramidalWTAndMedianMethod</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Mixed Half-pyramidal WT and Median method (WT-HPMT).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;mixed Half-pyramidal WT and Median method (WT-HPMT)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="UndecimatedDiadicWaveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedDiadicWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedDiadicWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Undecimated diadic wavelet transform (two bands per scale).</span>
+<div class="viewcode-block" id="UndecimatedDiadicWaveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedDiadicWaveletTransform">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedDiadicWaveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Undecimated diadic wavelet transform (two bands per scale).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">21</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;undecimated diadic wavelet transform (two bands per &quot;</span>
                      <span class="s2">&quot;scale)&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">2</span>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div>
+<div class="viewcode-block" id="UndecimatedDiadicWaveletTransform._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedDiadicWaveletTransform._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div></div>
 
 
-<div class="viewcode-block" id="MixedWTAndPMTMethod"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.MixedWTAndPMTMethod">[docs]</a><span class="k">class</span> <span class="nc">MixedWTAndPMTMethod</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mixed WT and PMT method (WT-PMT).</span>
+<div class="viewcode-block" id="MixedWTAndPMTMethod"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.MixedWTAndPMTMethod">[docs]</a><span class="k">class</span> <span class="nc">MixedWTAndPMTMethod</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Mixed WT and PMT method (WT-PMT).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">22</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;mixed WT and PMT method (WT-PMT)&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="UndecimatedHaarTransformATrousAlgorithm"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedHaarTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Undecimated Haar transform: a trous algorithm (one band per scale).</span>
+<div class="viewcode-block" id="UndecimatedHaarTransformATrousAlgorithm"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedHaarTransformATrousAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedHaarTransformATrousAlgorithm</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Undecimated Haar transform: a trous algorithm (one band per scale).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">23</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;undecimated Haar transform: a trous algorithm &quot;</span>
                      <span class="s2">&quot;(one band per scale)&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="UndecimatedBiOrthogonalTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedBiOrthogonalTransform">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedBiOrthogonalTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Undecimated (bi-) orthogonal transform (three bands per scale.</span>
+<div class="viewcode-block" id="UndecimatedBiOrthogonalTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedBiOrthogonalTransform">[docs]</a><span class="k">class</span> <span class="nc">UndecimatedBiOrthogonalTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Undecimated (bi-) orthogonal transform (three bands per scale.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">24</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;undecimated (bi-) orthogonal transform (three bands &quot;</span>
                      <span class="s2">&quot;per scale&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="UndecimatedBiOrthogonalTransform._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.UndecimatedBiOrthogonalTransform._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span></div></div>
 
 
-<div class="viewcode-block" id="NonOrthogonalUndecimatedTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.NonOrthogonalUndecimatedTransform">[docs]</a><span class="k">class</span> <span class="nc">NonOrthogonalUndecimatedTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Non orthogonal undecimated transform (three bands per scale).</span>
+<div class="viewcode-block" id="NonOrthogonalUndecimatedTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.NonOrthogonalUndecimatedTransform">[docs]</a><span class="k">class</span> <span class="nc">NonOrthogonalUndecimatedTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Non orthogonal undecimated transform (three bands per scale).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">25</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;non orthogonal undecimated transform (three bands per &quot;</span>
                      <span class="s2">&quot;scale)&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NonOrthogonalUndecimatedTransform._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.NonOrthogonalUndecimatedTransform._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span></div></div>
 
 
-<div class="viewcode-block" id="IsotropicAndCompactSupportWaveletInFourierSpace"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">IsotropicAndCompactSupportWaveletInFourierSpace</span><span class="p">(</span>
+<div class="viewcode-block" id="IsotropicAndCompactSupportWaveletInFourierSpace"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.IsotropicAndCompactSupportWaveletInFourierSpace">[docs]</a><span class="k">class</span> <span class="nc">IsotropicAndCompactSupportWaveletInFourierSpace</span><span class="p">(</span>
         <span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Isotropic and compact support wavelet in Fourier space.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Isotropic and compact support wavelet in Fourier space.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">26</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Isotropic and compact support wavelet in Fourier &quot;</span>
                      <span class="s2">&quot;space&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="PyramidalWaveletTransformInFourierSpaceAlgo2"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2">[docs]</a><span class="k">class</span> <span class="nc">PyramidalWaveletTransformInFourierSpaceAlgo2</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Pyramidal wavelet transform in Fourier space: algo 2</span>
+<div class="viewcode-block" id="PyramidalWaveletTransformInFourierSpaceAlgo2"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.PyramidalWaveletTransformInFourierSpaceAlgo2">[docs]</a><span class="k">class</span> <span class="nc">PyramidalWaveletTransformInFourierSpaceAlgo2</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Pyramidal wavelet transform in Fourier space: algo 2</span>
 <span class="sd">    (diff. between the square of two resolutions).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">27</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pyramidal wavelet transform in Fourier space: algo 2 &quot;</span>
                      <span class="s2">&quot;(diff. between the square of two resolutions)&quot;</span><span class="p">)</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="FastCurveletTransform"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform">[docs]</a><span class="k">class</span> <span class="nc">FastCurveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Fast Curvelet Transform.</span>
+<div class="viewcode-block" id="FastCurveletTransform"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform">[docs]</a><span class="k">class</span> <span class="nc">FastCurveletTransform</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Fast Curvelet Transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">28</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Fast Curvelet Transform&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FastCurveletTransform._set_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.FastCurveletTransform._set_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;This transformation is not yet accessible from the wrapping, &quot;</span>
             <span class="s2">&quot;please use the Python bindings.&quot;</span><span class="p">)</span>
@@ -1027,92 +1428,106 @@
                     <span class="n">bands_shapes</span><span class="p">[</span><span class="n">ks</span><span class="p">][</span><span class="n">kb</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">bands_shapes</span><span class="p">[</span><span class="n">ks</span><span class="p">][</span><span class="n">kb</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isap_transform_id</span> <span class="o">=</span> <span class="mi">28</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flatten_fct</span> <span class="o">=</span> <span class="n">ISAP_FLATTEN</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># since it&#39;s a not an 2**i decimation...</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># since it&#39;s a not an 2**i decimation...</span></div></div>
 
 
-<div class="viewcode-block" id="WaveletTransformViaLiftingScheme"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.WaveletTransformViaLiftingScheme">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformViaLiftingScheme</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Wavelet transform via lifting scheme.</span>
+<div class="viewcode-block" id="WaveletTransformViaLiftingScheme"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.WaveletTransformViaLiftingScheme">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformViaLiftingScheme</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Wavelet transform via lifting scheme.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">29</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Wavelet transform via lifting scheme&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">__isap_scale_shift__</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="OnLine53AndOnColumn44"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.OnLine53AndOnColumn44">[docs]</a><span class="k">class</span> <span class="nc">OnLine53AndOnColumn44</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; 5/3 on line and 4/4 on column.</span>
+<div class="viewcode-block" id="OnLine53AndOnColumn44"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.OnLine53AndOnColumn44">[docs]</a><span class="k">class</span> <span class="nc">OnLine53AndOnColumn44</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; 5/3 on line and 4/4 on column.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">30</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;5/3 on line and 4/4 on column&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OnLine53AndOnColumn44._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.OnLine53AndOnColumn44._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div></div>
 
 
-<div class="viewcode-block" id="OnLine44AndOnColumn53"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.OnLine44AndOnColumn53">[docs]</a><span class="k">class</span> <span class="nc">OnLine44AndOnColumn53</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; 4/4 on line and 5/3 on column.</span>
+<div class="viewcode-block" id="OnLine44AndOnColumn53"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.OnLine44AndOnColumn53">[docs]</a><span class="k">class</span> <span class="nc">OnLine44AndOnColumn53</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; 4/4 on line and 5/3 on column.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">31</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;4/4 on line and 5/3 on column&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OnLine44AndOnColumn53._update_default_transformation_parameters"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.OnLine44AndOnColumn53._update_default_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_update_default_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span></div></div>
 
 
-<div class="viewcode-block" id="BiOrthogonalTransform3D"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.BiOrthogonalTransform3D">[docs]</a><span class="k">class</span> <span class="nc">BiOrthogonalTransform3D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mallat&#39;s 3D wavelet transform (7/9 biorthogonal filters)</span>
+<div class="viewcode-block" id="BiOrthogonalTransform3D"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.BiOrthogonalTransform3D">[docs]</a><span class="k">class</span> <span class="nc">BiOrthogonalTransform3D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Mallat&#39;s 3D wavelet transform (7/9 biorthogonal filters)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__family__</span> <span class="o">=</span> <span class="s2">&quot;isap-3d&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;3D Wavelet transform via lifting scheme&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">7</span></div>
 
 
-<div class="viewcode-block" id="Wavelet3DTransformViaLiftingScheme"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.Wavelet3DTransformViaLiftingScheme">[docs]</a><span class="k">class</span> <span class="nc">Wavelet3DTransformViaLiftingScheme</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Wavelet transform via lifting scheme.</span>
+<div class="viewcode-block" id="Wavelet3DTransformViaLiftingScheme"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.Wavelet3DTransformViaLiftingScheme">[docs]</a><span class="k">class</span> <span class="nc">Wavelet3DTransformViaLiftingScheme</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Wavelet transform via lifting scheme.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__family__</span> <span class="o">=</span> <span class="s2">&quot;isap-3d&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;Wavelet transform via lifting scheme&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">7</span></div>
 
 
-<div class="viewcode-block" id="ATrou3D"><a class="viewcode-back" href="../../../generated/pysap.extensions.transform.html#pysap.extensions.transform.ATrou3D">[docs]</a><span class="k">class</span> <span class="nc">ATrou3D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Wavelet transform with the A trou algorithm.</span>
+<div class="viewcode-block" id="ATrou3D"><a class="viewcode-back" href="../../../pysap.extensions.transform.html#pysap.extensions.transform.ATrou3D">[docs]</a><span class="k">class</span> <span class="nc">ATrou3D</span><span class="p">(</span><span class="n">ISAPWaveletTransformBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Wavelet transform with the A trou algorithm.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__family__</span> <span class="o">=</span> <span class="s2">&quot;isap-3d&quot;</span>
     <span class="n">__isap_transform_id__</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">__isap_name__</span> <span class="o">=</span> <span class="s2">&quot;3D Wavelet A Trou&quot;</span>
-    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__is_decimated__</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">__isap_nb_bands__</span> <span class="o">=</span> <span class="mi">1</span></div>
 </pre></div>
 
-          </div>
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
         </div>
-      </div>
-
-    <div class="clearer">
     </div>
-  </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
   
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 05 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
 </div>
 
-<div class="footer">
-    &copy; 2019, 
-Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
-Samuel Farrens &lt;samuel.farrens@cea.fr&gt;
-Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
-Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
- &lt;antoine.grigis@cea.fr&gt;.
-</div>
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
   </body>
 </html>

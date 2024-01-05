@@ -1,0 +1,7 @@
+pysap.base.loaders.nifti
+------------------------
+
+.. automodule:: pysap.base.loaders.nifti
+   :members:
+   :undoc-members:
+   :show-inheritance:

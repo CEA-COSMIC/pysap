@@ -1,0 +1,73 @@
+:orphan:
+
+
+
+.. _sphx_glr_auto_examples:
+
+.. _examples-index:
+
+PySAP Examples
+==============
+
+.. tip::
+  :class: margin
+
+  Each of the examples below can be downloaded as a |link-to-jupyter| notebook
+  which can be run locally.
+
+Here we provide examples of how to run PySAP for various different
+applications.
+
+.. seealso::
+
+  It is recommended that you read through the
+  `installation <../installation.html>`_ instructions and the
+  `quickstart <../quickstart.html>`_ tutorial before running these examples.
+
+.. |link-to-jupyter| raw:: html
+
+  <a href="https://jupyter.org/" target="_blank">Jupyter</a>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_auto_examples_pysap:
+
+.. _basic_examples:
+
+Basic examples
+--------------
+
+This section provides some introductory examples that demonstrate how use some
+of the core features of PySAP.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example introduces some of the basic features of the core PySAP package as well as some te...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap/images/thumb/sphx_glr_plot_basics_thumb.png
+     :alt: PySAP Basics
+
+     :ref:`sphx_glr_auto_examples_pysap_plot_basics.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap/plot_basics
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+

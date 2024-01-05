@@ -1,0 +1,20 @@
+pysap.extensions
+================
+
+
+.. automodule:: pysap.extensions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.extensions.formating
+   pysap.extensions.sparse2d
+   pysap.extensions.tools
+   pysap.extensions.transform
+   pysap.extensions.wrapper

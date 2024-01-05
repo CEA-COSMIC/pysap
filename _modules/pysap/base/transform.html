@@ -1,133 +1,521 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pysap.base.transform &#8212; pysap v0.0.6</title>
     
-  
-    <title>PYSAP &mdash; python-pySAP</title>
-  <!-- htmltitle is before nature.css - we use this hack to load bootstrap first -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../../_static/css/bootstrap.min.css" media="screen" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="python-pySAP" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
-  
-   
-       <script type="text/javascript" src="../../../_static/sidebar.js"></script>
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="../../../_static/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-  <script src="../../../_static/js/angular.min.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    var app = angular.module("navApp", []);
-    app.controller('navCtrl', ['$scope', '$window', function($scope, $window) {
-      $scope.isActive = function (viewLocation) {
-        var rel = $window.location.pathname.split("/")
-        rel = rel[rel.length - 1]
-        rel = rel.split(".")[0]
-        var active = (viewLocation === rel);
-        return active;};
-    }]);
-  </script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
 
+    <!-- Google Analytics -->
+    
   </head>
-  <body role="document"><div class="banner">
-  <div class="container-fluid banner-container">
-    <div class="row banner-inner">
-      <div class="col-xs-4">
-        <img alt="Logo" src="../../../_static/pysap.png">
-      </div>
-      <div class="col-xs-8">
-            <p>PYthon Sparse data Analysis Package</p>
-      </div>
-    </div>  
-  </div>
-</div><nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../../../index.html">
-        </a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse" ng-controller="navCtrl" ng-app="navApp">
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('index') }"><a href="../../../index.html">Home</a></li>
-        <li ng-class="{ active: isActive('installation') }"><a href="../../../generated/installation.html">Installation</a></li>
-        <li ng-class="{ active: isActive('gallery') }"><a href="../../../auto_gallery/gallery.html">Gallery</a></li>
-        <li ng-class="{ active: isActive('documentation') }"><a href="../../../generated/documentation.html">API documentation</a></li>
-        <!--<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-	        <li><a href="../../../generated/pysap.html">Pysap</a></li>
-<li><a href="../../../generated/pysap.base.html">Pysap.base</a></li>
-<li><a href="../../../generated/pysap.plugins.html">Pysap.plugins</a></li>
-<li><a href="../../../generated/pysap.apps.html">Pysap.apps</a></li>
-<li><a href="../../../generated/pysap.extensions.html">Pysap.extensions</a></li>
-<li><a href="../../../generated/pysap.plotting.html">Pysap.plotting</a></li>
-<li><a href="../../../generated/pysap.base.loaders.html">Pysap.base.loaders</a></li>
-          </ul>
-        </li>-->
-        <li><a href="http://cosmic.cosmostat.org/">COSMIC webPage</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="content-wrapper">
-    <div class="sphinxsidebar">
-      <div class="sphinxsidebarwrapper">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
 
-        <!-- info setup -->
-          <p class="doc-version">
-           This documentation is for pysap <strong>version 0.0.3</strong>
-          </p>
-        <p class="citing">
-          If you use the software, please do not hesitate to 
-          <a &mdash; <a href="https://github.com/CEA-COSMIC/pysap">
-          Report a Bug</a>.
-        </p>
+    
+    <div class="container-fluid" id="banner"></div>
 
-      <!-- toc tree -->
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../auto_examples/index.html">
+   PySAP Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
 
-      </div>
     </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
   
 
-  <div class="content">
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
       
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2F_modules/pysap/base/transform.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
   <h1>Source code for pysap.base.transform</h1><div class="highlight"><pre>
-<span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">##########################################################################</span>
 <span class="c1"># pySAP - Copyright (C) CEA, 2017 - 2018</span>
 <span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
@@ -144,7 +532,7 @@
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 
 <span class="c1"># Package import</span>
 <span class="kn">import</span> <span class="nn">pysap</span>
@@ -155,13 +543,13 @@
 <span class="kn">import</span> <span class="nn">numpy</span>
 
 
-<div class="viewcode-block" id="MetaRegister"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.MetaRegister">[docs]</a><span class="k">class</span> <span class="nc">MetaRegister</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Simple Python metaclass registry pattern.</span>
+<div class="viewcode-block" id="MetaRegister"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.MetaRegister">[docs]</a><span class="k">class</span> <span class="nc">MetaRegister</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Simple Python metaclass registry pattern.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">REGISTRY</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Allocation.</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Allocation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -172,28 +560,28 @@
 <span class="sd">        attrs:</span>
 <span class="sd">            the attributes defined for the class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">new_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">:</span>
+        <span class="n">new_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;{0}&#39; name already used in registry.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+                <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; name already used in registry.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;WaveletTransformBase&quot;</span><span class="p">,</span> <span class="s2">&quot;ISAPWaveletTransformBase&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;PyWaveletTransformBase&quot;</span><span class="p">):</span>
-            <span class="n">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_cls</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_cls</span>
         <span class="k">return</span> <span class="n">new_cls</span></div>
 
 
-<div class="viewcode-block" id="WaveletTransformBase"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformBase</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">MetaRegister</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; Data structure representing a signal wavelet decomposition.</span>
+<div class="viewcode-block" id="WaveletTransformBase"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase">[docs]</a><span class="k">class</span> <span class="nc">WaveletTransformBase</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">MetaRegister</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Data structure representing a signal wavelet decomposition.</span>
 
 <span class="sd">    Available transforms are define in &#39;pysap.transform&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_wrapping</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_scale</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_wrapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize the WaveletTransformBase class.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: ndarray</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            the input data.</span>
 <span class="sd">        nb_scale: int</span>
 <span class="sd">            the number of scale of the decomposition that includes the</span>
@@ -208,22 +596,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Wavelet transform parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span> <span class="o">=</span> <span class="n">nb_scale</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bands_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span> <span class="o">=</span> <span class="n">dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span> <span class="o">=</span> <span class="n">use_wrapping</span>
 
         <span class="c1"># Data that can be decalred afterward</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_image_metadata</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data_shape</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_iso_shape</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_shape</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_buffer_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data_shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iso_shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_buffer_shape</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
@@ -232,7 +620,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_init_transform</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; The interface to pickle dump call.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The interface to pickle dump call.</span>
 
 <span class="sd">        Return</span>
 <span class="sd">        ------</span>
@@ -240,10 +628,10 @@
 <span class="sd">            two or five items long tuple to define the init of a pickled</span>
 <span class="sd">            instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Access the analysis designated scale/band coefficients.</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Access the analysis designated scale/band coefficients.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -252,19 +640,19 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        coeffs: ndarray or list of ndarray</span>
+<span class="sd">        coeffs: numpy.ndarray or list</span>
 <span class="sd">            the analysis coefficients.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert given index to generic scale/band index</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="n">given</span> <span class="o">=</span> <span class="p">(</span><span class="n">given</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+            <span class="n">given</span> <span class="o">=</span> <span class="p">(</span><span class="n">given</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
 
         <span class="c1"># Check that we have a valid given index</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">given</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a scale/band int or 2-uplet index.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Check some data are stored in the structure</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
                              <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
 
@@ -273,7 +661,7 @@
             <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
             <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
             <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
-            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
                       <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
@@ -290,14 +678,14 @@
 
         <span class="k">return</span> <span class="n">coeffs</span>
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the analysis designated scale/band coefficients.</span>
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the analysis designated scale/band coefficients.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        given: tuple</span>
 <span class="sd">            the scale and band indices.</span>
-<span class="sd">        array: ndarray</span>
+<span class="sd">        array: numpy.ndarray</span>
 <span class="sd">            the specific scale/band data as an array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check that we have a valid given index</span>
@@ -309,7 +697,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a scale/band int index (no slice).&quot;</span><span class="p">)</span>
 
         <span class="c1"># Check some data are stored in the structure</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
                              <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
 
@@ -318,7 +706,7 @@
             <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
             <span class="n">stop</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span>
             <span class="n">step</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
-            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
                       <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">given</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span>
@@ -339,22 +727,22 @@
     <span class="c1"># Properties</span>
     <span class="c1">##########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the input data array.</span>
+<div class="viewcode-block" id="WaveletTransformBase._set_data"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._set_data">[docs]</a>    <span class="k">def</span> <span class="nf">_set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the input data array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: nd-array or pysap.Image</span>
+<span class="sd">        data: numpy.ndarray or pysap.Image</span>
 <span class="sd">            input data/signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing input data array.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing input data array.&quot;</span><span class="p">)</span>
         <span class="c1"># Ensure that the shape is square except when the family is pywt</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__family__</span> <span class="o">!=</span> <span class="s1">&#39;pywt&#39;</span> <span class="ow">and</span> \
                 <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">e</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect a square shape data.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This wavelet can only be applied on {0}D &quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This wavelet can only be applied on </span><span class="si">{0}</span><span class="s2">D &quot;</span>
                              <span class="s2">&quot;square images&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dim</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decimated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t decimate the data with the specified &quot;</span>
@@ -369,73 +757,73 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_transformation_parameters</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_compute_transformation_parameters</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_compute_transformation_parameters</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the input data array.</span>
+<div class="viewcode-block" id="WaveletTransformBase._get_data"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._get_data">[docs]</a>    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the input data array.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            input data/signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the decomposition coefficients array.</span>
+<div class="viewcode-block" id="WaveletTransformBase._set_analysis_data"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._set_analysis_data">[docs]</a>    <span class="k">def</span> <span class="nf">_set_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the decomposition coefficients array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        analysis_data: lsit of nd-array</span>
+<span class="sd">        analysis_data: list</span>
 <span class="sd">            decomposition coefficients array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
                   <span class="s2">&quot;array.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_band_per_scale</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The wavelet coefficients do not correspond to &quot;</span>
                              <span class="s2">&quot;the wavelet transform parameters.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="n">analysis_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="n">analysis_data</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the decomposition coefficients array.</span>
+<div class="viewcode-block" id="WaveletTransformBase._get_analysis_data"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._get_analysis_data">[docs]</a>    <span class="k">def</span> <span class="nf">_get_analysis_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the decomposition coefficients array.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        analysis_data: nd-array</span>
+<span class="sd">        analysis_data: numpy.ndarray</span>
 <span class="sd">            decomposition coefficients array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the decomposition coefficients header.</span>
+<div class="viewcode-block" id="WaveletTransformBase._set_analysis_header"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._set_analysis_header">[docs]</a>    <span class="k">def</span> <span class="nf">_set_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the decomposition coefficients header.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        analysis_header: dict</span>
 <span class="sd">            decomposition coefficients array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[info] Replacing existing decomposition coefficients &quot;</span>
                   <span class="s2">&quot;header.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="n">analysis_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="n">analysis_header</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the decomposition coefficients header.</span>
+<div class="viewcode-block" id="WaveletTransformBase._get_analysis_header"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._get_analysis_header">[docs]</a>    <span class="k">def</span> <span class="nf">_get_analysis_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the decomposition coefficients header.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        analysis_header: dict</span>
 <span class="sd">            decomposition coefficients header.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the transformation information. This iformation is only</span>
+<div class="viewcode-block" id="WaveletTransformBase._get_info"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._get_info">[docs]</a>    <span class="k">def</span> <span class="nf">_get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the transformation information. This iformation is only</span>
 <span class="sd">        available when using the Python bindings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span></div>
 
     <span class="n">data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_data</span><span class="p">,</span> <span class="n">_set_data</span><span class="p">)</span>
     <span class="n">analysis_data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_analysis_data</span><span class="p">,</span> <span class="n">_set_analysis_data</span><span class="p">)</span>
@@ -446,16 +834,16 @@
     <span class="c1"># Public members</span>
     <span class="c1">##########################################################################</span>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="WaveletTransformBase.bands_shapes"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.bands_shapes">[docs]</a>    <span class="k">def</span> <span class="nf">bands_shapes</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bands_lengths</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the different bands associated shapes given there lengths.</span>
+<div class="viewcode-block" id="WaveletTransformBase.bands_shapes"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.bands_shapes">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">bands_shapes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bands_lengths</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the different bands associated shapes given there lengths.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
+<span class="sd">        bands_lengths: numpy.ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
 <span class="sd">            array holding the length between two bands of the data</span>
 <span class="sd">            vector per scale.</span>
-<span class="sd">        ratio: ndarray, default None</span>
+<span class="sd">        ratio: numpy.ndarray, default None</span>
 <span class="sd">            a array containing ratios for eeach scale and each band.</span>
 
 <span class="sd">        Returns</span>
@@ -463,7 +851,7 @@
 <span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
 <span class="sd">            structure holding the shape of each bands at each scale.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">ratio</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ratio</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ratio</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">bands_lengths</span><span class="p">)</span>
         <span class="n">bands_shapes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">band_number</span><span class="p">,</span> <span class="n">scale_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bands_lengths</span><span class="p">):</span>
@@ -478,13 +866,21 @@
             <span class="n">bands_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scale_shapes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bands_shapes</span></div>
 
-<div class="viewcode-block" id="WaveletTransformBase.show"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Display the different bands at the different decomposition scales.</span>
+<div class="viewcode-block" id="WaveletTransformBase.show"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Display the different bands at the different decomposition scales.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="s1">&#39;The show method has been deprecated and will be removed in a &#39;</span>
+            <span class="o">+</span> <span class="s1">&#39;future release. In the future Please use the Transform.data &#39;</span>
+            <span class="o">+</span> <span class="s1">&#39;and/or Transform.analysis_data attributes and your plotting &#39;</span>
+            <span class="o">+</span> <span class="s1">&#39;package of choice. To use this deprecated function you will &#39;</span>
+            <span class="o">+</span> <span class="s1">&#39;need to install pyqtgraph manually.&#39;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span>
+        <span class="p">)</span>
         <span class="n">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WaveletTransformBase.analysis"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.analysis">[docs]</a>    <span class="k">def</span> <span class="nf">analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Decompose a real or complex signal using ISAP.</span>
+<div class="viewcode-block" id="WaveletTransformBase.analysis"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.analysis">[docs]</a>    <span class="k">def</span> <span class="nf">analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Decompose a real or complex signal using ISAP.</span>
 
 <span class="sd">        Fill the instance &#39;analysis_data&#39; and &#39;analysis_header&#39; parameters.</span>
 
@@ -495,7 +891,7 @@
 <span class="sd">            &#39;pysap.extensions.mr_tansform&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Checks</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the input data.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Analysis</span>
@@ -506,17 +902,17 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">analysis_data_real</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">analysis_data_real</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">analysis_data_imag</span><span class="p">)</span>
+                    <span class="n">analysis_data_real</span> <span class="o">+</span> <span class="mf">1.</span><span class="n">j</span> <span class="o">*</span> <span class="n">analysis_data_imag</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">re</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">ima</span>
+                    <span class="n">re</span> <span class="o">+</span> <span class="mf">1.</span><span class="n">j</span> <span class="o">*</span> <span class="n">ima</span>
                     <span class="k">for</span> <span class="n">re</span><span class="p">,</span> <span class="n">ima</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">analysis_data_real</span><span class="p">,</span> <span class="n">analysis_data_imag</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WaveletTransformBase.synthesis"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Reconstruct a real or complex signal from the wavelet coefficients</span>
+<div class="viewcode-block" id="WaveletTransformBase.synthesis"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reconstruct a real or complex signal from the wavelet coefficients</span>
 <span class="sd">        using ISAP.</span>
 
 <span class="sd">        Returns</span>
@@ -525,16 +921,16 @@
 <span class="sd">            the reconstructed data/signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Checks</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
                              <span class="s2">&quot;coefficients array.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_wrapping</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify first the decomposition &quot;</span>
                              <span class="s2">&quot;coefficients header.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Message</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Synthesis header:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[info] Synthesis header:&quot;</span><span class="p">)</span>
             <span class="n">pprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
 
         <span class="c1"># Reorganize the coefficents with ISAP convention</span>
@@ -558,7 +954,7 @@
             <span class="n">data_imag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synthesis</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">imag</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">],</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">data_real</span> <span class="o">+</span> <span class="mf">1.j</span> <span class="o">*</span> <span class="n">data_imag</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data_real</span> <span class="o">+</span> <span class="mf">1.</span><span class="n">j</span> <span class="o">*</span> <span class="n">data_imag</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synthesis</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analysis_header</span><span class="p">)</span>
@@ -569,8 +965,8 @@
 
         <span class="k">return</span> <span class="n">pysap</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_metadata</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WaveletTransformBase.band_at"><a class="viewcode-back" href="../../../generated/pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.band_at">[docs]</a>    <span class="k">def</span> <span class="nf">band_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the band at a specific scale.</span>
+<div class="viewcode-block" id="WaveletTransformBase.band_at"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase.band_at">[docs]</a>    <span class="k">def</span> <span class="nf">band_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the band at a specific scale.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -586,7 +982,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Message</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;[info] Accessing scale &#39;{0}&#39; and band &#39;{1}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[info] Accessing scale &#39;</span><span class="si">{0}</span><span class="s2">&#39; and band &#39;</span><span class="si">{1}</span><span class="s2">&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">))</span>
 
         <span class="c1"># Get the band array</span>
@@ -599,8 +995,8 @@
     <span class="c1"># Private members</span>
     <span class="c1">##########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define the transform.</span>
+<div class="viewcode-block" id="WaveletTransformBase._init_transform"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._init_transform">[docs]</a>    <span class="k">def</span> <span class="nf">_init_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define the transform.</span>
 
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
@@ -608,10 +1004,10 @@
 <span class="sd">            the transformation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method should not be declared &quot;</span>
-                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span>
+                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Access the desired band data from a 1D linear analysis buffer.</span>
+<div class="viewcode-block" id="WaveletTransformBase._get_linear_band"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._get_linear_band">[docs]</a>    <span class="k">def</span> <span class="nf">_get_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Access the desired band data from a 1D linear analysis buffer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -619,7 +1015,7 @@
 <span class="sd">            index of the scale.</span>
 <span class="sd">        band: int</span>
 <span class="sd">            index of the band.</span>
-<span class="sd">        analysis_data: nd-array (N, )</span>
+<span class="sd">        analysis_data: numpy.ndarray (N, )</span>
 <span class="sd">            the analysis buffer.</span>
 
 <span class="sd">        Returns</span>
@@ -639,10 +1035,10 @@
         <span class="n">band_data</span> <span class="o">=</span> <span class="n">analysis_data</span><span class="p">[</span><span class="n">start_padd</span><span class="p">:</span> <span class="n">stop_padd</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bands_shapes</span><span class="p">[</span><span class="n">scale</span><span class="p">][</span><span class="n">band</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">band_data</span>
+        <span class="k">return</span> <span class="n">band_data</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">band_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the desired band data in a 1D linear analysis buffer.</span>
+<div class="viewcode-block" id="WaveletTransformBase._set_linear_band"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._set_linear_band">[docs]</a>    <span class="k">def</span> <span class="nf">_set_linear_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">band</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">band_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the desired band data in a 1D linear analysis buffer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -650,9 +1046,9 @@
 <span class="sd">            index of the scale.</span>
 <span class="sd">        band: int</span>
 <span class="sd">            index of the band.</span>
-<span class="sd">        analysis_data: nd-array (N, )</span>
+<span class="sd">        analysis_data: numpy.ndarray (N, )</span>
 <span class="sd">            the analysis buffer.</span>
-<span class="sd">        band_data: nd-array (M, M)</span>
+<span class="sd">        band_data: numpy.ndarray (M, M)</span>
 <span class="sd">            the band data to be added in the analysis buffer.</span>
 
 <span class="sd">        Returns</span>
@@ -671,10 +1067,10 @@
         <span class="c1"># Get the band array</span>
         <span class="n">analysis_data</span><span class="p">[</span><span class="n">start_padd</span><span class="p">:</span> <span class="n">stop_padd</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">analysis_data</span>
+        <span class="k">return</span> <span class="n">analysis_data</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define the transformation class parameters.</span>
+<div class="viewcode-block" id="WaveletTransformBase._set_transformation_parameters"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._set_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_set_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define the transformation class parameters.</span>
 
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
@@ -692,9 +1088,9 @@
 <span class="sd">        is_decimated: bool</span>
 <span class="sd">            True if the decomposition include a decimation of the</span>
 <span class="sd">            band number of coefficients.</span>
-<span class="sd">        nb_band_per_scale: ndarray (&lt;nb_scale&gt;, )</span>
+<span class="sd">        nb_band_per_scale: numpy.ndarray (&lt;nb_scale&gt;, )</span>
 <span class="sd">            vector of int holding the number of band per scale.</span>
-<span class="sd">        bands_lengths: ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
+<span class="sd">        bands_lengths: numpy.ndarray (&lt;nb_scale&gt;, max(&lt;nb_band_per_scale&gt;, 0))</span>
 <span class="sd">            array holding the length between two bands of the data</span>
 <span class="sd">            vector per scale.</span>
 <span class="sd">        bands_shapes: list of list of 2-uplet (&lt;nb_scale&gt;, &lt;nb_band_per_scale&gt;)</span>
@@ -703,31 +1099,31 @@
 <span class="sd">            the label of the ISAP transformation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method should not be declared &quot;</span>
-                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span>
+                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_compute_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Compute information in order to split scale/band flatten data.</span>
+<div class="viewcode-block" id="WaveletTransformBase._compute_transformation_parameters"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._compute_transformation_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">_compute_transformation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Compute information in order to split scale/band flatten data.</span>
 
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
-<span class="sd">        scales_lengths: ndarray (&lt;nb_scale&gt;, )</span>
+<span class="sd">        scales_lengths: numpy.ndarray (&lt;nb_scale&gt;, )</span>
 <span class="sd">            the length of each band.</span>
-<span class="sd">        scales_padds: ndarray (&lt;nb_scale&gt; + 1, )</span>
+<span class="sd">        scales_padds: numpy.ndarray (&lt;nb_scale&gt; + 1, )</span>
 <span class="sd">            the index of the data associated to each scale.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;The transformation parameters have not been set.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bands_lengths</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_scale</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales_padds</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales_lengths</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Decompose a real signal using ISAP.</span>
+<div class="viewcode-block" id="WaveletTransformBase._analysis"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._analysis">[docs]</a>    <span class="k">def</span> <span class="nf">_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Decompose a real signal using ISAP.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            a real array to be decomposed.</span>
 <span class="sd">        kwargs: dict (optional)</span>
 <span class="sd">            the parameters that will be passed to</span>
@@ -735,50 +1131,64 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        analysis_data: nd_array</span>
+<span class="sd">        analysis_data: numpy.ndarray</span>
 <span class="sd">            the decomposition coefficients.</span>
 <span class="sd">        analysis_header: dict</span>
 <span class="sd">            the decomposition associated information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method should not be declared &quot;</span>
-                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span>
+                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using ISAP.</span>
+<div class="viewcode-block" id="WaveletTransformBase._synthesis"><a class="viewcode-back" href="../../../pysap.base.transform.html#pysap.base.transform.WaveletTransformBase._synthesis">[docs]</a>    <span class="k">def</span> <span class="nf">_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis_data</span><span class="p">,</span> <span class="n">analysis_header</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reconstruct a real signal from the wavelet coefficients using ISAP.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        analysis_data: list of nd-array</span>
+<span class="sd">        analysis_data: list of numpy.ndarray</span>
 <span class="sd">            the wavelet coefficients array.</span>
 <span class="sd">        analysis_header: dict</span>
 <span class="sd">            the wavelet decomposition parameters.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        data: nd-array</span>
+<span class="sd">        data: numpy.ndarray</span>
 <span class="sd">            the reconstructed data array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Abstract method should not be declared &quot;</span>
-                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span></div>
+                                  <span class="s2">&quot;in derivate classes.&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
-          </div>
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
         </div>
-      </div>
-
-    <div class="clearer">
     </div>
-  </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
   
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 05 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
 </div>
 
-<div class="footer">
-    &copy; 2019, 
-Antoine Grigis &lt;antoine.grigis@cea.fr&gt;
-Samuel Farrens &lt;samuel.farrens@cea.fr&gt;
-Jean-Luc Starck &lt;jl.stark@cea.fr&gt;
-Philippe Ciuciu &lt;philippe.ciuciu@cea.fr&gt;
- &lt;antoine.grigis@cea.fr&gt;.
-</div>
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
   </body>
 </html>

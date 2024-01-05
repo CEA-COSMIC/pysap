@@ -1,0 +1,18 @@
+pysap.plotting
+==============
+
+
+.. automodule:: pysap.plotting
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysap.plotting.image
+   pysap.plotting.transform
+   pysap.plotting.utils

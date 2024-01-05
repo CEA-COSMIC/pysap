@@ -1,0 +1,7 @@
+pysap.base.exceptions
+---------------------
+
+.. automodule:: pysap.base.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:

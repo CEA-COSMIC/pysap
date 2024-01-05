@@ -1,0 +1,7 @@
+pysap.base.loaders.numpy\_binary
+--------------------------------
+
+.. automodule:: pysap.base.loaders.numpy_binary
+   :members:
+   :undoc-members:
+   :show-inheritance:

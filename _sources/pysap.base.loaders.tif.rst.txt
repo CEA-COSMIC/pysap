@@ -1,0 +1,7 @@
+pysap.base.loaders.tif
+----------------------
+
+.. automodule:: pysap.base.loaders.tif
+   :members:
+   :undoc-members:
+   :show-inheritance:
