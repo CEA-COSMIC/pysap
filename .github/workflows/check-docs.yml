@@ -23,6 +23,8 @@ jobs:
     env:
       gh_root: https://github.com/CEA-COSMIC/
       tag_path: /archive/refs/tags/
+      gh_download: https://codeload.github.com/CEA-COSMIC/
+      develop_path: /tar.z/refs/heads/develop
       sphinx_opts: -t docs/_templates -feTMo docs/source
 
     steps:
@@ -50,7 +52,7 @@ jobs:
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
             plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
-            wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
+            wget ${gh_download}${plugin_name}.tar.gz -O ${plugin_name}.tar.gz
           done < plugins.txt
           for file in *.tar.gz; do 
             tar xzf "$file";
