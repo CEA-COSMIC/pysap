@@ -52,7 +52,7 @@ jobs:
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
             plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
-            wget ${gh_download}${plugin_name}${develop_path}.tar.gz -O ${plugin_name}.tar.gz
+            wget ${gh_download}${plugin_name}${develop_path} -O ${plugin_name}.tar.gz
           done < plugins.txt
           for file in *.tar.gz; do 
             tar xzf "$file";
