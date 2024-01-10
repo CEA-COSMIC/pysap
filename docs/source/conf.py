@@ -99,7 +99,7 @@ sphinx_gallery_conf = {
      'notebooks_dir': 'notebooks', # Jupyter notebooks for Binder will be copied to this directory (relative to built documentation root).
      'use_jupyter_lab': True, # Whether Binder links should start Jupyter Lab instead of the Jupyter Notebook interface.
     },
-    #'filename_pattern': '/',
+    'filename_pattern': '/',
     'reference_url': {
         'pysap': None,
         'astro': None,
