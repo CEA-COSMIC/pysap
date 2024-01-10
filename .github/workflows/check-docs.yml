@@ -82,8 +82,7 @@ jobs:
       
       - name: Install GPU specific requirements
         run: |
-          python -m ensurepip
-          python -m pip install -r --no-build-isolation pysap-mri-*/gpu_requirements.txt 
+          python -m pip install --no-build-isolation -r pysap-mri-*/gpu_requirements.txt 
         
       - name: Build API documentation
         run: sphinx-build -E docs/source docs/_build
