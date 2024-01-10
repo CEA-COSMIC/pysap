@@ -100,6 +100,7 @@ sphinx_gallery_conf = {
      'use_jupyter_lab': True, # Whether Binder links should start Jupyter Lab instead of the Jupyter Notebook interface.
     },
     'filename_pattern': '/',
+    'ignore_pattern': 'pysap-etomo/',
     'reference_url': {
         'pysap': None,
         'astro': None,
