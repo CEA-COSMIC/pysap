@@ -1,0 +1,7 @@
+mri.info
+--------
+
+.. automodule:: mri.info
+   :members:
+   :undoc-members:
+   :show-inheritance:

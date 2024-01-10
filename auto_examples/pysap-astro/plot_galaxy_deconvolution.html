@@ -1,0 +1,1518 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Galaxy Image Deconvolution &#8212; pysap v0.2.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Neuroimaging cartesian reconstruction" href="../pysap-mri/cartesian_reconstruction.html" />
+    <link rel="prev" title="Galaxy Image Denoising" href="plot_galaxy_denoising.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../astro.html">
+   astro
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.deconvolution.html">
+     astro.deconvolution
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.deconvolve.html">
+       astro.deconvolution.deconvolve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.linear.html">
+       astro.deconvolution.linear
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.wavelet_filters.html">
+       astro.deconvolution.wavelet_filters
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.denoising.html">
+     astro.denoising
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.denoise.html">
+       astro.denoising.denoise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.noise.html">
+       astro.denoising.noise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.wavelet.html">
+       astro.denoising.wavelet
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.tests.html">
+     astro.tests
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.tests.test_denoising.html">
+       astro.tests.test_denoising
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../mri.html">
+   mri
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.generators.html">
+     mri.generators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.generators.base.html">
+       mri.generators.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.generators.cartesian.html">
+       mri.generators.cartesian
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.operators.html">
+     mri.operators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+    <label for="toctree-checkbox-12">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.fourier.html">
+       mri.operators.fourier
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.utils.html">
+         mri.operators.fourier.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.cartesian.html">
+         mri.operators.fourier.cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.non_cartesian.html">
+         mri.operators.fourier.non_cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.online.html">
+         mri.operators.fourier.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.orc_wrapper.html">
+         mri.operators.fourier.orc_wrapper
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.gradient.html">
+       mri.operators.gradient
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.base.html">
+         mri.operators.gradient.base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.gradient.html">
+         mri.operators.gradient.gradient
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.online.html">
+         mri.operators.gradient.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.utils.html">
+         mri.operators.gradient.utils
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.linear.html">
+       mri.operators.linear
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+      <label for="toctree-checkbox-15">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.dictionary.html">
+         mri.operators.linear.dictionary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.utils.html">
+         mri.operators.linear.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.wavelet.html">
+         mri.operators.linear.wavelet
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.proximity.html">
+       mri.operators.proximity
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+      <label for="toctree-checkbox-16">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.proximity.ordered_weighted_l1_norm.html">
+         mri.operators.proximity.ordered_weighted_l1_norm
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.proximity.weighted.html">
+         mri.operators.proximity.weighted
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.operators.utils.html">
+       mri.operators.utils
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.operators.base.html">
+       mri.operators.base
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.optimizers.html">
+     mri.optimizers
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+    <label for="toctree-checkbox-17">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.optimizers.utils.html">
+       mri.optimizers.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+      <label for="toctree-checkbox-18">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.optimizers.utils.cost.html">
+         mri.optimizers.utils.cost
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.optimizers.utils.reweight.html">
+         mri.optimizers.utils.reweight
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.base.html">
+       mri.optimizers.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.forward_backward.html">
+       mri.optimizers.forward_backward
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.primal_dual.html">
+       mri.optimizers.primal_dual
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.reconstructors.html">
+     mri.reconstructors
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
+    <label for="toctree-checkbox-19">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.reconstructors.utils.html">
+       mri.reconstructors.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/>
+      <label for="toctree-checkbox-20">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.reconstructors.utils.extract_sensitivity_maps.html">
+         mri.reconstructors.utils.extract_sensitivity_maps
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.base.html">
+       mri.reconstructors.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.calibrationless.html">
+       mri.reconstructors.calibrationless
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.self_calibrating.html">
+       mri.reconstructors.self_calibrating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.single_channel.html">
+       mri.reconstructors.single_channel
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.scripts.html">
+     mri.scripts
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/>
+    <label for="toctree-checkbox-21">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.scripts.gridsearch.html">
+       mri.scripts.gridsearch
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../mri.info.html">
+     mri.info
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   PySAP Examples
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/>
+  <label for="toctree-checkbox-22">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="plot_galaxy_denoising.html">
+     Galaxy Image Denoising
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Galaxy Image Deconvolution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/cartesian_reconstruction.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/SelfCalibrationReconstruction_Cartesian.html">
+     Cartesian Self Calibrating Reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/CalibrationlessReconstruction_GL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using GroupLASSO Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/cartesian_reconstruction_3d.html">
+     3D Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/CalibrationlessReconstruction_OWL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using OWL Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/non_cartesian_reconstruction.html">
+     Neuroimaging non-cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/gridsearch_launch.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.html">
+     GPU Density Compensation Reconstruction Comparison
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.html">
+     GPU non-cartesian reconstruction with SENSE
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2Fauto_examples/pysap-astro/plot_galaxy_deconvolution.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/edit/develop/docs/source/auto_examples/pysap-astro/plot_galaxy_deconvolution.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-dependencies">
+   Import dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-astro-data">
+   Load astro data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-noisy-observation">
+   Generate a noisy observation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deconvolve">
+   Deconvolve
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#residual">
+   Residual
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Galaxy Image Deconvolution</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-dependencies">
+   Import dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-astro-data">
+   Load astro data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-noisy-observation">
+   Generate a noisy observation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deconvolve">
+   Deconvolve
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#residual">
+   Residual
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-pysap-astro-plot-galaxy-deconvolution-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="galaxy-image-deconvolution">
+<span id="sphx-glr-auto-examples-pysap-astro-plot-galaxy-deconvolution-py"></span><h1>Galaxy Image Deconvolution<a class="headerlink" href="#galaxy-image-deconvolution" title="Permalink to this headline">#</a></h1>
+<p><em>Code author: Samuel Farrens &lt;<a class="reference external" href="mailto:samuel&#46;farrens&#37;&#52;&#48;cea&#46;fr">samuel<span>&#46;</span>farrens<span>&#64;</span>cea<span>&#46;</span>fr</a>&gt;</em></p>
+<p>In this tutorial we will deconvolve the PSF effects from an example galaxy
+image using the PySAP-Astro plug-in.</p>
+<section id="import-dependencies">
+<h2>Import dependencies<a class="headerlink" href="#import-dependencies" title="Permalink to this headline">#</a></h2>
+<p>Import functions from PySAP and
+<a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">ModOpt</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
+<span class="kn">from</span> <span class="nn">astro.deconvolution.deconvolve</span> <span class="kn">import</span> <a href="../../astro.deconvolution.deconvolve.html#astro.deconvolution.deconvolve.sparse_deconv_condatvu" title="astro.deconvolution.deconvolve.sparse_deconv_condatvu" class="sphx-glr-backref-module-astro-deconvolution-deconvolve sphx-glr-backref-type-py-function"><span class="n">sparse_deconv_condatvu</span></a>
+<span class="kn">from</span> <span class="nn">modopt.signal.noise</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.signal.noise.html#modopt.signal.noise.add_noise" title="modopt.signal.noise.add_noise" class="sphx-glr-backref-module-modopt-signal-noise sphx-glr-backref-type-py-function"><span class="n">add_noise</span></a>
+<span class="kn">from</span> <span class="nn">modopt.math.convolve</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.convolve.html#modopt.math.convolve.convolve" title="modopt.math.convolve.convolve" class="sphx-glr-backref-module-modopt-math-convolve sphx-glr-backref-type-py-function"><span class="n">convolve</span></a>
+</pre></div>
+</div>
+</section>
+<section id="load-astro-data">
+<h2>Load astro data<a class="headerlink" href="#load-astro-data" title="Permalink to this headline">#</a></h2>
+<p>First, we load some example images from the PySAP sample data sets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">galaxy</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;astro-galaxy&#39;</span><span class="p">)</span>
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">psf</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;astro-psf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we can show the clean galaxy image that we will attempt to recover.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">galaxy</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_galaxy_deconvolution_001.png" srcset="../../_images/sphx_glr_plot_galaxy_deconvolution_001.png, ../../_images/sphx_glr_plot_galaxy_deconvolution_001_2_0x.png 2.0x" alt="plot galaxy deconvolution" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-astro/plot_galaxy_deconvolution.py:38: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+</section>
+<section id="generate-a-noisy-observation">
+<h2>Generate a noisy observation<a class="headerlink" href="#generate-a-noisy-observation" title="Permalink to this headline">#</a></h2>
+<p>To simulate an observation we convolve the image with a point spread function
+(PSF) using the ModOpt <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/modopt.math.convolve.html#modopt.math.convolve.convolve" title="(in modopt v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">convolve</span></code></a>
+function. Then we add random Gaussian noise with standard deviation
+<code class="docutils literal notranslate"><span class="pre">0.0005</span></code> using the ModOpt
+<a class="reference external" href="https://cea-cosmic.github.io/ModOpt/modopt.signal.noise.html#modopt.signal.noise.add_noise" title="(in modopt v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_noise</span></code></a> function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">obs_data</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.signal.noise.html#modopt.signal.noise.add_noise" title="modopt.signal.noise.add_noise" class="sphx-glr-backref-module-modopt-signal-noise sphx-glr-backref-type-py-function"><span class="n">add_noise</span></a><span class="p">(</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.math.convolve.html#modopt.math.convolve.convolve" title="modopt.math.convolve.convolve" class="sphx-glr-backref-module-modopt-math-convolve sphx-glr-backref-type-py-function"><span class="n">convolve</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">galaxy</span><span class="o">.</span><span class="n">data</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">psf</span><span class="o">.</span><span class="n">data</span></a><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can show the noisy and blurred galaxy image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">obs_data</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_galaxy_deconvolution_002.png" srcset="../../_images/sphx_glr_plot_galaxy_deconvolution_002.png, ../../_images/sphx_glr_plot_galaxy_deconvolution_002_2_0x.png 2.0x" alt="plot galaxy deconvolution" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-astro/plot_galaxy_deconvolution.py:56: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+</section>
+<section id="deconvolve">
+<h2>Deconvolve<a class="headerlink" href="#deconvolve" title="Permalink to this headline">#</a></h2>
+<p>We will use the <a class="reference internal" href="../../astro.deconvolution.deconvolve.html#astro.deconvolution.deconvolve.sparse_deconv_condatvu" title="astro.deconvolution.deconvolve.sparse_deconv_condatvu"><code class="xref py py-func docutils literal notranslate"><span class="pre">sparse_deconv_condatvu</span></code></a> function from
+PySAP-Astro to deconvolve the noisy image. We set the maximum number of
+iterations for this function to <code class="docutils literal notranslate"><span class="pre">3000</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">deconv_data</span></a> <span class="o">=</span> <a href="../../astro.deconvolution.deconvolve.html#astro.deconvolution.deconvolve.sparse_deconv_condatvu" title="astro.deconvolution.deconvolve.sparse_deconv_condatvu" class="sphx-glr-backref-module-astro-deconvolution-deconvolve sphx-glr-backref-type-py-function"><span class="n">sparse_deconv_condatvu</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">obs_data</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">psf</span><span class="o">.</span><span class="n">data</span></a><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: Making input data immutable.
+
+  0%|          | 0/3000 [00:00&lt;?, ?it/s]
+  0%|          | 12/3000 [00:00&lt;00:25, 119.00it/s]
+  1%|          | 25/3000 [00:00&lt;00:24, 121.99it/s]
+  1%|1         | 38/3000 [00:00&lt;00:24, 123.29it/s]
+  2%|1         | 51/3000 [00:00&lt;00:23, 124.23it/s]
+  2%|2         | 64/3000 [00:00&lt;00:23, 123.43it/s]
+  3%|2         | 77/3000 [00:00&lt;00:23, 123.46it/s]
+  3%|3         | 90/3000 [00:00&lt;00:23, 124.24it/s]
+  3%|3         | 103/3000 [00:00&lt;00:23, 124.46it/s]
+  4%|3         | 116/3000 [00:00&lt;00:23, 124.40it/s]
+  4%|4         | 129/3000 [00:01&lt;00:23, 124.52it/s]
+  5%|4         | 142/3000 [00:01&lt;00:22, 124.63it/s]
+  5%|5         | 155/3000 [00:01&lt;00:22, 124.77it/s]
+  6%|5         | 168/3000 [00:01&lt;00:22, 125.17it/s]
+  6%|6         | 181/3000 [00:01&lt;00:22, 122.96it/s]
+  6%|6         | 194/3000 [00:01&lt;00:22, 123.91it/s]
+  7%|6         | 207/3000 [00:01&lt;00:22, 124.38it/s]
+  7%|7         | 220/3000 [00:01&lt;00:22, 124.28it/s]
+  8%|7         | 233/3000 [00:01&lt;00:22, 124.51it/s]
+  8%|8         | 246/3000 [00:01&lt;00:22, 124.50it/s]
+  9%|8         | 259/3000 [00:02&lt;00:21, 124.73it/s]
+  9%|9         | 272/3000 [00:02&lt;00:21, 124.33it/s]
+ 10%|9         | 285/3000 [00:02&lt;00:21, 124.75it/s]
+ 10%|9         | 298/3000 [00:02&lt;00:21, 125.23it/s]
+ 10%|#         | 311/3000 [00:02&lt;00:21, 125.66it/s]
+ 11%|#         | 324/3000 [00:02&lt;00:21, 125.74it/s]
+ 11%|#1        | 337/3000 [00:02&lt;00:21, 125.27it/s]
+ 12%|#1        | 350/3000 [00:02&lt;00:21, 125.45it/s]
+ 12%|#2        | 363/3000 [00:02&lt;00:21, 125.10it/s]
+ 13%|#2        | 376/3000 [00:03&lt;00:21, 124.86it/s]
+ 13%|#2        | 389/3000 [00:03&lt;00:20, 124.95it/s]
+ 13%|#3        | 402/3000 [00:03&lt;00:20, 125.34it/s]
+ 14%|#3        | 415/3000 [00:03&lt;00:20, 125.73it/s]
+ 14%|#4        | 428/3000 [00:03&lt;00:20, 126.11it/s]
+ 15%|#4        | 441/3000 [00:03&lt;00:20, 125.26it/s]
+ 15%|#5        | 454/3000 [00:03&lt;00:22, 114.63it/s]
+ 16%|#5        | 466/3000 [00:03&lt;00:24, 104.82it/s]
+ 16%|#5        | 477/3000 [00:03&lt;00:24, 105.05it/s]
+ 16%|#6        | 489/3000 [00:04&lt;00:23, 108.05it/s]
+ 17%|#6        | 502/3000 [00:04&lt;00:22, 111.59it/s]
+ 17%|#7        | 515/3000 [00:04&lt;00:21, 115.17it/s]
+ 18%|#7        | 528/3000 [00:04&lt;00:21, 116.87it/s]
+ 18%|#8        | 541/3000 [00:04&lt;00:20, 119.14it/s]
+ 18%|#8        | 554/3000 [00:04&lt;00:20, 120.51it/s]
+ 19%|#8        | 567/3000 [00:04&lt;00:20, 120.48it/s]
+ 19%|#9        | 580/3000 [00:04&lt;00:19, 121.11it/s]
+ 20%|#9        | 593/3000 [00:04&lt;00:19, 122.08it/s]
+ 20%|##        | 606/3000 [00:04&lt;00:19, 121.68it/s]
+ 21%|##        | 619/3000 [00:05&lt;00:19, 121.54it/s]
+ 21%|##1       | 632/3000 [00:05&lt;00:19, 121.80it/s]
+ 22%|##1       | 645/3000 [00:05&lt;00:19, 122.84it/s]
+ 22%|##1       | 658/3000 [00:05&lt;00:18, 123.79it/s]
+ 22%|##2       | 671/3000 [00:05&lt;00:18, 124.25it/s]
+ 23%|##2       | 684/3000 [00:05&lt;00:18, 124.36it/s]
+ 23%|##3       | 697/3000 [00:05&lt;00:18, 124.42it/s]
+ 24%|##3       | 710/3000 [00:05&lt;00:18, 124.58it/s]
+ 24%|##4       | 723/3000 [00:05&lt;00:18, 124.56it/s]
+ 25%|##4       | 736/3000 [00:06&lt;00:18, 124.46it/s]
+ 25%|##4       | 749/3000 [00:06&lt;00:18, 124.65it/s]
+ 25%|##5       | 762/3000 [00:06&lt;00:17, 125.27it/s]
+ 26%|##5       | 775/3000 [00:06&lt;00:17, 125.72it/s]
+ 26%|##6       | 788/3000 [00:06&lt;00:17, 125.47it/s]
+ 27%|##6       | 801/3000 [00:06&lt;00:17, 125.33it/s]
+ 27%|##7       | 814/3000 [00:06&lt;00:17, 125.60it/s]
+ 28%|##7       | 827/3000 [00:06&lt;00:17, 126.10it/s]
+ 28%|##8       | 840/3000 [00:06&lt;00:17, 125.38it/s]
+ 28%|##8       | 853/3000 [00:06&lt;00:17, 125.60it/s]
+ 29%|##8       | 866/3000 [00:07&lt;00:17, 124.84it/s]
+ 29%|##9       | 879/3000 [00:07&lt;00:17, 124.54it/s]
+ 30%|##9       | 892/3000 [00:07&lt;00:16, 125.03it/s]
+ 30%|###       | 905/3000 [00:07&lt;00:16, 125.21it/s]
+ 31%|###       | 918/3000 [00:07&lt;00:16, 125.68it/s]
+ 31%|###1      | 931/3000 [00:07&lt;00:16, 125.62it/s]
+ 31%|###1      | 944/3000 [00:07&lt;00:16, 125.82it/s]
+ 32%|###1      | 957/3000 [00:07&lt;00:16, 125.81it/s]
+ 32%|###2      | 970/3000 [00:07&lt;00:16, 125.37it/s]
+ 33%|###2      | 983/3000 [00:07&lt;00:16, 125.10it/s]
+ 33%|###3      | 996/3000 [00:08&lt;00:16, 123.92it/s]
+ 34%|###3      | 1009/3000 [00:08&lt;00:15, 124.45it/s]
+ 34%|###4      | 1022/3000 [00:08&lt;00:15, 124.73it/s]
+ 34%|###4      | 1035/3000 [00:08&lt;00:15, 124.90it/s]
+ 35%|###4      | 1048/3000 [00:08&lt;00:15, 125.39it/s]
+ 35%|###5      | 1061/3000 [00:08&lt;00:15, 125.62it/s]
+ 36%|###5      | 1074/3000 [00:08&lt;00:15, 126.08it/s]
+ 36%|###6      | 1087/3000 [00:08&lt;00:15, 126.01it/s]
+ 37%|###6      | 1100/3000 [00:08&lt;00:15, 125.55it/s]
+ 37%|###7      | 1113/3000 [00:09&lt;00:15, 125.35it/s]
+ 38%|###7      | 1126/3000 [00:09&lt;00:15, 124.74it/s]
+ 38%|###7      | 1139/3000 [00:09&lt;00:14, 124.24it/s]
+ 38%|###8      | 1152/3000 [00:09&lt;00:14, 123.62it/s]
+ 39%|###8      | 1165/3000 [00:09&lt;00:14, 123.50it/s]
+ 39%|###9      | 1178/3000 [00:09&lt;00:14, 124.09it/s]
+ 40%|###9      | 1191/3000 [00:09&lt;00:14, 123.32it/s]
+ 40%|####      | 1204/3000 [00:09&lt;00:14, 123.77it/s]
+ 41%|####      | 1217/3000 [00:09&lt;00:14, 124.58it/s]
+ 41%|####1     | 1230/3000 [00:09&lt;00:14, 125.07it/s]
+ 41%|####1     | 1243/3000 [00:10&lt;00:14, 122.88it/s]
+ 42%|####1     | 1256/3000 [00:10&lt;00:14, 123.44it/s]
+ 42%|####2     | 1269/3000 [00:10&lt;00:13, 124.05it/s]
+ 43%|####2     | 1282/3000 [00:10&lt;00:13, 124.43it/s]
+ 43%|####3     | 1295/3000 [00:10&lt;00:13, 125.23it/s]
+ 44%|####3     | 1308/3000 [00:10&lt;00:13, 124.87it/s]
+ 44%|####4     | 1321/3000 [00:10&lt;00:13, 125.52it/s]
+ 44%|####4     | 1334/3000 [00:10&lt;00:13, 125.89it/s]
+ 45%|####4     | 1347/3000 [00:10&lt;00:13, 125.70it/s]
+ 45%|####5     | 1360/3000 [00:11&lt;00:13, 125.57it/s]
+ 46%|####5     | 1373/3000 [00:11&lt;00:12, 125.20it/s]
+ 46%|####6     | 1386/3000 [00:11&lt;00:12, 125.26it/s]
+ 47%|####6     | 1399/3000 [00:11&lt;00:12, 125.37it/s]
+ 47%|####7     | 1412/3000 [00:11&lt;00:12, 125.38it/s]
+ 48%|####7     | 1425/3000 [00:11&lt;00:12, 125.95it/s]
+ 48%|####7     | 1438/3000 [00:11&lt;00:12, 126.02it/s]
+ 48%|####8     | 1451/3000 [00:11&lt;00:12, 125.82it/s]
+ 49%|####8     | 1464/3000 [00:11&lt;00:12, 125.70it/s]
+ 49%|####9     | 1477/3000 [00:11&lt;00:12, 125.01it/s]
+ 50%|####9     | 1490/3000 [00:12&lt;00:12, 125.15it/s]
+ 50%|#####     | 1503/3000 [00:12&lt;00:11, 124.91it/s]
+ 51%|#####     | 1516/3000 [00:12&lt;00:11, 124.98it/s]
+ 51%|#####     | 1529/3000 [00:12&lt;00:11, 123.77it/s]
+ 51%|#####1    | 1542/3000 [00:12&lt;00:11, 124.51it/s]
+ 52%|#####1    | 1555/3000 [00:12&lt;00:11, 124.87it/s]
+ 52%|#####2    | 1568/3000 [00:12&lt;00:11, 125.36it/s]
+ 53%|#####2    | 1581/3000 [00:12&lt;00:11, 125.06it/s]
+ 53%|#####3    | 1594/3000 [00:12&lt;00:11, 125.06it/s]
+ 54%|#####3    | 1607/3000 [00:12&lt;00:11, 125.24it/s]
+ 54%|#####4    | 1620/3000 [00:13&lt;00:11, 125.28it/s]
+ 54%|#####4    | 1633/3000 [00:13&lt;00:10, 124.84it/s]
+ 55%|#####4    | 1646/3000 [00:13&lt;00:10, 124.97it/s]
+ 55%|#####5    | 1659/3000 [00:13&lt;00:10, 124.23it/s]
+ 56%|#####5    | 1672/3000 [00:13&lt;00:10, 124.80it/s]
+ 56%|#####6    | 1685/3000 [00:13&lt;00:10, 124.89it/s]
+ 57%|#####6    | 1698/3000 [00:13&lt;00:10, 125.17it/s]
+ 57%|#####7    | 1711/3000 [00:13&lt;00:10, 125.12it/s]
+ 57%|#####7    | 1724/3000 [00:13&lt;00:10, 124.93it/s]
+ 58%|#####7    | 1737/3000 [00:14&lt;00:10, 124.63it/s]
+ 58%|#####8    | 1750/3000 [00:14&lt;00:10, 124.82it/s]
+ 59%|#####8    | 1763/3000 [00:14&lt;00:09, 125.47it/s]
+ 59%|#####9    | 1776/3000 [00:14&lt;00:09, 125.56it/s]
+ 60%|#####9    | 1789/3000 [00:14&lt;00:09, 126.10it/s]
+ 60%|######    | 1802/3000 [00:14&lt;00:09, 125.66it/s]
+ 60%|######    | 1815/3000 [00:14&lt;00:09, 125.93it/s]
+ 61%|######    | 1828/3000 [00:14&lt;00:09, 126.05it/s]
+ 61%|######1   | 1841/3000 [00:14&lt;00:09, 126.21it/s]
+ 62%|######1   | 1854/3000 [00:14&lt;00:09, 125.46it/s]
+ 62%|######2   | 1867/3000 [00:15&lt;00:09, 125.09it/s]
+ 63%|######2   | 1880/3000 [00:15&lt;00:08, 125.24it/s]
+ 63%|######3   | 1893/3000 [00:15&lt;00:08, 125.27it/s]
+ 64%|######3   | 1906/3000 [00:15&lt;00:08, 125.48it/s]
+ 64%|######3   | 1919/3000 [00:15&lt;00:08, 125.84it/s]
+ 64%|######4   | 1932/3000 [00:15&lt;00:08, 125.29it/s]
+ 65%|######4   | 1945/3000 [00:15&lt;00:08, 125.34it/s]
+ 65%|######5   | 1958/3000 [00:15&lt;00:08, 125.25it/s]
+ 66%|######5   | 1971/3000 [00:15&lt;00:08, 125.38it/s]
+ 66%|######6   | 1984/3000 [00:15&lt;00:08, 125.18it/s]
+ 67%|######6   | 1997/3000 [00:16&lt;00:08, 124.82it/s]
+ 67%|######7   | 2010/3000 [00:16&lt;00:07, 125.26it/s]
+ 67%|######7   | 2023/3000 [00:16&lt;00:07, 125.63it/s]
+ 68%|######7   | 2036/3000 [00:16&lt;00:07, 126.16it/s]
+ 68%|######8   | 2049/3000 [00:16&lt;00:07, 126.19it/s]
+ 69%|######8   | 2062/3000 [00:16&lt;00:07, 126.10it/s]
+ 69%|######9   | 2075/3000 [00:16&lt;00:07, 125.89it/s]
+ 70%|######9   | 2088/3000 [00:16&lt;00:07, 125.00it/s]
+ 70%|#######   | 2101/3000 [00:16&lt;00:07, 124.49it/s]
+ 70%|#######   | 2114/3000 [00:17&lt;00:07, 124.53it/s]
+ 71%|#######   | 2127/3000 [00:17&lt;00:06, 124.82it/s]
+ 71%|#######1  | 2140/3000 [00:17&lt;00:06, 125.32it/s]
+ 72%|#######1  | 2153/3000 [00:17&lt;00:06, 124.52it/s]
+ 72%|#######2  | 2166/3000 [00:17&lt;00:06, 125.03it/s]
+ 73%|#######2  | 2179/3000 [00:17&lt;00:06, 125.29it/s]
+ 73%|#######3  | 2192/3000 [00:17&lt;00:06, 125.38it/s]
+ 74%|#######3  | 2205/3000 [00:17&lt;00:06, 125.84it/s]
+ 74%|#######3  | 2218/3000 [00:17&lt;00:06, 126.12it/s]
+ 74%|#######4  | 2231/3000 [00:17&lt;00:06, 125.58it/s]
+ 75%|#######4  | 2244/3000 [00:18&lt;00:06, 125.61it/s]
+ 75%|#######5  | 2257/3000 [00:18&lt;00:05, 125.78it/s]
+ 76%|#######5  | 2270/3000 [00:18&lt;00:05, 124.99it/s]
+ 76%|#######6  | 2283/3000 [00:18&lt;00:05, 124.82it/s]
+ 77%|#######6  | 2296/3000 [00:18&lt;00:05, 125.10it/s]
+ 77%|#######6  | 2309/3000 [00:18&lt;00:05, 125.33it/s]
+ 77%|#######7  | 2322/3000 [00:18&lt;00:05, 125.83it/s]
+ 78%|#######7  | 2335/3000 [00:18&lt;00:05, 125.92it/s]
+ 78%|#######8  | 2348/3000 [00:18&lt;00:05, 125.75it/s]
+ 79%|#######8  | 2361/3000 [00:19&lt;00:05, 125.91it/s]
+ 79%|#######9  | 2374/3000 [00:19&lt;00:04, 125.66it/s]
+ 80%|#######9  | 2387/3000 [00:19&lt;00:04, 125.76it/s]
+ 80%|########  | 2400/3000 [00:19&lt;00:04, 125.61it/s]
+ 80%|########  | 2413/3000 [00:19&lt;00:04, 125.20it/s]
+ 81%|########  | 2426/3000 [00:19&lt;00:04, 125.70it/s]
+ 81%|########1 | 2439/3000 [00:19&lt;00:04, 125.97it/s]
+ 82%|########1 | 2452/3000 [00:19&lt;00:04, 126.07it/s]
+ 82%|########2 | 2465/3000 [00:19&lt;00:04, 125.74it/s]
+ 83%|########2 | 2478/3000 [00:19&lt;00:04, 125.29it/s]
+ 83%|########3 | 2491/3000 [00:20&lt;00:04, 125.14it/s]
+ 83%|########3 | 2504/3000 [00:20&lt;00:03, 124.84it/s]
+ 84%|########3 | 2517/3000 [00:20&lt;00:03, 125.08it/s]
+ 84%|########4 | 2530/3000 [00:20&lt;00:03, 124.91it/s]
+ 85%|########4 | 2543/3000 [00:20&lt;00:03, 125.18it/s]
+ 85%|########5 | 2556/3000 [00:20&lt;00:03, 125.37it/s]
+ 86%|########5 | 2569/3000 [00:20&lt;00:03, 125.21it/s]
+ 86%|########6 | 2582/3000 [00:20&lt;00:03, 125.33it/s]
+ 86%|########6 | 2595/3000 [00:20&lt;00:03, 125.49it/s]
+ 87%|########6 | 2608/3000 [00:20&lt;00:03, 125.66it/s]
+ 87%|########7 | 2621/3000 [00:21&lt;00:03, 125.91it/s]
+ 88%|########7 | 2634/3000 [00:21&lt;00:02, 126.12it/s]
+ 88%|########8 | 2647/3000 [00:21&lt;00:02, 126.13it/s]
+ 89%|########8 | 2660/3000 [00:21&lt;00:02, 125.30it/s]
+ 89%|########9 | 2673/3000 [00:21&lt;00:02, 125.23it/s]
+ 90%|########9 | 2686/3000 [00:21&lt;00:02, 125.27it/s]
+ 90%|########9 | 2699/3000 [00:21&lt;00:02, 125.42it/s]
+ 90%|######### | 2712/3000 [00:21&lt;00:02, 124.71it/s]
+ 91%|######### | 2725/3000 [00:21&lt;00:02, 124.87it/s]
+ 91%|#########1| 2738/3000 [00:22&lt;00:02, 125.29it/s]
+ 92%|#########1| 2751/3000 [00:22&lt;00:01, 124.99it/s]
+ 92%|#########2| 2764/3000 [00:22&lt;00:01, 124.63it/s]
+ 93%|#########2| 2777/3000 [00:22&lt;00:01, 124.96it/s]
+ 93%|#########3| 2790/3000 [00:22&lt;00:01, 125.03it/s]
+ 93%|#########3| 2803/3000 [00:22&lt;00:01, 124.93it/s]
+ 94%|#########3| 2816/3000 [00:22&lt;00:01, 124.65it/s]
+ 94%|#########4| 2829/3000 [00:22&lt;00:01, 125.11it/s]
+ 95%|#########4| 2842/3000 [00:22&lt;00:01, 125.36it/s]
+ 95%|#########5| 2855/3000 [00:22&lt;00:01, 125.23it/s]
+ 96%|#########5| 2868/3000 [00:23&lt;00:01, 125.05it/s]
+ 96%|#########6| 2881/3000 [00:23&lt;00:00, 125.00it/s]
+ 96%|#########6| 2894/3000 [00:23&lt;00:00, 125.10it/s]
+ 97%|#########6| 2907/3000 [00:23&lt;00:00, 125.28it/s]
+ 97%|#########7| 2919/3000 [00:23&lt;00:00, 124.40it/s]
+
+  0%|          | 0/3000 [00:00&lt;?, ?it/s]
+  0%|          | 13/3000 [00:00&lt;00:23, 125.69it/s]
+  1%|          | 26/3000 [00:00&lt;00:23, 125.47it/s]
+  1%|1         | 39/3000 [00:00&lt;00:23, 125.45it/s]
+  2%|1         | 52/3000 [00:00&lt;00:23, 124.65it/s]
+  2%|2         | 65/3000 [00:00&lt;00:23, 124.83it/s]
+  3%|2         | 78/3000 [00:00&lt;00:23, 124.59it/s]
+  3%|3         | 91/3000 [00:00&lt;00:23, 124.98it/s]
+  3%|3         | 104/3000 [00:00&lt;00:23, 124.97it/s]
+  4%|3         | 117/3000 [00:00&lt;00:22, 125.58it/s]
+  4%|4         | 130/3000 [00:01&lt;00:22, 125.94it/s]
+  5%|4         | 143/3000 [00:01&lt;00:22, 125.19it/s]
+  5%|5         | 156/3000 [00:01&lt;00:22, 125.55it/s]
+  6%|5         | 169/3000 [00:01&lt;00:22, 125.21it/s]
+  6%|6         | 182/3000 [00:01&lt;00:22, 125.41it/s]
+  6%|6         | 195/3000 [00:01&lt;00:22, 125.37it/s]
+  7%|6         | 208/3000 [00:01&lt;00:22, 125.24it/s]
+  7%|7         | 221/3000 [00:01&lt;00:22, 125.36it/s]
+  8%|7         | 234/3000 [00:01&lt;00:22, 125.42it/s]
+  8%|8         | 247/3000 [00:01&lt;00:21, 125.64it/s]
+  9%|8         | 260/3000 [00:02&lt;00:21, 125.64it/s]
+  9%|9         | 273/3000 [00:02&lt;00:21, 125.27it/s]
+ 10%|9         | 286/3000 [00:02&lt;00:21, 125.31it/s]
+ 10%|9         | 299/3000 [00:02&lt;00:21, 125.76it/s]
+ 10%|#         | 312/3000 [00:02&lt;00:21, 125.53it/s]
+ 11%|#         | 325/3000 [00:02&lt;00:21, 125.50it/s]
+ 11%|#1        | 338/3000 [00:02&lt;00:21, 125.37it/s]
+ 12%|#1        | 351/3000 [00:02&lt;00:21, 125.54it/s]
+ 12%|#2        | 364/3000 [00:02&lt;00:20, 125.95it/s]
+ 13%|#2        | 377/3000 [00:03&lt;00:20, 126.12it/s]
+ 13%|#3        | 390/3000 [00:03&lt;00:20, 125.94it/s]
+ 13%|#3        | 403/3000 [00:03&lt;00:20, 125.91it/s]
+ 14%|#3        | 416/3000 [00:03&lt;00:20, 125.87it/s]
+ 14%|#4        | 429/3000 [00:03&lt;00:20, 125.60it/s]
+ 15%|#4        | 442/3000 [00:03&lt;00:20, 125.18it/s]
+ 15%|#5        | 455/3000 [00:03&lt;00:20, 124.74it/s]
+ 16%|#5        | 468/3000 [00:03&lt;00:20, 124.44it/s]
+ 16%|#6        | 481/3000 [00:03&lt;00:20, 124.53it/s]
+ 16%|#6        | 494/3000 [00:03&lt;00:20, 124.55it/s]
+ 17%|#6        | 507/3000 [00:04&lt;00:19, 124.93it/s]
+ 17%|#7        | 520/3000 [00:04&lt;00:19, 124.27it/s]
+ 18%|#7        | 533/3000 [00:04&lt;00:19, 124.48it/s]
+ 18%|#8        | 546/3000 [00:04&lt;00:19, 124.74it/s]
+ 19%|#8        | 559/3000 [00:04&lt;00:19, 124.48it/s]
+ 19%|#9        | 572/3000 [00:04&lt;00:19, 124.21it/s]
+ 20%|#9        | 585/3000 [00:04&lt;00:19, 124.22it/s]
+ 20%|#9        | 598/3000 [00:04&lt;00:19, 124.82it/s]
+ 20%|##        | 611/3000 [00:04&lt;00:19, 124.97it/s]
+ 21%|##        | 624/3000 [00:04&lt;00:19, 124.73it/s]
+ 21%|##1       | 637/3000 [00:05&lt;00:18, 124.93it/s]
+ 22%|##1       | 650/3000 [00:05&lt;00:18, 125.11it/s]
+ 22%|##2       | 663/3000 [00:05&lt;00:18, 125.33it/s]
+ 23%|##2       | 676/3000 [00:05&lt;00:18, 124.70it/s]
+ 23%|##2       | 689/3000 [00:05&lt;00:18, 124.71it/s]
+ 23%|##3       | 702/3000 [00:05&lt;00:18, 124.97it/s]
+ 24%|##3       | 715/3000 [00:05&lt;00:18, 124.90it/s]
+ 24%|##4       | 728/3000 [00:05&lt;00:18, 124.67it/s]
+ 25%|##4       | 741/3000 [00:05&lt;00:18, 125.10it/s]
+ 25%|##5       | 754/3000 [00:06&lt;00:17, 125.68it/s]
+ 26%|##5       | 767/3000 [00:06&lt;00:17, 125.73it/s]
+ 26%|##6       | 780/3000 [00:06&lt;00:17, 125.92it/s]
+ 26%|##6       | 793/3000 [00:06&lt;00:17, 125.72it/s]
+ 27%|##6       | 806/3000 [00:06&lt;00:17, 125.15it/s]
+ 27%|##7       | 819/3000 [00:06&lt;00:17, 124.80it/s]
+ 28%|##7       | 832/3000 [00:06&lt;00:17, 124.62it/s]
+ 28%|##8       | 845/3000 [00:06&lt;00:17, 124.37it/s]
+ 29%|##8       | 858/3000 [00:06&lt;00:17, 124.82it/s]
+ 29%|##9       | 871/3000 [00:06&lt;00:16, 125.34it/s]
+ 29%|##9       | 884/3000 [00:07&lt;00:16, 124.74it/s]
+ 30%|##9       | 897/3000 [00:07&lt;00:16, 124.02it/s]
+ 30%|###       | 910/3000 [00:07&lt;00:16, 124.65it/s]
+ 31%|###       | 923/3000 [00:07&lt;00:16, 124.91it/s]
+ 31%|###1      | 936/3000 [00:07&lt;00:16, 124.84it/s]
+ 32%|###1      | 949/3000 [00:07&lt;00:16, 124.65it/s]
+ 32%|###2      | 962/3000 [00:07&lt;00:16, 124.72it/s]
+ 32%|###2      | 967/3000 [00:07&lt;00:16, 124.96it/s]
+</pre></div>
+</div>
+<p>We can show the deconvolved galaxy image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">deconv_data</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_galaxy_deconvolution_003.png" srcset="../../_images/sphx_glr_plot_galaxy_deconvolution_003.png, ../../_images/sphx_glr_plot_galaxy_deconvolution_003_2_0x.png 2.0x" alt="plot galaxy deconvolution" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-astro/plot_galaxy_deconvolution.py:73: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+</section>
+<section id="residual">
+<h2>Residual<a class="headerlink" href="#residual" title="Permalink to this headline">#</a></h2>
+<p>Next, we calculate the residual of our deconvolved image to get a measure of
+how well the deconvolution process performed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">residual</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">galaxy</span><span class="o">.</span><span class="n">data</span></a> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">deconv_data</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we can show the residual.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">residual</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_galaxy_deconvolution_004.png" srcset="../../_images/sphx_glr_plot_galaxy_deconvolution_004.png, ../../_images/sphx_glr_plot_galaxy_deconvolution_004_2_0x.png 2.0x" alt="plot galaxy deconvolution" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-astro/plot_galaxy_deconvolution.py:88: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Typically for a denoising problem we are aiming for a residual without any
+structure, i.e. just noise.</p>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  31.924 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-pysap-astro-plot-galaxy-deconvolution-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/01552997a36bdd717c3bc454fd7e2d9c/plot_galaxy_deconvolution.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_galaxy_deconvolution.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8cda8edcd844e5ae580c6ec801f9894f/plot_galaxy_deconvolution.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_galaxy_deconvolution.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="plot_galaxy_denoising.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Galaxy Image Denoising</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../pysap-mri/cartesian_reconstruction.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Neuroimaging cartesian reconstruction</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 10 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,26 @@
+mri.optimizers
+==============
+
+
+.. automodule:: mri.optimizers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.optimizers.utils
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.optimizers.base
+   mri.optimizers.forward_backward
+   mri.optimizers.primal_dual

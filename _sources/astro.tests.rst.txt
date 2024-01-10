@@ -1,0 +1,16 @@
+astro.tests
+===========
+
+
+.. automodule:: astro.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   astro.tests.test_denoising

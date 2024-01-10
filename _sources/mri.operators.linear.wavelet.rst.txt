@@ -1,0 +1,7 @@
+mri.operators.linear.wavelet
+----------------------------
+
+.. automodule:: mri.operators.linear.wavelet
+   :members:
+   :undoc-members:
+   :show-inheritance:

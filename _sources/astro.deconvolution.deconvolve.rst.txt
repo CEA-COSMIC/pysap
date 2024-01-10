@@ -1,0 +1,7 @@
+astro.deconvolution.deconvolve
+------------------------------
+
+.. automodule:: astro.deconvolution.deconvolve
+   :members:
+   :undoc-members:
+   :show-inheritance:

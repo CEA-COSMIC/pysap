@@ -1,0 +1,19 @@
+mri.operators.gradient
+======================
+
+
+.. automodule:: mri.operators.gradient
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.gradient.base
+   mri.operators.gradient.gradient
+   mri.operators.gradient.online
+   mri.operators.gradient.utils

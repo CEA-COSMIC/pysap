@@ -1,0 +1,7 @@
+mri.operators.proximity.weighted
+--------------------------------
+
+.. automodule:: mri.operators.proximity.weighted
+   :members:
+   :undoc-members:
+   :show-inheritance:

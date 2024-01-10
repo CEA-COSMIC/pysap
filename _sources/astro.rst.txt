@@ -1,0 +1,18 @@
+astro
+=====
+
+
+.. automodule:: astro
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   astro.deconvolution
+   astro.denoising
+   astro.tests

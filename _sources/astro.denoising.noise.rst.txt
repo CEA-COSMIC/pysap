@@ -1,0 +1,7 @@
+astro.denoising.noise
+---------------------
+
+.. automodule:: astro.denoising.noise
+   :members:
+   :undoc-members:
+   :show-inheritance:

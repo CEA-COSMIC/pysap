@@ -1,0 +1,7 @@
+mri.operators.gradient.online
+-----------------------------
+
+.. automodule:: mri.operators.gradient.online
+   :members:
+   :undoc-members:
+   :show-inheritance:

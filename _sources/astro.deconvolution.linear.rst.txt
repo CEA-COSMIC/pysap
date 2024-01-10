@@ -1,0 +1,7 @@
+astro.deconvolution.linear
+--------------------------
+
+.. automodule:: astro.deconvolution.linear
+   :members:
+   :undoc-members:
+   :show-inheritance:

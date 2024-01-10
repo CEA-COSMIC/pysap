@@ -1,0 +1,18 @@
+astro.deconvolution
+===================
+
+
+.. automodule:: astro.deconvolution
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   astro.deconvolution.deconvolve
+   astro.deconvolution.linear
+   astro.deconvolution.wavelet_filters

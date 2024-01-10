@@ -1,0 +1,7 @@
+mri.operators.fourier.utils.orc\_coefficients
+---------------------------------------------
+
+.. automodule:: mri.operators.fourier.utils.orc_coefficients
+   :members:
+   :undoc-members:
+   :show-inheritance:

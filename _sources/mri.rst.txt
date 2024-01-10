@@ -1,0 +1,28 @@
+mri
+===
+
+
+.. automodule:: mri
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.generators
+   mri.operators
+   mri.optimizers
+   mri.reconstructors
+   mri.scripts
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.info

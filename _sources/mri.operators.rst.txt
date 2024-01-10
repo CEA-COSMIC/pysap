@@ -1,0 +1,28 @@
+mri.operators
+=============
+
+
+.. automodule:: mri.operators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.fourier
+   mri.operators.gradient
+   mri.operators.linear
+   mri.operators.proximity
+   mri.operators.utils
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.base

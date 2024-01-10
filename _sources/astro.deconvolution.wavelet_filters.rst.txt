@@ -1,0 +1,7 @@
+astro.deconvolution.wavelet\_filters
+------------------------------------
+
+.. automodule:: astro.deconvolution.wavelet_filters
+   :members:
+   :undoc-members:
+   :show-inheritance:

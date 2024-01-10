@@ -1,0 +1,7 @@
+mri.operators.fourier.online
+----------------------------
+
+.. automodule:: mri.operators.fourier.online
+   :members:
+   :undoc-members:
+   :show-inheritance:

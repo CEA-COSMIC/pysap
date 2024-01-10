@@ -1,0 +1,7 @@
+mri.optimizers.forward\_backward
+--------------------------------
+
+.. automodule:: mri.optimizers.forward_backward
+   :members:
+   :undoc-members:
+   :show-inheritance:

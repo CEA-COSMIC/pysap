@@ -1,0 +1,17 @@
+mri.operators.proximity
+=======================
+
+
+.. automodule:: mri.operators.proximity
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.proximity.ordered_weighted_l1_norm
+   mri.operators.proximity.weighted

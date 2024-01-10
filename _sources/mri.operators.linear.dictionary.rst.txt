@@ -1,0 +1,7 @@
+mri.operators.linear.dictionary
+-------------------------------
+
+.. automodule:: mri.operators.linear.dictionary
+   :members:
+   :undoc-members:
+   :show-inheritance:

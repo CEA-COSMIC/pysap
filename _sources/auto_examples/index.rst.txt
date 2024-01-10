@@ -71,3 +71,266 @@ of the core features of PySAP.
 
     <div class="sphx-glr-clear"></div>
 
+
+
+.. _sphx_glr_auto_examples_pysap-astro:
+
+.. _astro_examples:
+
+Astro Examples
+--------------
+
+Astro examples...
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this tutorial we will remove the noise from an example galaxy image using the PySAP-Astro pl...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-astro/images/thumb/sphx_glr_plot_galaxy_denoising_thumb.png
+     :alt: Galaxy Image Denoising
+
+     :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_denoising.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-astro/plot_galaxy_denoising
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this tutorial we will deconvolve the PSF effects from an example galaxy image using the PySA...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-astro/images/thumb/sphx_glr_plot_galaxy_deconvolution_thumb.png
+     :alt: Galaxy Image Deconvolution
+
+     :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_deconvolution.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-astro/plot_galaxy_deconvolution
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_auto_examples_pysap-mri:
+
+.. _astro_examples:
+
+PySAP-MRI Examples
+------------------
+
+MRI examples...
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_cartesian_reconstruction_thumb.png
+     :alt: Neuroimaging cartesian reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/cartesian_reconstruction
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_SelfCalibrationReconstruction_Cartesian_thumb.png
+     :alt: Cartesian Self Calibrating Reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_SelfCalibrationReconstruction_Cartesian.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/SelfCalibrationReconstruction_Cartesian
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_CalibrationlessReconstruction_GL_Cartesian_thumb.png
+     :alt: Cartesian Calibrationless Reconstruction using GroupLASSO Regularizer
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_CalibrationlessReconstruction_GL_Cartesian.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/CalibrationlessReconstruction_GL_Cartesian
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: LElgueddari">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_cartesian_reconstruction_3d_thumb.png
+     :alt: 3D Neuroimaging cartesian reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction_3d.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/cartesian_reconstruction_3d
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_CalibrationlessReconstruction_OWL_Cartesian_thumb.png
+     :alt: Cartesian Calibrationless Reconstruction using OWL Regularizer
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_CalibrationlessReconstruction_OWL_Cartesian.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/CalibrationlessReconstruction_OWL_Cartesian
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_non_cartesian_reconstruction_thumb.png
+     :alt: Neuroimaging non-cartesian reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_non_cartesian_reconstruction.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/non_cartesian_reconstruction
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_gridsearch_launch_thumb.png
+     :alt: Neuroimaging cartesian reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_gridsearch_launch.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/gridsearch_launch
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_thumb.png
+     :alt: GPU Density Compensation Reconstruction Comparison
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_GPU_NonCartesian_Pipe_DensityCompensation.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_thumb.png
+     :alt: GPU non-cartesian reconstruction with SENSE
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+

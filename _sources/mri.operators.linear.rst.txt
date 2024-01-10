@@ -1,0 +1,18 @@
+mri.operators.linear
+====================
+
+
+.. automodule:: mri.operators.linear
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.linear.dictionary
+   mri.operators.linear.utils
+   mri.operators.linear.wavelet

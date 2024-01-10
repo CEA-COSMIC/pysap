@@ -1,0 +1,7 @@
+astro.denoising.wavelet
+-----------------------
+
+.. automodule:: astro.denoising.wavelet
+   :members:
+   :undoc-members:
+   :show-inheritance:

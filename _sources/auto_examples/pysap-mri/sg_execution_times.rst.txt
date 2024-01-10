@@ -1,0 +1,28 @@
+
+:orphan:
+
+.. _sphx_glr_auto_examples_pysap-mri_sg_execution_times:
+
+Computation times
+=================
+**25:23.805** total execution time for **auto_examples_pysap-mri** files:
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_CalibrationlessReconstruction_OWL_Cartesian.py` (``CalibrationlessReconstruction_OWL_Cartesian.py``)                 | 06:19.520 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_CalibrationlessReconstruction_GL_Cartesian.py` (``CalibrationlessReconstruction_GL_Cartesian.py``)                   | 04:31.552 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction_3d.py` (``cartesian_reconstruction_3d.py``)                                                 | 04:27.859 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_SelfCalibrationReconstruction_Cartesian.py` (``SelfCalibrationReconstruction_Cartesian.py``)                         | 03:46.709 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py` (``GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py``) | 03:46.410 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_non_cartesian_reconstruction.py` (``non_cartesian_reconstruction.py``)                                               | 01:37.306 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_gridsearch_launch.py` (``gridsearch_launch.py``)                                                                     | 00:30.461 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction.py` (``cartesian_reconstruction.py``)                                                       | 00:20.746 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_pysap-mri_GPU_NonCartesian_Pipe_DensityCompensation.py` (``GPU_NonCartesian_Pipe_DensityCompensation.py``)                     | 00:03.242 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

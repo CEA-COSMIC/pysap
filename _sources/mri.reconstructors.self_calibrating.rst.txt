@@ -1,0 +1,7 @@
+mri.reconstructors.self\_calibrating
+------------------------------------
+
+.. automodule:: mri.reconstructors.self_calibrating
+   :members:
+   :undoc-members:
+   :show-inheritance:

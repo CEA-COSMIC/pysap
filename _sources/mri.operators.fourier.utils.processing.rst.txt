@@ -1,0 +1,7 @@
+mri.operators.fourier.utils.processing
+--------------------------------------
+
+.. automodule:: mri.operators.fourier.utils.processing
+   :members:
+   :undoc-members:
+   :show-inheritance:

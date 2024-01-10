@@ -1,0 +1,7 @@
+mri.reconstructors.single\_channel
+----------------------------------
+
+.. automodule:: mri.reconstructors.single_channel
+   :members:
+   :undoc-members:
+   :show-inheritance:

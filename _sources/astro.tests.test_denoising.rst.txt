@@ -1,0 +1,7 @@
+astro.tests.test\_denoising
+---------------------------
+
+.. automodule:: astro.tests.test_denoising
+   :members:
+   :undoc-members:
+   :show-inheritance:

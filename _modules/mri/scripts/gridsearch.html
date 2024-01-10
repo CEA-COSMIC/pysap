@@ -1,0 +1,1280 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mri.scripts.gridsearch &#8212; pysap v0.2.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../astro.html">
+   astro
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../astro.deconvolution.html">
+     astro.deconvolution
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.deconvolution.deconvolve.html">
+       astro.deconvolution.deconvolve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.deconvolution.linear.html">
+       astro.deconvolution.linear
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.deconvolution.wavelet_filters.html">
+       astro.deconvolution.wavelet_filters
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../astro.denoising.html">
+     astro.denoising
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.denoising.denoise.html">
+       astro.denoising.denoise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.denoising.noise.html">
+       astro.denoising.noise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.denoising.wavelet.html">
+       astro.denoising.wavelet
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../astro.tests.html">
+     astro.tests
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../astro.tests.test_denoising.html">
+       astro.tests.test_denoising
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../mri.html">
+   mri
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../mri.generators.html">
+     mri.generators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.generators.base.html">
+       mri.generators.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.generators.cartesian.html">
+       mri.generators.cartesian
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../mri.operators.html">
+     mri.operators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+    <label for="toctree-checkbox-12">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.operators.fourier.html">
+       mri.operators.fourier
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.fourier.utils.html">
+         mri.operators.fourier.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.fourier.cartesian.html">
+         mri.operators.fourier.cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.fourier.non_cartesian.html">
+         mri.operators.fourier.non_cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.fourier.online.html">
+         mri.operators.fourier.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.fourier.orc_wrapper.html">
+         mri.operators.fourier.orc_wrapper
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.operators.gradient.html">
+       mri.operators.gradient
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.gradient.base.html">
+         mri.operators.gradient.base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.gradient.gradient.html">
+         mri.operators.gradient.gradient
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.gradient.online.html">
+         mri.operators.gradient.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.gradient.utils.html">
+         mri.operators.gradient.utils
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.operators.linear.html">
+       mri.operators.linear
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+      <label for="toctree-checkbox-15">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.linear.dictionary.html">
+         mri.operators.linear.dictionary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.linear.utils.html">
+         mri.operators.linear.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.linear.wavelet.html">
+         mri.operators.linear.wavelet
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.operators.proximity.html">
+       mri.operators.proximity
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+      <label for="toctree-checkbox-16">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.proximity.ordered_weighted_l1_norm.html">
+         mri.operators.proximity.ordered_weighted_l1_norm
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.operators.proximity.weighted.html">
+         mri.operators.proximity.weighted
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.operators.utils.html">
+       mri.operators.utils
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.operators.base.html">
+       mri.operators.base
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../mri.optimizers.html">
+     mri.optimizers
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+    <label for="toctree-checkbox-17">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.optimizers.utils.html">
+       mri.optimizers.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+      <label for="toctree-checkbox-18">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.optimizers.utils.cost.html">
+         mri.optimizers.utils.cost
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.optimizers.utils.reweight.html">
+         mri.optimizers.utils.reweight
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.optimizers.base.html">
+       mri.optimizers.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.optimizers.forward_backward.html">
+       mri.optimizers.forward_backward
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.optimizers.primal_dual.html">
+       mri.optimizers.primal_dual
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../mri.reconstructors.html">
+     mri.reconstructors
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
+    <label for="toctree-checkbox-19">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../../mri.reconstructors.utils.html">
+       mri.reconstructors.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/>
+      <label for="toctree-checkbox-20">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../mri.reconstructors.utils.extract_sensitivity_maps.html">
+         mri.reconstructors.utils.extract_sensitivity_maps
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.reconstructors.base.html">
+       mri.reconstructors.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.reconstructors.calibrationless.html">
+       mri.reconstructors.calibrationless
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.reconstructors.self_calibrating.html">
+       mri.reconstructors.self_calibrating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.reconstructors.single_channel.html">
+       mri.reconstructors.single_channel
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../../mri.scripts.html">
+     mri.scripts
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/>
+    <label for="toctree-checkbox-21">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../../mri.scripts.gridsearch.html">
+       mri.scripts.gridsearch
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../mri.info.html">
+     mri.info
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../auto_examples/index.html">
+   PySAP Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/>
+  <label for="toctree-checkbox-22">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-astro/plot_galaxy_denoising.html">
+     Galaxy Image Denoising
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-astro/plot_galaxy_deconvolution.html">
+     Galaxy Image Deconvolution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/cartesian_reconstruction.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/SelfCalibrationReconstruction_Cartesian.html">
+     Cartesian Self Calibrating Reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/CalibrationlessReconstruction_GL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using GroupLASSO Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/cartesian_reconstruction_3d.html">
+     3D Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/CalibrationlessReconstruction_OWL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using OWL Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/non_cartesian_reconstruction.html">
+     Neuroimaging non-cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/gridsearch_launch.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.html">
+     GPU Density Compensation Reconstruction Comparison
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../auto_examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.html">
+     GPU non-cartesian reconstruction with SENSE
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2F_modules/mri/scripts/gridsearch.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for mri.scripts.gridsearch</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">##########################################################################</span>
+<span class="c1"># pySAP - Copyright (C) CEA, 2017 - 2018</span>
+<span class="c1"># Distributed under the terms of the CeCILL-B license, as published by</span>
+<span class="c1"># the CEA-CNRS-INRIA. Refer to the LICENSE file or to</span>
+<span class="c1"># http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html</span>
+<span class="c1"># for details.</span>
+<span class="c1">##########################################################################</span>
+
+<span class="kn">from</span> <span class="nn">mri.operators</span> <span class="kn">import</span> <span class="n">WaveletN</span><span class="p">,</span> <span class="n">NonCartesianFFT</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">modopt.opt.linear</span> <span class="kn">import</span> <span class="n">Identity</span>
+<span class="kn">from</span> <span class="nn">modopt.opt.proximity</span> <span class="kn">import</span> <span class="n">SparseThreshold</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="_TestCase"><a class="viewcode-back" href="../../../mri.scripts.gridsearch.html#mri.scripts.gridsearch._TestCase">[docs]</a><span class="k">class</span> <span class="nc">_TestCase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal Class to save a test case in a format</span>
+<span class="sd">    and call reconstruct</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    kspace_data: np.ndarray</span>
+<span class="sd">            the kspace data for reconstruction</span>
+<span class="sd">    linear_op_class: class</span>
+<span class="sd">        linear operator initialization class</span>
+<span class="sd">    linear_op_kwargs: dict</span>
+<span class="sd">        kwargs for initializing linear operator</span>
+<span class="sd">    regularizer_op_class: class</span>
+<span class="sd">        regularizer operator initialization class</span>
+<span class="sd">    regularizer_op_kwargs: dict</span>
+<span class="sd">        kwargs for initializing regularizer operator</span>
+<span class="sd">    optimizer_kwargs: dict</span>
+<span class="sd">        kwargs for optimizer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kspace_data</span><span class="p">,</span> <span class="n">linear_op_class</span><span class="p">,</span> <span class="n">regularizer_op_class</span><span class="p">,</span>
+                 <span class="n">linear_op_kwargs</span><span class="p">,</span> <span class="n">regularizer_op_kwargs</span><span class="p">,</span>
+                 <span class="n">optimizer_kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kspace_data</span> <span class="o">=</span> <span class="n">kspace_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span> <span class="o">=</span> <span class="n">linear_op_class</span><span class="p">(</span><span class="o">**</span><span class="n">linear_op_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regularizer_op</span> <span class="o">=</span> <span class="n">regularizer_op_class</span><span class="p">(</span><span class="o">**</span><span class="n">regularizer_op_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_kwargs</span> <span class="o">=</span> <span class="n">optimizer_kwargs</span>
+
+<div class="viewcode-block" id="_TestCase.reconstruct_case"><a class="viewcode-back" href="../../../mri.scripts.gridsearch.html#mri.scripts.gridsearch._TestCase.reconstruct_case">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fourier_op</span><span class="p">,</span> <span class="n">reconstructor_class</span><span class="p">,</span>
+                         <span class="n">reconstructor_kwargs</span><span class="p">,</span> <span class="n">fourier_params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal Function to carry out reconstruction for a</span>
+<span class="sd">        special case. This function pulls in appropriate keyword arguments</span>
+<span class="sd">        from input and declares appropriate Linear, Fourier and Regularizer</span>
+<span class="sd">        Operators. These operators later are used to create the image model</span>
+<span class="sd">        by defining the reconstructor. Then the reconstruction is carried and</span>
+<span class="sd">        results are returned</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fourier_op: object of class FFT</span>
+<span class="sd">            this defines the fourier operator. for NonCartesianFFT, please make</span>
+<span class="sd">            fourier_op as `None` and pass fourier_params to allow</span>
+<span class="sd">            parallel execution</span>
+<span class="sd">        reconstructor_class: class</span>
+<span class="sd">            reconstructor class</span>
+<span class="sd">        reconstructor_kwargs: dict</span>
+<span class="sd">            extra kwargs for reconstructor</span>
+<span class="sd">        fourier_params: dict, default None</span>
+<span class="sd">            holds dictionary with init_class pointing to fourier</span>
+<span class="sd">            class to be used and args having keyword arguments for</span>
+<span class="sd">            initialization</span>
+<span class="sd">            This is passed only if fourier_op is None so that fourier_op can be</span>
+<span class="sd">            made on spot during reconstruction.</span>
+<span class="sd">            NOTE: We declare fourier operator inside this function to allow</span>
+<span class="sd">            parallel execution as NonCartesianFFT cannot be pickled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fourier_op</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fourier_op</span> <span class="o">=</span> <span class="n">fourier_params</span><span class="p">[</span><span class="s1">&#39;init_class&#39;</span><span class="p">](</span>
+                <span class="o">**</span><span class="n">fourier_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">reconstructor</span> <span class="o">=</span> <span class="n">reconstructor_class</span><span class="p">(</span>
+            <span class="n">fourier_op</span><span class="o">=</span><span class="n">fourier_op</span><span class="p">,</span>
+            <span class="n">linear_op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">linear_op</span><span class="p">,</span>
+            <span class="n">regularizer_op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">regularizer_op</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">reconstructor_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">raw_results</span> <span class="o">=</span> <span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span>
+            <span class="n">kspace_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kspace_data</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer_kwargs</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">raw_results</span></div></div>
+
+
+<div class="viewcode-block" id="gather_result"><a class="viewcode-back" href="../../../mri.scripts.gridsearch.html#mri.scripts.gridsearch.gather_result">[docs]</a><span class="k">def</span> <span class="nf">gather_result</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">metric_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Gather the best reconstruction result.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    metric: str,</span>
+<span class="sd">        the name of the metric, it will become a dict key in the output dict.</span>
+<span class="sd">    results: list of list,</span>
+<span class="sd">        list of the raw results of the gridsearch</span>
+<span class="sd">    metric_direction: bool, default None</span>
+<span class="sd">        if True the higher the better the metric value is (like for `ssim`),</span>
+<span class="sd">        else the lower the better.</span>
+<span class="sd">        If None, we choose defaults as follows:</span>
+<span class="sd">            if metric is &#39;ssim&#39;, &#39;psnr&#39; or &#39;accuracy&#39;, metric_direction is True</span>
+<span class="sd">            if metric is &#39;nrmse&#39; or &#39;mse&#39;, metric_direction is False</span>
+<span class="sd">    Return:</span>
+<span class="sd">    -------</span>
+<span class="sd">    results and location of best results in given set of raw results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Make metric string lower case</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">list_metric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span>
+    <span class="p">])</span>
+    <span class="k">if</span> <span class="n">metric_direction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If metric_direction is None, we choose from a set of possible</span>
+        <span class="c1"># default values</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;ssim&#39;</span> <span class="ow">or</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;psnr&#39;</span> <span class="ow">or</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span>
+            <span class="n">metric_direction</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;nrmse&#39;</span> <span class="ow">or</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span>
+            <span class="n">metric_direction</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot automatically find out metric direction, &#39;</span>
+                             <span class="s1">&#39;please specify metric direction&#39;</span><span class="p">)</span>
+    <span class="c1"># get best runs</span>
+    <span class="k">if</span> <span class="n">metric_direction</span><span class="p">:</span>
+        <span class="n">best_metric</span> <span class="o">=</span> <span class="n">list_metric</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">best_idx</span> <span class="o">=</span> <span class="n">list_metric</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">best_metric</span> <span class="o">=</span> <span class="n">list_metric</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">best_idx</span> <span class="o">=</span> <span class="n">list_metric</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">best_metric</span><span class="p">,</span> <span class="n">best_idx</span></div>
+
+
+<div class="viewcode-block" id="launch_grid"><a class="viewcode-back" href="../../../mri.scripts.gridsearch.html#mri.scripts.gridsearch.launch_grid">[docs]</a><span class="k">def</span> <span class="nf">launch_grid</span><span class="p">(</span><span class="n">kspace_data</span><span class="p">,</span> <span class="n">reconstructor_class</span><span class="p">,</span> <span class="n">reconstructor_kwargs</span><span class="p">,</span>
+                <span class="n">fourier_op</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linear_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regularizer_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">optimizer_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compare_metric_details</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function launches off reconstruction for a grid specified</span>
+<span class="sd">    through use of kwarg dictionaries.</span>
+
+<span class="sd">    Dictionary Convention</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    These dictionaries each defined to follow the convention:</span>
+<span class="sd">    Each dictionary has a key `init_class` that specifies the</span>
+<span class="sd">    initialization class for the operator (exception to</span>
+<span class="sd">    this is &#39;optimizer_params&#39;). Later we have key `kwargs` that holds</span>
+<span class="sd">    all the input arguments that can be passed as a keyword dictionary.</span>
+<span class="sd">    Each value in this keyword dictionary ,ust be a list of all</span>
+<span class="sd">    values you want to search in gridsearch.</span>
+
+<span class="sd">    This function finds the search space of parameters and</span>
+<span class="sd">    sets up right parameters for &#39;_reconstruct_case&#39; function.</span>
+<span class="sd">    Please check the example code for more details.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    kspace_data: np.ndarray</span>
+<span class="sd">        the kspace data for reconstruction</span>
+<span class="sd">    reconstructor_class: class</span>
+<span class="sd">        reconstructor class</span>
+<span class="sd">    reconstructor_kwargs: dict</span>
+<span class="sd">        extra kwargs for reconstructor</span>
+<span class="sd">    fourier_op: object of class FFT</span>
+<span class="sd">        this defines the fourier operator. for NonCartesianFFT, please make</span>
+<span class="sd">        fourier_op as `None` and pass fourier_params to allow</span>
+<span class="sd">        parallel execution</span>
+<span class="sd">    linear_params: dict, default None</span>
+<span class="sd">        dictionary for linear operator parameters</span>
+<span class="sd">        if None, a sym8 wavelet is chosen</span>
+<span class="sd">    regularizer_params: dict, default None</span>
+<span class="sd">        dictionary for regularizer operator parameters</span>
+<span class="sd">        if None, mu=0, ie no regularization is done</span>
+<span class="sd">    optimizer_params: dict, default None</span>
+<span class="sd">        dictionary for optimizer key word arguments</span>
+<span class="sd">        if None, a FISTA optimization is done for 100 iterations</span>
+<span class="sd">    compare_metric_details: dict default None</span>
+<span class="sd">        dictionary that holds the metric to be compared and metric</span>
+<span class="sd">        direction please refer to `gather_result` documentation.</span>
+<span class="sd">        if None, all raw_results are returned and best_idx is None</span>
+<span class="sd">    n_jobs: int, default 1</span>
+<span class="sd">        number of parallel jobs for execution</span>
+<span class="sd">    verbose: int default 0</span>
+<span class="sd">        Verbosity level</span>
+<span class="sd">        0 =&gt; No debug prints</span>
+<span class="sd">        1 =&gt; View best results if present</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert non-list elements to list so that we can create</span>
+    <span class="c1"># search space</span>
+    <span class="n">init_classes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">key_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">linear_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">linear_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;init_class&#39;</span><span class="p">:</span> <span class="n">WaveletN</span><span class="p">,</span>
+            <span class="s1">&#39;kwargs&#39;</span><span class="p">:</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;wavelet_name&#39;</span><span class="p">:</span> <span class="s1">&#39;sym8&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;nb_scale&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="k">if</span> <span class="n">regularizer_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">regularizer_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;init_class&#39;</span><span class="p">:</span> <span class="n">SparseThreshold</span><span class="p">,</span>
+            <span class="s1">&#39;kwargs&#39;</span><span class="p">:</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;linear&#39;</span><span class="p">:</span> <span class="n">Identity</span><span class="p">(),</span>
+                    <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="k">if</span> <span class="n">optimizer_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">optimizer_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># Just following convention</span>
+            <span class="s1">&#39;kwargs&#39;</span><span class="p">:</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;optimization_alg&#39;</span><span class="p">:</span> <span class="s1">&#39;fista&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;num_iterations&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="k">for</span> <span class="n">specific_params</span> <span class="ow">in</span> <span class="p">[</span><span class="n">linear_params</span><span class="p">,</span> <span class="n">regularizer_params</span><span class="p">,</span>
+                            <span class="n">optimizer_params</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">specific_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="n">specific_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+        <span class="c1"># Obtain Initialization classes</span>
+        <span class="k">if</span> <span class="n">specific_params</span> <span class="o">!=</span> <span class="n">optimizer_params</span><span class="p">:</span>
+            <span class="n">init_classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">specific_params</span><span class="p">[</span><span class="s1">&#39;init_class&#39;</span><span class="p">])</span>
+        <span class="c1"># Obtain Key Names</span>
+        <span class="n">key_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">specific_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="c1"># Create Search space</span>
+    <span class="n">cross_product_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">linear_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+        <span class="o">*</span><span class="n">regularizer_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+        <span class="o">*</span><span class="n">optimizer_params</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+    <span class="p">))</span>
+    <span class="n">test_cases</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">number_of_test_cases</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cross_product_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total number of gridsearch cases : &#39;</span> <span class="o">+</span>
+              <span class="nb">str</span><span class="p">(</span><span class="n">number_of_test_cases</span><span class="p">))</span>
+    <span class="c1"># Reshape data such that they match values for key_names</span>
+    <span class="k">for</span> <span class="n">test_case</span> <span class="ow">in</span> <span class="n">cross_product_list</span><span class="p">:</span>
+        <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">test_case</span><span class="p">)</span>
+        <span class="c1"># Add the test case after reshaping the list</span>
+        <span class="n">all_kwargs_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">indivitual_param_names</span> <span class="ow">in</span> <span class="n">key_names</span><span class="p">:</span>
+            <span class="n">param_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">indivitual_param_names</span><span class="p">:</span>
+                <span class="n">param_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">iterator</span><span class="p">))</span>
+            <span class="n">all_kwargs_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param_kwargs</span><span class="p">)</span>
+        <span class="n">test_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_TestCase</span><span class="p">(</span>
+            <span class="n">kspace_data</span><span class="p">,</span>
+            <span class="o">*</span><span class="n">init_classes</span><span class="p">,</span>
+            <span class="o">*</span><span class="n">all_kwargs_values</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fourier_op</span><span class="p">,</span> <span class="n">NonCartesianFFT</span><span class="p">):</span>
+        <span class="n">fourier_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;init_class&#39;</span><span class="p">:</span> <span class="n">NonCartesianFFT</span><span class="p">,</span>
+            <span class="s1">&#39;kwargs&#39;</span><span class="p">:</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span>
+                    <span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="s1">&#39;n_coils&#39;</span><span class="p">:</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">n_coils</span><span class="p">,</span>
+                    <span class="s1">&#39;implementation&#39;</span><span class="p">:</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">implementation</span><span class="p">,</span>
+                    <span class="s1">&#39;density_comp&#39;</span><span class="p">:</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">density_comp</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">fourier_op</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">fourier_op</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fourier_params</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Call for reconstruction</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)(</span>
+        <span class="n">delayed</span><span class="p">(</span><span class="n">test_case</span><span class="o">.</span><span class="n">reconstruct_case</span><span class="p">)(</span>
+            <span class="n">fourier_op</span><span class="o">=</span><span class="n">fourier_op</span><span class="p">,</span>
+            <span class="n">reconstructor_class</span><span class="o">=</span><span class="n">reconstructor_class</span><span class="p">,</span>
+            <span class="n">reconstructor_kwargs</span><span class="o">=</span><span class="n">reconstructor_kwargs</span><span class="p">,</span>
+            <span class="n">fourier_params</span><span class="o">=</span><span class="n">fourier_params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">test_case</span> <span class="ow">in</span> <span class="n">test_cases</span>
+    <span class="p">)</span>
+    <span class="n">best_idx</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">compare_metric_details</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">best_value</span><span class="p">,</span> <span class="n">best_idx</span> <span class="o">=</span> \
+            <span class="n">gather_result</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">compare_metric_details</span><span class="p">,</span>
+                <span class="n">results</span><span class="o">=</span><span class="n">results</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The best result of grid search is: &#39;</span>
+                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cross_product_list</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The best value of metric is : &#39;</span>
+                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">best_value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">cross_product_list</span><span class="p">,</span> <span class="n">key_names</span><span class="p">,</span> <span class="n">best_idx</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 10 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

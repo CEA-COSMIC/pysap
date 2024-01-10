@@ -1,0 +1,7 @@
+mri.optimizers.utils.cost
+-------------------------
+
+.. automodule:: mri.optimizers.utils.cost
+   :members:
+   :undoc-members:
+   :show-inheritance:

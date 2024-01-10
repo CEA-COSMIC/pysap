@@ -1,0 +1,7 @@
+mri.generators.base
+-------------------
+
+.. automodule:: mri.generators.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

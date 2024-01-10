@@ -1,0 +1,1319 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>GPU non-cartesian reconstruction with SENSE &#8212; pysap v0.2.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Contributing" href="../../contributing.html" />
+    <link rel="prev" title="GPU Density Compensation Reconstruction Comparison" href="GPU_NonCartesian_Pipe_DensityCompensation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../dependencies.html">
+   Dependencies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../quickstart.html">
+   Quickstart Tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API Documentation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../pysap.html">
+   pysap
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.apps.html">
+     pysap.apps
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.base.html">
+     pysap.base
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../pysap.base.loaders.html">
+       pysap.base.loaders
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.fits.html">
+         pysap.base.loaders.fits
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.loader_base.html">
+         pysap.base.loaders.loader_base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.mat.html">
+         pysap.base.loaders.mat
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.nifti.html">
+         pysap.base.loaders.nifti
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.numpy_binary.html">
+         pysap.base.loaders.numpy_binary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../pysap.base.loaders.tif.html">
+         pysap.base.loaders.tif
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.exceptions.html">
+       pysap.base.exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.image.html">
+       pysap.base.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.io.html">
+       pysap.base.io
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.observable.html">
+       pysap.base.observable
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.plugins.html">
+       pysap.base.plugins
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.transform.html">
+       pysap.base.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.base.utils.html">
+       pysap.base.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.extensions.html">
+     pysap.extensions
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.formating.html">
+       pysap.extensions.formating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.sparse2d.html">
+       pysap.extensions.sparse2d
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.tools.html">
+       pysap.extensions.tools
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.transform.html">
+       pysap.extensions.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.extensions.wrapper.html">
+       pysap.extensions.wrapper
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../pysap.plotting.html">
+     pysap.plotting
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.image.html">
+       pysap.plotting.image
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.transform.html">
+       pysap.plotting.transform
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../pysap.plotting.utils.html">
+       pysap.plotting.utils
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.plugins.html">
+     pysap.plugins
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.configure.html">
+     pysap.configure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.data.html">
+     pysap.data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.info.html">
+     pysap.info
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pysap.utils.html">
+     pysap.utils
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../astro.html">
+   astro
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.deconvolution.html">
+     astro.deconvolution
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.deconvolve.html">
+       astro.deconvolution.deconvolve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.linear.html">
+       astro.deconvolution.linear
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.deconvolution.wavelet_filters.html">
+       astro.deconvolution.wavelet_filters
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.denoising.html">
+     astro.denoising
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.denoise.html">
+       astro.denoising.denoise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.noise.html">
+       astro.denoising.noise
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.denoising.wavelet.html">
+       astro.denoising.wavelet
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../astro.tests.html">
+     astro.tests
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../astro.tests.test_denoising.html">
+       astro.tests.test_denoising
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../mri.html">
+   mri
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.generators.html">
+     mri.generators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.generators.base.html">
+       mri.generators.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.generators.cartesian.html">
+       mri.generators.cartesian
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.operators.html">
+     mri.operators
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+    <label for="toctree-checkbox-12">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.fourier.html">
+       mri.operators.fourier
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.utils.html">
+         mri.operators.fourier.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.cartesian.html">
+         mri.operators.fourier.cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.non_cartesian.html">
+         mri.operators.fourier.non_cartesian
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.online.html">
+         mri.operators.fourier.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.fourier.orc_wrapper.html">
+         mri.operators.fourier.orc_wrapper
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.gradient.html">
+       mri.operators.gradient
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.base.html">
+         mri.operators.gradient.base
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.gradient.html">
+         mri.operators.gradient.gradient
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.online.html">
+         mri.operators.gradient.online
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.gradient.utils.html">
+         mri.operators.gradient.utils
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.linear.html">
+       mri.operators.linear
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+      <label for="toctree-checkbox-15">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.dictionary.html">
+         mri.operators.linear.dictionary
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.utils.html">
+         mri.operators.linear.utils
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.linear.wavelet.html">
+         mri.operators.linear.wavelet
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.operators.proximity.html">
+       mri.operators.proximity
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+      <label for="toctree-checkbox-16">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.proximity.ordered_weighted_l1_norm.html">
+         mri.operators.proximity.ordered_weighted_l1_norm
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.operators.proximity.weighted.html">
+         mri.operators.proximity.weighted
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.operators.utils.html">
+       mri.operators.utils
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.operators.base.html">
+       mri.operators.base
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.optimizers.html">
+     mri.optimizers
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+    <label for="toctree-checkbox-17">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.optimizers.utils.html">
+       mri.optimizers.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+      <label for="toctree-checkbox-18">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.optimizers.utils.cost.html">
+         mri.optimizers.utils.cost
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.optimizers.utils.reweight.html">
+         mri.optimizers.utils.reweight
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.base.html">
+       mri.optimizers.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.forward_backward.html">
+       mri.optimizers.forward_backward
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.optimizers.primal_dual.html">
+       mri.optimizers.primal_dual
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.reconstructors.html">
+     mri.reconstructors
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
+    <label for="toctree-checkbox-19">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../mri.reconstructors.utils.html">
+       mri.reconstructors.utils
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/>
+      <label for="toctree-checkbox-20">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../mri.reconstructors.utils.extract_sensitivity_maps.html">
+         mri.reconstructors.utils.extract_sensitivity_maps
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.base.html">
+       mri.reconstructors.base
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.calibrationless.html">
+       mri.reconstructors.calibrationless
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.self_calibrating.html">
+       mri.reconstructors.self_calibrating
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.reconstructors.single_channel.html">
+       mri.reconstructors.single_channel
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../mri.scripts.html">
+     mri.scripts
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/>
+    <label for="toctree-checkbox-21">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../mri.scripts.gridsearch.html">
+       mri.scripts.gridsearch
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../mri.info.html">
+     mri.info
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../z_ref.html">
+   References
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
+   PySAP Examples
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/>
+  <label for="toctree-checkbox-22">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap/plot_basics.html">
+     PySAP Basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-astro/plot_galaxy_denoising.html">
+     Galaxy Image Denoising
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pysap-astro/plot_galaxy_deconvolution.html">
+     Galaxy Image Deconvolution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="cartesian_reconstruction.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="SelfCalibrationReconstruction_Cartesian.html">
+     Cartesian Self Calibrating Reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CalibrationlessReconstruction_GL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using GroupLASSO Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="cartesian_reconstruction_3d.html">
+     3D Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CalibrationlessReconstruction_OWL_Cartesian.html">
+     Cartesian Calibrationless Reconstruction using OWL Regularizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="non_cartesian_reconstruction.html">
+     Neuroimaging non-cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gridsearch_launch.html">
+     Neuroimaging cartesian reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="GPU_NonCartesian_Pipe_DensityCompensation.html">
+     GPU Density Compensation Reconstruction Comparison
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     GPU non-cartesian reconstruction with SENSE
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cea-cosmic.github.io/ModOpt/">
+   ModOpt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CosmoStat/Sparse2D">
+   Sparse2D
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guidelines
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../citing.html">
+   Citing this Package
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <p></p>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/issues/new?title=Issue%20on%20page%20%2Fauto_examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/CEA-COSMIC/pysap/edit/develop/docs/source/auto_examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-neuroimaging-data">
+   Import neuroimaging data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-the-kspace">
+   Generate the kspace
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fista-optimization">
+   FISTA optimization
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>GPU non-cartesian reconstruction with SENSE</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-neuroimaging-data">
+   Import neuroimaging data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-the-kspace">
+   Generate the kspace
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fista-optimization">
+   FISTA optimization
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-pysap-mri-gpu-noncartesian-gpunufft-sense-densitycompensation-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="gpu-non-cartesian-reconstruction-with-sense">
+<span id="sphx-glr-auto-examples-pysap-mri-gpu-noncartesian-gpunufft-sense-densitycompensation-py"></span><h1>GPU non-cartesian reconstruction with SENSE<a class="headerlink" href="#gpu-non-cartesian-reconstruction-with-sense" title="Permalink to this headline">#</a></h1>
+<p>Author: Chaithya G R</p>
+<p>In this tutorial we will reconstruct an MR Image directly with density
+compensation and SENSE from gpuNUFFT</p>
+<section id="import-neuroimaging-data">
+<h2>Import neuroimaging data<a class="headerlink" href="#import-neuroimaging-data" title="Permalink to this headline">#</a></h2>
+<p>We use the toy datasets available in pysap, more specifically a 3D orange data
+and the radial acquisition scheme (non-cartesian).</p>
+<p>Package import</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mri.operators</span> <span class="kn">import</span> <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class"><span class="n">NonCartesianFFT</span></a><span class="p">,</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class"><span class="n">WaveletN</span></a>
+<span class="kn">from</span> <span class="nn">mri.operators.utils</span> <span class="kn">import</span> <span class="n">normalize_frequency_locations</span>
+<span class="kn">from</span> <span class="nn">mri.operators.fourier.utils</span> <span class="kn">import</span> <span class="n">estimate_density_compensation</span>
+<span class="kn">from</span> <span class="nn">mri.reconstructors</span> <span class="kn">import</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase" title="mri.reconstructors.base.ReconstructorBase" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-class"><span class="n">SelfCalibrationReconstructor</span></a>
+<span class="kn">from</span> <span class="nn">mri.reconstructors.utils.extract_sensitivity_maps</span> <span class="kn">import</span> <a href="../../mri.reconstructors.utils.extract_sensitivity_maps.html#mri.reconstructors.utils.extract_sensitivity_maps.get_Smaps" title="mri.reconstructors.utils.extract_sensitivity_maps.get_Smaps" class="sphx-glr-backref-module-mri-reconstructors-utils-extract_sensitivity_maps sphx-glr-backref-type-py-function"><span class="n">get_Smaps</span></a>
+<span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
+
+<span class="c1"># Third party import</span>
+<span class="kn">from</span> <span class="nn">modopt.math.metrics</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a>
+<span class="kn">from</span> <span class="nn">modopt.opt.linear</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class"><span class="n">Identity</span></a>
+<span class="kn">from</span> <span class="nn">modopt.opt.proximity</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class"><span class="n">SparseThreshold</span></a>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<p>Loading input data</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;3d-pmri&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.complex64" title="numpy.complex64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">np</span><span class="o">.</span><span class="n">complex64</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Obtain MRI non-cartesian mask and estimate the density compensation</span>
+<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">radial_mask</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s2">&quot;mri-radial-3d-samples&quot;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a> <span class="o">=</span> <span class="n">normalize_frequency_locations</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">radial_mask</span><span class="o">.</span><span class="n">data</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">density_comp</span></a> <span class="o">=</span> <span class="n">estimate_density_compensation</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span> <span class="s1">&#39;pipe&#39;</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;gpunufft&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mri/operators/fourier/utils/processing.py:101: UserWarning: Frequencies outside the 0.5 limit.
+  warnings.warn(&quot;Frequencies outside the 0.5 limit.&quot;)
+</pre></div>
+</div>
+<p>View Input</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span></a><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s2">&quot;MRI Data&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.scatter.html#matplotlib.axes.Axes.scatter" title="matplotlib.axes.Axes.scatter" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span></a><span class="p">(</span><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="p">[::</span><span class="mi">500</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s2">&quot;K-space Sampling Mask&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_001.png" srcset="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_001.png, ../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_001_2_0x.png 2.0x" alt="MRI Data, K-space Sampling Mask" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:51: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+</section>
+<section id="generate-the-kspace">
+<h2>Generate the kspace<a class="headerlink" href="#generate-the-kspace" title="Permalink to this headline">#</a></h2>
+<p>From the 3D orange slice and 3D radial acquisition mask, we retrospectively
+undersample the k-space
+We then reconstruct using adjoint with and without density compensation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the locations of the kspace samples and the associated observations</span>
+<a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class"><span class="n">NonCartesianFFT</span></a><span class="p">(</span>
+    <span class="n">samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="p">,</span>
+    <span class="n">shape</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span>
+    <span class="n">n_coils</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;gpuNUFFT&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_obs</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT.op" title="mri.operators.fourier.non_cartesian.NonCartesianFFT.op" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-method"><span class="n">fourier_op</span><span class="o">.</span><span class="n">op</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>Obtrain the Sensitivity Maps</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Smaps</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SOS</span></a> <span class="o">=</span> <a href="../../mri.reconstructors.utils.extract_sensitivity_maps.html#mri.reconstructors.utils.extract_sensitivity_maps.get_Smaps" title="mri.reconstructors.utils.extract_sensitivity_maps.get_Smaps" class="sphx-glr-backref-module-mri-reconstructors-utils-extract_sensitivity_maps sphx-glr-backref-type-py-function"><span class="n">get_Smaps</span></a><span class="p">(</span>
+    <span class="n">k_space</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_obs</span></a><span class="p">,</span>
+    <span class="n">img_shape</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span>
+    <span class="n">samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="p">,</span>
+    <span class="n">thresh</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>  <span class="c1"># The cutoff threshold in each kspace</span>
+                                <span class="c1"># direction between 0 and kspace_max (0.5)</span>
+    <span class="n">min_samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">max_samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">density_comp</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">density_comp</span></a><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;NFFT&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/_utils.py:36: UserWarning: Samples will be rescaled to [-pi, pi), assuming they were in [-0.5, 0.5)
+  warnings.warn(
+/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/operators/base.py:434: UserWarning: coeffs should be of dtype complex128. Casting it for you.
+  warnings.warn(
+</pre></div>
+</div>
+<p>View Input</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">i</span></a> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">i</span></a><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Smaps</span></a><span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">i</span></a><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="mi">80</span><span class="p">]),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.suptitle.html#matplotlib.pyplot.suptitle" title="matplotlib.pyplot.suptitle" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span></a><span class="p">(</span><span class="s2">&quot;Sensitivty Maps&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_002.png" srcset="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_002.png, ../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_002_2_0x.png 2.0x" alt="Sensitivty Maps" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:88: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+<p>Density Compensation adjoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op_sense_dc</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class"><span class="n">NonCartesianFFT</span></a><span class="p">(</span>
+    <span class="n">samples</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a><span class="p">,</span>
+    <span class="n">shape</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span><span class="o">.</span><span class="n">shape</span></a><span class="p">,</span>
+    <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;gpuNUFFT&#39;</span><span class="p">,</span>
+    <span class="n">n_coils</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">density_comp</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">density_comp</span></a><span class="p">,</span>
+    <span class="n">smaps</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Smaps</span></a><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># This preconditions k-space giving a result closer to inverse</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT.adj_op" title="mri.operators.fourier.non_cartesian.NonCartesianFFT.adj_op" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-method"><span class="n">fourier_op_sense_dc</span><span class="o">.</span><span class="n">adj_op</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_obs</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span></a><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span><span class="o">&gt;</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.mean.html#numpy.mean" title="numpy.mean" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)))</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Density Compensated Adjoint : SSIM = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.around.html#numpy.around" title="numpy.around" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">around</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_003.png" srcset="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_003.png, ../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_003_2_0x.png 2.0x" alt="Density Compensated Adjoint : SSIM = 0.46" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/operators/interfaces/gpunufft.py:138: UserWarning: no pinning provided, pinning existing smaps now.
+  warnings.warn(&quot;no pinning provided, pinning existing smaps now.&quot;)
+/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:105: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+</section>
+<section id="fista-optimization">
+<h2>FISTA optimization<a class="headerlink" href="#fista-optimization" title="Permalink to this headline">#</a></h2>
+<p>We now want to refine the zero order solution using a FISTA optimization.
+The cost function is set to Proximity Cost + Gradient Cost</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup the operators</span>
+<a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a> <span class="o">=</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class"><span class="n">WaveletN</span></a><span class="p">(</span>
+    <span class="n">wavelet_name</span><span class="o">=</span><span class="s1">&#39;sym8&#39;</span><span class="p">,</span>
+    <span class="n">nb_scale</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class"><span class="n">SparseThreshold</span></a><span class="p">(</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class"><span class="n">Identity</span></a><span class="p">(),</span> <span class="mf">1e-11</span><span class="p">,</span> <span class="n">thresh_type</span><span class="o">=</span><span class="s2">&quot;soft&quot;</span><span class="p">)</span>
+<span class="c1"># Setup Reconstructor</span>
+<span class="n">reconstructor</span> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase" title="mri.reconstructors.base.ReconstructorBase" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-class"><span class="n">SelfCalibrationReconstructor</span></a><span class="p">(</span>
+    <a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a><span class="o">=</span><a href="../../mri.operators.fourier.non_cartesian.html#mri.operators.fourier.non_cartesian.NonCartesianFFT" title="mri.operators.fourier.non_cartesian.NonCartesianFFT" class="sphx-glr-backref-module-mri-operators-fourier-non_cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op_sense_dc</span></a><span class="p">,</span>
+    <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="o">=</span><a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="p">,</span>
+    <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="o">=</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="p">,</span>
+    <span class="n">gradient_formulation</span><span class="o">=</span><span class="s1">&#39;synthesis&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/pywt/_multilevel.py:43: UserWarning: Level value of 4 is too high: all coefficients will experience boundary effects.
+  warnings.warn(
+WARNING: Making input data immutable.
+Lipschitz constant is 0.07428256422281265
+The lipschitz constraint is satisfied
+</pre></div>
+</div>
+<p>Run the FISTA reconstruction and view results</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">costs</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase.reconstruct" title="mri.reconstructors.base.ReconstructorBase.reconstruct" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-method"><span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span></a><span class="p">(</span>
+    <span class="n">kspace_data</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_obs</span></a><span class="p">,</span>
+    <span class="n">optimization_alg</span><span class="o">=</span><span class="s1">&#39;fista&#39;</span><span class="p">,</span>
+    <span class="n">num_iterations</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cartesian</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Iterative Reconstruction : SSIM = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.around.html#numpy.around" title="numpy.around" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">around</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_004.png" srcset="../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_004.png, ../../_images/sphx_glr_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation_004_2_0x.png 2.0x" alt="Iterative Reconstruction : SSIM = 0.64" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: Making input data immutable.
+/volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/pywt/_multilevel.py:43: UserWarning: Level value of 4 is too high: all coefficients will experience boundary effects.
+  warnings.warn(
+ - mu:  1e-11
+ - lipschitz constant:  0.07428256422281265
+ - data:  (128, 128, 160)
+ - wavelet:  &lt;mri.operators.linear.wavelet.WaveletN object at 0x7fcc1c4ef7f0&gt; - 4
+ - max iterations:  30
+ - image variable shape:  (128, 128, 160)
+ - alpha variable shape:  (4017261,)
+----------------------------------------
+Starting optimization...
+
+  0%|          | 0/30 [00:00&lt;?, ?it/s]
+  3%|3         | 1/30 [00:03&lt;01:39,  3.42s/it]
+  7%|6         | 2/30 [00:06&lt;01:35,  3.41s/it]
+ 10%|#         | 3/30 [00:10&lt;01:32,  3.41s/it]
+ 13%|#3        | 4/30 [00:13&lt;01:28,  3.41s/it]
+ 17%|#6        | 5/30 [00:17&lt;01:25,  3.40s/it]
+ 20%|##        | 6/30 [00:20&lt;01:21,  3.40s/it]
+ 23%|##3       | 7/30 [00:23&lt;01:18,  3.40s/it]
+ 27%|##6       | 8/30 [00:27&lt;01:14,  3.40s/it]
+ 30%|###       | 9/30 [00:30&lt;01:11,  3.40s/it]
+ 33%|###3      | 10/30 [00:34&lt;01:08,  3.40s/it]
+ 37%|###6      | 11/30 [00:37&lt;01:04,  3.41s/it]
+ 40%|####      | 12/30 [00:40&lt;01:01,  3.41s/it]
+ 43%|####3     | 13/30 [00:44&lt;00:57,  3.41s/it]
+ 47%|####6     | 14/30 [00:47&lt;00:54,  3.41s/it]
+ 50%|#####     | 15/30 [00:51&lt;00:51,  3.41s/it]
+ 53%|#####3    | 16/30 [00:54&lt;00:47,  3.41s/it]
+ 57%|#####6    | 17/30 [00:57&lt;00:44,  3.41s/it]
+ 60%|######    | 18/30 [01:01&lt;00:40,  3.41s/it]
+ 63%|######3   | 19/30 [01:04&lt;00:37,  3.41s/it]
+ 67%|######6   | 20/30 [01:08&lt;00:34,  3.41s/it]
+ 70%|#######   | 21/30 [01:11&lt;00:30,  3.41s/it]
+ 73%|#######3  | 22/30 [01:14&lt;00:27,  3.41s/it]
+ 77%|#######6  | 23/30 [01:18&lt;00:23,  3.41s/it]
+ 80%|########  | 24/30 [01:21&lt;00:20,  3.42s/it]
+ 83%|########3 | 25/30 [01:25&lt;00:17,  3.42s/it]
+ 87%|########6 | 26/30 [01:28&lt;00:13,  3.42s/it]
+ 90%|######### | 27/30 [01:32&lt;00:10,  3.42s/it]
+ 93%|#########3| 28/30 [01:35&lt;00:06,  3.42s/it]
+ 97%|#########6| 29/30 [01:38&lt;00:03,  3.42s/it]
+100%|##########| 30/30 [01:42&lt;00:00,  3.42s/it]
+100%|##########| 30/30 [01:42&lt;00:00,  3.41s/it]
+ - final iteration number:  30
+ - final log10 cost value:  6.0
+ - converged:  False
+Done.
+Execution time:  102.35322033474222  seconds
+----------------------------------------
+/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:140: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 3 minutes  46.410 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-pysap-mri-gpu-noncartesian-gpunufft-sense-densitycompensation-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/0ddaf96cb0023dc219e3c8d1ddc0816f/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/e1c00bb96a2b787a2e98ff537cbcf8bc/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="GPU_NonCartesian_Pipe_DensityCompensation.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">GPU Density Compensation Reconstruction Comparison</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../../contributing.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contributing</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The PySAP Team<br/>
+  
+      &copy; Copyright 2022, The PySAP Team.<br/>
+    Last updated on 10 Jan, 2024.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

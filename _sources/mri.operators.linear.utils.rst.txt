@@ -1,0 +1,7 @@
+mri.operators.linear.utils
+--------------------------
+
+.. automodule:: mri.operators.linear.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

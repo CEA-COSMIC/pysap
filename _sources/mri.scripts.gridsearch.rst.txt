@@ -1,0 +1,7 @@
+mri.scripts.gridsearch
+----------------------
+
+.. automodule:: mri.scripts.gridsearch
+   :members:
+   :undoc-members:
+   :show-inheritance:

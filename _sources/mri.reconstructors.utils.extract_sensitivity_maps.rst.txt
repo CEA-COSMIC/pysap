@@ -1,0 +1,7 @@
+mri.reconstructors.utils.extract\_sensitivity\_maps
+---------------------------------------------------
+
+.. automodule:: mri.reconstructors.utils.extract_sensitivity_maps
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+mri.operators.base
+------------------
+
+.. automodule:: mri.operators.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

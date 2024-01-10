@@ -1,0 +1,7 @@
+mri.generators.cartesian
+------------------------
+
+.. automodule:: mri.generators.cartesian
+   :members:
+   :undoc-members:
+   :show-inheritance:

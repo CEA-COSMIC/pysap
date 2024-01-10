@@ -1,0 +1,7 @@
+mri.operators.fourier.non\_cartesian
+------------------------------------
+
+.. automodule:: mri.operators.fourier.non_cartesian
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+mri.operators.proximity.ordered\_weighted\_l1\_norm
+---------------------------------------------------
+
+.. automodule:: mri.operators.proximity.ordered_weighted_l1_norm
+   :members:
+   :undoc-members:
+   :show-inheritance:

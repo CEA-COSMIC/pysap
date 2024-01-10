@@ -1,0 +1,18 @@
+astro.denoising
+===============
+
+
+.. automodule:: astro.denoising
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   astro.denoising.denoise
+   astro.denoising.noise
+   astro.denoising.wavelet

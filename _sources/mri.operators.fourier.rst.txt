@@ -1,0 +1,27 @@
+mri.operators.fourier
+=====================
+
+
+.. automodule:: mri.operators.fourier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.fourier.utils
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   mri.operators.fourier.cartesian
+   mri.operators.fourier.non_cartesian
+   mri.operators.fourier.online
+   mri.operators.fourier.orc_wrapper

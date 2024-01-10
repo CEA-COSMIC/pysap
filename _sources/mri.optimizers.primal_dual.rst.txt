@@ -1,0 +1,7 @@
+mri.optimizers.primal\_dual
+---------------------------
+
+.. automodule:: mri.optimizers.primal_dual
+   :members:
+   :undoc-members:
+   :show-inheritance:
