@@ -68,7 +68,7 @@ REQUIRES = [
     'astropy>=4.1',
     'nibabel>=3.2.1',
     'progressbar2>=3.53.1',
-    'modopt@git+https://github.com/chaithyagr/modopt',
+    'modopt>1.6.1',
     'scikit-learn>=0.24.1',
     'scikit-image>=0.17.2',
     'PyWavelets>=1.1.1',
