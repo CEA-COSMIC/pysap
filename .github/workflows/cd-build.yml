@@ -43,26 +43,32 @@ jobs:
           file: coverage.xml
           flags: unittests
 
-  api:
+
+   
+
+          
+  api_deploy:
     name: Deploy API Documentation
     needs: coverage
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: success()
-
+  
     env:
       gh_root: https://github.com/CEA-COSMIC/
       tag_path: /archive/refs/tags/
+      gh_download: https://codeload.github.com/CEA-COSMIC/
+      develop_path: /tar.gz/refs/heads/develop
       sphinx_opts: -t docs/_templates -feTMo docs/source
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-
+          python-version: "3.10.12"
+          
       - name: Check Python Version
         run: python --version
 
@@ -78,11 +84,11 @@ jobs:
           while read _plugin; do
             plugin_name="$(echo ${_plugin} | awk -F== '{print $1}')"
             plugin_version="$(echo ${_plugin} | awk -F== '{print $2}')"
-            wget ${gh_root}${plugin_name}${tag_path}${plugin_version}.tar.gz -O ${plugin_name}.tar.gz
+            wget ${gh_download}${plugin_name}${develop_path} -O ${plugin_name}.tar.gz
           done < plugins.txt
           for file in *.tar.gz; do 
-            tar xzf "$file"
-            python -m pip install ${plugin_name}-*/.
+            tar xzf "$file";
+            python -m pip install "$file"
           done
           rm *.tar.gz
 
@@ -103,7 +109,11 @@ jobs:
             package_name="$(echo ${plugin_name} | awk -F- '{print $2}')"
             sphinx-apidoc ${sphinx_opts} ${plugin_name}-*/${package_name}
           done < plugins.txt
-
+      
+      - name: Install GPU specific requirements
+        run: |
+          python -m pip install -r pysap-mri-*/gpu_requirements.txt 
+        
       - name: Build API documentation
         run: sphinx-build -E docs/source docs/_build
 
