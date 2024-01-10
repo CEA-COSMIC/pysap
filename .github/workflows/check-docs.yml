@@ -82,6 +82,7 @@ jobs:
       
       - name: Install GPU specific requirements
         run: |
+          python -m ensurepip
           python -m pip install -r pysap-mri-*/gpu_requirements.txt 
         
       - name: Build API documentation
