@@ -88,6 +88,7 @@ sphinx_gallery_conf = {
     'download_all_examples': False,
     'show_signature': False,
     'image_srcset': ["2x"],
+    'filename_pattern': '/',
     'reference_url': {
         'pysap': None,
         'astro': None,
