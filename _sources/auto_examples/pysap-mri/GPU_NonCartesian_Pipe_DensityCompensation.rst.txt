@@ -51,6 +51,12 @@ Package import
     import matplotlib.pyplot as plt
 
 
+
+
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Loading input data
@@ -65,6 +71,12 @@ Loading input data
     kspace_loc = get_sample_data("mri-radial-samples").data
     density_comp = estimate_density_compensation(kspace_loc, image.shape, 'pipe', backend='gpunufft')
     density_comp2 = estimate_density_compensation(kspace_loc, image.shape, 'cell_count')
+
+
+
+
+
+
 
 .. GENERATED FROM PYTHON SOURCE LINES 38-39
 
@@ -81,6 +93,26 @@ View Input
     plt.imshow(convert_locations_to_mask(kspace_loc, image.shape), cmap='gray')
     plt.title("K-space Sampling Mask")
     plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_001.png
+   :alt: MRI Data, K-space Sampling Mask
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_001.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_001_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.py:45: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 48-54
@@ -117,6 +149,25 @@ We then reconstruct using adjoint with and without density compensation
     kspace_obs = fourier_op.op(image)
 
 
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/_utils.py:36: UserWarning: Samples will be rescaled to [-pi, pi), assuming they were in [-0.5, 0.5)
+      warnings.warn(
+    /volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/_utils.py:36: UserWarning: Samples will be rescaled to [-pi, pi), assuming they were in [-0.5, 0.5)
+      warnings.warn(
+    /volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/mrinufft/_utils.py:36: UserWarning: Samples will be rescaled to [-pi, pi), assuming they were in [-0.5, 0.5)
+      warnings.warn(
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 75-76
 
 Gridded solution
@@ -134,6 +185,26 @@ Gridded solution
     plt.title('Gridded solution : SSIM = ' + str(np.around(base_ssim, 2)))
     plt.show()
 
+
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_002.png
+   :alt: Gridded solution : SSIM = 0.45
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_002.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_002_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.py:83: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 85-87
 
 Simple adjoint
@@ -148,6 +219,26 @@ This preconditions k-space giving a result closer to inverse
     plt.imshow(np.abs(image_rec), cmap='gray')
     plt.title('Simple NUFFT Adjoint : SSIM = ' + str(np.around(recon_ssim, 2)))
     plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_003.png
+   :alt: Simple NUFFT Adjoint : SSIM = 0.31
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_003.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_003_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.py:91: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 94-96
@@ -166,6 +257,26 @@ This preconditions k-space giving a result closer to inverse
     plt.show()
 
 
+
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004.png
+   :alt: Density Compensated Adjoint (Pipe): SSIM = 0.71
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.py:100: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 103-105
 
 Density Compensation adjoint (from cell_count):
@@ -181,9 +292,29 @@ This preconditions k-space giving a result closer to inverse
     plt.title('Density Compensated Adjoint (cell_count): SSIM = ' + str(np.around(recon_ssim, 2)))
     plt.show()
 
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005.png
+   :alt: Density Compensated Adjoint (cell_count): SSIM = 0.71
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.py:109: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.000 seconds)
+   **Total running time of the script:** ( 0 minutes  3.143 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_GPU_NonCartesian_Pipe_DensityCompensation.py:

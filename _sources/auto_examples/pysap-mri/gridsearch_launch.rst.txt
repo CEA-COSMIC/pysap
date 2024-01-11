@@ -53,6 +53,12 @@ Imports
     import matplotlib.pyplot as plt
 
 
+
+
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Load MR data and obtain kspace
@@ -66,6 +72,12 @@ Load MR data and obtain kspace
     kspace_loc = convert_mask_to_locations(mask.data)
     fourier_op = FFT(samples=kspace_loc, shape=image.shape)
     kspace_data = fourier_op.op(image.data)
+
+
+
+
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 39-40
@@ -111,6 +123,12 @@ Define the keyword dictionaries based on convention
             }
     }
 
+
+
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 75-76
 
 Call the launch grid function and obtain results
@@ -133,6 +151,22 @@ Call the launch grid function and obtain results
     )
     image_rec = raw_results[best_idx][0]
 
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    Total number of gridsearch cases : 20
+    The best result of grid search is: ('sym8', 4, <modopt.opt.linear.base.Identity object at 0x7f130f9b4850>, 3.162277660168379e-07, 'fista', 20, {'ssim': {'metric': <function ssim at 0x7f130fd28b80>, 'mapping': {'x_new': 'test', 'y_new': None}, 'cst_kwargs': {'ref': <pysap.base.image.Image object at 0x7f131bdb5450>, 'mask': None}, 'early_stopping': True}})
+    The best value of metric is : 0.8530240600646171
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 90-91
 
 View Best Results
@@ -149,6 +183,26 @@ View Best Results
     plt.imshow(np.abs(image_rec), cmap='gray')
     plt.title('Best Reconstruction : SSIM = ' + str(np.around(recon_ssim, 2)))
     plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_001.png
+   :alt: Cartesian Input, Best Reconstruction : SSIM = 0.86
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_001.png, /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_001_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/gridsearch_launch.py:98: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 101-102
@@ -171,9 +225,29 @@ View other reconstruction Results
     
     plt.show()
 
+
+.. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_002.png
+   :alt: Test Case: 0 SSIM: 0.73, Test Case: 1 SSIM: 0.78, Test Case: 2 SSIM: 0.82, Test Case: 3 SSIM: 0.84, Test Case: 4 SSIM: 0.82, Test Case: 5 SSIM: 0.75, Test Case: 6 SSIM: 0.79, Test Case: 7 SSIM: 0.82, Test Case: 8 SSIM: 0.86
+   :srcset: /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_002.png, /auto_examples/pysap-mri/images/sphx_glr_gridsearch_launch_002_2_0x.png 2.0x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/gridsearch_launch.py:112: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+      plt.show()
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.000 seconds)
+   **Total running time of the script:** ( 0 minutes  22.471 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_gridsearch_launch.py:
