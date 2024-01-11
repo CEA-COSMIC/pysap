@@ -7,6 +7,7 @@ import os
 from importlib_metadata import metadata
 
 # If extensions (or modules to document with autodoc) are in another directory,
+
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('../..'))
@@ -90,11 +91,11 @@ sphinx_gallery_conf = {
     'image_srcset': ["2x"],
     'binder': {
      # Required keys
-     'org': 'chaithyagr',
-     'repo': 'pysap-tutorials',
-     'branch': 'master', # Can be any branch, tag, or commit hash. Use a branch that hosts your docs.
+     'org': 'cea-cosmic',
+     'repo': 'pysap',
+     'branch': 'gh-pages', # Can be any branch, tag, or commit hash. Use a branch that hosts your docs.
      'binderhub_url': 'https://mybinder.org', # Any URL of a binderhub deployment. Must be full URL (e.g. https://mybinder.org).
-     'dependencies': '../../environment.yml',
+     'dependencies': ['../binder/apt.txt', '../binder/requirements.txt', '../binder/environment.yml'],
      # Optional keys
      'notebooks_dir': 'notebooks', # Jupyter notebooks for Binder will be copied to this directory (relative to built documentation root).
      'use_jupyter_lab': True, # Whether Binder links should start Jupyter Lab instead of the Jupyter Notebook interface.
