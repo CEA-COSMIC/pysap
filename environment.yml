@@ -12,8 +12,8 @@ dependencies:
   - pip:
       - setuptools>=60.0.0
       - python-pysap@git+https://github.com/cea-cosmic/pysap
-      - modopt@git+https://github.com/cea-cosmic/modopt
-      - pysap-mri@git+https://github.com/cea-cosmic/pysap-mri
+      - modopt@git+https://github.com/cea-cosmic/modopt@develop
+      - pysap-mri@git+https://github.com/cea-cosmic/pysap-mri@develop
       - finufft
       - mri-nufft
   
