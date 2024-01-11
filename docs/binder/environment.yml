@@ -14,4 +14,6 @@ dependencies:
       - python-pysap@git+https://github.com/cea-cosmic/pysap
       - modopt@git+https://github.com/cea-cosmic/modopt
       - pysap-mri@git+https://github.com/cea-cosmic/pysap-mri
+      - finufft
+      - mri-nufft
   
