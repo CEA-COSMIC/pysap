@@ -1,0 +1,7 @@
+etomo.optimizers.primal\_dual
+-----------------------------
+
+.. automodule:: etomo.optimizers.primal_dual
+   :members:
+   :undoc-members:
+   :show-inheritance:

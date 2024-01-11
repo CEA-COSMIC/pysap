@@ -1,0 +1,7 @@
+etomo.optimizers.utils.reweight
+-------------------------------
+
+.. automodule:: etomo.optimizers.utils.reweight
+   :members:
+   :undoc-members:
+   :show-inheritance:

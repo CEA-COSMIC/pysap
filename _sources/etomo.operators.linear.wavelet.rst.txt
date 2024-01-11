@@ -1,0 +1,7 @@
+etomo.operators.linear.wavelet
+------------------------------
+
+.. automodule:: etomo.operators.linear.wavelet
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -131,6 +131,17 @@ Astro examples...
 
 
 
+.. _sphx_glr_auto_examples_pysap-etomo:
+
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
 .. _sphx_glr_auto_examples_pysap-mri:
 
 .. _astro_examples:
@@ -254,7 +265,7 @@ MRI examples...
 .. only:: html
 
  .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_non_cartesian_reconstruction_thumb.png
-     :alt: Neuroimaging non-cartesian reconstruction
+     :alt: GPU Non-cartesian 2D reconstruction: Undecimated Wavelet
 
      :ref:`sphx_glr_auto_examples_pysap-mri_non_cartesian_reconstruction.py`
 
@@ -330,6 +341,27 @@ MRI examples...
    :hidden:
 
    /auto_examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="# Auto Thresholded cartesian reconstruction">
+
+.. only:: html
+
+ .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_cartesian_reconstruction_auto_threshold_thumb.png
+     :alt: # Auto Thresholded cartesian reconstruction
+
+     :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction_auto_threshold.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pysap-mri/cartesian_reconstruction_auto_threshold
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

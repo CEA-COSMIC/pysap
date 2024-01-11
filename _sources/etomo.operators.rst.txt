@@ -1,0 +1,20 @@
+etomo.operators
+===============
+
+
+.. automodule:: etomo.operators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.operators.fourier
+   etomo.operators.gradient
+   etomo.operators.linear
+   etomo.operators.radon
+   etomo.operators.utils

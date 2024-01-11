@@ -1,0 +1,26 @@
+etomo
+=====
+
+
+.. automodule:: etomo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.operators
+   etomo.optimizers
+   etomo.reconstructors
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.info

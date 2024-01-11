@@ -1,0 +1,7 @@
+etomo.operators.fourier.fourier
+-------------------------------
+
+.. automodule:: etomo.operators.fourier.fourier
+   :members:
+   :undoc-members:
+   :show-inheritance:

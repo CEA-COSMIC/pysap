@@ -1,0 +1,25 @@
+etomo.optimizers
+================
+
+
+.. automodule:: etomo.optimizers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.optimizers.utils
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.optimizers.forward_backward
+   etomo.optimizers.primal_dual

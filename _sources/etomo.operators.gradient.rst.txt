@@ -1,0 +1,16 @@
+etomo.operators.gradient
+========================
+
+
+.. automodule:: etomo.operators.gradient
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.operators.gradient.gradient

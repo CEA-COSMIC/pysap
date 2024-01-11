@@ -1,0 +1,7 @@
+etomo.operators.linear.base
+---------------------------
+
+.. automodule:: etomo.operators.linear.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

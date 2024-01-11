@@ -1,0 +1,19 @@
+etomo.operators.linear
+======================
+
+
+.. automodule:: etomo.operators.linear
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   etomo.operators.linear.HOTV
+   etomo.operators.linear.base
+   etomo.operators.linear.utils
+   etomo.operators.linear.wavelet

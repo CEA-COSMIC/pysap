@@ -1,0 +1,7 @@
+etomo.operators.gradient.gradient
+---------------------------------
+
+.. automodule:: etomo.operators.gradient.gradient
+   :members:
+   :undoc-members:
+   :show-inheritance:

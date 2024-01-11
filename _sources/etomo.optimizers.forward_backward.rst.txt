@@ -1,0 +1,7 @@
+etomo.optimizers.forward\_backward
+----------------------------------
+
+.. automodule:: etomo.optimizers.forward_backward
+   :members:
+   :undoc-members:
+   :show-inheritance:

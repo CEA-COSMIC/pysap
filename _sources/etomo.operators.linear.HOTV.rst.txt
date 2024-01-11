@@ -1,0 +1,7 @@
+etomo.operators.linear.HOTV
+---------------------------
+
+.. automodule:: etomo.operators.linear.HOTV
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+etomo.operators.linear.utils
+----------------------------
+
+.. automodule:: etomo.operators.linear.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

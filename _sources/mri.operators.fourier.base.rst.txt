@@ -1,0 +1,7 @@
+mri.operators.fourier.base
+--------------------------
+
+.. automodule:: mri.operators.fourier.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

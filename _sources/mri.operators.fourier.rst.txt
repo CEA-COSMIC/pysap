@@ -21,6 +21,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   mri.operators.fourier.base
    mri.operators.fourier.cartesian
    mri.operators.fourier.non_cartesian
    mri.operators.fourier.online

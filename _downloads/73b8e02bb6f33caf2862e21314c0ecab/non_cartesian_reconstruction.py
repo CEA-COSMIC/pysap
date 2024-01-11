@@ -1,6 +1,6 @@
 """
-Neuroimaging non-cartesian reconstruction
-=========================================
+GPU Non-cartesian 2D reconstruction: Undecimated Wavelet
+========================================================
 
 Author: Chaithya G R
 
@@ -56,8 +56,8 @@ plt.show()
 # We then reconstruct the zero order solution as a baseline
 
 # Get the locations of the kspace samples and the associated observations
-fourier_op = NonCartesianFFT(samples=kspace_loc, shape=image.shape, density_comp='cell_count')
-kspace_obs = fourier_op.op(image)
+fourier_op = NonCartesianFFT(samples=kspace_loc, shape=image.shape, implementation='gpuNUFFT')
+kspace_obs = fourier_op.op(image)[0]
 
 # %%
 # Gridded solution
@@ -96,7 +96,7 @@ reconstructor = SingleChannelReconstructor(
 image_rec, costs, metrics = reconstructor.reconstruct(
     kspace_data=kspace_obs,
     optimization_alg='fista',
-    num_iterations=30,
+    num_iterations=200,
 )
 
 recon_ssim = ssim(image_rec, image)

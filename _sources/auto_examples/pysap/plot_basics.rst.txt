@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         Click :ref:`here <sphx_glr_download_auto_examples_pysap_plot_basics.py>`
-        to download the full example code
+        to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
 
@@ -472,7 +472,7 @@ scales:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.972 seconds)
+   **Total running time of the script:** ( 0 minutes  0.982 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap_plot_basics.py:
@@ -483,6 +483,13 @@ scales:
  .. container:: sphx-glr-footer
     :class: sphx-glr-footer-example
 
+
+  .. container:: binder-badge
+
+    .. image:: images/binder_badge_logo.svg
+      :target: https://mybinder.org/v2/gh/chaithyagr/pysap-tutorials/master?urlpath=lab/tree/notebooks/auto_examples/pysap/plot_basics.ipynb
+      :alt: Launch binder
+      :width: 150 px
 
 
   .. container:: sphx-glr-download sphx-glr-download-python
