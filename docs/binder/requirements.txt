@@ -1,0 +1,6 @@
+setuptools>=60.0.0
+pyqt5==5.13.0
+pip>=20
+mri-nufft
+finufft
+pynfft2
