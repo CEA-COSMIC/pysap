@@ -1249,39 +1249,34 @@ and the cartesian acquisition scheme.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">modopt.math.metrics</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">,</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a>
-<span class="kn">from</span> <span class="nn">modopt.opt.linear</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class"><span class="n">Identity</span></a>
+<span class="kn">from</span> <span class="nn">modopt.opt.linear</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Identity</span></a>
 <span class="c1"># Third party import</span>
-<span class="kn">from</span> <span class="nn">modopt.opt.proximity</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class"><span class="n">SparseThreshold</span></a>
-<span class="kn">from</span> <span class="nn">mri.operators</span> <span class="kn">import</span> <a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class"><span class="n">FFT</span></a><span class="p">,</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class"><span class="n">WaveletN</span></a>
-<span class="kn">from</span> <span class="nn">mri.operators.proximity.weighted</span> <span class="kn">import</span> <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class"><span class="n">AutoWeightedSparseThreshold</span></a>
+<span class="kn">from</span> <span class="nn">modopt.opt.proximity</span> <span class="kn">import</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SparseThreshold</span></a>
+<span class="kn">from</span> <span class="nn">mri.operators</span> <span class="kn">import</span> <span class="n">FFT</span><span class="p">,</span> <span class="n">WaveletN</span>
+<span class="kn">from</span> <span class="nn">mri.operators.proximity.weighted</span> <span class="kn">import</span> <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">AutoWeightedSparseThreshold</span></a>
 <span class="kn">from</span> <span class="nn">mri.operators.utils</span> <span class="kn">import</span> <span class="n">convert_mask_to_locations</span>
-<span class="kn">from</span> <span class="nn">mri.reconstructors</span> <span class="kn">import</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase" title="mri.reconstructors.base.ReconstructorBase" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-class"><span class="n">SingleChannelReconstructor</span></a>
+<span class="kn">from</span> <span class="nn">mri.reconstructors</span> <span class="kn">import</span> <span class="n">SingleChannelReconstructor</span>
 <span class="kn">from</span> <span class="nn">pysap.data</span> <span class="kn">import</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a>
 
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;2d-mri&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="builtins.memoryview" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">min</span></a><span class="p">(),</span> <a href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="builtins.memoryview" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">max</span></a><span class="p">())</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="builtins.memoryview" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">data</span></a>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">/=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.max.html#numpy.max" title="numpy.max" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">max</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
-<a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span></a> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s2">&quot;cartesian-mri-mask&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s1">&#39;2d-mri&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span>
+<span class="n">image</span> <span class="o">/=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.max.html#numpy.max" title="numpy.max" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">max</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <a href="../../pysap.data.html#pysap.data.get_sample_data" title="pysap.data.get_sample_data" class="sphx-glr-backref-module-pysap-data sphx-glr-backref-type-py-function"><span class="n">get_sample_data</span></a><span class="p">(</span><span class="s2">&quot;cartesian-mri-mask&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># Get the locations of the kspace samples</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_loc</span></a> <span class="o">=</span> <span class="n">convert_mask_to_locations</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span><span class="o">.</span><span class="n">data</span></a><span class="p">)</span>
+<span class="n">kspace_loc</span> <span class="o">=</span> <span class="n">convert_mask_to_locations</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 <span class="c1"># Generate the subsampled kspace</span>
-<a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class"><span class="n">FFT</span></a><span class="p">(</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span></a><span class="o">=</span><a href="../../pysap.base.image.html#pysap.base.image.Image" title="pysap.base.image.Image" class="sphx-glr-backref-module-pysap-base-image sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span></a><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a> <span class="o">=</span> <a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT.op" title="mri.operators.fourier.cartesian.FFT.op" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-method"><span class="n">fourier_op</span><span class="o">.</span><span class="n">op</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<span class="n">fourier_op</span> <span class="o">=</span> <span class="n">FFT</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">kspace_data</span> <span class="o">=</span> <span class="n">fourier_op</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
 <span class="c1"># Zero order solution</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec0</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT.adj_op" title="mri.operators.fourier.cartesian.FFT.adj_op" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-method"><span class="n">fourier_op</span><span class="o">.</span><span class="n">adj_op</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a><span class="p">))</span>
+<span class="n">image_rec0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fourier_op</span><span class="o">.</span><span class="n">adj_op</span><span class="p">(</span><span class="n">kspace_data</span><span class="p">))</span>
 
 <span class="c1"># Calculate SSIM</span>
-<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">base_ssim</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec0</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">base_ssim</span></a><span class="p">)</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>9.5823815e-08 2.518473e-05
-0.7228762359967604
+<span class="n">base_ssim</span> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><span class="n">image_rec0</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">base_ssim</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1291,175 +1286,49 @@ and the cartesian acquisition scheme.</p>
 Descent algorithm (FISTA or POGM).
 The cost function is set to Proximity Cost + Gradient Cost</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup the operators</span>
-<a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a> <span class="o">=</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class"><span class="n">WaveletN</span></a><span class="p">(</span><span class="n">wavelet_name</span><span class="o">=</span><span class="s2">&quot;sym8&quot;</span><span class="p">,</span> <span class="n">nb_scales</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">linear_op</span> <span class="o">=</span> <span class="n">WaveletN</span><span class="p">(</span><span class="n">wavelet_name</span><span class="o">=</span><span class="s2">&quot;sym8&quot;</span><span class="p">,</span> <span class="n">nb_scales</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Manual tweak of the regularisation parameter</span>
-<a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class"><span class="n">SparseThreshold</span></a><span class="p">(</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class"><span class="n">Identity</span></a><span class="p">(),</span> <span class="mf">2e-3</span><span class="p">,</span> <span class="n">thresh_type</span><span class="o">=</span><span class="s2">&quot;soft&quot;</span><span class="p">)</span>
+<span class="n">regularizer_op</span> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.SparseThreshold" title="modopt.opt.proximity.SparseThreshold" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SparseThreshold</span></a><span class="p">(</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Identity</span></a><span class="p">(),</span> <span class="mf">2e-3</span><span class="p">,</span> <span class="n">thresh_type</span><span class="o">=</span><span class="s2">&quot;soft&quot;</span><span class="p">)</span>
 <span class="c1"># Setup Reconstructor</span>
-<span class="n">reconstructor</span> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase" title="mri.reconstructors.base.ReconstructorBase" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-class"><span class="n">SingleChannelReconstructor</span></a><span class="p">(</span>
-    <a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a><span class="o">=</span><a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a><span class="p">,</span>
-    <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="o">=</span><a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="p">,</span>
-    <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="o">=</span><a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="p">,</span>
+<span class="n">reconstructor</span> <span class="o">=</span> <span class="n">SingleChannelReconstructor</span><span class="p">(</span>
+    <span class="n">fourier_op</span><span class="o">=</span><span class="n">fourier_op</span><span class="p">,</span>
+    <span class="n">linear_op</span><span class="o">=</span><span class="n">linear_op</span><span class="p">,</span>
+    <span class="n">regularizer_op</span><span class="o">=</span><span class="n">regularizer_op</span><span class="p">,</span>
     <span class="n">gradient_formulation</span><span class="o">=</span><span class="s1">&#39;synthesis&#39;</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># Start Reconstruction</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x_final</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">costs</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase.reconstruct" title="mri.reconstructors.base.ReconstructorBase.reconstruct" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-method"><span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span></a><span class="p">(</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a><span class="p">,</span>
+<span class="n">x_final</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span> <span class="n">metrics</span> <span class="o">=</span> <span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span>
+    <span class="n">kspace_data</span><span class="o">=</span><span class="n">kspace_data</span><span class="p">,</span>
     <span class="n">optimization_alg</span><span class="o">=</span><span class="s1">&#39;pogm&#39;</span><span class="p">,</span>
     <span class="n">num_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">cost_op_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cost_interval&quot;</span><span class="p">:</span><span class="kc">None</span><span class="p">},</span>
     <span class="n">metric_call_period</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;snr&quot;</span><span class="p">:{</span>
             <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">,</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">},</span>
-            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">},</span>
+            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">image</span><span class="p">},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="s2">&quot;ssim&quot;</span><span class="p">:{</span>
             <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">,</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">},</span>
-            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">},</span>
+            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">image</span><span class="p">},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
 
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x_final</span></a><span class="p">)</span>
+<span class="n">image_rec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x_final</span><span class="p">)</span>
 <span class="c1"># image_rec.show()</span>
 <span class="c1"># Calculate SSIM</span>
-<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_snr</span></a><span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<span class="n">recon_ssim</span> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><span class="n">image_rec</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+<span class="n">recon_snr</span><span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">(</span><span class="n">image_rec</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SSIM is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SNR is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_snr</span></a><span class="p">))</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: Making input data immutable.
-Lipschitz constant is 1.1
-The lipschitz constraint is satisfied
-WARNING: Making input data immutable.
- - mu:  0.002
- - lipschitz constant:  1.1
- - data:  (512, 512)
- - wavelet:  &lt;mri.operators.linear.wavelet.WaveletN object at 0x7f069c740250&gt; - 4
- - max iterations:  100
- - image variable shape:  (1, 512, 512)
-----------------------------------------
-Starting optimization...
-
-  0%|          | 0/100 [00:00&lt;?, ?it/s]
-  1%|1         | 1/100 [00:00&lt;00:11,  8.56it/s]
-  2%|2         | 2/100 [00:00&lt;00:11,  8.39it/s]
-  3%|3         | 3/100 [00:00&lt;00:11,  8.44it/s]
-  4%|4         | 4/100 [00:00&lt;00:11,  8.45it/s]
-  5%|5         | 5/100 [00:00&lt;00:11,  8.46it/s]
-  6%|6         | 6/100 [00:00&lt;00:11,  8.50it/s]
-  7%|7         | 7/100 [00:00&lt;00:10,  8.49it/s]
-  8%|8         | 8/100 [00:00&lt;00:10,  8.49it/s]
-  9%|9         | 9/100 [00:01&lt;00:10,  8.48it/s]
- 10%|#         | 10/100 [00:01&lt;00:10,  8.49it/s]
- 11%|#1        | 11/100 [00:01&lt;00:10,  8.46it/s]
- 12%|#2        | 12/100 [00:01&lt;00:10,  8.41it/s]
- 13%|#3        | 13/100 [00:01&lt;00:10,  8.43it/s]
- 14%|#4        | 14/100 [00:01&lt;00:10,  8.45it/s]
- 15%|#5        | 15/100 [00:01&lt;00:10,  8.45it/s]
- 16%|#6        | 16/100 [00:01&lt;00:09,  8.46it/s]
- 17%|#7        | 17/100 [00:02&lt;00:09,  8.43it/s]
- 18%|#8        | 18/100 [00:02&lt;00:09,  8.45it/s]
- 19%|#9        | 19/100 [00:02&lt;00:09,  8.43it/s]
- 20%|##        | 20/100 [00:02&lt;00:09,  8.45it/s]
- 21%|##1       | 21/100 [00:02&lt;00:09,  8.45it/s]
- 22%|##2       | 22/100 [00:02&lt;00:09,  8.44it/s]
- 23%|##3       | 23/100 [00:02&lt;00:09,  8.47it/s]
- 24%|##4       | 24/100 [00:02&lt;00:08,  8.48it/s]
- 25%|##5       | 25/100 [00:02&lt;00:08,  8.45it/s]
- 26%|##6       | 26/100 [00:03&lt;00:08,  8.48it/s]
- 27%|##7       | 27/100 [00:03&lt;00:08,  8.50it/s]
- 28%|##8       | 28/100 [00:03&lt;00:08,  8.51it/s]
- 29%|##9       | 29/100 [00:03&lt;00:08,  8.49it/s]
- 30%|###       | 30/100 [00:03&lt;00:08,  8.51it/s]
- 31%|###1      | 31/100 [00:03&lt;00:08,  8.44it/s]
- 32%|###2      | 32/100 [00:03&lt;00:08,  8.47it/s]
- 33%|###3      | 33/100 [00:03&lt;00:07,  8.46it/s]
- 34%|###4      | 34/100 [00:04&lt;00:07,  8.47it/s]
- 35%|###5      | 35/100 [00:04&lt;00:07,  8.47it/s]
- 36%|###6      | 36/100 [00:04&lt;00:07,  8.48it/s]
- 37%|###7      | 37/100 [00:04&lt;00:07,  8.50it/s]
- 38%|###8      | 38/100 [00:04&lt;00:07,  8.52it/s]
- 39%|###9      | 39/100 [00:04&lt;00:07,  8.52it/s]
- 40%|####      | 40/100 [00:04&lt;00:07,  8.57it/s]
- 41%|####1     | 41/100 [00:04&lt;00:06,  8.54it/s]
- 42%|####2     | 42/100 [00:04&lt;00:06,  8.53it/s]
- 43%|####3     | 43/100 [00:05&lt;00:06,  8.51it/s]
- 44%|####4     | 44/100 [00:05&lt;00:06,  8.44it/s]
- 45%|####5     | 45/100 [00:05&lt;00:06,  8.39it/s]
- 46%|####6     | 46/100 [00:05&lt;00:06,  8.38it/s]
- 47%|####6     | 47/100 [00:05&lt;00:06,  8.42it/s]
- 48%|####8     | 48/100 [00:05&lt;00:06,  8.39it/s]
- 49%|####9     | 49/100 [00:05&lt;00:06,  8.43it/s]
- 50%|#####     | 50/100 [00:05&lt;00:05,  8.43it/s]
- 51%|#####1    | 51/100 [00:06&lt;00:05,  8.48it/s]
- 52%|#####2    | 52/100 [00:06&lt;00:05,  8.46it/s]
- 53%|#####3    | 53/100 [00:06&lt;00:05,  8.46it/s]
- 54%|#####4    | 54/100 [00:06&lt;00:05,  8.47it/s]
- 55%|#####5    | 55/100 [00:06&lt;00:05,  8.46it/s]
- 56%|#####6    | 56/100 [00:06&lt;00:05,  8.46it/s]
- 57%|#####6    | 57/100 [00:06&lt;00:05,  8.48it/s]
- 58%|#####8    | 58/100 [00:06&lt;00:04,  8.46it/s]
- 59%|#####8    | 59/100 [00:06&lt;00:04,  8.46it/s]
- 60%|######    | 60/100 [00:07&lt;00:04,  8.45it/s]
- 61%|######1   | 61/100 [00:07&lt;00:04,  8.46it/s]
- 62%|######2   | 62/100 [00:07&lt;00:04,  8.48it/s]
- 63%|######3   | 63/100 [00:07&lt;00:04,  8.42it/s]
- 64%|######4   | 64/100 [00:07&lt;00:04,  8.45it/s]
- 65%|######5   | 65/100 [00:07&lt;00:04,  8.44it/s]
- 66%|######6   | 66/100 [00:07&lt;00:04,  8.44it/s]
- 67%|######7   | 67/100 [00:07&lt;00:03,  8.45it/s]
- 68%|######8   | 68/100 [00:08&lt;00:03,  8.45it/s]
- 69%|######9   | 69/100 [00:08&lt;00:03,  8.46it/s]
- 70%|#######   | 70/100 [00:08&lt;00:03,  8.50it/s]
- 71%|#######1  | 71/100 [00:08&lt;00:03,  8.52it/s]
- 72%|#######2  | 72/100 [00:08&lt;00:03,  8.50it/s]
- 73%|#######3  | 73/100 [00:08&lt;00:03,  8.49it/s]
- 74%|#######4  | 74/100 [00:08&lt;00:03,  8.48it/s]
- 75%|#######5  | 75/100 [00:08&lt;00:02,  8.44it/s]
- 76%|#######6  | 76/100 [00:08&lt;00:02,  8.44it/s]
- 77%|#######7  | 77/100 [00:09&lt;00:02,  8.42it/s]
- 78%|#######8  | 78/100 [00:09&lt;00:02,  8.38it/s]
- 79%|#######9  | 79/100 [00:09&lt;00:02,  8.38it/s]
- 80%|########  | 80/100 [00:09&lt;00:02,  8.37it/s]
- 81%|########1 | 81/100 [00:09&lt;00:02,  8.41it/s]
- 82%|########2 | 82/100 [00:09&lt;00:02,  8.45it/s]
- 83%|########2 | 83/100 [00:09&lt;00:02,  8.47it/s]
- 84%|########4 | 84/100 [00:09&lt;00:01,  8.46it/s]
- 85%|########5 | 85/100 [00:10&lt;00:01,  8.46it/s]
- 86%|########6 | 86/100 [00:10&lt;00:01,  8.46it/s]
- 87%|########7 | 87/100 [00:10&lt;00:01,  8.43it/s]
- 88%|########8 | 88/100 [00:10&lt;00:01,  8.40it/s]
- 89%|########9 | 89/100 [00:10&lt;00:01,  8.37it/s]
- 90%|######### | 90/100 [00:10&lt;00:01,  8.38it/s]
- 91%|#########1| 91/100 [00:10&lt;00:01,  8.40it/s]
- 92%|#########2| 92/100 [00:10&lt;00:00,  8.40it/s]
- 93%|#########3| 93/100 [00:10&lt;00:00,  8.41it/s]
- 94%|#########3| 94/100 [00:11&lt;00:00,  8.39it/s]
- 95%|#########5| 95/100 [00:11&lt;00:00,  8.40it/s]
- 96%|#########6| 96/100 [00:11&lt;00:00,  8.40it/s]
- 97%|#########7| 97/100 [00:11&lt;00:00,  8.43it/s]
- 98%|#########8| 98/100 [00:11&lt;00:00,  8.48it/s]
- 99%|#########9| 99/100 [00:11&lt;00:00,  8.50it/s]
-100%|##########| 100/100 [00:11&lt;00:00,  8.50it/s]
-100%|##########| 100/100 [00:11&lt;00:00,  8.46it/s]
- - final iteration number:  100
- - final log10 cost value:  6.0
- - converged:  False
-Done.
-Execution time:  11.827647201251239  seconds
-----------------------------------------
-The Reconstruction SSIM is : 0.8597496784357197
-The Reconstruction SNR is : 15.947746555163501
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SSIM is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recon_ssim</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SNR is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recon_snr</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
@@ -1472,14 +1341,14 @@ The Reconstruction SNR is : 15.947746555163501
     <span class="k">return</span> <span class="n">w</span>
 
 <span class="c1"># Setup the operators</span>
-<a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a> <span class="o">=</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class"><span class="n">WaveletN</span></a><span class="p">(</span><span class="n">wavelet_name</span><span class="o">=</span><span class="s2">&quot;sym8&quot;</span><span class="p">,</span> <span class="n">nb_scale</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;periodization&quot;</span><span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">coeffs</span></a> <span class="o">=</span> <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN.op" title="mri.operators.linear.wavelet.WaveletN.op" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-method"><span class="n">linear_op</span><span class="o">.</span><span class="n">op</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec0</span></a><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span><span class="o">.</span><span class="n">coeffs_shape</span></a><span class="p">)</span>
+<span class="n">linear_op</span> <span class="o">=</span> <span class="n">WaveletN</span><span class="p">(</span><span class="n">wavelet_name</span><span class="o">=</span><span class="s2">&quot;sym8&quot;</span><span class="p">,</span> <span class="n">nb_scale</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;periodization&quot;</span><span class="p">)</span>
+<span class="n">coeffs</span> <span class="o">=</span> <span class="n">linear_op</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">image_rec0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">linear_op</span><span class="o">.</span><span class="n">coeffs_shape</span><span class="p">)</span>
 
 <span class="c1"># Here we don&#39;t manually setup the regularisation weights, but use statistics on the wavelet details coefficients</span>
 
-<a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a> <span class="o">=</span> <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class"><span class="n">AutoWeightedSparseThreshold</span></a><span class="p">(</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span><span class="o">.</span><span class="n">coeffs_shape</span></a><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class"><span class="n">Identity</span></a><span class="p">(),</span>
+<span class="n">regularizer_op</span> <span class="o">=</span> <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">AutoWeightedSparseThreshold</span></a><span class="p">(</span>
+    <span class="n">linear_op</span><span class="o">.</span><span class="n">coeffs_shape</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.linear.html#modopt.opt.linear.Identity" title="modopt.opt.linear.Identity" class="sphx-glr-backref-module-modopt-opt-linear sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Identity</span></a><span class="p">(),</span>
     <span class="n">update_period</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># the weight is updated only once.</span>
     <span class="n">sigma_range</span><span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="p">,</span>
     <span class="n">thresh_range</span><span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="p">,</span>
@@ -1487,208 +1356,76 @@ The Reconstruction SNR is : 15.947746555163501
     <span class="n">thresh_type</span><span class="o">=</span><span class="s2">&quot;soft&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># Setup Reconstructor</span>
-<span class="n">reconstructor</span> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase" title="mri.reconstructors.base.ReconstructorBase" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-class"><span class="n">SingleChannelReconstructor</span></a><span class="p">(</span>
-    <a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a><span class="o">=</span><a href="../../mri.operators.fourier.cartesian.html#mri.operators.fourier.cartesian.FFT" title="mri.operators.fourier.cartesian.FFT" class="sphx-glr-backref-module-mri-operators-fourier-cartesian sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fourier_op</span></a><span class="p">,</span>
-    <a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="o">=</span><a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN" title="mri.operators.linear.wavelet.WaveletN" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">linear_op</span></a><span class="p">,</span>
-    <a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="o">=</span><a href="../../mri.operators.proximity.html#mri.operators.proximity.AutoWeightedSparseThreshold" title="mri.operators.proximity.AutoWeightedSparseThreshold" class="sphx-glr-backref-module-mri-operators-proximity sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">regularizer_op</span></a><span class="p">,</span>
+<span class="n">reconstructor</span> <span class="o">=</span> <span class="n">SingleChannelReconstructor</span><span class="p">(</span>
+    <span class="n">fourier_op</span><span class="o">=</span><span class="n">fourier_op</span><span class="p">,</span>
+    <span class="n">linear_op</span><span class="o">=</span><span class="n">linear_op</span><span class="p">,</span>
+    <span class="n">regularizer_op</span><span class="o">=</span><span class="n">regularizer_op</span><span class="p">,</span>
     <span class="n">gradient_formulation</span><span class="o">=</span><span class="s1">&#39;synthesis&#39;</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># Start Reconstruction</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x_final</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">costs</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a> <span class="o">=</span> <a href="../../mri.reconstructors.base.html#mri.reconstructors.base.ReconstructorBase.reconstruct" title="mri.reconstructors.base.ReconstructorBase.reconstruct" class="sphx-glr-backref-module-mri-reconstructors-base sphx-glr-backref-type-py-method"><span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span></a><span class="p">(</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">kspace_data</span></a><span class="p">,</span>
+<span class="n">x_final</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span> <span class="n">metrics2</span> <span class="o">=</span> <span class="n">reconstructor</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span>
+    <span class="n">kspace_data</span><span class="o">=</span><span class="n">kspace_data</span><span class="p">,</span>
     <span class="n">optimization_alg</span><span class="o">=</span><span class="s1">&#39;pogm&#39;</span><span class="p">,</span>
     <span class="n">num_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">metric_call_period</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">cost_op_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cost_interval&quot;</span><span class="p">:</span><span class="kc">None</span><span class="p">},</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
          <span class="s2">&quot;snr&quot;</span><span class="p">:{</span>
             <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">,</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">},</span>
-            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">},</span>
+            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">image</span><span class="p">},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="s2">&quot;ssim&quot;</span><span class="p">:{</span>
             <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">,</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">},</span>
-            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">},</span>
+            <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">image</span><span class="p">},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="s2">&quot;cost_grad&quot;</span><span class="p">:{</span>
-            <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.gradient.html#modopt.opt.gradient.GradParent.cost" title="modopt.opt.gradient.GradParent.cost" class="sphx-glr-backref-module-modopt-opt-gradient sphx-glr-backref-type-py-property"><span class="n">reconstructor</span><span class="o">.</span><span class="n">gradient_op</span><span class="o">.</span><span class="n">cost</span></a><span class="p">(</span><a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN.op" title="mri.operators.linear.wavelet.WaveletN.op" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-method"><span class="n">linear_op</span><span class="o">.</span><span class="n">op</span></a><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">reconstructor</span><span class="o">.</span><span class="n">gradient_op</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">linear_op</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;x&quot;</span><span class="p">},</span>
             <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="s2">&quot;cost_prox&quot;</span><span class="p">:{</span>
-            <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.opt.proximity.html#modopt.opt.proximity.ProximityParent.cost" title="modopt.opt.proximity.ProximityParent.cost" class="sphx-glr-backref-module-modopt-opt-proximity sphx-glr-backref-type-py-property"><span class="n">reconstructor</span><span class="o">.</span><span class="n">prox_op</span><span class="o">.</span><span class="n">cost</span></a><span class="p">(</span><a href="../../mri.operators.linear.wavelet.html#mri.operators.linear.wavelet.WaveletN.op" title="mri.operators.linear.wavelet.WaveletN.op" class="sphx-glr-backref-module-mri-operators-linear-wavelet sphx-glr-backref-type-py-method"><span class="n">linear_op</span><span class="o">.</span><span class="n">op</span></a><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">reconstructor</span><span class="o">.</span><span class="n">prox_op</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">linear_op</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
             <span class="s2">&quot;mapping&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x_new&quot;</span><span class="p">:</span><span class="s2">&quot;x&quot;</span><span class="p">},</span>
             <span class="s2">&quot;cst_kwargs&quot;</span><span class="p">:</span> <span class="p">{},</span>
             <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec2</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x_final</span></a><span class="p">)</span>
+<span class="n">image_rec2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x_final</span><span class="p">)</span>
 <span class="c1"># image_rec.show()</span>
 <span class="c1"># Calculate SSIM</span>
-<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim2</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec2</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
-<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_snr2</span></a> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec2</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<span class="n">recon_ssim2</span> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.ssim" title="modopt.math.metrics.ssim" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">ssim</span></a><span class="p">(</span><span class="n">image_rec2</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+<span class="n">recon_snr2</span> <span class="o">=</span> <a href="https://cea-cosmic.github.io/ModOpt/modopt.math.metrics.html#modopt.math.metrics.snr" title="modopt.math.metrics.snr" class="sphx-glr-backref-module-modopt-math-metrics sphx-glr-backref-type-py-function"><span class="n">snr</span></a><span class="p">(</span><span class="n">image_rec2</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SSIM is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim2</span></a><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SNR is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_snr2</span></a><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SSIM is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recon_ssim2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Reconstruction SNR is : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recon_snr2</span><span class="p">))</span>
 
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pogm classic&quot;</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pogm sure global&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pogm classic&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pogm sure global&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.ylabel.html#matplotlib.pyplot.ylabel" title="matplotlib.pyplot.ylabel" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span></a><span class="p">(</span><span class="s2">&quot;snr&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xlabel.html#matplotlib.pyplot.xlabel" title="matplotlib.pyplot.xlabel" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span></a><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend" title="matplotlib.pyplot.legend" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span></a><span class="p">()</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.ylabel.html#matplotlib.pyplot.ylabel" title="matplotlib.pyplot.ylabel" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span></a><span class="p">(</span><span class="s2">&quot;ssim&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xlabel.html#matplotlib.pyplot.xlabel" title="matplotlib.pyplot.xlabel" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span></a><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.ylabel.html#matplotlib.pyplot.ylabel" title="matplotlib.pyplot.ylabel" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span></a><span class="p">(</span><span class="s2">&quot;snr&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplot.html#matplotlib.pyplot.subplot" title="matplotlib.pyplot.subplot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span></a><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">metrics2</span></a><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="matplotlib.pyplot.plot" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">metrics2</span><span class="p">[</span><span class="s2">&quot;ssim&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
-</pre></div>
-</div>
-<ul class="sphx-glr-horizontal">
-<li><img src="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_001.png" srcset="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_001.png, ../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_001_2_0x.png 2.0x" alt="cartesian reconstruction auto threshold" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_002.png" srcset="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_002.png, ../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_002_2_0x.png 2.0x" alt="cartesian reconstruction auto threshold" class = "sphx-glr-multi-img"/></li>
-</ul>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(64, 64), (64, 64), (64, 64), (64, 64), (128, 128), (128, 128), (128, 128), (256, 256), (256, 256), (256, 256)]
-WARNING: Making input data immutable.
-Lipschitz constant is 1.0999998688697816
-The lipschitz constraint is satisfied
- - mu:  [0. 0. 0. ... 0. 0. 0.]
- - lipschitz constant:  1.0999998688697816
- - data:  (512, 512)
- - wavelet:  &lt;mri.operators.linear.wavelet.WaveletN object at 0x7f052cb64fa0&gt; - 3
- - max iterations:  100
- - image variable shape:  (1, 512, 512)
-----------------------------------------
-Starting optimization...
-
-  0%|          | 0/100 [00:00&lt;?, ?it/s]
-  1%|1         | 1/100 [00:00&lt;00:17,  5.58it/s]
-  2%|2         | 2/100 [00:00&lt;00:17,  5.64it/s]
-  3%|3         | 3/100 [00:00&lt;00:17,  5.64it/s]
-  4%|4         | 4/100 [00:00&lt;00:17,  5.65it/s]
-  5%|5         | 5/100 [00:00&lt;00:16,  5.63it/s]
-  6%|6         | 6/100 [00:01&lt;00:16,  5.61it/s]
-  7%|7         | 7/100 [00:01&lt;00:16,  5.63it/s]
-  8%|8         | 8/100 [00:01&lt;00:16,  5.64it/s]
-  9%|9         | 9/100 [00:01&lt;00:16,  5.66it/s]
- 10%|#         | 10/100 [00:01&lt;00:15,  5.64it/s]
- 11%|#1        | 11/100 [00:01&lt;00:15,  5.64it/s]
- 12%|#2        | 12/100 [00:02&lt;00:15,  5.65it/s]
- 13%|#3        | 13/100 [00:02&lt;00:15,  5.63it/s]
- 14%|#4        | 14/100 [00:02&lt;00:15,  5.63it/s]
- 15%|#5        | 15/100 [00:02&lt;00:15,  5.65it/s]
- 16%|#6        | 16/100 [00:02&lt;00:14,  5.65it/s]
- 17%|#7        | 17/100 [00:03&lt;00:14,  5.66it/s]
- 18%|#8        | 18/100 [00:03&lt;00:14,  5.65it/s]
- 19%|#9        | 19/100 [00:03&lt;00:14,  5.67it/s]
- 20%|##        | 20/100 [00:03&lt;00:14,  5.65it/s]
- 21%|##1       | 21/100 [00:03&lt;00:13,  5.68it/s]
- 22%|##2       | 22/100 [00:03&lt;00:13,  5.67it/s]
- 23%|##3       | 23/100 [00:04&lt;00:13,  5.65it/s]
- 24%|##4       | 24/100 [00:04&lt;00:13,  5.65it/s]
- 25%|##5       | 25/100 [00:04&lt;00:13,  5.65it/s]
- 26%|##6       | 26/100 [00:04&lt;00:13,  5.65it/s]
- 27%|##7       | 27/100 [00:04&lt;00:13,  5.61it/s]
- 28%|##8       | 28/100 [00:04&lt;00:12,  5.62it/s]
- 29%|##9       | 29/100 [00:05&lt;00:12,  5.63it/s]
- 30%|###       | 30/100 [00:05&lt;00:12,  5.60it/s]
- 31%|###1      | 31/100 [00:05&lt;00:12,  5.62it/s]
- 32%|###2      | 32/100 [00:05&lt;00:12,  5.63it/s]
- 33%|###3      | 33/100 [00:05&lt;00:11,  5.62it/s]
- 34%|###4      | 34/100 [00:06&lt;00:11,  5.64it/s]
- 35%|###5      | 35/100 [00:06&lt;00:11,  5.64it/s]
- 36%|###6      | 36/100 [00:06&lt;00:11,  5.67it/s]
- 37%|###7      | 37/100 [00:06&lt;00:11,  5.65it/s]
- 38%|###8      | 38/100 [00:06&lt;00:10,  5.66it/s]
- 39%|###9      | 39/100 [00:06&lt;00:10,  5.65it/s]
- 40%|####      | 40/100 [00:07&lt;00:10,  5.61it/s]
- 41%|####1     | 41/100 [00:07&lt;00:10,  5.61it/s]
- 42%|####2     | 42/100 [00:07&lt;00:10,  5.63it/s]
- 43%|####3     | 43/100 [00:07&lt;00:10,  5.63it/s]
- 44%|####4     | 44/100 [00:07&lt;00:09,  5.63it/s]
- 45%|####5     | 45/100 [00:07&lt;00:09,  5.65it/s]
- 46%|####6     | 46/100 [00:08&lt;00:09,  5.66it/s]
- 47%|####6     | 47/100 [00:08&lt;00:09,  5.67it/s]
- 48%|####8     | 48/100 [00:08&lt;00:09,  5.66it/s]
- 49%|####9     | 49/100 [00:08&lt;00:08,  5.67it/s]
- 50%|#####     | 50/100 [00:08&lt;00:08,  5.64it/s]
- 51%|#####1    | 51/100 [00:09&lt;00:08,  5.65it/s]
- 52%|#####2    | 52/100 [00:09&lt;00:08,  5.65it/s]
- 53%|#####3    | 53/100 [00:09&lt;00:08,  5.65it/s]
- 54%|#####4    | 54/100 [00:09&lt;00:08,  5.66it/s]
- 55%|#####5    | 55/100 [00:09&lt;00:07,  5.65it/s]
- 56%|#####6    | 56/100 [00:09&lt;00:07,  5.65it/s]
- 57%|#####6    | 57/100 [00:10&lt;00:07,  5.64it/s]
- 58%|#####8    | 58/100 [00:10&lt;00:07,  5.63it/s]
- 59%|#####8    | 59/100 [00:10&lt;00:07,  5.63it/s]
- 60%|######    | 60/100 [00:10&lt;00:07,  5.65it/s]
- 61%|######1   | 61/100 [00:10&lt;00:06,  5.65it/s]
- 62%|######2   | 62/100 [00:10&lt;00:06,  5.64it/s]
- 63%|######3   | 63/100 [00:11&lt;00:06,  5.65it/s]
- 64%|######4   | 64/100 [00:11&lt;00:06,  5.66it/s]
- 65%|######5   | 65/100 [00:11&lt;00:06,  5.67it/s]
- 66%|######6   | 66/100 [00:11&lt;00:05,  5.68it/s]
- 67%|######7   | 67/100 [00:11&lt;00:05,  5.66it/s]
- 68%|######8   | 68/100 [00:12&lt;00:05,  5.65it/s]
- 69%|######9   | 69/100 [00:12&lt;00:05,  5.64it/s]
- 70%|#######   | 70/100 [00:12&lt;00:05,  5.65it/s]
- 71%|#######1  | 71/100 [00:12&lt;00:05,  5.65it/s]
- 72%|#######2  | 72/100 [00:12&lt;00:04,  5.65it/s]
- 73%|#######3  | 73/100 [00:12&lt;00:04,  5.65it/s]
- 74%|#######4  | 74/100 [00:13&lt;00:04,  5.64it/s]
- 75%|#######5  | 75/100 [00:13&lt;00:04,  5.65it/s]
- 76%|#######6  | 76/100 [00:13&lt;00:04,  5.64it/s]
- 77%|#######7  | 77/100 [00:13&lt;00:04,  5.64it/s]
- 78%|#######8  | 78/100 [00:13&lt;00:03,  5.65it/s]
- 79%|#######9  | 79/100 [00:13&lt;00:03,  5.66it/s]
- 80%|########  | 80/100 [00:14&lt;00:03,  5.65it/s]
- 81%|########1 | 81/100 [00:14&lt;00:03,  5.66it/s]
- 82%|########2 | 82/100 [00:14&lt;00:03,  5.64it/s]
- 83%|########2 | 83/100 [00:14&lt;00:03,  5.65it/s]
- 84%|########4 | 84/100 [00:14&lt;00:02,  5.65it/s]
- 85%|########5 | 85/100 [00:15&lt;00:02,  5.65it/s]
- 86%|########6 | 86/100 [00:15&lt;00:02,  5.66it/s]
- 87%|########7 | 87/100 [00:15&lt;00:02,  5.64it/s]
- 88%|########8 | 88/100 [00:15&lt;00:02,  5.65it/s]
- 89%|########9 | 89/100 [00:15&lt;00:01,  5.65it/s]
- 90%|######### | 90/100 [00:15&lt;00:01,  5.63it/s]
- 91%|#########1| 91/100 [00:16&lt;00:01,  5.65it/s]
- 92%|#########2| 92/100 [00:16&lt;00:01,  5.64it/s]
- 93%|#########3| 93/100 [00:16&lt;00:01,  5.64it/s]
- 94%|#########3| 94/100 [00:16&lt;00:01,  5.66it/s]
- 95%|#########5| 95/100 [00:16&lt;00:00,  5.64it/s]
- 96%|#########6| 96/100 [00:17&lt;00:00,  5.66it/s]
- 97%|#########7| 97/100 [00:17&lt;00:00,  5.65it/s]
- 98%|#########8| 98/100 [00:17&lt;00:00,  5.65it/s]
- 99%|#########9| 99/100 [00:17&lt;00:00,  5.66it/s]
-100%|##########| 100/100 [00:17&lt;00:00,  5.66it/s]
-100%|##########| 100/100 [00:17&lt;00:00,  5.65it/s]
- - final iteration number:  100
- - final log10 cost value:  6.0
- - converged:  False
-Done.
-Execution time:  17.71190463239327  seconds
-----------------------------------------
-The Reconstruction SSIM is : 0.8140170067389435
-The Reconstruction SNR is : 14.087682208695703
-/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/cartesian_reconstruction_auto_threshold.py:198: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
-  plt.show()
 </pre></div>
 </div>
 </section>
@@ -1701,23 +1438,18 @@ The Reconstruction SNR is : 14.087682208695703
 
 
 
-<a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="n">my_imshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="s2">&quot;Ground Truth&quot;</span><span class="p">)</span>
-<span class="n">my_imshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec0</span></a><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Zero Order </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">base_ssim</span></a><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">my_imshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec</span></a><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Fista Classic </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim</span></a><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">my_imshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rec2</span></a><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Fista Sure </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">recon_ssim2</span></a><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">my_imshow</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Ground Truth&quot;</span><span class="p">)</span>
+<span class="n">my_imshow</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">image_rec0</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Zero Order </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><span class="n">base_ssim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">my_imshow</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">image_rec</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Fista Classic </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><span class="n">recon_ssim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">my_imshow</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">image_rec2</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Fista Sure </span><span class="se">\n</span><span class="s2"> SSIM=</span><span class="si">{</span><span class="n">recon_ssim2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.tight_layout" title="matplotlib.figure.Figure.tight_layout" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_003.png" srcset="../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_003.png, ../../_images/sphx_glr_cartesian_reconstruction_auto_threshold_003_2_0x.png 2.0x" alt="Ground Truth, Zero Order   SSIM=0.7229, Fista Classic   SSIM=0.8597, Fista Sure   SSIM=0.8140" class = "sphx-glr-single-img"/><p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/cartesian_reconstruction_auto_threshold.py:219: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
-  plt.show()
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  33.478 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-pysap-mri-cartesian-reconstruction-auto-threshold-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/cea-cosmic/pysap/gh-pages?urlpath=lab/tree/notebooks/auto_examples/pysap-mri/cartesian_reconstruction_auto_threshold.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo1.svg" width="150px" /></a>
