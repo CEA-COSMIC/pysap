@@ -314,7 +314,7 @@ This preconditions k-space giving a result closer to inverse
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.167 seconds)
+   **Total running time of the script:** ( 0 minutes  3.171 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_GPU_NonCartesian_Pipe_DensityCompensation.py:
@@ -329,7 +329,7 @@ This preconditions k-space giving a result closer to inverse
   .. container:: binder-badge
 
     .. image:: images/binder_badge_logo.svg
-      :target: https://mybinder.org/v2/gh/chaithyagr/pysap-tutorials/master?urlpath=lab/tree/notebooks/auto_examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.ipynb
+      :target: https://mybinder.org/v2/gh/cea-cosmic/pysap/gh-pages?urlpath=lab/tree/notebooks/auto_examples/pysap-mri/GPU_NonCartesian_Pipe_DensityCompensation.ipynb
       :alt: Launch binder
       :width: 150 px
 

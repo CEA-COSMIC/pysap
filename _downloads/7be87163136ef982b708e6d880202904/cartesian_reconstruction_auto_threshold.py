@@ -1,17 +1,17 @@
 """
-# Auto Thresholded cartesian reconstruction
-# =========================================
-# 
-# Author: Chaithya G R / Pierre-Antoine Comby
-# 
-# In this tutorial we will reconstruct an MRI image from the sparse kspace
-# measurements.
-# 
-# Import neuroimaging data
-# ------------------------
-# 
-# We use the toy datasets available in pysap, more specifically a 2D brain slice
-# and the cartesian acquisition scheme.
+Auto Thresholded cartesian reconstruction
+=========================================
+
+Author: Chaithya G R / Pierre-Antoine Comby
+
+In this tutorial we will reconstruct an MRI image from the sparse kspace
+measurements.
+
+Import neuroimaging data
+------------------------
+
+We use the toy datasets available in pysap, more specifically a 2D brain slice
+and the cartesian acquisition scheme.
 """ 
 # %%
 # Package import

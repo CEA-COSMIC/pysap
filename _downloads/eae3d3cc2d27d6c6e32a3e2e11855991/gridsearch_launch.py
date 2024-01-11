@@ -1,6 +1,6 @@
 """
-Neuroimaging cartesian reconstruction
-=====================================
+Grid Search Launch
+==================
 
 Author: Chaithya G R
 

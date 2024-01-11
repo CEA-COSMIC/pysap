@@ -286,7 +286,7 @@ MRI examples...
 .. only:: html
 
  .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_gridsearch_launch_thumb.png
-     :alt: Neuroimaging cartesian reconstruction
+     :alt: Grid Search Launch
 
      :ref:`sphx_glr_auto_examples_pysap-mri_gridsearch_launch.py`
 
@@ -344,12 +344,12 @@ MRI examples...
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="# Auto Thresholded cartesian reconstruction">
+    <div class="sphx-glr-thumbcontainer" tooltip="Author: Chaithya G R / Pierre-Antoine Comby">
 
 .. only:: html
 
  .. figure:: /auto_examples/pysap-mri/images/thumb/sphx_glr_cartesian_reconstruction_auto_threshold_thumb.png
-     :alt: # Auto Thresholded cartesian reconstruction
+     :alt: Auto Thresholded cartesian reconstruction
 
      :ref:`sphx_glr_auto_examples_pysap-mri_cartesian_reconstruction_auto_threshold.py`
 

@@ -18,8 +18,8 @@
 .. _sphx_glr_auto_examples_pysap-mri_gridsearch_launch.py:
 
 
-Neuroimaging cartesian reconstruction
-=====================================
+Grid Search Launch
+==================
 
 Author: Chaithya G R
 
@@ -161,8 +161,8 @@ Call the launch grid function and obtain results
  .. code-block:: none
 
     Total number of gridsearch cases : 20
-    The best result of grid search is: ('sym8', 4, <modopt.opt.linear.base.Identity object at 0x7fb5c1dd5c30>, 3.162277660168379e-07, 'fista', 20, {'ssim': {'metric': <function ssim at 0x7fb5c1580280>, 'mapping': {'x_new': 'test', 'y_new': None}, 'cst_kwargs': {'ref': <pysap.base.image.Image object at 0x7fb5c1dd6050>, 'mask': None}, 'early_stopping': True}})
-    The best value of metric is : 0.853024060246986
+    The best result of grid search is: ('sym8', 4, <modopt.opt.linear.base.Identity object at 0x7f052db5e710>, 3.162277660168379e-07, 'fista', 20, {'ssim': {'metric': <function ssim at 0x7f052cbc0280>, 'mapping': {'x_new': 'test', 'y_new': None}, 'cst_kwargs': {'ref': <pysap.base.image.Image object at 0x7f054ef85e10>, 'mask': None}, 'early_stopping': True}})
+    The best value of metric is : 0.8530240601548397
 
 
 
@@ -247,7 +247,7 @@ View other reconstruction Results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  26.480 seconds)
+   **Total running time of the script:** ( 0 minutes  17.424 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_gridsearch_launch.py:
@@ -262,7 +262,7 @@ View other reconstruction Results
   .. container:: binder-badge
 
     .. image:: images/binder_badge_logo.svg
-      :target: https://mybinder.org/v2/gh/chaithyagr/pysap-tutorials/master?urlpath=lab/tree/notebooks/auto_examples/pysap-mri/gridsearch_launch.ipynb
+      :target: https://mybinder.org/v2/gh/cea-cosmic/pysap/gh-pages?urlpath=lab/tree/notebooks/auto_examples/pysap-mri/gridsearch_launch.ipynb
       :alt: Launch binder
       :width: 150 px
 
