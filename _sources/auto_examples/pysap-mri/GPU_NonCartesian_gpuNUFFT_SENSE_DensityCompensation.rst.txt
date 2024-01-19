@@ -319,7 +319,7 @@ The cost function is set to Proximity Cost + Gradient Cost
     /volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/pywt/_multilevel.py:43: UserWarning: Level value of 4 is too high: all coefficients will experience boundary effects.
       warnings.warn(
     WARNING: Making input data immutable.
-    Lipschitz constant is 0.3881295800209046
+    Lipschitz constant is 0.38874172866344453
     The lipschitz constraint is satisfied
 
 
@@ -361,20 +361,20 @@ Run the FISTA reconstruction and view results
     /volatile/Chaithya/actions-runner/_work/_tool/Python/3.10.12/x64/lib/python3.10/site-packages/pywt/_multilevel.py:43: UserWarning: Level value of 4 is too high: all coefficients will experience boundary effects.
       warnings.warn(
      - mu:  1e-11
-     - lipschitz constant:  0.3881295800209046
+     - lipschitz constant:  0.38874172866344453
      - data:  (128, 128, 160)
-     - wavelet:  <mri.operators.linear.wavelet.WaveletN object at 0x7f051f5a5720> - 4
+     - wavelet:  <mri.operators.linear.wavelet.WaveletN object at 0x7fb0e8b48c70> - 4
      - max iterations:  30
      - image variable shape:  (128, 128, 160)
      - alpha variable shape:  (4017261,)
     ----------------------------------------
     Starting optimization...
-      0%|          | 0/30 [00:00<?, ?it/s]      3%|3         | 1/30 [00:03<01:40,  3.46s/it]      7%|6         | 2/30 [00:06<01:36,  3.44s/it]     10%|#         | 3/30 [00:10<01:32,  3.43s/it]     13%|#3        | 4/30 [00:13<01:29,  3.42s/it]     17%|#6        | 5/30 [00:17<01:25,  3.42s/it]     20%|##        | 6/30 [00:20<01:22,  3.43s/it]     23%|##3       | 7/30 [00:23<01:18,  3.42s/it]     27%|##6       | 8/30 [00:27<01:15,  3.43s/it]     30%|###       | 9/30 [00:30<01:11,  3.43s/it]     33%|###3      | 10/30 [00:34<01:08,  3.43s/it]     37%|###6      | 11/30 [00:37<01:05,  3.42s/it]     40%|####      | 12/30 [00:41<01:01,  3.43s/it]     43%|####3     | 13/30 [00:44<00:58,  3.42s/it]     47%|####6     | 14/30 [00:47<00:54,  3.42s/it]     50%|#####     | 15/30 [00:51<00:51,  3.42s/it]     53%|#####3    | 16/30 [00:54<00:47,  3.43s/it]     57%|#####6    | 17/30 [00:58<00:44,  3.42s/it]     60%|######    | 18/30 [01:01<00:41,  3.42s/it]     63%|######3   | 19/30 [01:05<00:37,  3.42s/it]     67%|######6   | 20/30 [01:08<00:34,  3.42s/it]     70%|#######   | 21/30 [01:11<00:30,  3.41s/it]     73%|#######3  | 22/30 [01:15<00:27,  3.42s/it]     77%|#######6  | 23/30 [01:18<00:23,  3.41s/it]     80%|########  | 24/30 [01:22<00:20,  3.41s/it]     83%|########3 | 25/30 [01:25<00:17,  3.41s/it]     87%|########6 | 26/30 [01:28<00:13,  3.40s/it]     90%|######### | 27/30 [01:32<00:10,  3.40s/it]     93%|#########3| 28/30 [01:35<00:06,  3.41s/it]     97%|#########6| 29/30 [01:39<00:03,  3.42s/it]    100%|##########| 30/30 [01:42<00:00,  3.41s/it]    100%|##########| 30/30 [01:42<00:00,  3.42s/it]
+      0%|          | 0/30 [00:00<?, ?it/s]      3%|3         | 1/30 [00:03<01:40,  3.45s/it]      7%|6         | 2/30 [00:06<01:36,  3.44s/it]     10%|#         | 3/30 [00:10<01:32,  3.43s/it]     13%|#3        | 4/30 [00:13<01:29,  3.42s/it]     17%|#6        | 5/30 [00:17<01:25,  3.42s/it]     20%|##        | 6/30 [00:20<01:22,  3.43s/it]     23%|##3       | 7/30 [00:23<01:18,  3.42s/it]     27%|##6       | 8/30 [00:27<01:15,  3.43s/it]     30%|###       | 9/30 [00:30<01:11,  3.42s/it]     33%|###3      | 10/30 [00:34<01:08,  3.42s/it]     37%|###6      | 11/30 [00:37<01:04,  3.42s/it]     40%|####      | 12/30 [00:41<01:01,  3.41s/it]     43%|####3     | 13/30 [00:44<00:57,  3.41s/it]     47%|####6     | 14/30 [00:47<00:54,  3.41s/it]     50%|#####     | 15/30 [00:51<00:51,  3.41s/it]     53%|#####3    | 16/30 [00:54<00:47,  3.41s/it]     57%|#####6    | 17/30 [00:58<00:44,  3.41s/it]     60%|######    | 18/30 [01:01<00:40,  3.41s/it]     63%|######3   | 19/30 [01:04<00:37,  3.41s/it]     67%|######6   | 20/30 [01:08<00:34,  3.41s/it]     70%|#######   | 21/30 [01:11<00:30,  3.41s/it]     73%|#######3  | 22/30 [01:15<00:27,  3.41s/it]     77%|#######6  | 23/30 [01:18<00:23,  3.42s/it]     80%|########  | 24/30 [01:21<00:20,  3.41s/it]     83%|########3 | 25/30 [01:25<00:17,  3.42s/it]     87%|########6 | 26/30 [01:28<00:13,  3.42s/it]     90%|######### | 27/30 [01:32<00:10,  3.42s/it]     93%|#########3| 28/30 [01:35<00:06,  3.42s/it]     97%|#########6| 29/30 [01:39<00:03,  3.42s/it]    100%|##########| 30/30 [01:42<00:00,  3.42s/it]    100%|##########| 30/30 [01:42<00:00,  3.42s/it]
      - final iteration number:  30
      - final log10 cost value:  6.0
      - converged:  False
     Done.
-    Execution time:  102.5909513020888  seconds
+    Execution time:  102.51074560591951  seconds
     ----------------------------------------
     /volatile/Chaithya/actions-runner/_work/pysap/pysap/examples/pysap-mri/GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:140: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
       plt.show()
@@ -385,7 +385,7 @@ Run the FISTA reconstruction and view results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  52.540 seconds)
+   **Total running time of the script:** ( 3 minutes  50.692 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_GPU_NonCartesian_gpuNUFFT_SENSE_DensityCompensation.py:
