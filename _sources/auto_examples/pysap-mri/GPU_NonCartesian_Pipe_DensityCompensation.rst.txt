@@ -260,7 +260,7 @@ This preconditions k-space giving a result closer to inverse
 
 
 .. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004.png
-   :alt: Density Compensated Adjoint (Pipe): SSIM = 0.71
+   :alt: Density Compensated Adjoint (Pipe): SSIM = 0.73
    :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_004_2_0x.png 2.0x
    :class: sphx-glr-single-img
 
@@ -294,7 +294,7 @@ This preconditions k-space giving a result closer to inverse
 
 
 .. image-sg:: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005.png
-   :alt: Density Compensated Adjoint (cell_count): SSIM = 0.71
+   :alt: Density Compensated Adjoint (cell_count): SSIM = 0.73
    :srcset: /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005.png, /auto_examples/pysap-mri/images/sphx_glr_GPU_NonCartesian_Pipe_DensityCompensation_005_2_0x.png 2.0x
    :class: sphx-glr-single-img
 
@@ -314,7 +314,7 @@ This preconditions k-space giving a result closer to inverse
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.143 seconds)
+   **Total running time of the script:** ( 0 minutes  3.119 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_GPU_NonCartesian_Pipe_DensityCompensation.py:

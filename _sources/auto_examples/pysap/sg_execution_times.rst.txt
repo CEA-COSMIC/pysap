@@ -5,8 +5,8 @@
 
 Computation times
 =================
-**00:00.989** total execution time for **auto_examples_pysap** files:
+**00:00.996** total execution time for **auto_examples_pysap** files:
 
 +-------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_pysap_plot_basics.py` (``plot_basics.py``) | 00:00.989 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_pysap_plot_basics.py` (``plot_basics.py``) | 00:00.996 | 0.0 MB |
 +-------------------------------------------------------------------------+-----------+--------+

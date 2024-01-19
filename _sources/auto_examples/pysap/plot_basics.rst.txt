@@ -104,7 +104,7 @@ dependencies are installed properly:
     astropy        : >=4.1     - required | 6.0.0     installed
     nibabel        : >=3.2.1   - required | 5.2.0     installed
     progressbar2   : >=3.53.1  - required | ?         installed
-    modopt         : >=1.6.1   - required | 1.6.1     installed
+    modopt         : >=1.6.1   - required | 1.7.1     installed
     scikit-learn   : >=0.24.1  - required | ?         installed
     scikit-image   : >=0.17.2  - required | ?         installed
     pywt           : >=1.1.1   - required | 1.5.0     installed
@@ -472,7 +472,7 @@ scales:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.989 seconds)
+   **Total running time of the script:** ( 0 minutes  0.996 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap_plot_basics.py:
