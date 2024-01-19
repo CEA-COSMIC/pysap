@@ -40,10 +40,6 @@ scripts = [
     os.path.join('pysap', 'apps', 'pysapview3')
 ]
 
-# Source PySAP plug-ins
-this_directory = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(this_directory, 'plugins.txt')) as f:
-    pysap_plugins = f.read().splitlines()
 
 # Workaround
 rm_args = []
@@ -75,66 +71,6 @@ for arg in sys.argv:
 # Clean up system arguments
 for arg in rm_args:
     sys.argv.remove(arg)
-
-
-def check_plugins(plugin_list):
-    """Check if requested plug-ins exist."""
-
-    if not isinstance(plugin_list, list):
-        raise TypeError('Plug-in list must be of type list.')
-
-    plugins_dict = dict([
-        _plugin.split('==') for _plugin in pysap_plugins
-    ])
-    allowed_plugins = plugins_dict.keys()
-
-    only_pinned = []
-    for plugin in plugin_list:
-        if plugin not in allowed_plugins:
-            raise ValueError(
-                '"{0}" is not currently a valid PySAP plug-in'.format(plugin)
-                + '\nAvailable PySAP plug-ins are: '
-                + '{0}\n'.format(list(allowed_plugins))
-            )
-        only_pinned.append(
-            '{0}=={1}'.format(plugin, plugins_dict[plugin])
-        )
-
-    return only_pinned
-
-
-def pipinstall(package_list):
-    """Pip install PyPi packages."""
-
-    if not isinstance(package_list, list):
-        raise TypeError('Pre-install inputs must be of type list.')
-
-    for package in package_list:
-        subprocess.check_call(
-            [sys.executable, '-m', 'pip', 'install', package]
-        )
-
-
-def install_plugins():
-    """Install Plug-Ins."""
-
-    plugin_list = pysap_plugins
-    if only_plugins:
-        plugin_list = check_plugins(only_plugins)
-    elif no_plugins:
-        plugin_list = []
-
-    pipinstall(plugin_list)
-
-    print('\nPySAP plug-ins installed: {0}\n'.format(plugin_list))
-
-
-class CustomInstall(install):
-    """Custom Install Class."""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        atexit.register(install_plugins)
 
 
 class CMakeExtension(Extension):
@@ -254,7 +190,7 @@ class HybridTestCommand(TestCommand):
 
 # Set default values for ext_modules and cmdclass
 ext_modules = None
-cmdclass = {'install': CustomInstall}
+cmdclass = {'install': install}
 
 # Add Sparse2D build commands
 if build_sparse2d:
