@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:39.075** total execution time for **auto_examples_pysap-astro** files:
+**00:33.158** total execution time for **auto_examples_pysap-astro** files:
 
 +-----------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_deconvolution.py` (``plot_galaxy_deconvolution.py``) | 00:35.245 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_deconvolution.py` (``plot_galaxy_deconvolution.py``) | 00:28.996 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_denoising.py` (``plot_galaxy_denoising.py``)         | 00:03.830 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_pysap-astro_plot_galaxy_denoising.py` (``plot_galaxy_denoising.py``)         | 00:04.162 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------------+-----------+--------+

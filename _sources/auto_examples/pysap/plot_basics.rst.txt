@@ -52,7 +52,7 @@ machine, you can check the package version.
 
  .. code-block:: none
 
-    0.2.0
+    0.2.1
 
 
 
@@ -90,7 +90,7 @@ dependencies are installed properly:
      ||       ,  |'
     .||        ''
 
-    Package version: 0.2.0
+    Package version: 0.2.1
 
     License: CeCILL-B
 
@@ -472,7 +472,7 @@ scales:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.991 seconds)
+   **Total running time of the script:** ( 0 minutes  0.973 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap_plot_basics.py:

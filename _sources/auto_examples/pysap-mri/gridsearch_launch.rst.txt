@@ -161,8 +161,8 @@ Call the launch grid function and obtain results
  .. code-block:: none
 
     Total number of gridsearch cases : 20
-    The best result of grid search is: ('sym8', 4, <modopt.opt.linear.base.Identity object at 0x7faf77c9dc60>, 3.162277660168379e-07, 'fista', 20, {'ssim': {'metric': <function ssim at 0x7faf78513e20>, 'mapping': {'x_new': 'test', 'y_new': None}, 'cst_kwargs': {'ref': <pysap.base.image.Image object at 0x7faf77c9f940>, 'mask': None}, 'early_stopping': True}})
-    The best value of metric is : 0.8530240612791565
+    The best result of grid search is: ('sym8', 4, <modopt.opt.linear.base.Identity object at 0x7f3a4ed09f30>, 3.162277660168379e-07, 'fista', 20, {'ssim': {'metric': <function ssim at 0x7f3a4edd6dd0>, 'mapping': {'x_new': 'test', 'y_new': None}, 'cst_kwargs': {'ref': <pysap.base.image.Image object at 0x7f3a4ed096c0>, 'mask': None}, 'early_stopping': True}})
+    The best value of metric is : 0.8530240606880823
 
 
 
@@ -247,7 +247,7 @@ View other reconstruction Results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  17.476 seconds)
+   **Total running time of the script:** ( 0 minutes  17.554 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pysap-mri_gridsearch_launch.py:
