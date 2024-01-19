@@ -11,9 +11,7 @@ dependencies:
   - pyqtgraph>=0.10.0
   - pip:
       - setuptools>=60.0.0
-      - python-pysap@git+https://github.com/cea-cosmic/pysap
-      - modopt@git+https://github.com/cea-cosmic/modopt@develop
-      - pysap-mri@git+https://github.com/cea-cosmic/pysap-mri@develop
-      - finufft
-      - mri-nufft
+      - python-pysap>=0.2.1
+      - modopt>=1.7.1
+      - pysap-mri>=0.5.0
   
