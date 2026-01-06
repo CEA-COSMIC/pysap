@@ -51,10 +51,10 @@ if '--release' in sys.argv:
     ]
 
 # Optional install of Sparse2D, default option is to build Sparse2D
-build_sparse2d = True
-if '--nosparse2d' in sys.argv:
-    rm_args.append('--nosparse2d')
-    build_sparse2d = False
+build_sparse2d = False
+if '--sparse2d' in sys.argv:
+    rm_args.append('--sparse2d')
+    build_sparse2d = True
 
 # Optional install of PySAP plug-ins, default option is to install all plug-ins
 no_plugins = False

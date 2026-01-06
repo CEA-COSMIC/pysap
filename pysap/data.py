@@ -42,7 +42,7 @@ SAMPLE_DATA_FILES = {
         "url": ("ftp://ftp.cea.fr/pub/unati/nsap/pysap/datasets/"
                 "orange_phantom_3d_pmri_images.npy"),
         "md5sum": "e4ac268fde0226c6fdcf2e9b62b240f0",
-        "dtype": numpy.complex_
+        "dtype": numpy.complex64
     },
     "2d-pmri": {
         "url": ("https://github.com/CEA-COSMIC/pysap-data/raw/"

@@ -180,21 +180,21 @@ The following options can be passed when running ``python setup.py install``:
 
 * ``--noplugins`` : Install PySAP without any plug-ins
 * ``--only=<PLUG-IN NAME>`` : Install PySAP with only the specified plug-in names (comma separated)
-* ``--nosparse2d`` : Install PySAP without building Sparse2D
+* ``--sparse2d`` : Install PySAP with Sparse2D
 
-For example, to install PySAP with only the Etomo plug-in and without Sparse2D
+For example, to install PySAP with only the Etomo plug-in and with Sparse2D
 you would run the following.
 
 .. code-block:: bash
 
-  $ python setup.py install --nosparse2d --only=pysap-etomo
+  $ python setup.py install --sparse2d --only=pysap-etomo
 
 Note that these options can also be invoked when installing with ``pip`` using
-the ``--install-option="<OPTION>"`` option.
+the ``--config-settings="--build-option=<OPTION>"`` option.
 
 .. code-block:: bash
 
-  $ pip install . --install-option="--noplugins"
+  $ pip install . --config-settings="--build-option=--noplugins"
 
 However, this will disable the use of wheels and make take significantly longer
 to build all of the dependencies. Therefore, when installing PySAP this way it
